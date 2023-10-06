@@ -3,11 +3,52 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { ThemeProvider, createTheme } from '@mui/material';
+
+const theme = createTheme({
+  breakpoints: {
+    values: {
+      s : 500 , 
+      xs: 650,
+      sm: 850,
+      md: 1000,
+      lg: 1200,
+      xl: 1536,
+    },
+  },
+  palette: {
+    primary: {
+      main: "#1ab2f1",
+    },
+    mode: "light",
+  },
+  typography: {
+    fontFamily: [
+      "cairo",
+      "-apple-system",
+      "BlinkMacSystemFont",
+      "Segoe UI",
+      "Roboto",
+      "Helvetica Neue",
+      "Arial",
+      "sans-serif",
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(","),
+  },
+  // typography: {
+  //   fontSize: 16,
+  // },
+});
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider>
   </React.StrictMode>
 );
 
