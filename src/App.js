@@ -1,8 +1,14 @@
-import 'bootstrap/dist/css/bootstrap.min.css' ; 
-import 'bootstrap/dist/js/bootstrap.min.js' ; 
+import { Route, Routes } from 'react-router-dom';
+import Layout from './layouts/Layout' ;
+import Navbar from './layouts/Navbar';
+import Login from './Auth/Login/Login';
 function App() {
   return (
-    <div> hello bahaa dagher </div>
+    <>
+      {/* <Layout/> */}
+      <Login/>
+    </>
+    
   );
 }
 

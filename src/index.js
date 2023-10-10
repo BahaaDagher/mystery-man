@@ -4,8 +4,10 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ThemeProvider, createTheme } from '@mui/material';
+import { BrowserRouter } from 'react-router-dom';
 
 const theme = createTheme({
+  direction: "rtl !important" ,
   breakpoints: {
     values: {
       s : 500 , 
@@ -23,6 +25,8 @@ const theme = createTheme({
     mode: "light",
   },
   typography: {
+    color: "red" , 
+    direction: "rtl !important" ,
     fontFamily: [
       "cairo",
       "-apple-system",
@@ -37,18 +41,17 @@ const theme = createTheme({
       '"Segoe UI Symbol"',
     ].join(","),
   },
-  // typography: {
-  //   fontSize: 16,
-  // },
 });
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <App />
-    </ThemeProvider>
+    <BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
+      </BrowserRouter>
   </React.StrictMode>
 );
 
