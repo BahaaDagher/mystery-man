@@ -24,7 +24,6 @@ const NavbarContainer = styled("div")(({ theme }) => ({
   [theme.breakpoints.down('1200')]: {
     width : `calc(100vw  - 20px )` ,
   },
-  backgroundColor : theme.direction === "rtl" ? Colors.lightMain : "#f443361a" ,
 }));
 
 const InformationDiv = styled("div")(({ theme }) => ({
