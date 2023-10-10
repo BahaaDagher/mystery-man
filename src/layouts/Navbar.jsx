@@ -4,12 +4,11 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Colors ,  Dimensions } from '../Theme';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
-import { useDispatch, useSelector } from 'react-redux';
-import { ToggleDirection } from '../store/slices/directionSlice';
-import { useTheme } from '@emotion/react';
-import LanguageOutlinedIcon from '@mui/icons-material/LanguageOutlined';
-import { ListItemText, Popover } from '@mui/material';
+
+
 import "../i18n";
+import { Lan } from '@mui/icons-material';
+import LanguageIcon from '../components/LanguageIcon';
 import { useTranslation } from 'react-i18next';
 
 const NavbarContainer = styled("div")(({ theme }) => ({
@@ -82,51 +81,11 @@ const Slider = styled("div")(({ theme }) => ({
   
 }));
 
-const UL = styled("ul")(({ theme }) => ({
-  margin: 0,
-  padding: "5px 10px",
-  width: "250px",
-}));
-const Li = styled("li")(({ theme }) => ({
-  listStyle: "none",
-  color: Colors.main[1],
-  fontWeight: "bold",
-  padding: "5px 10px",
-  transition: "all 0.3s ease-in-out",
-  "&:hover": {
-    cursor: "pointer",
-    backgroundColor: Colors.lightMain,
-    borderRadius: "5px",
-  },
-}));
+
 
 
 const Navbar = () => {
-
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const handleIconClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  
-  const theme =  useTheme() ; 
-  const { t, i18n } = useTranslation();
-
-  const arabicDirection  = ()=> {
-    theme.direction = "rtl" ;
-    i18n.changeLanguage("ar");
-    console.log("theme.direction arabic" , theme.direction)
-  }
-  const englishDirection  = ()=> {
-    theme.direction = "ltr" ;
-    i18n.changeLanguage("en");
-    console.log("theme.direction english " , theme.direction)
-  }
-  
+  const {t } = useTranslation();
   return (
     <NavbarContainer>
       <Slider>
@@ -140,29 +99,7 @@ const Navbar = () => {
       </Text>
       <InformationDiv>
         <Section>
-          <LanguageOutlinedIcon onClick={handleIconClick} />
-          <Popover
-            open={Boolean(anchorEl)}
-            anchorEl={anchorEl}
-            onClose={handleClose}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'right',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-          >
-            <UL>
-              <Li button onClick={() => { englishDirection(); handleClose(); }}>
-                <ListItemText  primary="English" />
-              </Li>
-              <Li button onClick={() => { arabicDirection(); handleClose(); }}>
-                <ListItemText primary="Arabic" />
-              </Li>
-            </UL>
-          </Popover>
+          <LanguageIcon/>
         </Section>
         <Section>
           <img src = "./images/notification.svg"/>
