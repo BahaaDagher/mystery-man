@@ -1,6 +1,6 @@
 export const Colors = {
     main : "#3734CA" , 
-    lightMain : "#3734cade" , 
+    lightMain : "#3734CA1A" , 
     second :"#455A64" , 
     input : "#C8C8C8" , 
     gray :"#8E8E93" , 

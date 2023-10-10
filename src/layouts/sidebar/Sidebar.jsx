@@ -3,6 +3,7 @@ import SidebarData from './SidebarData'
 import styled from '@emotion/styled';
 import { Colors, Dimensions } from '../../Theme';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const SideBarDiv = styled("div")(({ theme }) => ({
   height : "calc(100% - 4px)",
@@ -100,6 +101,7 @@ const Sidebar = () => {
   const handleMouseLeave = () => {
     setHoveredItem(null);
   };
+  const { t } = useTranslation();
   return (
     <SideBarDiv>
       <LogoContainer>
@@ -121,7 +123,7 @@ const Sidebar = () => {
                   <IconContainer>
                       <img src={index==activeItem || hoveredItem === index ? item.icon2 : item.icon1} alt={item.title} /> 
                   </IconContainer>
-                  <Title >{item.title}</Title>
+                  <Title >{t(`text.${item.title}`)}</Title>
                 </Li>
               </LINK>
             )

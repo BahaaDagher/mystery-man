@@ -2,11 +2,13 @@ import styled from '@emotion/styled';
 import React from 'react'
 import { Colors } from '../../Theme';
 import { Link, Typography } from '@mui/material';
+import { useSelector } from 'react-redux';
 
 const Container = styled("div")(({ theme }) => ({
     height : "100vh" ,
     backgroundColor : "#F3F5F8" , 
-    position : "relative" ,
+    position : "relative" ,  
+
 }));
 const UpperTriangle = styled("div")(({ theme }) => ({
     width: 0 ,
@@ -127,6 +129,8 @@ const RegisterDiV = styled("div")(({ theme }) => ({
 
 }));
 const Login = () => {
+    const direction = useSelector((state) => state.directionData.direction )
+    console.log(direction) ; 
   return (
     <Container>
         <UpperTriangle/>
