@@ -4,13 +4,15 @@ import Navbar from './layouts/Navbar';
 import Login from './Auth/Login/Login';
 import { useEffect } from 'react';
 import { useTheme } from '@emotion/react';
+import EnterData from './Auth/Register/EnterData';
 
 
 function App() {
   return (
     <>
       {/* <Login/> */}
-      <Layout/>
+      {/* <Layout/> */}
+      <EnterData/>
     </>
     
   );

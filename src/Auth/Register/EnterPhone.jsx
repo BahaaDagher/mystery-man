@@ -69,7 +69,7 @@ const Input = styled("input")(({ theme }) => ({
   } ,
   border : "none" 
 }));
-const Register = () => {
+const EnterPhone = () => {
   return (
     <>
         <Container>
@@ -88,4 +88,4 @@ const Register = () => {
   )
 }
 
-export default Register
+export default EnterPhone

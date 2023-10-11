@@ -73,7 +73,7 @@ const Input = styled("input")(({ theme }) => ({
   },
 }));
 
-const Verification = () => {
+const VerifyPhone = () => {
   const [otp, setOtp] = useState(new Array(4).fill(""));
 
   const handleChange = (element, index) => {
@@ -114,11 +114,12 @@ const Verification = () => {
               </Box>
               <SubmitButton>Verify</SubmitButton>
               <Paragraph>Didn’t receive anything? 
-              <span style = {{color : Colors.main }}> Send again after </span> 01 : 22</Paragraph>
+                <span style = {{color : Colors.main }}> Send again after </span> 01 : 22
+              </Paragraph>
         </VerificationDiv>
       </Container>
     </>
   )
 }
 
-export default Verification
+export default VerifyPhone
