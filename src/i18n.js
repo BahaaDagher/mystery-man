@@ -26,6 +26,9 @@ const resources = {
         Copy_of_the_commercial_register : "Copy of the commercial register"  ,
         Upload : "Upload" , 
         Create_Account : "Create Account" , 
+        The_application_is_currently_being_reviewed : "The application is currently being reviewed" , 
+        We_will_contact_you_to_verify_the_data_and_some_other_information : "We will contact you to verify the data and some other information" , 
+        Visit_Site : "Visit Site"
         
       },
       content: {}
@@ -53,6 +56,9 @@ const resources = {
         Copy_of_the_commercial_register : "نسخة من السجل التجاري" , 
         Upload: "رفع" , 
         Create_Account : "إنشاء حساب"  , 
+        The_application_is_currently_being_reviewed : "طلب التقديم قيد المراجعة حاليًا" , 
+        We_will_contact_you_to_verify_the_data_and_some_other_information : "سوف نقوم بالاتصال بك للتحقق من البيانات وبعض المعلومات الأخرى" , 
+        Visit_Site : "زيارة الموقع" 
         
       },
       content: {}

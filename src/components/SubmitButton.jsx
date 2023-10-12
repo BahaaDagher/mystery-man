@@ -16,6 +16,6 @@ export const SubmitButton = styled("div")(({ theme }) => ({
     marginTop : "30px" ,
     transition : "all 0.5s ease" ,
     "&:hover" : {
-        backgroundColor : Colors.lightMain ,
+        backgroundColor : Colors.hoverMain ,
     }
 }));

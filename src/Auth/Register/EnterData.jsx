@@ -18,7 +18,7 @@ const InsideContainer = styled("div")(({ theme }) => ({
   [theme.breakpoints.down("1000")]: {
     width : "60%" ,
   },
-  [theme.breakpoints.down("500")]: {
+  [theme.breakpoints.down("700")]: {
     width : "90%" ,
   },
 }));
