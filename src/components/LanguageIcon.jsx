@@ -7,6 +7,13 @@ import { Colors } from '../Theme';
 import { ListItemText } from '@mui/material';
 import LanguageOutlinedIcon from '@mui/icons-material/LanguageOutlined';
 
+const Container = styled("ul")(({ theme }) => ({
+  position: "absolute",
+  left: theme.direction == "rtl" ? "5px" : "auto" ,
+  right: theme.direction == "ltr" ? "5px" : "auto" ,
+  top: 0 , 
+  zIndex: "5",  
+}));
 const UL = styled("ul")(({ theme }) => ({
     margin: 0,
     padding: "5px 10px",
@@ -51,7 +58,8 @@ const LanguageIcon = () => {
   }
   return (
     <>
-      <LanguageOutlinedIcon onClick={handleIconClick} />
+    <Container>
+      <LanguageOutlinedIcon onClick={handleIconClick} style = {{cursor : "pointer" , color : Colors.second}}/>
       <Popover
         open={Boolean(anchorEl)}
         anchorEl={anchorEl}
@@ -74,6 +82,7 @@ const LanguageIcon = () => {
           </Li>
         </UL>
       </Popover>
+    </Container>
     </>
   )
 }

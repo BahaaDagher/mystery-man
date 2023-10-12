@@ -16,7 +16,17 @@ const resources = {
         home : "Home" , 
         missions : "Missions" , 
         questionnaires : "Questionnaires" , 
-        subscription : "Subscription"   
+        subscription : "Subscription"  , 
+        Company_name : "Company name" ,
+        Company_Website : "Company Website" ,
+        Company_Location : "Company Location" ,
+        Password : "Password" , 
+        Confirm_Password : "Confirm Password" ,
+        Commercial_Registration_No : "Commercial Registration No" , 
+        Copy_of_the_commercial_register : "Copy of the commercial register"  ,
+        Upload : "Upload" , 
+        Create_Account : "Create Account" , 
+        
       },
       content: {}
     }
@@ -33,7 +43,16 @@ const resources = {
         home : "الصفحة الرئيسية" , 
         missions : "المهمات" , 
         questionnaires : "الاستبيانات" , 
-        subscription : "الاشتراك"   
+        subscription : "الاشتراك"  , 
+        Company_name : "إسم الشركة" ,
+        Company_Website : "رابط الموقع الالكتروني للشركة " ,
+        Company_Location : "موقع الشركة" ,
+        Password : "كلمة المرور" , 
+        Confirm_Password : "تأكيد كلمة المرور" ,
+        Commercial_Registration_No : "رقم السجل التجاري " , 
+        Copy_of_the_commercial_register : "نسخة من السجل التجاري" , 
+        Upload: "رفع" , 
+        Create_Account : "إنشاء حساب"  , 
         
       },
       content: {}

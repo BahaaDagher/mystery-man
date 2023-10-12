@@ -6,7 +6,7 @@ import { Box } from '@mui/material';
 import { SubmitButton } from '../../components/SubmitButton';
 
 const Container = styled("div")(({ theme }) => ({
-    height : "100vh" ,
+    minHeight : "100vh" ,
     width : "100%" ,
     backgroundColor : Colors.body2 , 
     position : "relative" ,

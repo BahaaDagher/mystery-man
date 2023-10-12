@@ -5,9 +5,9 @@ import { H1 } from '../../components/H1';
 import { SubmitButton } from '../../components/SubmitButton';
 
 const Container = styled("div")(({ theme }) => ({
-    height : "100vh" ,
+    minHeight : "100vh" ,
     width : "100%" ,
-    backgroundColor : Colors.body2 , 
+    backgroundColor : Colors.body , 
     position : "relative" ,
     display : "flex" ,
     justifyContent : "space-around" ,
@@ -73,7 +73,7 @@ const EnterPhone = () => {
   return (
     <>
         <Container>
-          <PhoneDiv >
+          <PhoneDiv>
             <Title>Enter your phone number</Title>
             <Paragraph>we need your phone number to create an account and log in with later</Paragraph>
             <Div>
