@@ -6,6 +6,7 @@ import { Colors } from "../../Theme";
 import LanguageIcon from "../../components/LanguageIcon";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@emotion/react";
+import { Link } from "react-router-dom";
 
 const ViewSiteButton = styled(SubmitButton)(({ theme }) => ({
   width: '200px',
@@ -42,12 +43,14 @@ const Review = () => {
           <H2Styles >{t("text.The_application_is_currently_being_reviewed")}</H2Styles>
           <H3Styles >{t("text.We_will_contact_you_to_verify_the_data_and_some_other_information")}</H3Styles>
           <img src = "./icons/review.svg"/>
-          <ViewSiteButton> 
-            {/* condition to change the direction of the text based on the theme.direction */}
-            { theme.direction == "ltr" ? t("text.Visit_Site") : ""}
-              <img src = "./icons/Vector.svg" style = {{width : "8px" , margin : "10px"}}/>
-            { theme.direction == "rtl" ? t("text.Visit_Site") : ""}
-          </ViewSiteButton>
+          <Link >
+            <ViewSiteButton> 
+              {/* condition to change the direction of the text based on the theme.direction */}
+              { theme.direction == "ltr" ? t("text.Visit_Site") : ""}
+                <img src = "./icons/Vector.svg" style = {{width : "8px" , margin : "10px"}}/>
+              { theme.direction == "rtl" ? t("text.Visit_Site") : ""}
+            </ViewSiteButton>
+          </Link>
       </Container>
     </>
   )
