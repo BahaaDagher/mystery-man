@@ -28,8 +28,22 @@ const resources = {
         Create_Account : "Create Account" , 
         The_application_is_currently_being_reviewed : "The application is currently being reviewed" , 
         We_will_contact_you_to_verify_the_data_and_some_other_information : "We will contact you to verify the data and some other information" , 
-        Visit_Site : "Visit Site"
-        
+        Visit_Site : "Visit Site" , 
+        Welcome_back : "Welcome back" , 
+        Phone_Number : "Phone Number" , 
+        Forget_Password : "Forget Password ?" ,
+        Login : "Login" , 
+        Didnt_have_an_account : "Didn't have an account" , 
+        Register : "Register" , 
+        Enter_your_phone_number : "Enter your phone number" , 
+        We_need_your_phone_number_to_create_an_account_and_log_in_with_later : "we need your phone number to create an account and log in with later" , 
+        confirm :"confirm" , 
+        You_will_receive_a_SMS_with_a_verification_code_on : "You will receive a SMS with a verification code on" , 
+        Verify : "Verify" , 
+        change : "change" , 
+        Didnt_receive_anything : "Didn’t receive anything?" , 
+        Send_again_after : "Send again after" , 
+        seconds :"seconds" ,
       },
       content: {}
     }
@@ -58,8 +72,22 @@ const resources = {
         Create_Account : "إنشاء حساب"  , 
         The_application_is_currently_being_reviewed : "طلب التقديم قيد المراجعة حاليًا" , 
         We_will_contact_you_to_verify_the_data_and_some_other_information : "سوف نقوم بالاتصال بك للتحقق من البيانات وبعض المعلومات الأخرى" , 
-        Visit_Site : "زيارة الموقع" 
-        
+        Visit_Site : "زيارة الموقع" , 
+        Welcome_back : "أهلا بعودتك " , 
+        Phone_Number : "رقم الهاتف " , 
+        Forget_Password : "نسيت كلمة السر ؟ " ,
+        Login : "تسجيل الدخول" , 
+        Didnt_have_an_account : " لا تملك حساب ؟ " , 
+        Register : " إنشاء حساب " , 
+        Enter_your_phone_number : "أدخل رقم الهاتف الخاص بك" , 
+        We_need_your_phone_number_to_create_an_account_and_log_in_with_later : "نحتاج إلى رقم هاتفك لإنشاء حساب وتسجيل الدخول به لاحقًا" , 
+        confirm :"تأكيد" , 
+        You_will_receive_a_SMS_with_a_verification_code_on : "سوف تتلقى رسالة نصية قصيرة تحتوي على رمز التحقق" , 
+        Verify : "تأكيد" , 
+        change : "تغيير" , 
+        Didnt_receive_anything : "لم تتلق أي شيء؟" , 
+        Send_again_after : "إرسال مرة أخرى بعد" , 
+        seconds : "ثانية"
       },
       content: {}
     }

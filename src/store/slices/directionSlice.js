@@ -7,7 +7,6 @@ const directionSlice = createSlice({
     },
     reducers: {
         ToggleDirection: (state, action) => {
-        //   state.tasks.push({ id: Date.now(), text: action.payload });
         state.direction = action.payload
         }
       },

@@ -4,11 +4,14 @@ import styled from '@emotion/styled';
 import { Colors, Dimensions } from '../../Theme';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { Drawer } from '@mui/material';
+import { useTheme } from '@emotion/react';
+import dashboardLogo from "../../assets/images/dashboardLogo.svg"
 
 const SideBarDiv = styled("div")(({ theme }) => ({
   height : "calc(100% - 4px)",
   marginTop : "2px",
-  marginLeft : "10px",
+  margin : "10px",
   width : Dimensions.sidebarWidth,
   backgroundColor : "#fff",
   borderRadius : "10px",
@@ -21,6 +24,7 @@ const SideBarDiv = styled("div")(({ theme }) => ({
   [theme.breakpoints.down('1200')]: {
     display: 'none',
   },
+  direction: theme.direction,
 }));
 
 const LogoContainer = styled("div")(({ theme }) => ({
@@ -47,18 +51,17 @@ const Li = styled("li")(({ theme , isActive}) => ({
   height: '50px', 
   padding: '13px 20px', 
   borderRadius: '8px',
-  
   cursor : "pointer", 
   backgroundColor: isActive ? "#3734CA1A" : "transparent",
   borderColor: isActive ? Colors.main : "transparent", 
-  borderWidth: isActive ? '0px 0px 0px 3px' : '0px',
+  borderWidth: isActive ? theme.direction =="ltr" ?  '0px 0px 0px 3px' : '0px 3px 0px 0px' : '0px',
   borderStyle: 'solid',
   "& div": {
     color: isActive ? Colors.main : Colors.gray_input,
   },
   "&:hover": {
     backgroundColor : "#3734CA1A" , 
-    borderWidth: '0px 0px 0px 3px', 
+    borderWidth: theme.direction =="ltr" ?  '0px 0px 0px 3px' : '0px 3px 0px 0px' ,
     borderStyle: 'solid',
     borderColor: Colors.main,
     '& div': {
@@ -85,7 +88,9 @@ const Title = styled("div")(({ theme }) => ({
 
 }));
 
-const Sidebar = () => {
+const SideBarDivPhone = styled(Drawer)(({ theme }) => ({
+}));
+const Sidebar = ( {phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
   const [activeItem, setActiveItem] = useState(0);
 
   const handleItemClick = (index) => {
@@ -101,11 +106,16 @@ const Sidebar = () => {
   const handleMouseLeave = () => {
     setHoveredItem(null);
   };
+
+ 
+
   const { t } = useTranslation();
+  const theme = useTheme() ; 
   return (
+    <>
     <SideBarDiv>
       <LogoContainer>
-        <img  src="./images/dashboardLogo.svg" alt = "logo" />
+        <img  src= {dashboardLogo} alt = "logo" />
       </LogoContainer>
       <Divider />
       <SidebarItems>
@@ -115,14 +125,14 @@ const Sidebar = () => {
               <LINK to={item.link} key={index}  >
                 <Li
                   isActive={index === activeItem} 
-                  onClick={() => handleItemClick(index)}
+                  onClick={() => handleItemClick(index) }
                   onMouseEnter={() => handleMouseEnter(index)}
                   onMouseLeave={handleMouseLeave} 
                 >
                   <IconContainer>
-                      <img src={index==activeItem || hoveredItem === index ? item.icon2 : item.icon1} alt={item.title} /> 
+                      <img src={index==activeItem || hoveredItem === index ? item.icon2 : item.icon1} alt={item.title} style = {{margin : "0 10px"}}/> 
                   </IconContainer>
-                  <Title >{t(`text.${item.title}`)}</Title>
+                  <Title >{t(`text.${item.title}`)}</Title>   
                 </Li>
               </LINK>
             )
@@ -130,6 +140,60 @@ const Sidebar = () => {
         </Ul>
       </SidebarItems>
     </SideBarDiv>
+
+{/* ///////////////////////////////////////////////////////////////////////////////////////////////////////// */}
+
+    <SideBarDivPhone
+      anchor= {theme.direction =="ltr" ? "left" : "right"}
+      variant="temporary"
+      open={phoneOpen}
+      onClose={()=> setPhoneOpen(false)}
+      ModalProps={{
+        keepMounted: true,
+      }}
+      sx={{
+        "& .MuiDrawer-paper": {
+          height : "calc(100% - 10px)",
+          marginTop : "5px",
+          margin : "5px",
+          width : Dimensions.sidebarWidth,
+          backgroundColor : "#fff",
+          borderRadius : "10px",
+          textAlign : "center",
+          display: 'flex', // Added display: flex
+          flexDirection: 'column', // Vertically stack children
+          alignItems: 'center', // Center horizontally
+          direction: theme.direction,
+        },
+      }}
+    >
+      <LogoContainer>
+        <img  src= {dashboardLogo} alt = "logo" />
+      </LogoContainer>
+      <Divider />
+      <SidebarItems>
+        <Ul>
+          {SidebarData.map((item, index) => {
+            return (
+              <LINK to={item.link} key={index}  >
+                <Li
+                  isActive={index === activeItem} 
+                  onClick={() => { handleItemClick(index) ;   setPhoneOpen(false) } }
+                  onMouseEnter={() => handleMouseEnter(index)}
+                  onMouseLeave={handleMouseLeave} 
+                >
+                  <IconContainer>
+                      <img src={index==activeItem || hoveredItem === index ? item.icon2 : item.icon1} alt={item.title} style = {{margin : "0 10px"}}/> 
+                  </IconContainer>
+                  <Title >{t(`text.${item.title}`)}</Title>   
+                </Li>
+              </LINK>
+            )
+          })}
+        </Ul>
+      </SidebarItems>
+    </SideBarDivPhone>
+    </>
   )
 }
 

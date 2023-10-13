@@ -13,5 +13,5 @@ export const Container = styled("div")(({ theme }) => ({
     [theme.breakpoints.down("1000")]: {
         flexDirection : "column" ,
     },
-    direction : theme.direction == "ltr"? "ltr" : "rtl"  , 
+    direction : theme.direction 
 }));

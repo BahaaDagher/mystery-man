@@ -1,20 +1,16 @@
 import styled from '@emotion/styled';
-import React from 'react'
+import React, { useState } from 'react'
 import { Colors } from '../../Theme';
 import { H1 } from '../../components/H1';
 import { SubmitButton } from '../../components/SubmitButton';
-
-const Container = styled("div")(({ theme }) => ({
-    minHeight : "100vh" ,
-    width : "100%" ,
-    backgroundColor : Colors.body , 
-    position : "relative" ,
-    display : "flex" ,
-    justifyContent : "space-around" ,
-    alignItems : "center" ,
-    [theme.breakpoints.down("1000")]: {
-        flexDirection : "column-reverse" ,
-    },
+import LanguageIcon from '../../components/LanguageIcon';
+import { Container } from '../../components/Container';
+import { useTranslation } from 'react-i18next';
+import logo2 from "../../assets/images/logo2.svg"
+const ParentContainer = styled(Container)(({ theme }) => ({
+  [theme.breakpoints.down("1000")]: {
+    flexDirection : "column-reverse" ,
+},
 }));
 
 const IMG = styled("img")(({ theme }) => ({
@@ -32,8 +28,8 @@ const Title = styled("p")(({ theme }) => ({
   fontWeight: 500,
   lineHeight: '45px',
   letterSpacing: '0em',
-  textAlign: 'left',
   color: Colors.second,
+  paddingBottom : "20px" ,
 }));
 const Paragraph = styled("p")(({ theme }) => ({
   fontFamily: 'Cairo',
@@ -43,6 +39,7 @@ const Paragraph = styled("p")(({ theme }) => ({
     letterSpacing: '0em',
     textAlign: 'left',
     color : Colors.gray_l ,
+    paddingBottom : "20px" ,
 }));
 const Div = styled("div")(({ theme }) => ({
   width: '100%', 
@@ -52,7 +49,6 @@ const H3 = styled("h3")(({ theme }) => ({
   fontWeight: 400,
   lineHeight: '30px',
   letterSpacing: '0em',
-  textAlign: 'left',
   color: Colors.second,
 }));
 const Input = styled("input")(({ theme }) => ({
@@ -69,21 +65,36 @@ const Input = styled("input")(({ theme }) => ({
   } ,
   border : "none" 
 }));
+
 const EnterPhone = () => {
+  const [phone , setPhone] = useState("") ;
+  const {t} =  useTranslation() ; 
+
+  const handleSubmit = () => {
+    if (phone) {
+      window.location = "/verify-phone" ;
+    }
+    console.log("phone: ", phone);
+  }
+  const handleChange = (e)=>{
+    if (/[a-zA-Z]/.test(e.target.value)) return false 
+    setPhone(e.target.value)
+  }
   return (
     <>
-        <Container>
-          <PhoneDiv>
-            <Title>Enter your phone number</Title>
-            <Paragraph>we need your phone number to create an account and log in with later</Paragraph>
-            <Div>
-                <H3>Phone Number </H3>
-                <Input type="number" placeholder='+02 | '/>
-            </Div>
-            <SubmitButton>confirm</SubmitButton>
-          </PhoneDiv>
-          <IMG src = "./images/logo2.svg"/>
-        </Container>
+      <LanguageIcon/>
+      <ParentContainer>
+        <PhoneDiv >
+          <Title>{t("text.Enter_your_phone_number")}</Title>
+          <Paragraph>{t("text.We_need_your_phone_number_to_create_an_account_and_log_in_with_later")}</Paragraph>
+          <Div>
+              <H3>{t("text.Phone_Number")} </H3>
+              <Input type="text" placeholder='+02 | ' value = {phone} onChange={(e)=>handleChange(e)}/>
+          </Div>
+          <SubmitButton onClick={handleSubmit} >{t("text.confirm")}</SubmitButton>
+        </PhoneDiv>
+        <IMG src = {logo2}/>
+      </ParentContainer>
     </>
   )
 }

@@ -1,23 +1,13 @@
 import styled from '@emotion/styled';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Colors } from '../../Theme';
 import { LINK } from '../../components/LINK';
 import { Box } from '@mui/material';
 import { SubmitButton } from '../../components/SubmitButton';
-
-const Container = styled("div")(({ theme }) => ({
-    minHeight : "100vh" ,
-    width : "100%" ,
-    backgroundColor : Colors.body2 , 
-    position : "relative" ,
-    display : "flex" ,
-    justifyContent : "space-around" ,
-    alignItems : "center" ,
-    [theme.breakpoints.down("1000")]: {
-        flexDirection : "column" ,
-        justifyContent : "space-around" ,
-    },
-}));
+import LanguageIcon from '../../components/LanguageIcon';
+import { Container } from '../../components/Container';
+import verification from "../../assets/images/verification.svg"
+import { useTranslation } from 'react-i18next';
 const IMG = styled("img")(({ theme }) => ({
   [theme.breakpoints.down("1000")]: {
     width : "250px" ,
@@ -51,6 +41,7 @@ const Paragraph = styled("p")(({ theme }) => ({
 }));
 
 const Input = styled("input")(({ theme }) => ({
+  margin: '0 2px',
   width: '85.2px',
   height: '85.2px',
   borderRadius: '14.2px',
@@ -71,10 +62,29 @@ const Input = styled("input")(({ theme }) => ({
     height : "60px" ,
     fontSize : "16px" ,
   },
+  backgroundColor : "#fff" ,
 }));
 
 const VerifyPhone = () => {
   const [otp, setOtp] = useState(new Array(4).fill(""));
+  const [seconds, setSeconds] = useState(60);
+  const [isRunning, setIsRunning] = useState(false);
+  
+  useEffect(() => {
+    if (isRunning && seconds > 0) {
+      const interval = setInterval(() => {
+        setSeconds(seconds - 1);
+      }, 1000);
+
+      // Cleanup the interval when the component unmounts or when seconds reach 0
+      return () => {
+        clearInterval(interval);
+      };
+    }
+    if (isRunning && seconds == 0) {
+      setIsRunning(false);
+    }
+  }, [seconds,isRunning]);
 
   const handleChange = (element, index) => {
     if (isNaN(element.value)) return false;
@@ -85,16 +95,25 @@ const VerifyPhone = () => {
     if (element.nextSibling) {
         element.nextSibling.focus();
     }
-};
+  };
+  const handleSubmit = ()=> {
+    if (!isRunning) {
+      setOtp(new Array(4).fill("")) ;
+      setSeconds(60); 
+      setIsRunning(true);
+    }
+  }
+const {t} = useTranslation () ; 
   return (
     <>  
+      <LanguageIcon className= "notNavbar"/>
       <Container>
-        <IMG src="/images/verification.svg" alt="phone" />
+        <IMG src= {verification} alt="phone" />
         <VerificationDiv>
-            <Title>Verify your mobile number</Title>
-            <Paragraph>You will receive a SMS with a verification code on 
+            <Title></Title>
+            <Paragraph> {t("text.You_will_receive_a_SMS_with_a_verification_code_on")}
               <span style = {{ color : Colors.second , padding : "10px"}}>+20 10987654321</span>
-              <LINK style = {{ color : Colors.main}} >change</LINK>
+              <LINK style = {{ color : Colors.main}} to= "/enter-phone">{t("text.change")}</LINK>
             </Paragraph>
               <Box sx = {{display : "flex" , justifyContent : "space-between" , margin : "50px 0 "}}>
                 {otp.map((data, index) => {
@@ -112,9 +131,9 @@ const VerifyPhone = () => {
                     );
                 })}
               </Box>
-              <SubmitButton>Verify</SubmitButton>
-              <Paragraph>Didn’t receive anything? 
-                <span style = {{color : Colors.main }}> Send again after </span> 01 : 22
+              <SubmitButton onClick = {handleSubmit} style = {{cursor : isRunning ? "not-allowed" : "pointer"}} > {t("text.Verify")}</SubmitButton>
+              <Paragraph>{t("text.Didnt_receive_anything")}
+                <span style = {{color : Colors.main }}> {t("text.Send_again_after")} </span> {seconds} {t("text.seconds")}
               </Paragraph>
         </VerificationDiv>
       </Container>

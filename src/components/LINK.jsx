@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
-import { Link } from "@mui/material";
+
 import { Colors } from "../Theme";
+import { Link } from "react-router-dom";
 
 export const LINK = styled(Link)(({ theme }) => ({
     fontSize: '16px', 

@@ -1,21 +1,19 @@
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Popover } from '@mui/material';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { Colors } from '../Theme';
 import { ListItemText } from '@mui/material';
 import LanguageOutlinedIcon from '@mui/icons-material/LanguageOutlined';
+import { useDispatch, useSelector } from 'react-redux';
+import { ToggleDirection } from '../store/slices/directionSlice';
+import { use } from 'i18next';
 
-const Container = styled("ul")(({ theme }) => ({
-  position: "absolute",
-  left: theme.direction == "rtl" ? "5px" : "auto" ,
-  right: theme.direction == "ltr" ? "5px" : "auto" ,
-  top: 0 , 
-  zIndex: "5",  
+const Container = styled("div")(({ theme }) => ({
 }));
 const UL = styled("ul")(({ theme }) => ({
-    margin: 0,
+  margin: 0,
     padding: "5px 10px",
     width: "250px",
   }));
@@ -31,10 +29,11 @@ const UL = styled("ul")(({ theme }) => ({
       borderRadius: "5px",
     },
   }));
+  
+const LanguageIcon = ({Navbar}) => {
 
-const LanguageIcon = () => {
-    const [anchorEl, setAnchorEl] = useState(null);
-
+  const [anchorEl, setAnchorEl] = useState(null);
+  
   const handleIconClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -46,19 +45,38 @@ const LanguageIcon = () => {
   const theme =  useTheme() ; 
   const {i18n } = useTranslation();
 
+  const directionData = useSelector((state) => state.directionData.direction);
+  const dispatch = useDispatch() ; 
+
+  useEffect(() => {
+    console.log("directionData: ", directionData);
+  },[directionData])
   const arabicDirection  = ()=> {
+    dispatch(ToggleDirection("rtl"))
     theme.direction = "rtl" ;
     i18n.changeLanguage("ar");
-    console.log("theme.direction arabic" , theme.direction)
   }
   const englishDirection  = ()=> {
+    dispatch(ToggleDirection("ltr"))
     theme.direction = "ltr" ;
     i18n.changeLanguage("en");
-    console.log("theme.direction english " , theme.direction)
+  }
+  
+  const navStyle = {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: "5",  
+  }
+  const otherStyle = {
+    position: "absolute",
+    right:"5px" ,
+    top: 0 , 
+    zIndex: "5",  
   }
   return (
     <>
-    <Container>
+    <Container style = { Navbar ? navStyle : otherStyle} >
       <LanguageOutlinedIcon onClick={handleIconClick} style = {{cursor : "pointer" , color : Colors.second}}/>
       <Popover
         open={Boolean(anchorEl)}

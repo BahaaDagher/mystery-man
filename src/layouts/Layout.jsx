@@ -1,8 +1,11 @@
 import styled from '@emotion/styled';
-import React from 'react'
+import React, { useState } from 'react'
 import { Colors , Dimensions} from '../Theme';
 import Sidebar from './sidebar/Sidebar';
 import Navbar from './Navbar';
+import { Language } from '@mui/icons-material';
+import LanguageIcon from '../components/LanguageIcon';
+import { Outlet } from 'react-router-dom';
 
 const Parent = styled("div")(({ theme }) => ({
   backgroundColor: Colors.body , 
@@ -24,84 +27,31 @@ const Content = styled("div")(({ theme }) => ({
 
 const MainContent = styled("div")(({ theme }) => ({
   marginTop : "85px" ,
-  // border : "1px solid red" ,
   zIndex : "-1" ,
   borderRadius: '10px', 
+  display : "flex" , 
+  direction : theme.direction 
 }));
 
-
-
 const Layout = () => {
+
+  const [phoneOpen, setPhoneOpen] = useState(false)
+  const handlePhoneToggle = () => {
+    setPhoneOpen(!phoneOpen)
+  }
+
   return (
+    <>
     <Parent>
-      <Sidebar/>
+      <Sidebar phoneOpen = {phoneOpen} setPhoneOpen= {setPhoneOpen} handlePhoneToggle = {handlePhoneToggle}/>
       <Content>
-        <Navbar/>
+        <Navbar phoneOpen = {phoneOpen} setPhoneOpen= {setPhoneOpen} handlePhoneToggle = {handlePhoneToggle} />
         <MainContent>
-          <div>hello from the main content </div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
-          <div>hello from bahaaa dagher</div>
+          <Outlet/>
         </MainContent>
       </Content>
     </Parent>
+    </>
   )
 }
 
