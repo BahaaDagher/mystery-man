@@ -6,6 +6,7 @@ import Navbar from './Navbar';
 import { Language } from '@mui/icons-material';
 import LanguageIcon from '../components/LanguageIcon';
 import { Outlet } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const Parent = styled("div")(({ theme }) => ({
   backgroundColor: Colors.body , 
@@ -23,6 +24,9 @@ const Content = styled("div")(({ theme }) => ({
     marginLeft : "10px" ,
     left : 0  , 
   },
+  [theme.breakpoints.up('1200')]: {
+    left : theme.direction =="rtl" ? "20px" : "290px" ,
+  },
 }));
 
 const MainContent = styled("div")(({ theme }) => ({
@@ -39,12 +43,13 @@ const Layout = () => {
   const handlePhoneToggle = () => {
     setPhoneOpen(!phoneOpen)
   }
-
+  const {t} = useTranslation() ; 
   return (
     <>
     <Parent>
       <Sidebar phoneOpen = {phoneOpen} setPhoneOpen= {setPhoneOpen} handlePhoneToggle = {handlePhoneToggle}/>
       <Content>
+        {t("text.empty")}
         <Navbar phoneOpen = {phoneOpen} setPhoneOpen= {setPhoneOpen} handlePhoneToggle = {handlePhoneToggle} />
         <MainContent>
           <Outlet/>

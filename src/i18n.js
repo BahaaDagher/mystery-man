@@ -44,6 +44,7 @@ const resources = {
         Didnt_receive_anything : "Didn’t receive anything?" , 
         Send_again_after : "Send again after" , 
         seconds :"seconds" ,
+        empty  :"" , 
       },
       content: {}
     }
@@ -87,7 +88,8 @@ const resources = {
         change : "تغيير" , 
         Didnt_receive_anything : "لم تتلق أي شيء؟" , 
         Send_again_after : "إرسال مرة أخرى بعد" , 
-        seconds : "ثانية"
+        seconds : "ثانية" , 
+        empty  :"" ,
       },
       content: {}
     }

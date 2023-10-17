@@ -8,7 +8,8 @@ export const Colors = {
     gray_l : "#A5A5A5" ,
     gray_input : "#DBDBDB" , 
     body :"#F3F5F8" ,  
-    olive : "#0E4F68"
+    olive : "#0E4F68" , 
+    lightRed : "#FA433D66" , 
 }
 export const Dimensions = {
     sidebarWidth : "257px" ,

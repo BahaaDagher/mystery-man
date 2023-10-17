@@ -9,9 +9,8 @@ import { useTheme } from '@emotion/react';
 import dashboardLogo from "../../assets/images/dashboardLogo.svg"
 
 const SideBarDiv = styled("div")(({ theme }) => ({
-  height : "calc(100% - 4px)",
-  marginTop : "2px",
-  margin : "10px",
+  height : "calc(100% - 10px)",
+  margin : "5px 10px",
   width : Dimensions.sidebarWidth,
   backgroundColor : "#fff",
   borderRadius : "10px",
@@ -21,6 +20,7 @@ const SideBarDiv = styled("div")(({ theme }) => ({
   alignItems: 'center', // Center horizontally
   position: 'fixed',
   display: 'flex',
+  right : theme.direction == "rtl" ? "0" : "auto" ,
   [theme.breakpoints.down('1200')]: {
     display: 'none',
   },

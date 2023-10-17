@@ -6,30 +6,31 @@ import questionnaires1 from "../../assets/icons/Questionnaires1.svg"
 import questionnaires2 from "../../assets/icons/Questionnaires2.svg"
 import subscription1 from "../../assets/icons/Subscription1.svg"
 import subscription2 from "../../assets/icons/Subscription2.svg"
+
 const SidebarData = [
     {
         title : "home" , 
         icon1 : home1 ,
         icon2 : home2 ,
-        link : "/home"
+        link : "/dashboard/home"
     },
     {
         title : "missions" , 
         icon1 : mission1 ,
         icon2 : mission2 ,
-        link : "/Missions"
+        link : "/missions"
     },
     {
         title : "questionnaires" , 
         icon1 : questionnaires1 ,
         icon2 : questionnaires2 ,
-        link : "/Questionnaires"
+        link : "/questionnaires"
     },
     {
         title : "subscription" , 
         icon1 : subscription1 ,
         icon2 : subscription2 ,
-        link : "/Subscription"
+        link : "/subscription"
     },
 ]
 export default SidebarData; 

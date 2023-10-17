@@ -25,10 +25,15 @@ const NavbarContainer = styled("div")(({ theme }) => ({
   display : "flex" ,
   justifyContent : "space-between" ,
   alignItems : "center" ,
-  padding : "0px 50px 0 10px" ,
+  padding : "20px" ,
   [theme.breakpoints.down('1200')]: {
     width : `calc(100vw  - 20px )` ,
   },
+  [theme.breakpoints.up('1200')]: {
+    left : theme.direction =="rtl" ? "20px" : "auto" ,
+  },
+  direction : theme.direction , 
+  zIndex : "5" ,
   
 }));
 
@@ -76,6 +81,9 @@ const Section = styled("div")(({ theme }) => ({
   cursor : "pointer" ,
   "&.company" : {
     flexDirection : "column" ,
+    [theme.breakpoints.down('1200')]: {
+      display : "none" ,
+    },
   },
 }));
 
@@ -132,24 +140,24 @@ const Navbar = ({phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
       <Slider onClick={()=> { setPhoneOpen(true) ; console.log(phoneOpen) } }>
         <FormatListBulletedIcon/>
       </Slider>
-      <Text>
+      {/* <Text>
         <Input type= "text" placeholder='search here'/>
         <SearchDiv>
           <img src = {searchImage}/>
         </SearchDiv>
-      </Text>
+      </Text> */}
       <InformationDiv>
         <Section>
           <LanguageIconNavbar Navbar= {true} />
         </Section>
         <Section>
-          <img src = {notificationImage}/>
+          <img src = {notificationImage} alt = "notification"/>
         </Section>
         <Section >
-          <img src = {chatImage}/>
+          <img src = {chatImage} alt = "chat"/>
         </Section>
         <Section >
-          <img src = {adminImage} style = {{width : "40px" , height : "40px" ,   borderRadius : "50%" }}/>
+          <img src = {adminImage} style = {{width : "40px" , height : "40px" ,   borderRadius : "50%" }} alt = "admin"/>
         </Section>
         <Section className = "company">
           <p style = {{color: Colors.second , weight : "400"}}>{t("text.company_name")}</p>
@@ -157,32 +165,7 @@ const Navbar = ({phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
         </Section>
       </InformationDiv>
 
-      {/* start phone responsive   */}
-      <ExpandMoreIcon onClick={handleIconClick} style = {{cursor : "pointer" , color : Colors.second , display : "flex" , justifyContent :"center" , alignItems : "center" }}/>
-      <Popover
-        open={Boolean(anchorEl)}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-      >
-        <UL>
-          <Li button onClick={() => {  handleClose(); }}>
-            <ListItemText  primary="English" />
-          </Li>
-          <Li button onClick={() => {  handleClose(); }}>
-            <ListItemText primary="Arabic" />
-          </Li>
-        </UL>
-      </Popover>
-
-      {/* end the phone responsive  */}
+      
 
     </NavbarContainer>
   )
