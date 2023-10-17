@@ -11,6 +11,8 @@ import { FlexDiv } from '../../components/FlexDiv'
 import { SubmitButton } from '../../components/SubmitButton'
 import camera from "../../assets/icons/camera.svg"
 import file_text from "../../assets/icons/file-text.svg"
+import { useDispatch } from 'react-redux'
+import authSlice, { userRegister } from '../../store/slices/authSlice'
 
 const InsideContainer = styled("div")(({ theme }) => ({
   width : "30%" ,
@@ -43,11 +45,12 @@ const InputInformation = styled("div")(({ theme }) => ({
 }));
 
 const EnterData = () => {
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [commercialRegisterFile, setCommercial_registration_file] = useState(null);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
-  const [company_name , setCompany_name] = useState("") 
+  const [Phone_Number , setPhone_number] = useState("")
+  const [company_name , setCompany_name] = useState("")
   const [company_website , setCompany_website] = useState("")
-  const [company_location , setCompany_location] = useState("")
+  const [company_email , setCompany_email] = useState("")
   const [password , setPassword] = useState("")
   const [confirm_password , setConfirm_password] = useState("")
   const [commercial_registration_no , setCommercial_registration_no] = useState("")
@@ -55,7 +58,7 @@ const EnterData = () => {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setSelectedFile(file);
+      setCommercial_registration_file(file);
     }
   };
   const handlePhotoChange = (event) => {
@@ -64,16 +67,25 @@ const EnterData = () => {
       setSelectedPhoto(file);
     }
   };
+  const dispatch = useDispatch(); 
+
   const handleSubmit = () => {
-    if (company_name && company_website && company_location && password && confirm_password && commercial_registration_no && selectedFile && selectedPhoto) 
+    if (company_name && company_website && company_email && password && confirm_password && commercial_registration_no && commercialRegisterFile && selectedPhoto) 
     {
-      console.log("company_name" , company_name)
-      console.log("company_website" , company_website)
-      console.log("company_location" , company_location)
-      console.log("password", password)
-      console.log("confirm_password", confirm_password)
-      console.log("commercial_registration_no", commercial_registration_no)
-      window.location.href = "/review"
+      if (password === confirm_password)  {
+        const formData = new FormData();
+        formData.append("company_name", company_name);
+        formData.append("company_website", company_website);
+        formData.append("company_email", company_email);
+        formData.append("Phone_Number", Phone_Number);
+        formData.append("password", password);
+        formData.append("commercial_registration_no", commercial_registration_no);
+        formData.append("commercial_registration_file", commercialRegisterFile);
+        formData.append("selectedPhoto", selectedPhoto);
+        console.log("sdfsdfsd");
+        dispatch(userRegister(formData))
+      }
+      
     }
   }
   const {t} = useTranslation()
@@ -102,12 +114,12 @@ const EnterData = () => {
                   <Input  placeholder={t("text.Company_name")} value ={company_name} onChange = {(e)=> setCompany_name(e.target.value)} />
               </InputDiv>
               <InputDiv>
-                  <H3> {t("text.Company_Website")}</H3>
-                  <Input  placeholder={t("text.Company_Website")} value ={company_website} onChange = {(e)=> setCompany_website(e.target.value)}/>
+                  <H3> {t("text.Phone_Number")}</H3>
+                  <Input  placeholder={t("text.Phone_Number")} value ={Phone_Number} onChange = {(e)=> setPhone_number(e.target.value)}/>
               </InputDiv>
               <InputDiv>
-                  <H3> {t("text.Company_Location")}</H3>
-                  <Input  placeholder={t("text.Company_Location")} value ={company_location} onChange = {(e)=> setCompany_location(e.target.value)}/>
+                  <H3> {t("text.Company_Email")}</H3>
+                  <Input  placeholder={t("text.Company_Email")} value ={company_email} onChange = {(e)=> setCompany_email(e.target.value)}/>
               </InputDiv>
               <InputDiv>
                   <H3>{t("text.Password")} </H3>
@@ -120,6 +132,10 @@ const EnterData = () => {
             </InputInformation>
         </InsideContainer>
         <InsideContainer>
+        <InputDiv>
+                  <H3> {t("text.Company_Website")}</H3>
+                  <Input  placeholder={t("text.Company_Website")} value ={company_website} onChange = {(e)=> setCompany_website(e.target.value)}/>
+              </InputDiv>
           <InputDiv>
               <H3>{t("text.Commercial_Registration_No")} </H3>
               <Input type = "number"  placeholder={t("text.Commercial_Registration_No")} value ={commercial_registration_no} onChange = {(e)=> setCommercial_registration_no(e.target.value)}/>
@@ -128,7 +144,7 @@ const EnterData = () => {
               <H3>{t("text.Copy_of_the_commercial_register")} </H3>
               <FlexDiv style = {{border :` 1px dashed ${Colors.second}` ,  borderRadius : "10px" , padding : "20px 0 "}}>
                 <img 
-                  src = { selectedFile ? URL.createObjectURL(selectedFile) : file_text } 
+                  src = { commercialRegisterFile ? URL.createObjectURL(commercialRegisterFile) : file_text } 
                   alt = "file" 
                   style = {{marginBottom : "40px" , maxWidth : "95%"}}/>
                 <input

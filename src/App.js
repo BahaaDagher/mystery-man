@@ -17,10 +17,10 @@ function App() {
     <>
       <Routes>
         <Route path='/login' element = <Login/>  />
-        <Route path='/enter-phone' element = <EnterPhone/>  />
-        <Route path='/verify-phone' element = <VerifyPhone/>  />
-        <Route path='/enter-data' element = <EnterData/>  />
-        <Route path='/review' element = <Review/>  />
+        <Route path='/register/enter-phone' element = <EnterPhone/>  />
+        <Route path='/register/verify-phone' element = <VerifyPhone/>  />
+        <Route path='/register/enter-data' element = <EnterData/>  />
+        <Route path='/register/review' element = <Review/>  />
         {/* layout  */}
         <Route path='/dashboard' element = <Layout /> >
           <Route path='home' element = <Home/>  />

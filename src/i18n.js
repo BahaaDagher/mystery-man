@@ -11,6 +11,7 @@ const resources = {
       message: {},
       text: 
       { 
+        empty  :"" , 
         hello: "hello" , 
         company_name : "Company name" ,
         home : "Home" , 
@@ -19,7 +20,7 @@ const resources = {
         subscription : "Subscription"  , 
         Company_name : "Company name" ,
         Company_Website : "Company Website" ,
-        Company_Location : "Company Location" ,
+        Company_Email : "Company Email" ,
         Password : "Password" , 
         Confirm_Password : "Confirm Password" ,
         Commercial_Registration_No : "Commercial Registration No" , 
@@ -44,7 +45,9 @@ const resources = {
         Didnt_receive_anything : "Didn’t receive anything?" , 
         Send_again_after : "Send again after" , 
         seconds :"seconds" ,
-        empty  :"" , 
+        Available_Missions : "Available Missions" , 
+        Highest_rating : "Highest rating" , 
+        Lowest_rating : "Lowest rating"
       },
       content: {}
     }
@@ -56,6 +59,7 @@ const resources = {
       message: {},
       text: 
       { 
+        empty  :"" ,
         hello: "أهلا"  , 
         company_name : "اسم الشركة" ,  
         home : "الصفحة الرئيسية" , 
@@ -64,7 +68,7 @@ const resources = {
         subscription : "الاشتراك"  , 
         Company_name : "إسم الشركة" ,
         Company_Website : "رابط الموقع الالكتروني للشركة " ,
-        Company_Location : "موقع الشركة" ,
+        Company_Email : "البريد الالكتروني للشركة" ,
         Password : "كلمة المرور" , 
         Confirm_Password : "تأكيد كلمة المرور" ,
         Commercial_Registration_No : "رقم السجل التجاري " , 
@@ -89,7 +93,9 @@ const resources = {
         Didnt_receive_anything : "لم تتلق أي شيء؟" , 
         Send_again_after : "إرسال مرة أخرى بعد" , 
         seconds : "ثانية" , 
-        empty  :"" ,
+        Available_Missions : "المهمات المتاحة" , 
+        Highest_rating : "أعلى تصنيف" , 
+        Lowest_rating : "أقل تصنيف"
       },
       content: {}
     }

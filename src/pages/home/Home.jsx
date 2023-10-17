@@ -66,7 +66,7 @@ const Home = () => {
             <Section1>
                 <Div className = "one">
                     <div style = {{position :"absolute" , right : "10px" , top : "40px"  , fontSize : "20px"}}>
-                        Available Missions
+                        {t("text.Available_Missions")}
                     </div>
                     <div 
                         className  = "number"
@@ -82,16 +82,16 @@ const Home = () => {
                     </CircleDiv>
                 </Div>
                 <Div>
-                    <div style = {{display : "flex"  , margin : "15px"}}>
+                    <div
+                        style = {{position :"absolute" , left : "5px" , bottom : "30px" , fontSize : "25px"  , color : "#E1312A"}}
+                    >
+                        {t("text.Highest_rating")}
+                    </div>
+                    <div style = {{display : "flex"  , margin : "15px" , position : "absolute" , left : "0px" , top : "0px"}}>
                         <img src = {location} alt =  "location"/>
                         <div
                             style={{fontSize : "20px" , margin : "10px"}}
                         >Jaddah</div>
-                    </div>
-                    <div
-                        style = {{position :"absolute" , left : "5px" , bottom : "30px" , fontSize : "25px"  , color : "#E1312A"}}
-                    >
-                        Highest rating
                     </div>
                     <img 
                         src= {high_rate}  alt = "circle" 
@@ -101,16 +101,16 @@ const Home = () => {
                     </CircleDiv>
                 </Div>
                 <Div>
-                    <div style = {{display : "flex"  , margin : "15px"}}>
+                    <div
+                        style = {{position :"absolute" , left : "5px" , bottom : "30px" , fontSize : "25px"  , color : "#BBC3E9"}}
+                    >
+                        {t("text.Lowest_rating")}
+                    </div>
+                    <div style = {{display : "flex"  , margin : "15px" , position : "absolute" , left : "0px" , top : "0px"}}>
                         <img src = {location} alt =  "location"/>
                         <div
                             style={{fontSize : "20px" , margin : "10px"}}
                         >Al Dmam</div>
-                    </div>
-                    <div
-                        style = {{position :"absolute" , left : "5px" , bottom : "30px" , fontSize : "25px"  , color : "#BBC3E9"}}
-                    >
-                        Lowest rating
                     </div>
                     <img 
                         src= {low_rate}  alt = "circle" 

@@ -72,7 +72,7 @@ const EnterPhone = () => {
 
   const handleSubmit = () => {
     if (phone) {
-      window.location = "/verify-phone" ;
+      window.location = "/register/verify-phone" ;
     }
     console.log("phone: ", phone);
   }
