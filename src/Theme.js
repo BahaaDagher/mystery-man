@@ -10,6 +10,7 @@ export const Colors = {
     body :"#F3F5F8" ,  
     olive : "#0E4F68" , 
     lightRed : "#FA433D66" , 
+    grayDC : "#DCDCDC" , 
 }
 export const Dimensions = {
     sidebarWidth : "257px" ,

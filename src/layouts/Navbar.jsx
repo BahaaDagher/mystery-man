@@ -103,23 +103,7 @@ const LanguageIconNavbar = styled(LanguageIcon)(({ theme }) => ({
   position : "relative" ,
   
 }));
-const UL = styled("ul")(({ theme }) => ({
-  margin: 0,
-    padding: "5px 10px",
-    width: "250px",
-  }));
-  const Li = styled("li")(({ theme }) => ({
-    listStyle: "none",
-    color: Colors.main[1],
-    fontWeight: "bold",
-    padding: "5px 10px",
-    transition: "all 0.3s ease-in-out",
-    "&:hover": {
-      cursor: "pointer",
-      backgroundColor: Colors.lightMain,
-      borderRadius: "5px",
-    },
-  }));
+
   
 
 

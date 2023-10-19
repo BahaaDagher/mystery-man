@@ -89,7 +89,7 @@ const EnterPhone = () => {
           <Paragraph>{t("text.We_need_your_phone_number_to_create_an_account_and_log_in_with_later")}</Paragraph>
           <Div>
               <H3>{t("text.Phone_Number")} </H3>
-              <Input type="text" placeholder='+02 | ' value = {phone} onChange={(e)=>handleChange(e)}/>
+              <Input type="text" placeholder='' value = {phone} onChange={(e)=>handleChange(e)}/>
           </Div>
           <SubmitButton onClick={handleSubmit} >{t("text.confirm")}</SubmitButton>
         </PhoneDiv>

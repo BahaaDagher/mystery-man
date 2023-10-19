@@ -8,6 +8,9 @@ import { Container } from '../../components/Container';
 import { useTranslation } from 'react-i18next'
 import logo from "../../assets/images/logo.svg"
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { userLogin } from '../../store/slices/authSlice';
+import Swal from 'sweetalert2';
 
 const UpperTriangle = styled("div")(({ theme }) => ({
     position: "absolute" ,
@@ -133,13 +136,38 @@ const RegisterDiV = styled("div")(({ theme }) => ({
 const Login = () => {
     const [phone , setPhone] = useState("") ;
     const [password , setPassword] = useState("") ;
-    const handleLogin = () => {
-        if (phone && password) {
-            console.log("phone: ", phone);
-            console.log("password: ", password);
-            window.location.href = "/enter-phone" ;
+    const [clickSubmit , setClickSubmit] = useState(false)
+
+    const LoginData = useSelector(state => state.authData.LoginData) ;  
+
+    useEffect(() => {
+        console.log(LoginData) 
+        if (clickSubmit) {
+            if ("data" in  LoginData) {
+                console.log("success")
+                Swal.fire({
+                    icon: 'success',
+                    text: LoginData.message,
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
+            else {
+                console.log("failed")
+                Swal.fire({
+                    icon: 'error',
+                    text: LoginData.message,
+                })
+            }
         }
+    }, [LoginData])
+
+    const dispatch = useDispatch() ; 
+    const handleLogin = () => {
+        setClickSubmit(true)
+        dispatch (userLogin({phone : phone , password : password})) ; 
     }
+
     const theme = useTheme() ;
     const {t} =  useTranslation() ; 
   return (
@@ -153,7 +181,7 @@ const Login = () => {
             <H1>{t("text.Welcome_back")}</H1>
             <Div>
                 <H3>{t("text.Phone_Number")} </H3>
-                <Input type="number" placeholder='+02 | ' onChange={(e)=>setPhone(e.target.value)}/>
+                <Input type="number" placeholder='' onChange={(e)=>setPhone(e.target.value)}/>
             </Div>
             <Div>
                 <H3>{t("text.Password")} </H3>

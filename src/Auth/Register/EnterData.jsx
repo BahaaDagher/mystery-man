@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Container } from '../../components/Container'
 import { H3 } from '../../components/H3'
 import { Input } from '../../components/Input'
@@ -11,8 +11,10 @@ import { FlexDiv } from '../../components/FlexDiv'
 import { SubmitButton } from '../../components/SubmitButton'
 import camera from "../../assets/icons/camera.svg"
 import file_text from "../../assets/icons/file-text.svg"
-import { useDispatch } from 'react-redux'
-import authSlice, { userRegister } from '../../store/slices/authSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import  { userRegister } from '../../store/slices/authSlice'
+import Swal from 'sweetalert2'
+import { useTheme } from '@mui/material'
 
 const InsideContainer = styled("div")(({ theme }) => ({
   width : "30%" ,
@@ -54,6 +56,7 @@ const EnterData = () => {
   const [password , setPassword] = useState("")
   const [confirm_password , setConfirm_password] = useState("")
   const [commercial_registration_no , setCommercial_registration_no] = useState("")
+  const [clickSubmit , setClickSubmit] = useState(false)
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -67,27 +70,57 @@ const EnterData = () => {
       setSelectedPhoto(file);
     }
   };
-  const dispatch = useDispatch(); 
 
+  const RegisterData = useSelector((state) => state.authData.RegisterData);
+
+  useEffect(() => {
+    if (clickSubmit) {
+      console.log ("RegisterData" , RegisterData ) 
+      if ("data" in  RegisterData) {
+        console.log("success")
+        Swal.fire({
+          icon: 'success',
+          text: RegisterData.message,
+          showConfirmButton: false,
+          timer: 1500
+        })
+      }
+      else {
+        console.log("failed")
+        Swal.fire({
+          icon: 'error',
+          text: RegisterData.message,
+        })
+      }
+    }
+  }, [RegisterData]);
+
+  const dispatch = useDispatch(); 
+  const theme = useTheme() ; 
   const handleSubmit = () => {
-    if (company_name && company_website && company_email && password && confirm_password && commercial_registration_no && commercialRegisterFile && selectedPhoto) 
-    {
-      if (password === confirm_password)  {
+      setClickSubmit(true)
+      if (password !== confirm_password)  {
+        Swal.fire({
+          icon: 'error',
+          text:theme.direction == "ltr" ? 'Password and confirm password are not the same!' : "! كلمتا السر غير متطابقتين",
+          
+        })
+      }
+      else {
         const formData = new FormData();
-        formData.append("company_name", company_name);
-        formData.append("company_website", company_website);
-        formData.append("company_email", company_email);
-        formData.append("Phone_Number", Phone_Number);
+        formData.append("name", company_name);
+        formData.append("url", company_website);
+        formData.append("email", company_email);
+        formData.append("phone", Phone_Number);
         formData.append("password", password);
-        formData.append("commercial_registration_no", commercial_registration_no);
-        formData.append("commercial_registration_file", commercialRegisterFile);
-        formData.append("selectedPhoto", selectedPhoto);
-        console.log("sdfsdfsd");
+        formData.append("CommercialRegistrationNo", commercial_registration_no);
+        formData.append("CommercialRegistrationImage", commercialRegisterFile);
+        formData.append("image", selectedPhoto);
         dispatch(userRegister(formData))
       }
       
-    }
   }
+  
   const {t} = useTranslation()
   return (
     <>

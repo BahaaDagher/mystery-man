@@ -91,7 +91,9 @@ const Home = () => {
                         <img src = {location} alt =  "location"/>
                         <div
                             style={{fontSize : "20px" , margin : "10px"}}
-                        >Jaddah</div>
+                        >
+                        Jaddah
+                        </div>
                     </div>
                     <img 
                         src= {high_rate}  alt = "circle" 
@@ -110,7 +112,9 @@ const Home = () => {
                         <img src = {location} alt =  "location"/>
                         <div
                             style={{fontSize : "20px" , margin : "10px"}}
-                        >Al Dmam</div>
+                        >
+                        Al Dmam
+                        </div>
                     </div>
                     <img 
                         src= {low_rate}  alt = "circle" 

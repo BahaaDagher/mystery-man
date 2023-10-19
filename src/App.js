@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Route, Router, Routes  ,Switch } from 'react-router-dom';
 import Layout from './layouts/Layout' ;
 import Navbar from './layouts/Navbar';
 import Login from './Auth/Login/Login';
@@ -10,9 +10,11 @@ import EnterPhone from './Auth/Register/EnterPhone';
 import VerifyPhone from './Auth/Register/VerifyPhone';
 import Bahaa from './components/Bahaa';
 import Home from './pages/home/Home';
+import Profile from './pages/profile/Profile';
 
 
 function App() {
+  
   return (
     <>
       <Routes>
@@ -21,7 +23,10 @@ function App() {
         <Route path='/register/verify-phone' element = <VerifyPhone/>  />
         <Route path='/register/enter-data' element = <EnterData/>  />
         <Route path='/register/review' element = <Review/>  />
+        <Route path='/profile' element = <Profile/>  />
+        
         {/* layout  */}
+        <Route path="/" element=<Layout /> />
         <Route path='/dashboard' element = <Layout /> >
           <Route path='home' element = <Home/>  />
         </Route>
