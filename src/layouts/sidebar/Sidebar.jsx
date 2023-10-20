@@ -90,7 +90,9 @@ const Title = styled("div")(({ theme }) => ({
 
 const SideBarDivPhone = styled(Drawer)(({ theme }) => ({
 }));
+
 const Sidebar = ( {phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
+  
   const [activeItem, setActiveItem] = useState(0);
 
   const handleItemClick = (index) => {

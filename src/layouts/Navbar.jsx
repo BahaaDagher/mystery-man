@@ -109,19 +109,12 @@ const LanguageIconNavbar = styled(LanguageIcon)(({ theme }) => ({
 
 const Navbar = ({phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
 
-  const [anchorEl, setAnchorEl] = useState(null);
-  const handleIconClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   const {t } = useTranslation();
   return (
     <NavbarContainer>
-      <Slider onClick={()=> { setPhoneOpen(true) ; console.log(phoneOpen) } }>
+      <Slider onClick={()=> { setPhoneOpen(true) ;  } }>
         <FormatListBulletedIcon/>
       </Slider>
       {/* <Text>

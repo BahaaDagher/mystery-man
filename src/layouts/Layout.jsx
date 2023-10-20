@@ -50,7 +50,7 @@ const Layout = () => {
       <Sidebar phoneOpen = {phoneOpen} setPhoneOpen= {setPhoneOpen} handlePhoneToggle = {handlePhoneToggle}/>
       <Content>
         {t("text.empty")}
-        <Navbar phoneOpen = {phoneOpen} setPhoneOpen= {setPhoneOpen} handlePhoneToggle = {handlePhoneToggle} />
+        <Navbar  setPhoneOpen= {setPhoneOpen}  />
         <MainContent>
           <Outlet/>
         </MainContent>
