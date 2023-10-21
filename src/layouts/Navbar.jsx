@@ -133,7 +133,7 @@ const Navbar = ({phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
         <Section >
           <img src = {chatImage} alt = "chat"/>
         </Section>
-        <Section >
+        <Section onClick={()=>{window.location = "/profile"}}>
           <img src = {adminImage} style = {{width : "40px" , height : "40px" ,   borderRadius : "50%" }} alt = "admin"/>
         </Section>
         <Section className = "company">

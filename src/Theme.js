@@ -14,6 +14,7 @@ export const Colors = {
     bgBL: "#F5F7FB" , 
     blackRed : "#C32B43" , 
     green : "#27AE60" , 
+    bg: "#F7F7F7" , 
 
 }
 export const Dimensions = {

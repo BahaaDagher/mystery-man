@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Colors } from '../../Theme';
 import notificationImage from "../../assets/images/notification.svg"
 import chatImage from "../../assets/images/chat.svg"
@@ -8,19 +8,19 @@ import LanguageIcon from '../../components/LanguageIcon';
 import profileLogo from "../../assets/images/profileLogo.svg"
 import Commercial_Registration from "../../assets/images/Commercial Registration.svg"
 import trash  from "../../assets/icons/trash.svg"
-import edit from "../../assets/icons/edit.svg"
 import pinLocation from "../../assets/icons/pinLocation.svg"
 
 import { useTranslation } from 'react-i18next';
 import { LINK } from '../../components/LINK';
 import { FlexDiv } from '../../components/FlexDiv';
-import { Box, Drawer, Rating, useTheme } from '@mui/material';
+import { Box, CircularProgress, Rating, useTheme } from '@mui/material';
 import { Flex } from '../../components/Flex';
 import { FlexSpaceBetween } from '../../components/FlexSpaceBetween';
-import { Input } from '../../components/Input';
-import { Select } from '../../components/Select';
+import Map from '../../components/Map';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteBranch, getBranches } from '../../store/slices/branchSlice';
+import Loading from '../../components/Loading';
 import Swal from 'sweetalert2';
-import Warning from '../../components/Warning';
 
 const Container = styled("div")(({ theme }) => ({
   minHeight : "100vh" , 
@@ -95,7 +95,11 @@ const Content = styled("div")(({ theme }) => ({
   marginTop : "90px" ,
   display : "flex" ,
   justifyContent : "space-between" ,
-  direction : theme.direction
+  direction : theme.direction , 
+  [theme.breakpoints.down('800')]: {
+    justifyContent : "center" ,
+    flexDirection : "column" ,
+  },
 }));
 
 const DataDiv = styled("div")(({ theme }) => ({
@@ -104,12 +108,20 @@ const DataDiv = styled("div")(({ theme }) => ({
   backgroundColor: '#fff',
   padding : "20px" ,
   height : "fit-content" ,
+  [theme.breakpoints.down('800')]: {
+    justifyContent : "center" ,
+    flexDirection : "column" ,
+    width : "100%" ,
+  },
 }));
 const PhotoAndName = styled(FlexDiv)(({ theme }) => ({
   width : "100%" , 
   display : "flex" , 
   flexDirection : "row" ,
   justifyContent : "flex-start" ,
+  [theme.breakpoints.down('800')]: {
+    justifyContent : "center" ,
+  },
 }));
 
 const Division = styled("div")(({ theme }) => ({
@@ -121,6 +133,9 @@ const Division = styled("div")(({ theme }) => ({
 const Part = styled("div")(({ theme }) => ({
   flexDirection : "row" ,
   justifyContent : "flex-start" ,
+  [theme.breakpoints.down('800')]: {
+    textAlign : "center" ,
+  },
 }));
 const P1 = styled("div")(({ theme }) => ({
   fontSize : "18px" ,
@@ -172,6 +187,9 @@ const Price = styled("p")(({ theme }) => ({
 
 const BranchesDiv = styled("div")(({ theme }) => ({
   width: `calc(100% - 364px - 10px)`,
+  [theme.breakpoints.down('800')]: {
+    width: "100%",
+  },
 }));
 
 const NewBranchButton = styled("div")(({ theme }) => ({
@@ -188,19 +206,20 @@ const NewBranchButton = styled("div")(({ theme }) => ({
   lineHeight: '37px',
   letterSpacing: '0em',
   transition: 'all 0.3s ease-in-out',
+  marginTop : "20px" ,
   "&:hover" : {
     backgroundColor : Colors.hoverMain
   }
 }));
+
 const BranchesContainer = styled("div")(({ theme }) => ({
   margin : "10px 0 " , 
   display : "flex" ,
   flexWrap : "wrap" ,
-
 }));
+
 const BranchDetails = styled("div")(({ theme }) => ({
   width: '534px',
-  height: '278px',
   borderRadius: '10px',
   backgroundColor: '#fff',
   margin : "10px" ,
@@ -220,39 +239,39 @@ const IconDiv = styled("div")(({ theme }) => ({
   display : "flex" , 
   justifyContent : "center" , 
   alignItems : "center" , 
-  "&.edit" : {
-    backgroundColor : Colors.green
-  } , 
   margin : "0 5px" ,
   cursor : "pointer" 
+
 }));
 
-const AddAnewBranch = styled("div")(({ theme }) => ({
-  textAlign : "center" ,
-  margin : "20px auto" ,
-  backgroundColor : Colors.main ,
-  color : "#fff" ,
-  fontSize: '20px',
-  width : "70%" ,
-  padding : "10px" , 
+
+const LocationDiv = styled("div")(({ theme }) => ({
+  width: '100%',
+  height: '200px',
   borderRadius: '10px',
-  cursor : "pointer" ,
-  transition: 'all 0.3s ease-in-out',
-  "&:hover" : {
-    backgroundColor : Colors.hoverMain
-  } 
-})); 
-
-const Label = styled("label")(({ theme }) => ({
-  display : "block" ,
-  color : Colors.gray_l , 
-  fontSize : "17px" , 
-
+  marginTop :"20px" , 
 }));
 
 const Profile = () => {
   const {t } = useTranslation();
   const theme = useTheme() ; 
+
+  const getBranchesData = useSelector(state => state.branchData.getBranchesData) ;
+  const getBranchesDataLoading = useSelector(state => state.branchData.getBranchesDataLoading) ;
+
+  const dispatch = useDispatch() ;
+
+  useEffect(()=>{
+    if (getBranchesData.status) {
+      console.log("getBranchesData" , getBranchesData.data.branches)
+      setCurrentBranches(getBranchesData.data.branches)
+    }
+  },[getBranchesData])
+
+  useEffect(()=>{
+    dispatch(getBranches())
+  },[])
+
   const BranchesArray = [
     {
       name : "MC zefta" , 
@@ -270,61 +289,38 @@ const Profile = () => {
       address : "King Khalid Rd, Al Sanaiyyah, Al Duwadimi 17436, Saudi Arabia" , 
     } , 
   ]
-  const [currentBranches , setCurrentBranches] = useState (BranchesArray)
+
   const [newBranch , setNewBranch] = useState(false) ; 
+  const [currentBranches , setCurrentBranches] = useState ([])
 
-  // edit branch 
-  const editBranch = (index) => {
-   
-  }
-
-
-
+ 
   // delete branch 
-  const deleteBranch = (index) => {
-    let newBranches = [...currentBranches]
-    newBranches.splice(index , 1)
-    setCurrentBranches(newBranches)
-  }
+  const deleteBranchData = useSelector(state => state.branchData.deleteBranchData) ;
+  const deleteBranchLoading = useSelector(state => state.branchData.deleteBranchLoading) ;
 
-  // start add new branch 
-  const [branchName , setBranchName] = useState("")
-  const [branchRate , setBranchRate] = useState(0)
-  const [branchAddress , setBranchAddress] = useState("")
-  const [openWarning , setOpenWarning] = useState(false) ;
-
-  const handleRatingChange = (event, newRate) => {
-    if (newRate !== null) {
-      setBranchRate(newRate);
-      console.log(branchRate)
-    }
-  };
-
-  const addNewBranch = () => {
-    if (!branchName || !branchAddress) {
-      setOpenWarning(true)
-      console.log ("showWarning" , openWarning)
-    }
-    else {
-      let newBranches = [...currentBranches]
-      newBranches.push({
-        name : branchName ,
-        rate : branchRate ,
-        address : branchAddress
+  useEffect(()=>{
+    if (deleteBranchData.status) {
+      Swal.fire({
+        icon: 'success',
+        title: 'Deleted successfully',
+        showConfirmButton: false,
+        timer: 1500
       })
-      setCurrentBranches(newBranches)
-      setNewBranch(false)
-      setBranchName("")
-      setBranchAddress("")
-      setBranchRate(0)
+      dispatch(getBranches())
     }
+  },[deleteBranchData])
+
+
+  const delBranch = (index) => {
+    const branchID = currentBranches[index].id ;
+    console.log("currentBranches[index]" , branchID)
+    dispatch(deleteBranch({id : branchID}))
   }
-  // end add new branch 
 
   return (
     <>
+        {deleteBranchLoading ? <Loading/> : null}
         <Container>
-        <Warning text = "asdasdasdasdasd"/>
           <NavbarContainer>
             <Logo to = "/dashboard">
               <Img src = {profileLogo} />
@@ -339,7 +335,7 @@ const Profile = () => {
               <Section >
                 <img src = {chatImage} alt = "chat"/>
               </Section>
-              <Section >
+              <Section onClick={()=>{window.location = "/profile"}}>
                 <img src = {adminImage} style = {{width : "40px" , height : "40px" ,   borderRadius : "50%" }} alt = "admin"/>
               </Section>
               <Section className = "company">
@@ -388,81 +384,35 @@ const Profile = () => {
 
             {/* second div branches part  */}
             <BranchesDiv>
-              <NewBranchButton onClick= {()=>{setNewBranch(true)}}>New Branch</NewBranchButton>
-              <Drawer
-                anchor= "left"
-                variant="temporary"
-                open={newBranch}
-                onClose={()=> setNewBranch(false)}
-                ModalProps={{
-                  keepMounted: true,
-                }}
-                sx={{
-                  display : "flex" ,
-                  justifyContent : "center" ,
-                  alignItems : "center" ,
-                  "& .MuiDrawer-paper": {
-                    borderRadius: "10px",
-                    margin : "150px" , 
-                    width : "50%" , 
-                    height : "500px", 
-                    padding : "10px" , 
-                  },
-                }}
-              >
-                <Label htmlFor="branchName" >Branch Name</Label>
-                <Input 
-                  style = {{border : `1px solid ${Colors.input}`}}
-                  type="text"
-                  id="branchName"
-                  value={branchName}
-                  onChange={(e)=>{setBranchName(e.target.value)}}
-                />
-                <Label htmlFor="branchAddress">Branch Address</Label>
-                <Input 
-                  style = {{border : `1px solid ${Colors.input}`}}
-                  type="text"
-                  id="branchAddress"
-                  value={branchAddress}
-                  onChange={(e)=>{setBranchAddress(e.target.value)}}
-                />
-                <Label htmlFor="dropdown">Branch Rate</Label>
-                <Rating name="half-rating" defaultValue={branchRate} precision={0.5}  style = {{direction : "ltr"}} onChange={handleRatingChange} />
-
-                <AddAnewBranch onClick= {addNewBranch}> Add New Branch </AddAnewBranch>
-
-              </Drawer>
-               
-              { openWarning && <Warning openWarning= {openWarning} setOpenWarning ={setOpenWarning} text =  {theme.direction== "ltr" ? "Please fill all fields" : "من فضلك املأ كل الحقول"} />}
-
-
-
-              <BranchesContainer>
-                {currentBranches.map((branch , index) => {
-                  return (
-                    <BranchDetails key= {index} >
-                      <FlexSpaceBetween>
-                        <Box>
-                          <p style = {{color : Colors.second , fontSize : "18px"}}>{branch.name}</p>
-                          <Rating name="half-rating" defaultValue={branch.rate} precision={0.5} readOnly style = {{direction : "ltr"}}/>
-                        </Box>
+              <NewBranchButton onClick= {()=>{window.location.href = '/newBranch'}}>New Branch</NewBranchButton>
+              {getBranchesDataLoading ? <CircularProgress style = {{margin :"30px" , color : Colors.main}}/> : 
+                <BranchesContainer>
+                  {currentBranches.map((branch , index) => {
+                    return (
+                      <BranchDetails key= {index} >
+                        <FlexSpaceBetween>
+                          <Box>
+                            <p style = {{color : Colors.second , fontSize : "18px"}}>{branch.name}</p>
+                            <Rating name="half-rating" defaultValue={branch.rate} precision={0.5} readOnly style = {{direction : "ltr"}}/>
+                          </Box>
+                          <Flex>
+                            <IconDiv>
+                              <img src = {trash} onClick= {()=>{delBranch(index)}}/>
+                            </IconDiv>
+                          </Flex>
+                        </FlexSpaceBetween>
                         <Flex>
-                          <IconDiv>
-                            <img src = {trash} onClick= {()=>{deleteBranch(index)}}/>
-                          </IconDiv>
-                          <IconDiv className = "edit">
-                            <img src = {edit} onClick= {()=>{editBranch(index)}} />
-                          </IconDiv>
+                          <img src = {pinLocation}/>
+                          <p style = {{margin : "0 5px"}}>{branch.address}</p>
                         </Flex>
-                      </FlexSpaceBetween>
-                      <Flex>
-                        <img src = {pinLocation}/>
-                        <p style = {{margin : "0 5px"}}>{branch.address}</p>
-                      </Flex>
-                    </BranchDetails>
-                  )
-                })}
-              </BranchesContainer>
+                        <LocationDiv>
+                          <Map  latPos = {parseFloat(branch.lat)} lngPos = {parseFloat(branch.long)} mapWidth={"100%"} mapHeight={"100%"} showSearch = {false}/>
+                        </LocationDiv>
+                      </BranchDetails>
+                    )
+                  })}
+                </BranchesContainer>
+              }
             </BranchesDiv>
 
           </Content>
