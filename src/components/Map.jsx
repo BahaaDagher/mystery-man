@@ -70,7 +70,7 @@ const Map = ({setLocation , latPos  , lngPos , mapWidth , mapHeight , showSearch
                   }}
                   // onPlaceSelected={ this.onPlaceSelected }
 
-                  apiKey='AIzaSyBBZLX5WuQeLU8CSkyCbvkXRQJZ8OsoIZs'
+                  apiKey='AIzaSyDvVrbtZ5M5hTQETxinUhPiW-OgEt30L7Y'
                   onPlaceSelected={(place) => console.log(place)}
                   placeholder="search"
               >
