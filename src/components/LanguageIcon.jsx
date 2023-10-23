@@ -19,7 +19,7 @@ const UL = styled("ul")(({ theme }) => ({
   }));
   const Li = styled("li")(({ theme }) => ({
     listStyle: "none",
-    color: Colors.main[1],
+    color: Colors.main,
     fontWeight: "bold",
     padding: "5px 10px",
     transition: "all 0.3s ease-in-out",
@@ -51,6 +51,7 @@ const LanguageIcon = ({Navbar}) => {
   useEffect(() => {
     console.log("directionData: ", directionData);
   },[directionData])
+  
   const arabicDirection  = ()=> {
     dispatch(ToggleDirection("rtl"))
     theme.direction = "rtl" ;

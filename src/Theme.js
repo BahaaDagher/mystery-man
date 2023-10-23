@@ -12,9 +12,12 @@ export const Colors = {
     lightRed : "#FA433D66" , 
     grayDC : "#DCDCDC" , 
     bgBL: "#F5F7FB" , 
-    blackRed : "#C32B43" , 
+    red : "#C32B43" , 
+    hoverRed : "#bb001e" , 
     green : "#27AE60" , 
+    hoverGreen : "#00953f" , 
     bg: "#F7F7F7" , 
+    hoverGray : "#cdcbcb" , 
 
 }
 export const Dimensions = {

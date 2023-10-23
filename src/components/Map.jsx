@@ -102,6 +102,7 @@ const Map = ({setLocation , latPos  , lngPos , mapWidth , mapHeight , showSearch
                   }}
                   // onPlaceSelected={ this.onPlaceSelected }
 
+
                   apiKey='AIzaSyBBZLX5WuQeLU8CSkyCbvkXRQJZ8OsoIZs'
                   onPlaceSelected={(place) => 
                    {
@@ -112,6 +113,8 @@ const Map = ({setLocation , latPos  , lngPos , mapWidth , mapHeight , showSearch
                   
                   
                   }
+
+
                   placeholder="search"
               >
               </Autocompletee>

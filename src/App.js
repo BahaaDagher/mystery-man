@@ -9,10 +9,11 @@ import Review from './Auth/Register/Review';
 import EnterPhone from './Auth/Register/EnterPhone';
 import VerifyPhone from './Auth/Register/VerifyPhone';
 import Home from './pages/home/Home';
-import Profile from './pages/profile/Profile';
+import Profile from "./pages/profile/Profile";
 import Map from './components/Map';
 import NewBranch from './pages/profile/NewBranch';
 import Bahaa from './components/Bahaa';
+import Questionnaires from './pages/questionnaires/Questionnaires';
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
         {/* layout */}
         <Route path='/dashboard' element = <Layout /> >
           <Route path='home' element = <Home/>  />
+          <Route path='questionnaires' element = <Questionnaires/>  />
         </Route>
       </Routes>
 

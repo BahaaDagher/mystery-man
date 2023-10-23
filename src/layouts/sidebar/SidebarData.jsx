@@ -24,7 +24,7 @@ const SidebarData = [
         title : "questionnaires" , 
         icon1 : questionnaires1 ,
         icon2 : questionnaires2 ,
-        link : "/questionnaires"
+        link : "/dashboard/questionnaires"
     },
     {
         title : "subscription" , 
