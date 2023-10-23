@@ -52,8 +52,8 @@ const SearchIcon = styled("img")(({ theme }) => ({
 
 const Map = ({setLocation , latPos  , lngPos , mapWidth , mapHeight , showSearch , handelAddressChanged}) => {
   // const center = useMemo(() => ({ lat: latPos, lng: lngPos}), []);
-  const [mPosition , setMPosition] = useState({ lat: 24.774265, lng: 46.738586 })
-  const [center , setCenter] = useState({ lat: 24.774265, lng: 46.738586 })
+  const [mPosition , setMPosition] = useState({ lat: latPos, lng: lngPos })
+  const [center , setCenter] = useState({ lat: latPos, lng: lngPos })
   const [zoom , setZoom] = useState(10)
 
   
