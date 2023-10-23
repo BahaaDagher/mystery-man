@@ -39,25 +39,25 @@ const Questionnaires = () => {
       <SmallContainer>
         <div style = {{color : Colors.gray_l , marginBottom : "20px"}}>Questionnaires</div>
         <FlexSpaceBetween>
-        {pressCreateQuestionnaire == false 
-          ? 
-        <CreateQuestionnaire>
-            <Box>
-              <FlexCenter>
-                <img src = {health}  alt = "icon" style = {{textAlign : "center"}}/>
-              </FlexCenter>
-              <SubmitButton style = {{padding : "20px"}} onClick = {()=>{setPressCreateQuestionnaire(true)}}>Create_New_Questionnaire</SubmitButton>
-            </Box>
-          </CreateQuestionnaire>
-          :
-          <QuestionnaireSettings>
-            
-          </QuestionnaireSettings>
-        }
-          <PreviousQuestionnaire>
-            <FlexCenter style = {{fontSize : "20px"}}>Saved_Questioners</FlexCenter>
-            <Divider/>
-          </PreviousQuestionnaire>
+          {pressCreateQuestionnaire == true 
+            ? 
+          <CreateQuestionnaire>
+              <Box>
+                <FlexCenter>
+                  <img src = {health}  alt = "icon" style = {{textAlign : "center"}}/>
+                </FlexCenter>
+                <SubmitButton style = {{padding : "20px"}} onClick = {()=>{setPressCreateQuestionnaire(true)}}>Create_New_Questionnaire</SubmitButton>
+              </Box>
+            </CreateQuestionnaire>
+            :
+            <QuestionnaireSettings>
+              
+            </QuestionnaireSettings>
+          }
+            <PreviousQuestionnaire>
+              <FlexCenter style = {{fontSize : "20px"}}>Saved_Questioners</FlexCenter>
+              <Divider/>
+            </PreviousQuestionnaire>
         </FlexSpaceBetween>
       </SmallContainer>
     </>
