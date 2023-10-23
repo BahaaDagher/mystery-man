@@ -10,6 +10,13 @@ import health from "../../assets/icons/health.svg"
 import { Box } from '@mui/material';
 import QuestionnaireSettings from './QuestionnaireSettings';
 
+const MainContent = styled(FlexSpaceBetween)(({ theme }) => ({
+  [theme.breakpoints.down('800')]: {
+    flexDirection : "column-reverse" ,
+    gap : "20px" ,
+  },
+}));
+
 const CreateQuestionnaire = styled("div")(({ theme }) => ({
   display : "flex" ,
   alignItems : "center" ,
@@ -23,6 +30,11 @@ const PreviousQuestionnaire = styled(Flex)(({ theme }) => ({
   borderRadius : "10px" ,
   backgroundColor : "#fff" , 
   padding : "10px 0 " ,
+  [theme.breakpoints.down('800')]: {
+    width : "96%" ,
+    height : "200px" , 
+    margin : "0 auto" ,
+  },
 }));
 const Divider = styled("div")(({ theme }) => ({
   width : "100%" ,
@@ -38,7 +50,7 @@ const Questionnaires = () => {
     <>
       <SmallContainer>
         <div style = {{color : Colors.gray_l , marginBottom : "20px"}}>Questionnaires</div>
-        <FlexSpaceBetween>
+        <MainContent>
           {pressCreateQuestionnaire == true 
             ? 
           <CreateQuestionnaire>
@@ -58,7 +70,7 @@ const Questionnaires = () => {
               <FlexCenter style = {{fontSize : "20px"}}>Saved_Questioners</FlexCenter>
               <Divider/>
             </PreviousQuestionnaire>
-        </FlexSpaceBetween>
+        </MainContent>
       </SmallContainer>
     </>
   )
