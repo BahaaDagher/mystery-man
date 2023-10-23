@@ -1,11 +1,22 @@
-import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
+import { GoogleMap, MarkerF, useLoadScript } from "@react-google-maps/api";
 import { useMemo, useState } from "react";
 import Autocomplete from 'react-google-autocomplete';
 import "./Map.css";
 import { CircularProgress } from "@mui/material";
 import search from "../assets/images/search.svg"
 import styled from "@emotion/styled";
-
+import {
+  setKey,
+  setDefaults,
+  setLanguage,
+  setRegion,
+  fromAddress,
+  fromLatLng,
+  fromPlaceId,
+  setLocationType,
+  geocode,
+  RequestType,
+} from "react-geocode";
 
 
 
@@ -39,39 +50,71 @@ const SearchIcon = styled("img")(({ theme }) => ({
 
 }));
 
-const Map = ({setLocation , latPos  , lngPos , mapWidth , mapHeight , showSearch}) => {
-    const { isLoaded } = useLoadScript({
-        googleMapsApiKey: "AIzaSyBBZLX5WuQeLU8CSkyCbvkXRQJZ8OsoIZs",
-      });
-      const center = useMemo(() => ({ lat: latPos, lng: lngPos}), []);
-      const [mPosition , setMPosition] = useState({ lat: 24.774265, lng: 46.738586 })
+const Map = ({setLocation , latPos  , lngPos , mapWidth , mapHeight , showSearch , handelAddressChanged}) => {
+  // const center = useMemo(() => ({ lat: latPos, lng: lngPos}), []);
+  const [mPosition , setMPosition] = useState({ lat: 24.774265, lng: 46.738586 })
+  const [center , setCenter] = useState({ lat: 24.774265, lng: 46.738586 })
+  const [zoom , setZoom] = useState(10)
 
-     function placeMarker(location) {
-        console.log(location)
-        setMPosition(location)
-        console.log("mPosition" , mPosition);
-        if (setLocation) setLocation(location) // it is props
-     }
+  
+  setDefaults({
+    key: "AIzaSyCtoOSkC_xpom94NO2vGj1S2TsNltZ5sSY", // Your API key here.
+    language: "en", // Default language for responses.
+   // Default region for responses.
+  });
 
+  const { isLoaded } = useLoadScript({
+        googleMapsApiKey: "AIzaSyCtoOSkC_xpom94NO2vGj1S2TsNltZ5sSY",
+        libraries: ['places']
+  });
+    
+  function placeMarker(loc) {
+    
+    setMPosition(loc)
+    console.log(loc);
+    fromLatLng(loc.lat ,loc.lng).then( (res) => {
+    console.log(res.results[0].formatted_address);
+    handelAddressChanged(res.results[0].formatted_address)
+    setZoom(prev => prev==18 ? prev : prev+2)
+  })
+    setCenter(loc)
+    if (setLocation) setLocation(loc) // it is props
+  }
+
+
+      
       return (
         <div className="App"  style = {{width : mapWidth ,  height : mapHeight}}>
           {!isLoaded ? (
             <CircularProgress style={{position : "fixed" , top : "50%" , left : "50%" , transform: "translate(-50%, -50%)" }}/>
           ) : (
             <GoogleMap
+            
               mapContainerClassName="map-container"
               center={center}
-              zoom={10}
+              zoom={zoom}
               onClick={(event)=>{ placeMarker(event.latLng.toJSON());}}
             >
               <Autocompletee
+                 
                   style={{
                       display : showSearch == false ?  "none" : "block"
                   }}
                   // onPlaceSelected={ this.onPlaceSelected }
 
-                  apiKey='AIzaSyDvVrbtZ5M5hTQETxinUhPiW-OgEt30L7Y'
-                  onPlaceSelected={(place) => console.log(place)}
+
+                  apiKey='AIzaSyBBZLX5WuQeLU8CSkyCbvkXRQJZ8OsoIZs'
+                  onPlaceSelected={(place) => 
+                   {
+                    setZoom(10)
+                    placeMarker(place.geometry.location.toJSON());
+                    
+                   } 
+                  
+                  
+                  }
+
+
                   placeholder="search"
               >
               </Autocompletee>
@@ -82,7 +125,7 @@ const Map = ({setLocation , latPos  , lngPos , mapWidth , mapHeight , showSearch
                   style={{
                     display : showSearch == false ?  "none" : "block"
                   }}/>
-              <Marker position={mPosition} />
+              <MarkerF draggable position={mPosition} onDrag={(event)=>placeMarker(event.latLng.toJSON())} />
             </GoogleMap>
           )}
         </div>

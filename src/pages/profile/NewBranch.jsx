@@ -77,7 +77,7 @@ const NewBranch = () => {
   const theme = useTheme() ; 
   return (
   <>
-    <Map setLocation = {setLocation}  latPos=  {24.774265}  lngPos =  {46.738586} />
+    <Map setLocation = {setLocation}  latPos=  {24.774265}  lngPos =  {46.738586} handelAddressChanged={setBranchAddress} />
     <EnterData>
       <Input placeholder= "Branch Name" value = {branchName} onChange={(e)=>{setBranchName(e.target.value)}}/>
       <Input placeholder= "Branch Address" value = {branchAddress}  onChange={(e)=>{setBranchAddress(e.target.value)}}/>
