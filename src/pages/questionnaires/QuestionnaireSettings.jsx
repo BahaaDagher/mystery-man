@@ -14,6 +14,7 @@ import RatingQuestion from './questions/RatingQuestion';
 import OpenQuestion from './questions/OpenQuestion';
 import UploadImages from './questions/UploadImages';
 import HeadLine from './questions/HeadLine';
+import QuestionComponent from './QuestionComponent';
 
 const Parent = styled(Box)(({ theme }) => ({
   width : "100%" ,
@@ -127,13 +128,11 @@ const ActionButton = styled(FlexCenter)(({ theme }) => ({
   },
 }));
 const AddStepButton = styled(FlexCenter)(({ theme }) => ({
-  width: '50px',
-  height: '42px',
-  padding: '30px',
+  padding: '5px 20px',
   borderRadius: '10px',
   gap: '10px',
   backgroundColor: Colors.bg,
-  margin : "10px 0" , 
+  margin : "10px 10px" , 
   fontSize : "20px" ,
   color : Colors.gray_l ,
   cursor : "pointer" ,
@@ -146,7 +145,34 @@ const QuestionView = styled("div")(({ theme }) => ({
   
 }));
 
+const AddButton = styled("div")(({ theme }) => ({
+  backgroundColor : Colors.main ,
+  display : "inline" ,
+  padding : "5px 10px" ,
+  borderRadius : "10px" ,
+  color : "#fff" ,
+  cursor : "pointer" ,
+  marginRight : theme.direction == "ltr" ? "10px" : "0" ,
+  marginLeft : theme.direction == "rtl" ? "10px" : "0" ,
+  transition : "all .3s ease-in-out" ,
+  "&:hover" : {
+    backgroundColor : Colors.hoverMain ,
+  },
+  textAlign : "center" ,
+  width : "50px" , 
+}));
 
+const AnswerInput = styled("input")(({ theme }) => ({
+  backgroundColor : "transparent" ,
+  width : "80%" ,
+  border: "1px solid transparent" , 
+  borderBottom: `1px solid ${Colors.input}` , 
+  outline : "none" ,
+  "::placeholder": {
+    color: Colors.gray_l
+  },
+  margin : "0 10px" ,
+}));
 
 const QuestionnaireSettings = () => {
   // pop over when click on the button the list of questions type will appear
@@ -156,10 +182,57 @@ const QuestionnaireSettings = () => {
   };
   const [chosenType , setChosenType] = useState(null) ; 
   const [questionsArray , setQuestionsArray] = useState([ ]) ;
+  const [newAnswer, setNewAnswer] = useState('');
+  useEffect(()=>{
+    console.log(chosenType);
+    if( answersStep[currentStep]){
+      const newStepQuestion=[...answersStep]
+      newStepQuestion[currentStep].questions.push({
+        type:chosenType
+      })
+      setAnswersStep(newStepQuestion)
+    }
+
+  },[chosenType])
+  const [answersStep, setAnswersStep] = useState([
+
+    
+  ]); 
+  const [showNewStep, setShowNewStep] = useState(false); 
+  const [currentStep, setCurrentStep] = useState(0); 
+  const handleAddAnswerStep = () => {
+    if (newAnswer.trim() !== '') {
+      console.log(newAnswer);
+      setAnswersStep([...answersStep, 
+           {
+            name:newAnswer,
+            questions:[
+            
+            ]
+          }
+    ]);
+      
+      setNewAnswer('');
+      setShowNewStep(false)
+    }
+  };
+  const handleAddStep = () => {
+    setShowNewStep(true)
+
+  };
+  const handleClickStep = (index,questions) => {
+    setCurrentStep(index)
+    setQuestionsArray(questions)
+
+
+  };
+ 
+
+
 
   return (
     <>
-    <QuestionsTypes setAnchorEl= {setAnchorEl} anchorEl={anchorEl} setChosenType = {setChosenType}/>
+    <QuestionsTypes  setAnchorEl= {setAnchorEl} anchorEl={anchorEl} setChosenType = {setChosenType}/>
 
     <Parent width = "100%">
         <Settings>
@@ -176,15 +249,36 @@ const QuestionnaireSettings = () => {
               <ActionButton className = "cancel">Cancel</ActionButton>
             </ButtonsContainer>
           </InputAndButtons>
-          <AddStepButton>+</AddStepButton>
+          <FlexCenter style={{justifyContent:'start'}}>
+            {answersStep.map((answer ,index)=>
+
+               <AddStepButton onClick={()=>handleClickStep(index,answer.questions)} style={{color:'white' ,background:`${Colors.gray_l}`}}>{answer.name}</AddStepButton>
+            )}
+         
+          <AddStepButton onClick={handleAddStep}>+</AddStepButton>
+
+
+          </FlexCenter>
+          {showNewStep ?  
+          
+          <FlexCenter style={{justifyContent:'start' ,flexWrap:'wrap'}}>
+            {/* <AnswerInput></AnswerInput> */}
+            <AddButton onClick={handleAddAnswerStep}>Save </AddButton>
+              <AnswerInput
+                type="text"
+                placeholder="Write a new step"
+                value={newAnswer}
+                onChange={(e) => setNewAnswer(e.target.value)}
+              />
+
+          </FlexCenter>
+          : ''}
+         
         </Settings>
+
+
         <QuestionView>
-          <Choices/>
-          <YesOrNo/>
-          <RatingQuestion/>
-          <OpenQuestion/>
-          <UploadImages/>
-          <HeadLine/>
+              <QuestionComponent questions ={questionsArray}></QuestionComponent>
         </QuestionView>
     </Parent>
     </>

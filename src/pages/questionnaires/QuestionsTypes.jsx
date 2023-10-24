@@ -50,7 +50,7 @@ const QuestionsTypes = ({anchorEl , setAnchorEl , setChosenType }) => {
   };
   const wantedType = (index) => {
     setChosenType(TypesArray[index].name)
-        console.log(TypesArray[index].name)
+ 
   };
 
   const TypesArray = [
