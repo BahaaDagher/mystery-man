@@ -67,7 +67,7 @@ const Map = ({setLocation , latPos  , lngPos , mapWidth , mapHeight , showSearch
         googleMapsApiKey: "AIzaSyCtoOSkC_xpom94NO2vGj1S2TsNltZ5sSY",
         libraries: ['places']
   });
-    
+  
   function placeMarker(loc) {
     
     setMPosition(loc)

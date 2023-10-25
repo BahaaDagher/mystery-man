@@ -7,8 +7,6 @@ const DeleteImg = styled("img")(({ theme }) => ({
     top : "10px" ,
     right :theme.direction =="ltr"?  "10px" : "auto" , 
     left :theme.direction =="rtl"?  "10px" : "auto" , 
-
-
 }));
 const DeleteIcon = () => {
   return (

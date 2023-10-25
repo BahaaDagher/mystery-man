@@ -14,6 +14,7 @@ import Map from './components/Map';
 import NewBranch from './pages/profile/NewBranch';
 import Bahaa from './components/Bahaa';
 import Questionnaires from './pages/questionnaires/Questionnaires';
+import Missions from './pages/missions/Missions';
 
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
         <Route path='/dashboard' element = <Layout /> >
           <Route path='home' element = <Home/>  />
           <Route path='questionnaires' element = <Questionnaires/>  />
+          <Route path='missions' element = <Missions/>  />
         </Route>
       </Routes>
 

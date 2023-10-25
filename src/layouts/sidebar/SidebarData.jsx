@@ -18,7 +18,7 @@ const SidebarData = [
         title : "missions" , 
         icon1 : mission1 ,
         icon2 : mission2 ,
-        link : "/missions"
+        link : "/dashboard/missions"
     },
     {
         title : "questionnaires" , 
