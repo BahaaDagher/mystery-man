@@ -19,6 +19,12 @@ const Parent = styled("div")(({ theme }) => ({
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
+    [theme.breakpoints.down('800')]: {
+        width : "100%" ,
+        flexDirection : "row" ,
+        gap : "20px" ,
+        overflow : "auto" ,
+    },
 }));
 
 const Button = styled("div")(({ theme }) => ({
@@ -34,13 +40,16 @@ const Button = styled("div")(({ theme }) => ({
         backgroundColor: Colors.main , 
         color  : "#fff" ,
     },
+    padding : "10px" , 
+    [theme.breakpoints.down('800')]: {
+        flex: "0 0 282px"
+    },
 }));
 
 const MissionName = styled("div")(({ theme }) => ({
-    top: '15px',
-    left: '15px',
     position: 'relative' , 
     fontSize : "24px" ,
+    
 }));
 
 const ImgContainer = styled("div")(({ theme }) => ({
@@ -125,4 +134,7 @@ const MissionsButtons = ({setSelectMission}) => {
 }
 
 export default MissionsButtons
+
+
+
 
