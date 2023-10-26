@@ -180,9 +180,11 @@ const QuestionnaireSettings = () => {
   const showTypes = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const [chosenType , setChosenType] = useState(null) ; 
   const [questionsArray , setQuestionsArray] = useState([ ]) ;
   const [newAnswer, setNewAnswer] = useState('');
+
   useEffect(()=>{
     console.log(chosenType);
     if( answersStep[currentStep]){
@@ -194,12 +196,10 @@ const QuestionnaireSettings = () => {
     }
 
   },[chosenType])
-  const [answersStep, setAnswersStep] = useState([
-
-    
-  ]); 
+  const [answersStep, setAnswersStep] = useState([]); 
   const [showNewStep, setShowNewStep] = useState(false); 
   const [currentStep, setCurrentStep] = useState(0); 
+
   const handleAddAnswerStep = () => {
     if (newAnswer.trim() !== '') {
       console.log(newAnswer);
@@ -207,28 +207,20 @@ const QuestionnaireSettings = () => {
            {
             name:newAnswer,
             questions:[
-            
             ]
           }
     ]);
-      
       setNewAnswer('');
       setShowNewStep(false)
     }
   };
   const handleAddStep = () => {
     setShowNewStep(true)
-
   };
   const handleClickStep = (index,questions) => {
     setCurrentStep(index)
     setQuestionsArray(questions)
-
-
   };
- 
-
-
 
   return (
     <>
@@ -251,13 +243,11 @@ const QuestionnaireSettings = () => {
           </InputAndButtons>
           <FlexCenter style={{justifyContent:'start'}}>
             {answersStep.map((answer ,index)=>
-
-               <AddStepButton onClick={()=>handleClickStep(index,answer.questions)} style={{color:'white' ,background:`${Colors.gray_l}`}}>{answer.name}</AddStepButton>
+               <AddStepButton onClick={()=>handleClickStep(index,answer.questions)} style={{color:'white' ,background:`${Colors.gray_l}`}}>
+                {answer.name}
+               </AddStepButton>
             )}
-         
-          <AddStepButton onClick={handleAddStep}>+</AddStepButton>
-
-
+            <AddStepButton onClick={handleAddStep}>+</AddStepButton>
           </FlexCenter>
           {showNewStep ?  
           
@@ -270,13 +260,9 @@ const QuestionnaireSettings = () => {
                 value={newAnswer}
                 onChange={(e) => setNewAnswer(e.target.value)}
               />
-
           </FlexCenter>
           : ''}
-         
         </Settings>
-
-
         <QuestionView>
               <QuestionComponent questions ={questionsArray}></QuestionComponent>
         </QuestionView>
