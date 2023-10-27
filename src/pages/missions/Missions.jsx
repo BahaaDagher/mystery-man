@@ -38,7 +38,6 @@ const NewMissionButton = styled(FlexCenter)(({ theme }) => ({
   color: "#fff",
   fontSize : "20px" , 
   cursor : "pointer" ,
-
 }));
 
 const Missions = () => {
@@ -47,13 +46,16 @@ const Missions = () => {
   useEffect(() => {
     console.log(selectMission)
   }, [selectMission])
+  const newMissionPage = () => {
+      window.location.href = "/dashboard/newMission"
+  }
   return (
     <>
     <SmallContainer>
     <MainContent>
       <DetailsPart>
         <NewMissionDiv>
-          <NewMissionButton> New Mission </NewMissionButton>
+          <NewMissionButton onClick={newMissionPage}> New Mission </NewMissionButton>
         </NewMissionDiv>
         <ViewMissions />
       </DetailsPart>
