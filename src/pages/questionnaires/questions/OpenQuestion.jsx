@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import RequiredOptional from './RequiredOptional'
 import QuestionInput from './QuestionInput'
 import styled from '@emotion/styled';
 import { FlexCenter } from '../../../components/FlexCenter';
 import DeleteIcon from './DeleteIcon';
 import { Colors } from '../../../Theme';
+import { useDispatch, useSelector } from 'react-redux';
+import { setQuestionDetails } from '../../../store/slices/questionierSlice';
 
 
 const Parent = styled("div")(({ theme }) => ({
@@ -31,14 +33,32 @@ const HintContainer = styled("input")(({ theme }) => ({
 }));
 
 
-const OpenQuestion = () => {
-  const [radio,  setRadio] = useState('required');
-  const [question, setQuestion] = useState('');
+const OpenQuestion = ({questionData,index}) => {
+  const [radio,  setRadio] = useState(questionData.required);
+  const [question, setQuestion] = useState(questionData.title);
+  const isReadyToSend = useSelector((state) => state.questioneirData.isReadyToSend);
+  const dispatch = useDispatch() ; 
+  useEffect(()=>{
+    const data ={
+      type:questionData.type,
+     
+      title:question,
+    }
+    dispatch(setQuestionDetails({index:index ,data:data}))
+  },[question])
+  useEffect(()=>{
+    const data ={
+      type:questionData.type,
+      required:radio,
+
+    }
+    dispatch(setQuestionDetails({index:index ,data:data}))
+  },[radio])
   return (
     <Parent>
-      <DeleteIcon />
-      <RequiredOptional radio={radio} setRadio= {setRadio} />
-      <QuestionInput question= {question} setQuestion= {setQuestion}/>
+      <DeleteIcon index={index} />
+      <RequiredOptional radio={questionData} setRadio= {setRadio} />
+      <QuestionInput question= {questionData} setQuestion= {setQuestion}/>
         <HintContainer value = "hint"/>
     </Parent>
   )

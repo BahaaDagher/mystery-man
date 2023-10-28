@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import RequiredOptional from './RequiredOptional'
 import QuestionInput from './QuestionInput'
 import styled from '@emotion/styled';
 import { FlexCenter } from '../../../components/FlexCenter';
 import DeleteIcon from './DeleteIcon';
 import { Colors } from '../../../Theme';
+import { useDispatch, useSelector } from 'react-redux';
+import { setQuestionDetails } from '../../../store/slices/questionierSlice';
 
 
 const Parent = styled("div")(({ theme }) => ({
@@ -41,10 +43,28 @@ const LabelFile = styled("label")(({ theme }) => ({
 
 
 
-const UploadImages = () => {
-  const [radio,  setRadio] = useState('required');
-  const [question, setQuestion] = useState('');
+const UploadImages = ({questionData,index}) => {
+  const [radio,  setRadio] = useState(questionData.required);
+  const [question, setQuestion] = useState(questionData.title);
   const [photo, setPhoto] = useState(null);
+  const isReadyToSend = useSelector((state) => state.questioneirData.isReadyToSend);
+  const dispatch = useDispatch() ; 
+  useEffect(()=>{
+    const data ={
+      type:questionData.type,
+     
+      title:question,
+    }
+    dispatch(setQuestionDetails({index:index ,data:data}))
+  },[question])
+  useEffect(()=>{
+    const data ={
+      type:questionData.type,
+      required:radio,
+
+    }
+    dispatch(setQuestionDetails({index:index ,data:data}))
+  },[radio])
 
   const handlePhotoChange = (event) => {
     const file = event.target.files[0];
@@ -56,8 +76,8 @@ const UploadImages = () => {
   return (
     <Parent>
       <DeleteIcon />
-      <RequiredOptional radio={radio} setRadio= {setRadio} />
-      <QuestionInput question= {question} setQuestion= {setQuestion}/>
+      <RequiredOptional radio={questionData} setRadio= {setRadio} />
+      <QuestionInput question= {questionData} setQuestion= {setQuestion}/>
       <input
         id = "uploadFile"
         type="file"

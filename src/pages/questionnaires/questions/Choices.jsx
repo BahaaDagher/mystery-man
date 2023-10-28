@@ -5,6 +5,8 @@ import RequiredOptional from './RequiredOptional';
 import QuestionInput from './QuestionInput';
 import grayDelete from '../../../assets/icons/grayDelete.svg'
 import DeleteIcon from './DeleteIcon';
+import { useDispatch, useSelector } from 'react-redux';
+import { handleDeleteQuestion, setQuestionDetails } from '../../../store/slices/questionierSlice';
 
 
 const Parent = styled("div")(({ theme }) => ({
@@ -71,33 +73,61 @@ const Answer = styled("div")(({ theme }) => ({
   },
 }));
 
-const Choices = () => {
-  const [radio,  setRadio] = useState('required');
-  const [question, setQuestion] = useState('');
+const Choices = ({questionData,index}) => {
+  const [radio,  setRadio] = useState(questionData.required);
+  const [question, setQuestion] = useState(questionData.title);
   const [answers, setAnswers] = useState([]); 
   const [newAnswer, setNewAnswer] = useState('');
-
+  const questionieres = useSelector((state) => state.questioneirData.questionieres);
+  const currentQuestioneir = useSelector((state) => state.questioneirData.currentQuestioneir);
+  const currentStep = useSelector((state) => state.questioneirData.currentStep);
+  const dispatch = useDispatch() ; 
+  useEffect(()=>{
+    const data ={
+      type:questionData.type,
+      title:question,
+     
+    }
+    dispatch(setQuestionDetails({index:index ,data:data}))
+  },[question])
+  useEffect(()=>{
+    const data ={
+      type:questionData.type,
+      required:radio,
+     
+    }
+    dispatch(setQuestionDetails({index:index ,data:data}))
+  },[radio])
+  useEffect(()=>{
+    const data ={
+      type:questionData.type,
+      options:answers
+    }
+    dispatch(setQuestionDetails({index:index ,data:data}))
+  },[answers])
 
   const handleAddAnswer = () => {
     if (newAnswer.trim() !== '') {
       console.log(newAnswer);
-      setAnswers([...answers, newAnswer]);
+      const currentAns =questionData.options
+      setAnswers([...currentAns, newAnswer]);
       setNewAnswer('');
     }
   };
   const handleDeleteAnswer = (index) => {
-    const updatedAnswers = [...answers];
+    const updatedAnswers = [...questionData.options];
     updatedAnswers.splice(index, 1);
     setAnswers(updatedAnswers);
   };
+
   return (
     <>
       <Parent>
-        <DeleteIcon />
-        <RequiredOptional radio={radio} setRadio= {setRadio} />
-        <QuestionInput question= {question} setQuestion= {setQuestion}/>
+        <DeleteIcon index={index} />
+        <RequiredOptional radio={questionData} setRadio= {setRadio} />
+        <QuestionInput question= {questionData} setQuestion= {setQuestion}/>
           <div>
-            {answers.map((answer, index) => (
+            {questionData.options.map((answer, index) => (
               <div key={index}>
                 <AnswerContainer>
                   <img src = {grayDelete} onClick={() => handleDeleteAnswer(index)} style = {{cursor : "pointer"}}/>

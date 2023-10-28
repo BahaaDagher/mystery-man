@@ -7,14 +7,9 @@ import { FlexSpaceBetween } from '../../components/FlexSpaceBetween';
 import { Flex } from '../../components/Flex';
 import { FlexCenter } from '../../components/FlexCenter';
 import QuestionsTypes from './QuestionsTypes';
-import MultiChoice from './questions/MultiChoice';
-import Choices from './questions/Choices';
-import YesOrNo from './questions/YesOrNo';
-import RatingQuestion from './questions/RatingQuestion';
-import OpenQuestion from './questions/OpenQuestion';
-import UploadImages from './questions/UploadImages';
-import HeadLine from './questions/HeadLine';
 import QuestionComponent from './QuestionComponent';
+import { useDispatch, useSelector } from 'react-redux';
+import { handleReadyToSend, handleReadyToSend2, sendQuestioneir, setCurrentQuestioneir, setCurrentStep, setNewQuestioneirName, setNewStep } from '../../store/slices/questionierSlice';
 
 const Parent = styled(Box)(({ theme }) => ({
   width : "100%" ,
@@ -176,52 +171,61 @@ const AnswerInput = styled("input")(({ theme }) => ({
 
 const QuestionnaireSettings = () => {
   // pop over when click on the button the list of questions type will appear
+  const questionieres = useSelector((state) => state.questioneirData.questionieres);
+  const currentQuestioneir = useSelector((state) => state.questioneirData.currentQuestioneir);
+  const currentStep = useSelector((state) => state.questioneirData.currentStep);
+  const isReadyToSend = useSelector((state) => state.questioneirData.isReadyToSend);
   const [anchorEl, setAnchorEl] = useState(null);
+
+  const [answersStep, setAnswersStep] = useState([]); 
+  const [showNewStep, setShowNewStep] = useState(false); 
+
   const showTypes = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
+
   const [chosenType , setChosenType] = useState(null) ; 
-  const [questionsArray , setQuestionsArray] = useState([ ]) ;
   const [newAnswer, setNewAnswer] = useState('');
 
-  useEffect(()=>{
-    console.log(chosenType);
-    if( answersStep[currentStep]){
-      const newStepQuestion=[...answersStep]
-      newStepQuestion[currentStep].questions.push({
-        type:chosenType
-      })
-      setAnswersStep(newStepQuestion)
-    }
+  const dispatch = useDispatch() ; 
 
-  },[chosenType])
-  const [answersStep, setAnswersStep] = useState([]); 
-  const [showNewStep, setShowNewStep] = useState(false); 
-  const [currentStep, setCurrentStep] = useState(0); 
-
+  const showTypes = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+ 
   const handleAddAnswerStep = () => {
     if (newAnswer.trim() !== '') {
-      console.log(newAnswer);
-      setAnswersStep([...answersStep, 
-           {
-            name:newAnswer,
-            questions:[
-            ]
-          }
-    ]);
+      dispatch(setNewStep(newAnswer))
+
       setNewAnswer('');
       setShowNewStep(false)
     }
   };
+  const handleQuestioneirTitle = (value) => {
+    dispatch(setNewQuestioneirName(value))
+  };
+
   const handleAddStep = () => {
     setShowNewStep(true)
   };
+
+
   const handleClickStep = (index,questions) => {
-    setCurrentStep(index)
-    setQuestionsArray(questions)
+    dispatch(setCurrentStep(index))
+    console.log(questionieres[currentQuestioneir].steps);
+ 
   };
 
+  const handleSaveQuestioneir = () => {
+    console.log(questionieres[currentQuestioneir]);
+    dispatch(sendQuestioneir([questionieres[currentQuestioneir]]))
+  };
+  const sendToApi = () => {
+    console.log(questionieres[currentQuestioneir]);
+    dispatch(sendQuestioneir([questionieres[currentQuestioneir]]))
+  };
+ 
   return (
     <>
     <QuestionsTypes  setAnchorEl= {setAnchorEl} anchorEl={anchorEl} setChosenType = {setChosenType}/>
@@ -230,24 +234,32 @@ const QuestionnaireSettings = () => {
         <Settings>
           <InputAndButtons>
             <InputContainer>
-              <Input placeholder= "Title"/>
+              <Input 
+              value={questionieres[currentQuestioneir].name} 
+              placeholder= "Title"
+              onChange={(e) => handleQuestioneirTitle(e.target.value)}
+              />
             </InputContainer>
             <ButtonsContainer>
               <AddQuestionContainer onClick = {showTypes}>
                 <img src = {plusSign} style = {{margin : "10px" }} />
                 <AddQuestionButton > Add_Question</AddQuestionButton>
               </AddQuestionContainer>
-              <ActionButton>Save</ActionButton>
-              <ActionButton className = "cancel">Cancel</ActionButton>
+              <ActionButton onClick={()=>handleSaveQuestioneir()} > Save</ActionButton>
+              <ActionButton onClick={()=>sendToApi()} className = "cancel">Cancel</ActionButton>
             </ButtonsContainer>
           </InputAndButtons>
           <FlexCenter style={{justifyContent:'start'}}>
-            {answersStep.map((answer ,index)=>
-               <AddStepButton onClick={()=>handleClickStep(index,answer.questions)} style={{color:'white' ,background:`${Colors.gray_l}`}}>
-                {answer.name}
-               </AddStepButton>
-            )}
-            <AddStepButton onClick={handleAddStep}>+</AddStepButton>
+
+            {questionieres[currentQuestioneir] ? questionieres[currentQuestioneir].steps.map((answer ,index)=>
+
+               <AddStepButton onClick={()=>handleClickStep(index,answer.questions)} style={{color:'white' ,background:`${Colors.gray_l}`}}>{answer.name}</AddStepButton>
+            ): ''}
+         
+          <AddStepButton onClick={handleAddStep}>+</AddStepButton>
+
+
+
           </FlexCenter>
           {showNewStep ?  
           
@@ -264,7 +276,13 @@ const QuestionnaireSettings = () => {
           : ''}
         </Settings>
         <QuestionView>
-              <QuestionComponent questions ={questionsArray}></QuestionComponent>
+          {
+            questionieres[currentQuestioneir].steps.length>0 ?
+            
+            <QuestionComponent questions ={questionieres[currentQuestioneir].steps[currentStep].questions}></QuestionComponent>
+            :''
+
+          }
         </QuestionView>
     </Parent>
     </>
