@@ -16,12 +16,33 @@ export const sendQuestioneir = createAsyncThunk(
         console.error(error);
       }
   });
+  export const getQuestionnaire = createAsyncThunk(
+    "questionnaire/getQuestionnaire   ", 
+    async (values) => {
+        try {
+        const response = await axios.get(
+            `https://mystery.cloudy.mohamedmansi.com/api/getQuestion` ,{
+                headers: {
+                    "Authorization" : "Bearer 64|gEqIzAnQDN6oe8YVOYwWqoYjATsHdzFIAdUGHx5Wd8f490fd" , 
+                    "lang" : "en"
+                },
+            }
+        );
+        return response.data ;
+        } catch (error) {
+        console.error(error);
+        }
+    }
+    );
 
 const questionierSlice = createSlice({
     name: "questionier",
     initialState: {
+        getQuestionnaireData : {} ,
+        getQuestionnaireLoading : false , 
         questionieres:[],
         currentQuestioneir:-1,
+        CurrentQuestioneirID : -1 ,  
         currentStep:0,
         isReadyToSend:false,
         questionierDataSent:{}
@@ -32,6 +53,9 @@ const questionierSlice = createSlice({
         },
         setCurrentStep: (state, action) => {
             state.currentStep = action.payload
+        },
+        setCurrentQuestioneirID: (state, action) => {
+          state.CurrentQuestioneirID += action.payload
         },
         setCurrentQuestioneir: (state, action) => {
             state.currentQuestioneir += action.payload
@@ -72,7 +96,19 @@ const questionierSlice = createSlice({
 
       extraReducers: (builder) => {
         builder
-         
+        .addCase(getQuestionnaire.fulfilled , (state, action) => {
+          state.getQuestionnaireData = action.payload;
+          if (state.getQuestionnaireData.status) state.questionieres = state.getQuestionnaireData.data.questions
+
+          state.getQuestionnaireLoading = false;
+        }) 
+        .addCase(getQuestionnaire.pending, (state, action) => {
+            state.getQuestionnaireLoading = true;
+        }) 
+        .addCase(getQuestionnaire.rejected , (state, action) => {
+            state.getQuestionnaireLoading = false;
+        })
+
           .addCase(sendQuestioneir.fulfilled, (state, action) => {
             state.questionierDataSent = action.payload;
            
@@ -90,6 +126,7 @@ const questionierSlice = createSlice({
     handleReadyToSend,
     setQuestionDetails,
     setNewQuestioneirName,
-    handleDeleteQuestion
+    handleDeleteQuestion , 
+    setCurrentQuestioneirID
 } = questionierSlice.actions;
   export default questionierSlice.reducer;

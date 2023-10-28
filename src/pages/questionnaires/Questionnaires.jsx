@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Colors } from '../../Theme'
 import { Flex } from '../../components/Flex'
 import {FlexCenter} from "../../components/FlexCenter"
@@ -9,8 +9,9 @@ import { SubmitButton } from '../../components/SubmitButton';
 import health from "../../assets/icons/health.svg"
 import { Box } from '@mui/material';
 import QuestionnaireSettings from './QuestionnaireSettings';
-import { useDispatch } from 'react-redux';
-import { setCurrentQuestioneir, setNewQuestioneir } from '../../store/slices/questionierSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { getQuestionnaire, setCurrentQuestioneir, setNewQuestioneir } from '../../store/slices/questionierSlice';
+import { use } from 'i18next';
 
 const MainContent = styled(FlexSpaceBetween)(({ theme }) => ({
   [theme.breakpoints.down('800')]: {
@@ -25,19 +26,54 @@ const CreateQuestionnaire = styled("div")(({ theme }) => ({
   justifyContent : "center" ,
   width : '100%'
 }));
-const PreviousQuestionnaire = styled(Flex)(({ theme }) => ({
+const PreviousQuestionnaires = styled(Flex)(({ theme }) => ({
   flexDirection : "column" , 
   width : "425px" , 
-  height : "500px" , 
+  maxHeight : "500px" ,
+  overflowY : "auto" , 
   borderRadius : "10px" ,
   backgroundColor : "#fff" , 
-  padding : "10px 0 " ,
   [theme.breakpoints.down('800')]: {
     width : "96%" ,
     height : "200px" , 
     margin : "0 auto" ,
   },
+  overflowX : "hidden" ,
+
 }));
+const PreviousQuestionnaire = styled(FlexSpaceBetween)(({ theme }) => ({
+  borderRadius : "10px" ,
+  padding : "10px" ,
+  width : "96%" ,
+  alignItems : "center" ,
+  marginBottom : "10px" ,
+  backgroundColor : Colors.bg  ,
+  margin : "5px auto" ,
+  
+}));
+const QuestionnaireName = styled("div")(({ theme }) => ({
+  fontSize : "20px" ,
+}));
+const QuestionnaireLengthDiv = styled(FlexSpaceBetween)(({ theme }) => ({
+  backgroundColor : Colors.lightMain ,
+  width : "75px" , 
+  height : "40px" ,
+  borderRadius : "10px" ,
+  padding: "0 10px" ,
+  alignItems : "center" , 
+}));
+
+const SpanQ = styled("span")(({ theme }) => ({
+  fontSize : "32px" , 
+  color : Colors.main
+
+}));
+
+const SpanNum = styled("span")(({ theme }) => ({
+  fontSize : "20px"
+}));
+
+
 const Divider = styled("div")(({ theme }) => ({
   width : "100%" ,
   height : "1px" ,
@@ -46,15 +82,30 @@ const Divider = styled("div")(({ theme }) => ({
 }));
 
 
+
 const Questionnaires = () => {
   const [pressCreateQuestionnaire , setPressCreateQuestionnaire] = useState(true)
 
   const dispatch = useDispatch() ; 
+
   const handleAddNewQuestionnaire =()=>{
     dispatch(setNewQuestioneir())
     dispatch(setCurrentQuestioneir(1))
     setPressCreateQuestionnaire(false)
   }
+  const questionieres = useSelector((state) => state.questioneirData.questionieres);
+  useEffect(() => {
+    dispatch(getQuestionnaire())
+  }, [])
+
+
+const numberOFQuestioners = (item)=>{ 
+  let count = 0 ;
+  item.steps.map((step)=>{
+    count += step.questions.length
+  })
+  return count
+}
 
   return (
     <>
@@ -63,24 +114,61 @@ const Questionnaires = () => {
         <MainContent>
           {pressCreateQuestionnaire == true 
             ? 
-            <CreateQuestionnaire>
+            <div>
           
-          </CreateQuestionnaire>
+            </div>
             :
             <QuestionnaireSettings>
               
             </QuestionnaireSettings>
           }
-            <PreviousQuestionnaire>
+            <PreviousQuestionnaires>
+              <CreateQuestionnaire>
+                <Box>
+                  <SubmitButton style = {{padding : "20px", width : "95%" , margin : "10px  auto"}} onClick = {()=>{handleAddNewQuestionnaire()}}>Create_New_Questionnaire</SubmitButton>
+                </Box>
+              </CreateQuestionnaire>
+              <Divider/>
               <FlexCenter style = {{fontSize : "20px"}}>Saved_Questioners</FlexCenter>
               <Divider/>
-              <CreateQuestionnaire>
-              <Box>
-         
-                <SubmitButton style = {{padding : "20px"}} onClick = {()=>{handleAddNewQuestionnaire()}}>Create_New_Questionnaire</SubmitButton>
-              </Box>
-            </CreateQuestionnaire>
-            </PreviousQuestionnaire>
+              {
+                questionieres.map((item , index)=>{
+                return (
+                  <>
+                    <PreviousQuestionnaire>
+                      <QuestionnaireName>{item.title}</QuestionnaireName>
+                      <QuestionnaireLengthDiv>
+                        <SpanQ>Q</SpanQ>
+                        <SpanNum>
+                          {numberOFQuestioners(item)}
+                        </SpanNum>
+                      </QuestionnaireLengthDiv>
+                    </PreviousQuestionnaire>
+                    <PreviousQuestionnaire>
+                      <QuestionnaireName>{item.title}</QuestionnaireName>
+                      <QuestionnaireLengthDiv>
+                        <SpanQ>Q</SpanQ>
+                        <SpanNum>
+                          {numberOFQuestioners(item)}
+                        </SpanNum>
+                      </QuestionnaireLengthDiv>
+                    </PreviousQuestionnaire>
+                    <PreviousQuestionnaire>
+                      <QuestionnaireName>{item.title}</QuestionnaireName>
+                      <QuestionnaireLengthDiv>
+                        <SpanQ>Q</SpanQ>
+                        <SpanNum>
+                          {numberOFQuestioners(item)}
+                        </SpanNum>
+                      </QuestionnaireLengthDiv>
+                    </PreviousQuestionnaire>
+                  </>
+                  
+                
+                )
+              })}
+              
+            </PreviousQuestionnaires>
         </MainContent>
       </SmallContainer>
     </>

@@ -190,9 +190,7 @@ const QuestionnaireSettings = () => {
 
   const dispatch = useDispatch() ; 
 
-  const showTypes = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+
  
   const handleAddAnswerStep = () => {
     if (newAnswer.trim() !== '') {
@@ -230,7 +228,7 @@ const QuestionnaireSettings = () => {
     <>
     <QuestionsTypes  setAnchorEl= {setAnchorEl} anchorEl={anchorEl} setChosenType = {setChosenType}/>
 
-    <Parent width = "100%">
+    <Parent>
         <Settings>
           <InputAndButtons>
             <InputContainer>

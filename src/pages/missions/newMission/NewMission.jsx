@@ -7,18 +7,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getBranches } from '../../../store/slices/branchSlice';
 import { MenuItem, Select } from '@mui/material';
 import { use } from 'i18next';
-import { Note } from '@mui/icons-material';
 import { FlexCenter } from '../../../components/FlexCenter';
 import { FlexSpaceBetween } from '../../../components/FlexSpaceBetween';
 import FinishedData from './FinishedData';
+import { getQuestionnaire, setCurrentQuestioneirID } from '../../../store/slices/questionierSlice';
 
 
 const Parent = styled(SmallContainer)(({ theme }) => ({
   display : "flex" , 
   justifyContent : "space-between" , 
 }));
-
-const FirstData = styled("div")(({ theme }) => ({
+const Place = styled("div")(({ theme }) => ({
+  marginBottom : "10px" ,
+}));
+const MainData = styled("div")(({ theme }) => ({
   width : "70%" ,
   padding : "15px" , 
   borderRadius: "10px",
@@ -182,7 +184,7 @@ const SubmitButton2 = styled(SubmitButton)(({ theme }) => ({
   width: '170px',
 }));
 
-//************************************* Finished Data **************************************  */
+
 
 
 
@@ -203,6 +205,8 @@ const NewMission = () => {
   const dispatch = useDispatch() ;
   useEffect(() => {
     dispatch(getBranches())
+    dispatch(getQuestionnaire())
+
   }, [])
 
   const [selectedBranch, setSelectedBranch] = useState('');
@@ -221,11 +225,24 @@ const NewMission = () => {
   const [voucherChecked ,  setVoucherChecked] = useState(false);
   const [voucherValue ,  setVoucherValue] = useState('');
 
+  // questionnaires
+
+  const questionieres = useSelector(state => state.questioneirData.questionieres) ;
+  const [selectedQuestioniere , setSelectedQuestioniere] = useState(0);
+  const CurrentQuestioneirID = useSelector(state => state.questioneirData.CurrentQuestioneirID) ;
+
+  const handleSelectedQuestionnaire = (event) => {
+    setSelectedQuestioniere(event.target.value);
+    dispatch(setCurrentQuestioneirID(event.target.value))
+  };
+
+
   // notes 
   const [notes ,  setNotes] = useState('');
 
   useEffect (()=>{
     console.log (notes)
+    console.log (questionieres)
   },[notes])
 
   
@@ -252,102 +269,121 @@ const NewMission = () => {
   }
   return (
     <>
-    <Parent>
-      <FirstData>
-        <TitleDiv>
-            <Title>Title</Title>
-            <Input 
-              placeholder='here'
-              value={title}
-              onChange={handleTitle}
-            />
-        </TitleDiv>
-        <Divider/>
-        <TitleDiv>
-            <Title>type what you want he/she to focus on!</Title>
-            <Input 
-              placeholder='here' 
-              className='small'
-              value={focus}
-              onChange={handleFocus}
-            />
-        </TitleDiv>
-        <Divider/>
-        <TitleDiv>
-            <Title>Branch</Title>
-            <Selectt
-              value={selectedBranch}
-              onChange={handleSelectedBranch}
-            >
-              {currentBranches.map((branch, index) => (
-                <StyledMenuItem key={index} value={branch.id}>
-                  {branch.name}
-                </StyledMenuItem>
-              ))}
-          </Selectt>
-        </TitleDiv>
-        <Divider/>
-        {/* date time section  */}
-        <DateTime>
-          <DateDiv>
-          <Title>Date</Title>   
-            <DateInput type="date" value={date} onChange={(e)=>setDate(e.target.value)} />
-          </DateDiv>
-          <TimeDiv>
-            <FromToTimeDiv>
-            <Title>from</Title>   
-              <TimeInput type="time" value={time1} onChange={(e)=>setTime1(e.target.value)} />
-            </FromToTimeDiv>   
-            <FromToTimeDiv>
-            <Title>to</Title>  
-              <TimeInput type="time" value={time2} onChange={(e)=>setTime2(e.target.value)} />
-            </FromToTimeDiv>    
-          </TimeDiv>
-        </DateTime>
-        <Divider/>
-          <VoucherDiv>
-            <CheckDiv>
-              <CheckInput
-                  id='voucher'
-                  type="checkbox"
-                  checked={voucherChecked}
-                  onChange={(e)=>setVoucherChecked(e.target.checked)}
+    <SmallContainer>
+      <Place>
+        <span>Missions/ </span>
+        <span style = {{color : Colors.main}}> New Mission</span>
+      </Place>
+      <Parent>
+        <MainData>
+          <TitleDiv>
+              <Title>Title</Title>
+              <Input 
+                placeholder='here'
+                value={title}
+                onChange={handleTitle}
               />
-              <CheckLabel htmlFor='voucher'>Include Purchase voucher</CheckLabel>
-            </CheckDiv>
-            {voucherChecked && 
-              <VoucherInput 
-                placeholder='00 SAR'
-                type = "text"
-                value={voucherValue}
-                onChange={handleVoucher}
+          </TitleDiv>
+          <Divider/>
+          <TitleDiv>
+              <Title>type what you want he/she to focus on!</Title>
+              <Input 
+                placeholder='here' 
+                className='small'
+                value={focus}
+                onChange={handleFocus}
+              />
+          </TitleDiv>
+          <Divider/>
+          <TitleDiv>
+              <Title>Branch</Title>
+              <Selectt
+                value={selectedBranch}
+                onChange={handleSelectedBranch}
+              >
+                {currentBranches.map((branch, index) => (
+                  <StyledMenuItem key={index} value={branch.id}>
+                    {branch.name}
+                  </StyledMenuItem>
+                ))}
+            </Selectt>
+          </TitleDiv>
+          <Divider/>
+          {/* date time section  */}
+          <DateTime>
+            <DateDiv>
+            <Title>Date</Title>   
+              <DateInput type="date" value={date} onChange={(e)=>setDate(e.target.value)} />
+            </DateDiv>
+            <TimeDiv>
+              <FromToTimeDiv>
+              <Title>from</Title>   
+                <TimeInput type="time" value={time1} onChange={(e)=>setTime1(e.target.value)} />
+              </FromToTimeDiv>   
+              <FromToTimeDiv>
+              <Title>to</Title>  
+                <TimeInput type="time" value={time2} onChange={(e)=>setTime2(e.target.value)} />
+              </FromToTimeDiv>    
+            </TimeDiv>
+          </DateTime>
+          <Divider/>
+            <VoucherDiv>
+              <CheckDiv>
+                <CheckInput
+                    id='voucher'
+                    type="checkbox"
+                    checked={voucherChecked}
+                    onChange={(e)=>setVoucherChecked(e.target.checked)}
+                />
+                <CheckLabel htmlFor='voucher'>Include Purchase voucher</CheckLabel>
+              </CheckDiv>
+              {voucherChecked &&
+                <VoucherInput 
+                  placeholder='00 SAR'
+                  type = "text"
+                  value={voucherValue}
+                  onChange={handleVoucher}
 
+                />
+              }
+            </VoucherDiv>
+          <Divider/>
+          <TitleDiv>
+              <Title>Notes</Title>
+              <NotesText 
+                placeholder='here'
+                value={notes}
+                onChange={(e)=>setNotes(e.target.value)}
               />
-            }
-          </VoucherDiv>
-        <Divider/>
-        <TitleDiv>
-            <Title>Notes</Title>
-            <NotesText 
-              placeholder='here'
-              value={notes}
-              onChange={(e)=>setNotes(e.target.value)}
-            />
-        </TitleDiv>
-        <SubmitButton2>Next</SubmitButton2>
-      </FirstData>
-      <FinishedData
-        missionTitle={title}
-        missionFocus={focus}
-        missionSelectedBranch={selectedBranch}
-        missionDate={date}
-        missionTime1={time1}
-        missionTime2={time2}
-        missionVoucherChecked={voucherChecked}
-        missionVoucherValue={voucherValue}
-        missionNotes={notes}
-      />
-    </Parent>
+          </TitleDiv>
+          <TitleDiv>
+              <Title>questionnaires</Title>
+              <Selectt
+                value={selectedQuestioniere}
+                onChange={handleSelectedQuestionnaire}
+              >
+                {questionieres.map((branch, index) => (
+                  <StyledMenuItem key={index} value={branch.id}>
+                    {branch.title}
+                  </StyledMenuItem>
+                ))}
+            </Selectt>
+          </TitleDiv>
+          <SubmitButton2>Next</SubmitButton2>
+        </MainData>
+        <FinishedData
+          missionTitle={title}
+          missionFocus={focus}
+          missionSelectedBranch={selectedBranch}
+          missionDate={date}
+          missionTime1={time1}
+          missionTime2={time2}
+          missionVoucherChecked={voucherChecked}
+          missionVoucherValue={voucherValue}
+          missionNotes={notes}
+        />
+      </Parent>
+    </SmallContainer>
     </>
   )
 }
