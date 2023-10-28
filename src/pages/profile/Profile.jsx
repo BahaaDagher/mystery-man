@@ -154,7 +154,7 @@ const IconDiv = styled("div")(({ theme }) => ({
   padding: "5px",
   borderRadius: "5px",
   gap: "10px",
-  backgroundColor : Colors.blackRed , 
+  backgroundColor : Colors.red , 
   display : "flex" , 
   justifyContent : "center" , 
   alignItems : "center" , 
@@ -195,23 +195,6 @@ const Profile = () => {
     dispatch(getBranches())
   },[])
 
-  const BranchesArray = [
-    {
-      name : "MC zefta" , 
-      rate : 5 , 
-      address : "King Khalid Rd, Al Sanaiyyah, Al Duwadimi 17436, Saudi Arabia" , 
-    } , 
-    {
-      name : "MC kafr qretna" , 
-      rate : 3.5 , 
-      address : "King Khalid Rd, Al Sanaiyyah, Al Duwadimi 17436, Saudi Arabia" , 
-    } , 
-    {
-      name : "MC Cairo" , 
-      rate : 1 , 
-      address : "King Khalid Rd, Al Sanaiyyah, Al Duwadimi 17436, Saudi Arabia" , 
-    } , 
-  ]
 
   const [newBranch , setNewBranch] = useState(false) ; 
   const [currentBranches , setCurrentBranches] = useState ([])
@@ -224,12 +207,18 @@ const Profile = () => {
   useEffect(()=>{
     if (deleteBranchData.status) {
       Swal.fire({
-        icon: 'success',
-        title: 'Deleted successfully',
-        showConfirmButton: false,
-        timer: 1500
+        title: 'are you sure you want to delete this branch?',
+        showDenyButton: true,
+        confirmButtonText: 'Yes',
+        denyButtonText: `No`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire('branch deleted successfully', '', 'success')
+          dispatch(getBranches())
+        } else if (result.isDenied) {
+          Swal.fire('Changes are not saved', '', 'info')
+        }
       })
-      dispatch(getBranches())
     }
   },[deleteBranchData])
 

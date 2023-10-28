@@ -176,10 +176,18 @@ const QuestionnaireSettings = () => {
   const currentStep = useSelector((state) => state.questioneirData.currentStep);
   const isReadyToSend = useSelector((state) => state.questioneirData.isReadyToSend);
   const [anchorEl, setAnchorEl] = useState(null);
+
   const [answersStep, setAnswersStep] = useState([]); 
   const [showNewStep, setShowNewStep] = useState(false); 
+
+  const showTypes = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+
   const [chosenType , setChosenType] = useState(null) ; 
   const [newAnswer, setNewAnswer] = useState('');
+
   const dispatch = useDispatch() ; 
 
   const showTypes = (event) => {
@@ -189,6 +197,7 @@ const QuestionnaireSettings = () => {
   const handleAddAnswerStep = () => {
     if (newAnswer.trim() !== '') {
       dispatch(setNewStep(newAnswer))
+
       setNewAnswer('');
       setShowNewStep(false)
     }
@@ -199,27 +208,22 @@ const QuestionnaireSettings = () => {
 
   const handleAddStep = () => {
     setShowNewStep(true)
-
   };
+
 
   const handleClickStep = (index,questions) => {
     dispatch(setCurrentStep(index))
     console.log(questionieres[currentQuestioneir].steps);
-    
-    
+ 
   };
 
   const handleSaveQuestioneir = () => {
     console.log(questionieres[currentQuestioneir]);
     dispatch(sendQuestioneir([questionieres[currentQuestioneir]]))
-    
-    
   };
   const sendToApi = () => {
     console.log(questionieres[currentQuestioneir]);
     dispatch(sendQuestioneir([questionieres[currentQuestioneir]]))
-
-
   };
  
   return (
@@ -246,12 +250,14 @@ const QuestionnaireSettings = () => {
             </ButtonsContainer>
           </InputAndButtons>
           <FlexCenter style={{justifyContent:'start'}}>
+
             {questionieres[currentQuestioneir] ? questionieres[currentQuestioneir].steps.map((answer ,index)=>
 
                <AddStepButton onClick={()=>handleClickStep(index,answer.questions)} style={{color:'white' ,background:`${Colors.gray_l}`}}>{answer.name}</AddStepButton>
             ): ''}
          
           <AddStepButton onClick={handleAddStep}>+</AddStepButton>
+
 
 
           </FlexCenter>
@@ -266,13 +272,9 @@ const QuestionnaireSettings = () => {
                 value={newAnswer}
                 onChange={(e) => setNewAnswer(e.target.value)}
               />
-
           </FlexCenter>
           : ''}
-         
         </Settings>
-
-
         <QuestionView>
           {
             questionieres[currentQuestioneir].steps.length>0 ?

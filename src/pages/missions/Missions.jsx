@@ -1,104 +1,65 @@
 import styled from '@emotion/styled';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { SmallContainer } from '../../components/SmallContainer';
 import { FlexSpaceBetween } from '../../components/FlexSpaceBetween';
-import MissionButton from './MissionButton';
-import NewMissions from "../../assets/icons/NewMissions.svg"
-import NewMissions2 from "../../assets/icons/NewMissions2.svg"
-import CurrentMissions from "../../assets/icons/CurrentMissions.svg"
-import CurrentMissions2 from "../../assets/icons/CurrentMissions2.svg"
-import WaitRequests from "../../assets/icons/WaitRequests.svg"
-import WaitRequests2 from "../../assets/icons/WaitRequests2.svg"
-import CompleteMissions from "../../assets/icons/CompleteMissions.svg"
-import CompleteMissions2 from "../../assets/icons/CompleteMissions2.svg"
-import CanceledMissions from "../../assets/icons/CanceledMissions.svg"
-import CanceledMissions2 from "../../assets/icons/CanceledMissions2.svg"
-
+import { FlexCenter } from '../../components/FlexCenter';
+import MissionsButtons from './MissionsButtons';
+import { Colors } from '../../Theme';
+import { Box } from '@mui/material';
+import ViewMissions from './viewMissions/ViewMissions';
 
 const MainContent = styled(FlexSpaceBetween)(({ theme }) => ({
+  [theme.breakpoints.down('800')]: {
+    flexDirection : "column-reverse" ,
+    gap : "20px" ,
+  },
+}));
 
-}));
-const MissionsButtons = styled("div")(({ theme }) => ({
-  width: '300px',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-}));
 const DetailsPart = styled("div")(({ theme }) => ({
-
+  width : `calc( 100% - 300px )` ,
+  padding : "20px" ,
+  marginBottom : "20px" ,
+  [theme.breakpoints.down('800')]: {
+    width : "100%" ,
+  },
+  
 }));
-const ViewMissions = styled("div")(({ theme }) => ({
-
+const NewMissionDiv = styled("div")(({ theme }) => ({
+  display : "flex" ,
+  justifyContent : theme.direction == "ltr" ? "flex-end" :"flex-start" ,
+  marginBottom : "20px" 
 }));
+const NewMissionButton = styled(FlexCenter)(({ theme }) => ({
+  width: '190px',
+  height: '54px',
+  padding: '9px 40px 8px 40px',
+  borderRadius: '10px',
+  backgroundColor: Colors.second,
+  color: "#fff",
+  fontSize : "20px" , 
+  cursor : "pointer" ,
+}));
+
 const Missions = () => {
-  const buttonsArray = [
-    {
-      id : "NewMissions" ,
-      name : "New Missions" , 
-      number :  12 , 
-      icon1 : NewMissions, 
-      icon2 : NewMissions2
-    } , 
-    {
-      id : "CurrentMissions" , 
-      name : "Current Missions" , 
-      number :  12 , 
-      icon1 : CurrentMissions, 
-      icon2 : CurrentMissions2
-    } , 
-    {
-      id : "WaitRequests" , 
-      name : "Wait Requests" , 
-      number :  12 , 
-      icon1: WaitRequests, 
-      icon2 : WaitRequests2
-    } , 
-    {
-      id : "CompleteMissions" , 
-      name : "Complete Missions" , 
-      number :  12 , 
-      icon1 : CompleteMissions, 
-      icon2 : CompleteMissions2
-    } , 
-    {
-      id : "CanceledMissions" , 
-      name : "Canceled Missions" , 
-      number :  12 , 
-      icon1 : CanceledMissions, 
-      icon2 : CanceledMissions2
-    } ,
-    
-  ]
-  const [activeButton, setActiveButton] = useState("NewMissions"); 
-
-
+  
+  const [selectMission, setSelectMission] = useState("NewMissions"); 
+  useEffect(() => {
+    console.log(selectMission)
+  }, [selectMission])
+  const newMissionPage = () => {
+      window.location.href = "/dashboard/newMission"
+  }
   return (
     <>
     <SmallContainer>
     <MainContent>
       <DetailsPart>
-
-        <ViewMissions>
-        </ViewMissions>
-        
+        <NewMissionDiv>
+          <NewMissionButton onClick={newMissionPage}> New Mission </NewMissionButton>
+        </NewMissionDiv>
+        <ViewMissions />
       </DetailsPart>
-
-      <MissionsButtons>
-        {buttonsArray.map((button , index) => {
-          return (
-            <MissionButton
-              key={index} 
-              name={button.name} 
-              number={button.number} 
-              activeButton={activeButton === button.id}
-              icon={activeButton === button.id ? button.icon2 : button.icon1 }
-              id = {button.id}
-              setActiveButton = {setActiveButton}
-            />
-          )
-        })}
-      </MissionsButtons>
+      <MissionsButtons setSelectMission= {setSelectMission}/>
     </MainContent>
     </SmallContainer>
     </>

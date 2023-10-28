@@ -15,6 +15,7 @@ import NewBranch from './pages/profile/NewBranch';
 import Bahaa from './components/Bahaa';
 import Questionnaires from './pages/questionnaires/Questionnaires';
 import Missions from './pages/missions/Missions';
+import NewMission from './pages/missions/newMission/NewMission';
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
           <Route path='home' element = <Home/>  />
           <Route path='questionnaires' element = <Questionnaires/>  />
           <Route path='missions' element = <Missions/>  />
+          <Route path='newMission' element = <NewMission/>  />
         </Route>
       </Routes>
 

@@ -1,16 +1,17 @@
-import React, { useState } from 'react'
-import Map from './Map'
-import { Box } from '@mui/material'
-import { Flex } from './Flex'
+import React from 'react';
+
+
 
 const Bahaa = () => {
-  const [location , setLocation] = useState({ lat: 24.774265, lng: 46.738586 })
   return (
-    <>
-        
-      
-    </>
-  )
-}
+    <div style = {{display : "flex" ,overflowX : "auto" , width : "100%"}}>
+      {Array(20).fill().map((_, index) => (
+        <div key={index}  style = {{flex: "0 0 100px" ,  height : "100px" , backgroundColor : "lightblue", margin : "10px"}}>
+          Child {index + 1}
+        </div>
+      ))}
+    </div>
+  );
+};
 
-export default Bahaa
+export default Bahaa;

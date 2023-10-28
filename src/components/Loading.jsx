@@ -2,7 +2,8 @@ import styled from '@emotion/styled';
 import { CircularProgress } from '@mui/material';
 import React from 'react'
 import { Colors } from '../Theme';
-export const Parent = styled("div")(({ theme }) => ({
+import { FlexCenter } from './FlexCenter';
+export const Parent = styled(FlexCenter)(({ theme }) => ({
     position : "fixed" ,
     top : "0" ,
     left : "0" ,
@@ -21,12 +22,10 @@ const Loading = () => {
             <CircularProgress 
                 style = {{
                     position: "relative" ,
-                    top : "50%" ,
-                    left : "50%" ,
                     zIndex : "50" ,
                     color : "#fff" ,
                     width : "70px" ,
-                    height : "70px"
+                    height : "70px" , 
                 }}
             />
         </Parent>

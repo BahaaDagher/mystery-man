@@ -48,12 +48,14 @@ const Divider = styled("div")(({ theme }) => ({
 
 const Questionnaires = () => {
   const [pressCreateQuestionnaire , setPressCreateQuestionnaire] = useState(true)
+
   const dispatch = useDispatch() ; 
   const handleAddNewQuestionnaire =()=>{
     dispatch(setNewQuestioneir())
     dispatch(setCurrentQuestioneir(1))
     setPressCreateQuestionnaire(false)
   }
+
   return (
     <>
       <SmallContainer>

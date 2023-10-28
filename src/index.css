@@ -28,4 +28,26 @@ code {
     monospace;
 
 }
+/* style scroll bar  */
 
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+  height : 8px ;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px #DCDCDC; 
+  border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #afafaf; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+}
