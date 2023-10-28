@@ -58,10 +58,11 @@ const questionierSlice = createSlice({
           state.CurrentQuestioneirID += action.payload
         },
         setCurrentQuestioneir: (state, action) => {
-            state.currentQuestioneir += action.payload
+            state.currentQuestioneir = action.payload
         },
         setNewQuestioneir: (state) => {
             state.questionieres.push({title:'',steps:[]}) 
+            state.currentQuestioneir =state.questionieres.length-1
         },
         setNewQuestioneirName: (state ,action) => {
             state.questionieres[state.currentQuestioneir].title =action.payload

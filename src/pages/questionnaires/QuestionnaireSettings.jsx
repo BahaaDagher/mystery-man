@@ -254,7 +254,7 @@ const QuestionnaireSettings = () => {
           <InputAndButtons>
             <InputContainer>
               <Input 
-              value={questionieres[currentQuestioneir].name} 
+              value={questionieres[currentQuestioneir].title} 
               placeholder= "Title"
               onChange={(e) => handleQuestioneirTitle(e.target.value)}
               />
