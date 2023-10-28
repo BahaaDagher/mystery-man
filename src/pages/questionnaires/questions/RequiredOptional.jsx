@@ -21,26 +21,29 @@ const RadioInput = styled("input")(({ theme }) => ({
 }));
 
 const RequiredOptional = ({radio , setRadio}) => {
+    console.log('radio');
+    console.log(radio);
     const handleOptionChange = (event) => {
+        console.log(event.target.value);
         setRadio(event.target.value);
     }
 return (
     <>
         <Container>
-            <RadioLabel isActive={radio === 'required'}>
+            <RadioLabel isActive={radio.required === 'required'}>
                 <RadioInput
                 type="radio"
-                value="required"
-                checked={radio === 'required'}
+                value='required'
+                checked={radio.required === 'required'}
                 onChange={handleOptionChange}
                 />
                 Required
             </RadioLabel>
-            <RadioLabel isActive={radio === 'optional'}>
+            <RadioLabel isActive={radio.required === 'optional'}>
                 <RadioInput
                 type="radio"
-                value="optional"
-                checked={radio === 'optional'}
+                value='optional'
+                checked={radio.required === 'optional'}
                 onChange={handleOptionChange}
                 />
                 Optional

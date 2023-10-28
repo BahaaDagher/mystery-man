@@ -9,6 +9,8 @@ import { SubmitButton } from '../../components/SubmitButton';
 import health from "../../assets/icons/health.svg"
 import { Box } from '@mui/material';
 import QuestionnaireSettings from './QuestionnaireSettings';
+import { useDispatch } from 'react-redux';
+import { setCurrentQuestioneir, setNewQuestioneir } from '../../store/slices/questionierSlice';
 
 const MainContent = styled(FlexSpaceBetween)(({ theme }) => ({
   [theme.breakpoints.down('800')]: {
@@ -21,7 +23,7 @@ const CreateQuestionnaire = styled("div")(({ theme }) => ({
   display : "flex" ,
   alignItems : "center" ,
   justifyContent : "center" ,
-  width : `calc(100% - 450px)` 
+  width : '100%'
 }));
 const PreviousQuestionnaire = styled(Flex)(({ theme }) => ({
   flexDirection : "column" , 
@@ -45,7 +47,13 @@ const Divider = styled("div")(({ theme }) => ({
 
 
 const Questionnaires = () => {
-  const [pressCreateQuestionnaire , setPressCreateQuestionnaire] = useState(false)
+  const [pressCreateQuestionnaire , setPressCreateQuestionnaire] = useState(true)
+  const dispatch = useDispatch() ; 
+  const handleAddNewQuestionnaire =()=>{
+    dispatch(setNewQuestioneir())
+    dispatch(setCurrentQuestioneir(1))
+    setPressCreateQuestionnaire(false)
+  }
   return (
     <>
       <SmallContainer>
@@ -53,14 +61,9 @@ const Questionnaires = () => {
         <MainContent>
           {pressCreateQuestionnaire == true 
             ? 
-          <CreateQuestionnaire>
-              <Box>
-                <FlexCenter>
-                  <img src = {health}  alt = "icon" style = {{textAlign : "center"}}/>
-                </FlexCenter>
-                <SubmitButton style = {{padding : "20px"}} onClick = {()=>{setPressCreateQuestionnaire(true)}}>Create_New_Questionnaire</SubmitButton>
-              </Box>
-            </CreateQuestionnaire>
+            <CreateQuestionnaire>
+          
+          </CreateQuestionnaire>
             :
             <QuestionnaireSettings>
               
@@ -69,6 +72,12 @@ const Questionnaires = () => {
             <PreviousQuestionnaire>
               <FlexCenter style = {{fontSize : "20px"}}>Saved_Questioners</FlexCenter>
               <Divider/>
+              <CreateQuestionnaire>
+              <Box>
+         
+                <SubmitButton style = {{padding : "20px"}} onClick = {()=>{handleAddNewQuestionnaire()}}>Create_New_Questionnaire</SubmitButton>
+              </Box>
+            </CreateQuestionnaire>
             </PreviousQuestionnaire>
         </MainContent>
       </SmallContainer>

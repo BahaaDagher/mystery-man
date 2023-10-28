@@ -9,6 +9,8 @@ import uploadImages from  '../../assets/icons/uploadImages.svg'
 import rating from  '../../assets/icons/rating.svg'
 import open from  '../../assets/icons/open.svg'
 import headLine from  '../../assets/icons/headLine.svg'
+import { useDispatch } from 'react-redux';
+import { setQuestionsInStep } from '../../store/slices/questionierSlice';
 
 
 
@@ -44,12 +46,13 @@ const Li = styled("li")(({ theme }) => ({
 }));
     
 const QuestionsTypes = ({anchorEl , setAnchorEl , setChosenType }) => {
-
+  const dispatch = useDispatch() ; 
   const handleClose = () => {
     setAnchorEl(null);
   };
   const wantedType = (index) => {
     setChosenType(TypesArray[index].name)
+    dispatch(setQuestionsInStep(TypesArray[index].name))
  
   };
 

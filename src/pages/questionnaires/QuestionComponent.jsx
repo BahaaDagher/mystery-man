@@ -9,13 +9,13 @@ import HeadLine from './questions/HeadLine';
 export default function QuestionComponent({questions}) {
   console.log(questions);
   const questionsComponents =[]
-  questions.forEach(question => {
-    if(question.type=='SingleChoice' || question.type=='multiChoice')questionsComponents.push(<Choices/>)
-    else if(question.type=='yesOrNo')questionsComponents.push(  <YesOrNo/>)
-    else if(question.type=='rating')questionsComponents.push(  <RatingQuestion/>)
-    else if(question.type=='open')questionsComponents.push(  <OpenQuestion/>)
-    else if(question.type=='uploadImages')questionsComponents.push(  <UploadImages/>)
-    else if(question.type=='headLine')questionsComponents.push(  <HeadLine/>)
+  questions.forEach((question,i) => {
+    if(question.type=='SingleChoice' || question.type=='multiChoice')questionsComponents.push(<Choices questionData={question} index={i}/>)
+    else if(question.type=='yesOrNo')questionsComponents.push(  <YesOrNo questionData={question} index={i}/>)
+    else if(question.type=='rating')questionsComponents.push(  <RatingQuestion questionData={question} index={i}/>)
+    else if(question.type=='open')questionsComponents.push(  <OpenQuestion questionData={question} index={i}/>)
+    else if(question.type=='uploadImages')questionsComponents.push(  <UploadImages questionData={question} index={i}/>)
+    else if(question.type=='headLine')questionsComponents.push(  <HeadLine questionData={question} index={i}/>)
     
   })
    

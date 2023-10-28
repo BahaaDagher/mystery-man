@@ -22,7 +22,7 @@ const QuestionInput = ({question ,setQuestion }) => {
         <Input
           placeholder='Enter your question'
           type="text"
-          value={question}
+          value={question.title}
           onChange={(e) => setQuestion(e.target.value)}
         />
     </Box>
