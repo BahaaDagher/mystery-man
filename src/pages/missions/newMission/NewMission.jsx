@@ -12,10 +12,18 @@ import { FlexSpaceBetween } from '../../../components/FlexSpaceBetween';
 import FinishedData from './FinishedData';
 import { getQuestionnaire, setCurrentQuestioneirID } from '../../../store/slices/questionierSlice';
 
-
+const Container = styled(SmallContainer)(({ theme }) => ({
+  
+}));
 const Parent = styled(SmallContainer)(({ theme }) => ({
   display : "flex" , 
+  padding : "0" ,
   justifyContent : "space-between" , 
+  [theme.breakpoints.down('1200')]: {
+    flexDirection : "column-reverse" ,
+    alignItems : "flex-start" ,
+
+  }
 }));
 const Place = styled("div")(({ theme }) => ({
   marginBottom : "10px" ,
@@ -25,6 +33,10 @@ const MainData = styled("div")(({ theme }) => ({
   padding : "15px" , 
   borderRadius: "10px",
   backgroundColor: "#fff",
+  [theme.breakpoints.down('1200')]: {
+    width : "100%" ,
+
+  }
 }));
 const TitleDiv = styled("div")(({ theme }) => ({
 }));
@@ -229,6 +241,7 @@ const NewMission = () => {
 
   const questionieres = useSelector(state => state.questioneirData.questionieres) ;
   const [selectedQuestioniere , setSelectedQuestioniere] = useState(0);
+
   const CurrentQuestioneirID = useSelector(state => state.questioneirData.CurrentQuestioneirID) ;
 
   const handleSelectedQuestionnaire = (event) => {
@@ -335,7 +348,7 @@ const NewMission = () => {
                     checked={voucherChecked}
                     onChange={(e)=>setVoucherChecked(e.target.checked)}
                 />
-                <CheckLabel htmlFor='voucher'>Include Purchase voucher</CheckLabel>
+                <CheckLabel htmlFor='voucher'>Include Purchase vouche</CheckLabel>
               </CheckDiv>
               {voucherChecked &&
                 <VoucherInput 
@@ -381,6 +394,7 @@ const NewMission = () => {
           missionVoucherChecked={voucherChecked}
           missionVoucherValue={voucherValue}
           missionNotes={notes}
+          missionSelectedQuestioniere = {selectedQuestioniere}
         />
       </Parent>
     </SmallContainer>

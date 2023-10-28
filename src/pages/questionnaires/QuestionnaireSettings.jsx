@@ -10,6 +10,7 @@ import QuestionsTypes from './QuestionsTypes';
 import QuestionComponent from './QuestionComponent';
 import { useDispatch, useSelector } from 'react-redux';
 import { handleReadyToSend, handleReadyToSend2, sendQuestioneir, setCurrentQuestioneir, setCurrentStep, setNewQuestioneirName, setNewStep } from '../../store/slices/questionierSlice';
+import Swal from 'sweetalert2';
 
 const Parent = styled(Box)(({ theme }) => ({
   width : "100%" ,
@@ -214,11 +215,31 @@ const QuestionnaireSettings = () => {
     console.log(questionieres[currentQuestioneir].steps);
  
   };
+  const questionierDataSent = useSelector((state) => state.questioneirData.questionierDataSent);
+  const [pressSave , setPressSave] = useState(false) ;
+  useEffect(() => {
+    if (questionierDataSent&& pressSave){
+      Swal.fire('branch deleted successfully', '', 'success')
+    }
+  },[questionierDataSent])
 
   const handleSaveQuestioneir = () => {
     console.log(questionieres[currentQuestioneir]);
-    dispatch(sendQuestioneir([questionieres[currentQuestioneir]]))
+    setPressSave(true)
+    Swal.fire({
+      title: 'are you sure you want to delete this branch?',
+      showDenyButton: true,
+      confirmButtonText: 'Yes',
+      denyButtonText: `No`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(sendQuestioneir([questionieres[currentQuestioneir]]))
+      } else if (result.isDenied) {
+        Swal.fire('Changes are not saved', '', 'info')
+      }
+    })
   };
+
   const sendToApi = () => {
     console.log(questionieres[currentQuestioneir]);
     dispatch(sendQuestioneir([questionieres[currentQuestioneir]]))
