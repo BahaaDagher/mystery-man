@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FlexCenter } from '../../../components/FlexCenter';
 import { Colors } from '../../../Theme';
 import { FlexSpaceBetween } from '../../../components/FlexSpaceBetween';
@@ -21,7 +21,11 @@ const Parent = styled("div")(({ theme }) => ({
   flexDirection : "column" ,
   backgroundColor: "#fff",
   borderRadius: '10px',
-  padding : "20px" , 
+  padding : "20px" ,
+  marginBottom : "10px" ,
+  [theme.breakpoints.down('1200')]: {
+    width: '100%',
+  },
 }));
 
 const PostMissionButton = styled(FlexCenter)(({ theme }) => ({
@@ -88,11 +92,25 @@ const FinishedData = (
     missionTime2 ,
     missionVoucherChecked ,
     missionVoucherValue ,
+    missionSelectedQuestioniere,
   } ) => {
+    const [activePost , setActivePost] = useState(false)
+    useEffect(() => {
+      if(missionTitle && missionFocus && missionSelectedBranch && missionDate && missionTime1 && missionTime2 && missionVoucherChecked && missionVoucherValue && missionSelectedQuestioniere){
+        setActivePost(true)
+      }
+      else {
+        setActivePost(false)
+      }
+    },[ missionTitle , missionFocus , missionSelectedBranch , missionDate , missionTime1 , missionTime2 , missionVoucherChecked , missionVoucherValue , missionSelectedQuestioniere])
   return (
     <>
       <Parent>
-      <PostMissionButton className='active'>Post Mission</PostMissionButton>
+      { activePost==true ? 
+        <PostMissionButton className="active">Post Mission</PostMissionButton>
+        :
+        <PostMissionButton >Post Mission</PostMissionButton>
+      }
         <FocusChange>
             <FocusChangeLine>
               <FocusChangeTitle>
@@ -150,7 +168,7 @@ const FinishedData = (
                 <Title>Questionnaire</Title>
               </FocusChangeTitle>
               <FocusChangeImg>
-                <img src = {unchecked}/>
+                <img src = {missionSelectedQuestioniere?checked :unchecked}/>
               </FocusChangeImg>
             </FocusChangeLine>
 

@@ -38,7 +38,7 @@ const PreviousQuestionnaires = styled(Flex)(({ theme }) => ({
     height : "200px" , 
     margin : "0 auto" ,
   },
-  overflowX : "hidden" ,
+  overflowX : "hidden" , 
 
 }));
 const PreviousQuestionnaire = styled(FlexSpaceBetween)(({ theme }) => ({
@@ -144,27 +144,7 @@ const numberOFQuestioners = (item)=>{
                         </SpanNum>
                       </QuestionnaireLengthDiv>
                     </PreviousQuestionnaire>
-                    <PreviousQuestionnaire>
-                      <QuestionnaireName>{item.title}</QuestionnaireName>
-                      <QuestionnaireLengthDiv>
-                        <SpanQ>Q</SpanQ>
-                        <SpanNum>
-                          {numberOFQuestioners(item)}
-                        </SpanNum>
-                      </QuestionnaireLengthDiv>
-                    </PreviousQuestionnaire>
-                    <PreviousQuestionnaire>
-                      <QuestionnaireName>{item.title}</QuestionnaireName>
-                      <QuestionnaireLengthDiv>
-                        <SpanQ>Q</SpanQ>
-                        <SpanNum>
-                          {numberOFQuestioners(item)}
-                        </SpanNum>
-                      </QuestionnaireLengthDiv>
-                    </PreviousQuestionnaire>
                   </>
-                  
-                
                 )
               })}
               
