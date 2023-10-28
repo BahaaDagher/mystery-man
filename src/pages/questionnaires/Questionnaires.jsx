@@ -10,7 +10,7 @@ import health from "../../assets/icons/health.svg"
 import { Box } from '@mui/material';
 import QuestionnaireSettings from './QuestionnaireSettings';
 import { useDispatch, useSelector } from 'react-redux';
-import { getQuestionnaire, setCurrentQuestioneir, setNewQuestioneir } from '../../store/slices/questionierSlice';
+import { getQuestionnaire, setCurrentQuestioneir, setCurrentQuestioneirID, setNewQuestioneir } from '../../store/slices/questionierSlice';
 import { use } from 'i18next';
 
 const MainContent = styled(FlexSpaceBetween)(({ theme }) => ({
@@ -49,6 +49,10 @@ const PreviousQuestionnaire = styled(FlexSpaceBetween)(({ theme }) => ({
   marginBottom : "10px" ,
   backgroundColor : Colors.bg  ,
   margin : "5px auto" ,
+  cursor:'pointer',
+  ":hover":{
+    background:"white"
+  }
   
 }));
 const QuestionnaireName = styled("div")(({ theme }) => ({
@@ -90,8 +94,13 @@ const Questionnaires = () => {
 
   const handleAddNewQuestionnaire =()=>{
     dispatch(setNewQuestioneir())
-    dispatch(setCurrentQuestioneir(1))
     setPressCreateQuestionnaire(false)
+  }
+  const handleQuestionierChange =(id ,index)=>{
+    dispatch(setCurrentQuestioneir(index))
+    dispatch(setCurrentQuestioneirID(id))
+    setPressCreateQuestionnaire(false)
+    
   }
   const questionieres = useSelector((state) => state.questioneirData.questionieres);
   useEffect(() => {
@@ -135,7 +144,7 @@ const numberOFQuestioners = (item)=>{
                 questionieres.map((item , index)=>{
                 return (
                   <>
-                    <PreviousQuestionnaire>
+                    <PreviousQuestionnaire onClick={()=>handleQuestionierChange(item.id ,index)}>
                       <QuestionnaireName>{item.title}</QuestionnaireName>
                       <QuestionnaireLengthDiv>
                         <SpanQ>Q</SpanQ>
@@ -144,24 +153,7 @@ const numberOFQuestioners = (item)=>{
                         </SpanNum>
                       </QuestionnaireLengthDiv>
                     </PreviousQuestionnaire>
-                    <PreviousQuestionnaire>
-                      <QuestionnaireName>{item.title}</QuestionnaireName>
-                      <QuestionnaireLengthDiv>
-                        <SpanQ>Q</SpanQ>
-                        <SpanNum>
-                          {numberOFQuestioners(item)}
-                        </SpanNum>
-                      </QuestionnaireLengthDiv>
-                    </PreviousQuestionnaire>
-                    <PreviousQuestionnaire>
-                      <QuestionnaireName>{item.title}</QuestionnaireName>
-                      <QuestionnaireLengthDiv>
-                        <SpanQ>Q</SpanQ>
-                        <SpanNum>
-                          {numberOFQuestioners(item)}
-                        </SpanNum>
-                      </QuestionnaireLengthDiv>
-                    </PreviousQuestionnaire>
+                    
                   </>
                   
                 
