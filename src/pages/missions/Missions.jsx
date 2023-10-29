@@ -42,12 +42,14 @@ const NewMissionButton = styled(FlexCenter)(({ theme }) => ({
 
 const Missions = () => {
   
-  const [selectMission, setSelectMission] = useState("NewMissions"); 
+  const [selectMissions, setSelectMissions] = useState(0); 
+
   useEffect(() => {
-    console.log(selectMission)
-  }, [selectMission])
+    console.log(selectMissions)
+  }, [selectMissions])
+
   const newMissionPage = () => {
-      window.location.href = "/dashboard/newMission"
+      window.location.href = "/dashboard/missions/newMission"
   }
   return (
     <>
@@ -57,9 +59,9 @@ const Missions = () => {
         <NewMissionDiv>
           <NewMissionButton onClick={newMissionPage}> New Mission </NewMissionButton>
         </NewMissionDiv>
-        <ViewMissions />
+        <ViewMissions selectMissions= {selectMissions}/>
       </DetailsPart>
-      <MissionsButtons setSelectMission= {setSelectMission}/>
+      <MissionsButtons setSelectMissions= {setSelectMissions}/>
     </MainContent>
     </SmallContainer>
     </>

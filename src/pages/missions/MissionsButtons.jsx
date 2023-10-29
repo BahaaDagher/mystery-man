@@ -17,7 +17,6 @@ const Parent = styled("div")(({ theme }) => ({
     width: '300px',
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between',
     alignItems: 'center',
     [theme.breakpoints.down('800')]: {
         width : "100%" ,
@@ -70,38 +69,38 @@ const Number = styled("div")(({ theme }) => ({
 }));
 
 
-const MissionsButtons = ({setSelectMission}) => {
+const MissionsButtons = ({setSelectMissions}) => {
     const buttonsArray = [
     {
-        id : "NewMissions" ,
+        id : 0 ,
         name : "New Missions" , 
         number :  12 , 
         icon1 : NewMissions, 
         icon2 : NewMissions2
     } , 
     {
-        id : "CurrentMissions" , 
+        id : 2 , 
         name : "Current Missions" , 
         number :  12 , 
         icon1 : CurrentMissions, 
         icon2 : CurrentMissions2
     } , 
     {
-        id : "WaitRequests" , 
+        id : 1 , 
         name : "Wait Requests" , 
         number :  12 , 
         icon1: WaitRequests, 
         icon2 : WaitRequests2
     } , 
     {
-        id : "CompleteMissions" , 
+        id : 3 , 
         name : "Complete Missions" , 
         number :  12 , 
         icon1 : CompleteMissions, 
         icon2 : CompleteMissions2
     } , 
     {
-        id : "CanceledMissions" , 
+        id : 5 , 
         name : "Canceled Missions" , 
         number :  12 , 
         icon1 : CanceledMissions, 
@@ -109,10 +108,11 @@ const MissionsButtons = ({setSelectMission}) => {
     } ,
 
     ]
-    const [activeButton, setActiveButton] = useState("NewMissions");
+    const [activeButton, setActiveButton] = useState(0);
+
     const handleClick = (id) => {
         setActiveButton(id)
-        setSelectMission(id)
+        setSelectMissions(id)
     }
   return (
     <>

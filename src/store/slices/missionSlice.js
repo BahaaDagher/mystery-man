@@ -8,7 +8,7 @@ async (values) => {
     const response = await axios.get(
         `https://mystery.cloudy.mohamedmansi.com/api/getMissions` ,{
             headers: {
-                "Authorization" : "Bearer 64|gEqIzAnQDN6oe8YVOYwWqoYjATsHdzFIAdUGHx5Wd8f490fd" , 
+                "Authorization" : "Bearer 112|nZSbjQaMv0nJkmfw2puEbR6O1LGN6g1tQ9XgWdYo3fba4d22" , 
                 "lang" : "en"
             },
         }
@@ -23,13 +23,13 @@ export const addMissions = createAsyncThunk(
     "mission/addMissions", 
     async (values) => {
         try {
-        const response = await axios.get(
+        const response = await axios.post(
             `https://mystery.cloudy.mohamedmansi.com/api/addMission` ,
             values , 
             {
                 headers: {
-                    "Authorization" : "109|cILufr8ALMtQIquXIouhMJGEkPYdilbuNTZjbIGfa023db49" , 
-                    "lang" : "ar"
+                    "Authorization" : "Bearer 112|nZSbjQaMv0nJkmfw2puEbR6O1LGN6g1tQ9XgWdYo3fba4d22" , 
+                
                 },
             }
         );
@@ -47,6 +47,12 @@ const missionSlice = createSlice({
         getMissionsLoading : false ,
         addMissionsData : {} ,
         addMissionsLoading : false ,  
+        CurrentMission : {} ,
+    },
+    reducers: {
+        setCurrentMission: (state, action) => {
+            state.CurrentMission = action.payload
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -74,5 +80,8 @@ const missionSlice = createSlice({
     
     }
     });
+    export const { 
+        setCurrentMission ,
+    } = missionSlice.actions;
     
     export default missionSlice.reducer;

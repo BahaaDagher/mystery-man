@@ -16,6 +16,7 @@ import Bahaa from './components/Bahaa';
 import Questionnaires from './pages/questionnaires/Questionnaires';
 import Missions from './pages/missions/Missions';
 import NewMission from './pages/missions/newMission/NewMission';
+import ReviewMissionRequest from './pages/missions/reviewMissionRequest/ReviewMissionRequest';
 
 
 function App() {
@@ -38,7 +39,8 @@ function App() {
           <Route path='home' element = <Home/>  />
           <Route path='questionnaires' element = <Questionnaires/>  />
           <Route path='missions' element = <Missions/>  />
-          <Route path='newMission' element = <NewMission/> />  
+          <Route path='missions/newMission' element = <NewMission/> />  
+          <Route path='missions/waitRequests/viewMissions' element = <ReviewMissionRequest/> />  
         </Route>
       </Routes>
 

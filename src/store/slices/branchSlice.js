@@ -13,7 +13,7 @@ async (values) => {
             long : values.long
         },{
             headers: {
-                "Authorization" : "Bearer 64|gEqIzAnQDN6oe8YVOYwWqoYjATsHdzFIAdUGHx5Wd8f490fd" , 
+                "Authorization" : "Bearer 112|nZSbjQaMv0nJkmfw2puEbR6O1LGN6g1tQ9XgWdYo3fba4d22" , 
             },
         }
     );
@@ -30,7 +30,7 @@ export const deleteBranch = createAsyncThunk(
         const response = await axios.get(
             `https://mystery.cloudy.mohamedmansi.com/api/deleteBranch?branch_id=${values.id}` ,{
                 headers: {
-                    "Authorization" : "Bearer 64|gEqIzAnQDN6oe8YVOYwWqoYjATsHdzFIAdUGHx5Wd8f490fd" , 
+                    "Authorization" : "Bearer 112|nZSbjQaMv0nJkmfw2puEbR6O1LGN6g1tQ9XgWdYo3fba4d22" , 
                 },
             }
         );
@@ -48,7 +48,7 @@ export const getBranches = createAsyncThunk(
         const response = await axios.get(
             "https://mystery.cloudy.mohamedmansi.com/api/getBranches" ,{
                 headers: {
-                    "Authorization" : "Bearer 64|gEqIzAnQDN6oe8YVOYwWqoYjATsHdzFIAdUGHx5Wd8f490fd" , 
+                    "Authorization" : "Bearer 112|nZSbjQaMv0nJkmfw2puEbR6O1LGN6g1tQ9XgWdYo3fba4d22" , 
                 },
             }
         );

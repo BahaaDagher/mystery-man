@@ -12,7 +12,12 @@ import time from "../../../assets/icons/time.svg"
 import { FlexCenter } from '../../../components/FlexCenter';
 import MissionSettings from './MissionSettings';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMissions } from '../../../store/slices/missionSlice';
+import { getMissions, setCurrentMission } from '../../../store/slices/missionSlice';
+import { SubmitButton } from '../../../components/SubmitButton';
+import { useNavigate } from 'react-router-dom';
+
+
+
 const Parent = styled("div")(({ theme }) => ({
     borderRadius: '10px',
     backgroundColor: '#fff',
@@ -106,8 +111,13 @@ const Date = styled(Flex)(({ theme }) => ({
 const Time = styled(Flex)(({ theme }) => ({
 
 }));
+const CurrentSubmitButton = styled(SubmitButton)(({ theme }) => ({
+    width : "fit-content" ,
+    padding : "20px" ,  
+}));
 
-const ViewMissions = () => {
+const ViewMissions = ({selectMissions}) => {
+
     const [chosenSetting , setChosenSetting] = useState("sss") ;
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedMission, setSelectedMission] = useState(0);
@@ -132,12 +142,20 @@ const ViewMissions = () => {
     useEffect(() => {
         dispatch(getMissions())
     }, [])
-    
+    // view request 
+    const navigate = useNavigate(); 
+    const ReviewRequest = (mission) => {
+        dispatch(setCurrentMission(mission))
+        navigate ("/dashboard/missions/waitRequests/viewMissions")
+        
+    }
   return (
     <>
     <MissionSettings setAnchorEl= {setAnchorEl} anchorEl={anchorEl} setChosenSetting = {setChosenSetting}   />
     {getMissionsLoading  && <Loading/>}
     {missionsData.map((mission , index) => {
+
+        if (mission.status == selectMissions && mission.finished==0)
         return (
             <Parent key={index}>
                 <Header>
@@ -157,7 +175,7 @@ const ViewMissions = () => {
                     <Focus>
                         <FocusTitle>Focus</FocusTitle>
                         <FocusThings>
-                            clean , padding , right , left 
+                            {mission.foucs} 
                         </FocusThings>
                     </Focus>
                     <LocationAndTime>
@@ -174,7 +192,7 @@ const ViewMissions = () => {
                                     <ImgDiv>
                                         <img src= {date} alt ="location"/>
                                     </ImgDiv>
-                                    <Address>21 September, 2023</Address>
+                                    <Address>{mission.date}</Address>
                                 </Date>
                                 <Time>
                                     <ImgDiv>
@@ -186,8 +204,65 @@ const ViewMissions = () => {
                         </LocationAndTimeThings>
                     </LocationAndTime>
                 </Footer>
+                {/* {mission.status == } */}
+                <CurrentSubmitButton  onClick={()=>ReviewRequest(mission)}> Review Request </CurrentSubmitButton>
             </Parent>
         ) 
+        else if (selectMissions==3 && mission.finished==1)  
+        
+        return (
+            <Parent key={index}>
+                <Header>
+                    <Published>
+                        <Box color = {Colors.grayDC} margin = "0 10px"> published</Box>
+                        <Box color = {Colors.gray} >{mission.dayWritten}</Box>
+                    </Published>
+                    <IconDiv onClick={(e)=>{showSettings(e); setSelectedMission(mission.id) }}>
+                        <img src= {ThreeDotesMore} alt ="more"/>
+                    </IconDiv>
+                </Header>
+                <MissionTitle>
+                    {mission.name}  
+                </MissionTitle>
+                <Divider/>
+                <Footer>
+                    <Focus>
+                        <FocusTitle>Focus</FocusTitle>
+                        <FocusThings>
+                            {mission.foucs} 
+                        </FocusThings>
+                    </Focus>
+                    <LocationAndTime>
+                        <LocationAndTimeTitle>location and time</LocationAndTimeTitle>
+                        <LocationAndTimeThings>
+                            <DateDiv>
+                                <ImgDiv>
+                                    <img src= {location2} alt ="location"/>
+                                </ImgDiv>
+                                <Address>{mission.address}</Address>
+                            </DateDiv>
+                            <DateTime>
+                                <Date>
+                                    <ImgDiv>
+                                        <img src= {date} alt ="location"/>
+                                    </ImgDiv>
+                                    <Address>{mission.date}</Address>
+                                </Date>
+                                <Time>
+                                    <ImgDiv>
+                                        <img src= {time} alt ="location"/>
+                                    </ImgDiv>
+                                    <Address>{mission.from} - {mission.to}</Address>
+                                </Time>
+                            </DateTime>
+                        </LocationAndTimeThings>
+                    </LocationAndTime>
+                </Footer>
+                {/* {mission.status == } */}
+                <CurrentSubmitButton  onClick={()=>ReviewRequest(mission)}> Review Request </CurrentSubmitButton>
+            </Parent>
+        ) 
+
      } )}
     </>
   ) 

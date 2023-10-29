@@ -14,6 +14,8 @@ import Questionnaire from '../../../assets/icons/Questionnaire.svg';
 import { Flex } from '../../../components/Flex';
 import { useDispatch, useSelector } from 'react-redux';
 import { addMissions } from '../../../store/slices/missionSlice';
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 
 const Parent = styled("div")(({ theme }) => ({
@@ -113,7 +115,7 @@ const FinishedData = (
     const missionData = {
       title : missionTitle , 
       foucs : missionFocus , 
-      branch_id : 2 , 
+      branch_id : missionSelectedBranch , 
       date : missionDate , 
       from : missionTime1 , 
       to : missionTime2 , 
@@ -121,12 +123,34 @@ const FinishedData = (
       notes : missionNotes  ,
       questions: [questionieresData[currentQuestioneir]] , 
     }
+    const [click , setClick] = useState(false)
 
+    const addMissionsData = useSelector((state) => state.missionData.addMissionsData);
+    
     const dispatch = useDispatch();
+    const navigate = useNavigate() ; 
+
+    useEffect(() => {
+      if (addMissionsData.status) {
+        Swal.fire('Changes saved', '', 'success')
+        window.location.href ="/dashboard/missions"
+      }
+    }, [addMissionsData])
 
     const handlePostMission = () => {
-      console.log(missionData)
-      dispatch(addMissions(missionData))
+      Swal.fire({
+        title: 'are you sure you want to add this mission?',
+        showDenyButton: true,
+        confirmButtonText: 'Yes',
+        denyButtonText: `No`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          dispatch(addMissions(missionData))
+        } else if (result.isDenied) {
+          Swal.fire('Changes are not saved', '', 'info')
+        }
+      })
+      
     }
     return (
     <>

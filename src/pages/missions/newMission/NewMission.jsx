@@ -199,10 +199,6 @@ const SubmitButton2 = styled(SubmitButton)(({ theme }) => ({
   width: '170px',
 }));
 
-
-
-
-
 const NewMission = () => {
   //title
   const [title , setTitle] = useState('');
@@ -213,6 +209,7 @@ const NewMission = () => {
   const [currentBranches , setCurrentBranches] = useState ([])
   const getBranchesData = useSelector(state => state.branchData.getBranchesData) ;
   useEffect(()=>{
+    
     if (getBranchesData.status) {
       setCurrentBranches(getBranchesData.data.branches)
     }
