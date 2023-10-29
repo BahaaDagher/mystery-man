@@ -61,7 +61,7 @@ const Missions = () => {
         </NewMissionDiv>
         <ViewMissions selectMissions= {selectMissions}/>
       </DetailsPart>
-      <MissionsButtons setSelectMissions= {setSelectMissions}/>
+      <MissionsButtons setSelectMissions= {setSelectMissions} />
     </MainContent>
     </SmallContainer>
     </>

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Colors } from '../../Theme';
 import NewMissions from "../../assets/icons/NewMissions.svg"
 import NewMissions2 from "../../assets/icons/NewMissions2.svg"
@@ -12,6 +12,8 @@ import CompleteMissions2 from "../../assets/icons/CompleteMissions2.svg"
 import CanceledMissions from "../../assets/icons/CanceledMissions.svg"
 import CanceledMissions2 from "../../assets/icons/CanceledMissions2.svg"
 import { Flex } from '../../components/Flex';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCurrentMission } from '../../store/slices/missionSlice';
 
 
 const Parent = styled(Flex)(({ theme }) => ({
@@ -85,6 +87,15 @@ const Number = styled("div")(({ theme }) => ({
 
 
 const MissionsButtons = ({setSelectMissions}) => {
+    const CurrentMission = useSelector(state => state.missionData.currentMission)
+
+    const dispatch = useDispatch()
+    useEffect(() => {   
+        console.log ("CurrentMission" , CurrentMission)
+    },[CurrentMission])
+    useEffect(() => {   
+        dispatch(setCurrentMission()) ; 
+    },[])
     const buttonsArray = [
     {
         id : 0 ,

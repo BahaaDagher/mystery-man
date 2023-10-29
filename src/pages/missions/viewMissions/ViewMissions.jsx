@@ -148,6 +148,7 @@ const ViewMissions = ({selectMissions}) => {
     }, [])
     // view request 
     const navigate = useNavigate(); 
+    
     const ReviewRequest = (mission) => {
         dispatch(setCurrentMission(mission))
         navigate ("/dashboard/missions/waitRequests/viewMissions")
