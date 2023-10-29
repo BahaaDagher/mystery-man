@@ -47,7 +47,8 @@ const resources = {
         seconds :"seconds" ,
         Available_Missions : "Available Missions" , 
         Highest_rating : "Highest rating" , 
-        Lowest_rating : "Lowest rating"
+        Lowest_rating : "Lowest rating" , 
+        New_Missions : "New Missions"
       },
       content: {}
     }
@@ -95,7 +96,8 @@ const resources = {
         seconds : "ثانية" , 
         Available_Missions : "المهمات المتاحة" , 
         Highest_rating : "أعلى تصنيف" , 
-        Lowest_rating : "أقل تصنيف"
+        Lowest_rating : "أقل تصنيف" , 
+        New_Missions : "المهمات الجديدة " , 
       },
       content: {}
     }

@@ -14,6 +14,7 @@ import CanceledMissions2 from "../../assets/icons/CanceledMissions2.svg"
 import { Flex } from '../../components/Flex';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentMission } from '../../store/slices/missionSlice';
+import { useTranslation } from 'react-i18next';
 
 
 const Parent = styled(Flex)(({ theme }) => ({
@@ -97,10 +98,11 @@ const MissionsButtons = ({setSelectMissions}) => {
     useEffect(() => {   
         dispatch(setCurrentMission()) ; 
     },[])
+    const {t} = useTranslation();
     const buttonsArray = [
     {
         id : 0 ,
-        name : "New Missions" , 
+        name : t("text.New_Missions") , 
         number :  12 , 
         icon1 : NewMissions, 
         icon2 : NewMissions2
