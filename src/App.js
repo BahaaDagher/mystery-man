@@ -17,10 +17,22 @@ import Questionnaires from './pages/questionnaires/Questionnaires';
 import Missions from './pages/missions/Missions';
 import NewMission from './pages/missions/newMission/NewMission';
 import ReviewMissionRequest from './pages/missions/reviewMissionRequest/ReviewMissionRequest';
+import i18n from './i18n';
 
 
 function App() {
-  
+  const theme = useTheme() ;
+  useEffect(() => {
+    if (localStorage.getItem("language") == "ar") {
+      i18n.changeLanguage("ar");
+      theme.direction = "rtl" ;
+    }
+    else {
+      theme.direction = "ltr" ;
+      i18n.changeLanguage("en");
+    }
+  } , [localStorage.getItem("language")])
+
   return (
     <>
       <Routes>

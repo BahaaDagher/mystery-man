@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import i18n from "../../i18n";
+const currentLanguage = localStorage.getItem("language") || "en";
 
 export const userRegister = createAsyncThunk(
     "auth/userRegister", 
@@ -7,7 +9,12 @@ export const userRegister = createAsyncThunk(
       try {
         const response = await axios.post(
           "https://mystery.cloudy.mohamedmansi.com/api/registerMission" ,
-            values
+            values, 
+            {
+              headers: {
+                "lang" : currentLanguage ,
+              },
+            }
         );
         return response.data ;
       } catch (error) {
@@ -25,7 +32,7 @@ export const userRegister = createAsyncThunk(
           } , 
           {
             headers: {
-              "lang": "en",
+              "lang" : currentLanguage ,
             },
           }
         );

@@ -1,15 +1,18 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import i18n from "../../i18n";
+const currentLanguage = localStorage.getItem("language") || "en";
 
 export const getMissions = createAsyncThunk(
 "mission/getMissions", 
 async (values) => {
+    console.log("i18n.lang", i18n.language)
     try {
     const response = await axios.get(
         `https://mystery.cloudy.mohamedmansi.com/api/getMissions` ,{
             headers: {
                 "Authorization" : "Bearer 112|nZSbjQaMv0nJkmfw2puEbR6O1LGN6g1tQ9XgWdYo3fba4d22" , 
-                "lang" : "en"
+                "lang" : currentLanguage
             },
         }
     );
@@ -28,8 +31,8 @@ export const addMissions = createAsyncThunk(
             values , 
             {
                 headers: {
-                    "Authorization" : "Bearer 112|nZSbjQaMv0nJkmfw2puEbR6O1LGN6g1tQ9XgWdYo3fba4d22" , 
-                
+                    "Authorization" : "Bearer 112|nZSbjQaMv0nJkmfw2puEbR6O1LGN6g1tQ9XgWdYo3fba4d22" ,
+                    "lang" : currentLanguage ,
                 },
             }
         );

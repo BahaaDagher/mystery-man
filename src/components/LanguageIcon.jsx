@@ -7,7 +7,7 @@ import { Colors } from '../Theme';
 import { ListItemText } from '@mui/material';
 import LanguageOutlinedIcon from '@mui/icons-material/LanguageOutlined';
 import { useDispatch, useSelector } from 'react-redux';
-import { ToggleDirection } from '../store/slices/directionSlice';
+import { ToggleDirection, ToggleLanguage } from '../store/slices/directionSlice';
 import { use } from 'i18next';
 
 const Container = styled("div")(({ theme }) => ({
@@ -53,14 +53,12 @@ const LanguageIcon = ({Navbar}) => {
   },[directionData])
   
   const arabicDirection  = ()=> {
-    dispatch(ToggleDirection("rtl"))
-    theme.direction = "rtl" ;
-    i18n.changeLanguage("ar");
+    localStorage.setItem("language", "ar")
+    window.location.reload();
   }
   const englishDirection  = ()=> {
-    dispatch(ToggleDirection("ltr"))
-    theme.direction = "ltr" ;
-    i18n.changeLanguage("en");
+    localStorage.setItem("language", "en")
+    window.location.reload();
   }
   
   const navStyle = {
@@ -75,7 +73,11 @@ const LanguageIcon = ({Navbar}) => {
     top: 0 , 
     zIndex: "5",  
   }
+
+
+
   return (
+    
     <>
     <Container style = { Navbar ? navStyle : otherStyle} >
       <LanguageOutlinedIcon onClick={handleIconClick} style = {{cursor : "pointer" , color : Colors.second}}/>

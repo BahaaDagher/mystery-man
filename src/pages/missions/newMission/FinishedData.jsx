@@ -102,13 +102,13 @@ const FinishedData = (
   } ) => {
     const [activePost , setActivePost] = useState(false)
     useEffect(() => {
-      if(missionTitle && missionFocus && missionSelectedBranch && missionDate && missionTime1 && missionTime2 && missionVoucherChecked && missionVoucherValue && missionSelectedQuestioniere){
+      if(missionTitle && missionFocus && missionSelectedBranch && missionDate && missionTime1 && missionTime2 && missionVoucherChecked && missionVoucherValue && missionSelectedQuestioniere>-1){
         setActivePost(true)
       }
       else {
         setActivePost(false)
       }
-    },[ missionTitle , missionFocus , missionSelectedBranch , missionDate , missionTime1 , missionTime2 , missionVoucherChecked , missionVoucherValue , missionSelectedQuestioniere])
+    },[ missionTitle , missionFocus , missionSelectedBranch , missionDate , missionTime1 , missionTime2 , missionVoucherChecked , missionVoucherValue , missionSelectedQuestioniere>-1])
   
     const questionieresData = useSelector((state) => state.questioneirData.questionieres);
     const currentQuestioneir = useSelector((state) => state.questioneirData.currentQuestioneir);
@@ -132,7 +132,7 @@ const FinishedData = (
 
     useEffect(() => {
       if (addMissionsData.status) {
-        Swal.fire('Changes saved', '', 'success')
+        Swal.fire('mission added successfully', '', 'success')
         window.location.href ="/dashboard/missions"
       }
     }, [addMissionsData])

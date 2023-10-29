@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-
+import i18n from "../../i18n";
+const currentLanguage = localStorage.getItem("language") || "en";
 export const sendQuestioneir = createAsyncThunk(
     "questionier/sendQuestioneir", 
     async (values) => {
@@ -9,7 +10,7 @@ export const sendQuestioneir = createAsyncThunk(
         const response = await axios.post(
           `https://mystery.cloudy.mohamedmansi.com/api/addQuestion`, 
           {questions:values},
-          { headers: {"Authorization" : token}}
+          { headers: {"Authorization" : token , "lang" : currentLanguage ,}}
         );
         return response.data ;
       } catch (error) {
@@ -24,7 +25,7 @@ export const sendQuestioneir = createAsyncThunk(
             `https://mystery.cloudy.mohamedmansi.com/api/getQuestion` ,{
                 headers: {
                     "Authorization" : "Bearer 64|gEqIzAnQDN6oe8YVOYwWqoYjATsHdzFIAdUGHx5Wd8f490fd" , 
-                    "lang" : "en"
+                    "lang" : currentLanguage ,
                 },
             }
         );

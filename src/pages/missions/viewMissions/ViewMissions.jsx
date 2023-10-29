@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState, useTransition } from 'react'
 import { FlexSpaceBetween } from '../../../components/FlexSpaceBetween';
 import  Loading  from '../../../components/Loading';
 import { Flex } from '../../../components/Flex';
@@ -15,6 +15,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getMissions, setCurrentMission } from '../../../store/slices/missionSlice';
 import { SubmitButton } from '../../../components/SubmitButton';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { use } from 'i18next';
+import i18n from '../../../i18n';
+import { ToggleLanguage } from '../../../store/slices/directionSlice';
 
 
 
@@ -148,12 +152,16 @@ const ViewMissions = ({selectMissions}) => {
     }, [])
     // view request 
     const navigate = useNavigate(); 
-    
+
     const ReviewRequest = (mission) => {
         dispatch(setCurrentMission(mission))
         navigate ("/dashboard/missions/waitRequests/viewMissions")
-        
     }
+
+    
+
+    const {t} = useTranslation()
+
   return (
     <>
     <MissionSettings setAnchorEl= {setAnchorEl} anchorEl={anchorEl} setChosenSetting = {setChosenSetting}   />
@@ -165,7 +173,7 @@ const ViewMissions = ({selectMissions}) => {
             <Parent key={index}>
                 <Header>
                     <Published>
-                        <Box color = {Colors.grayDC} margin = "0 10px"> published</Box>
+                        <Box color = {Colors.grayDC} margin = "0 10px"> {t("text.published")}</Box>
                         <Box color = {Colors.gray} >{mission.dayWritten}</Box>
                     </Published>
                     <IconDiv onClick={(e)=>{showSettings(e); setSelectedMission(mission.id) }}>

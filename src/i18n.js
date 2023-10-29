@@ -48,7 +48,8 @@ const resources = {
         Available_Missions : "Available Missions" , 
         Highest_rating : "Highest rating" , 
         Lowest_rating : "Lowest rating" , 
-        New_Missions : "New Missions"
+        New_Missions : "New Missions" , 
+        published : "published"
       },
       content: {}
     }
@@ -98,6 +99,7 @@ const resources = {
         Highest_rating : "أعلى تصنيف" , 
         Lowest_rating : "أقل تصنيف" , 
         New_Missions : "المهمات الجديدة " , 
+        published : "نشرت" , 
       },
       content: {}
     }
