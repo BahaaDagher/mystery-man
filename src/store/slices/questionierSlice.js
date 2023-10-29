@@ -17,7 +17,7 @@ export const sendQuestioneir = createAsyncThunk(
       }
   });
   export const getQuestionnaire = createAsyncThunk(
-    "questionnaire/getQuestionnaire   ", 
+    "questionnaire/getQuestionnaire", 
     async (values) => {
         try {
         const response = await axios.get(

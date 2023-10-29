@@ -10,7 +10,9 @@ import { use } from 'i18next';
 import { FlexCenter } from '../../../components/FlexCenter';
 import { FlexSpaceBetween } from '../../../components/FlexSpaceBetween';
 import FinishedData from './FinishedData';
-import { getQuestionnaire, setCurrentQuestioneirID } from '../../../store/slices/questionierSlice';
+import { getQuestionnaire, setCurrentQuestioneir, setCurrentQuestioneirID } from '../../../store/slices/questionierSlice';
+import QuestionnaireData from './QuestionnaireData';
+import Swal from 'sweetalert2';
 
 const Container = styled(SmallContainer)(({ theme }) => ({
   
@@ -19,7 +21,7 @@ const Parent = styled(SmallContainer)(({ theme }) => ({
   display : "flex" , 
   padding : "0" ,
   justifyContent : "space-between" , 
-  [theme.breakpoints.down('1200')]: {
+  [theme.breakpoints.down('850')]: {
     flexDirection : "column-reverse" ,
     alignItems : "flex-start" ,
 
@@ -33,7 +35,8 @@ const MainData = styled("div")(({ theme }) => ({
   padding : "15px" , 
   borderRadius: "10px",
   backgroundColor: "#fff",
-  [theme.breakpoints.down('1200')]: {
+  margin : theme.direction == "ltr" ? "0 10px 0 0" : "0 0 0 10px" ,
+  [theme.breakpoints.down('850')]: {
     width : "100%" ,
 
   }
@@ -215,10 +218,10 @@ const NewMission = () => {
     }
   },[getBranchesData])
   const dispatch = useDispatch() ;
+
   useEffect(() => {
     dispatch(getBranches())
     dispatch(getQuestionnaire())
-
   }, [])
 
   const [selectedBranch, setSelectedBranch] = useState('');
@@ -240,23 +243,20 @@ const NewMission = () => {
   // questionnaires
 
   const questionieres = useSelector(state => state.questioneirData.questionieres) ;
-  const [selectedQuestioniere , setSelectedQuestioniere] = useState(0);
+  const [selectedQuestioniere , setSelectedQuestioniere] = useState(-1);
 
-  const CurrentQuestioneirID = useSelector(state => state.questioneirData.CurrentQuestioneirID) ;
+  const CurrentQuestioneir = useSelector(state => state.questioneirData.CurrentQuestioneir) ;
 
   const handleSelectedQuestionnaire = (event) => {
     setSelectedQuestioniere(event.target.value);
-    dispatch(setCurrentQuestioneirID(event.target.value))
+    dispatch(setCurrentQuestioneir(event.target.value))
   };
 
 
   // notes 
   const [notes ,  setNotes] = useState('');
 
-  useEffect (()=>{
-    console.log (notes)
-    console.log (questionieres)
-  },[notes])
+
 
   
   
@@ -280,6 +280,20 @@ const NewMission = () => {
     let voucher = e.target.value
     if (!isNaN(voucher)) setVoucherValue(voucher)
   }
+
+  const [showQuestionnaire , setShowQuestionnaire] = useState(false)
+
+  const handleNext = () => {
+      if (title && focus && selectedBranch && date && time1 && time2 && voucherChecked && voucherValue && selectedQuestioniere) {
+        setShowQuestionnaire(true)
+      }
+      else {
+        Swal.fire({
+          icon: 'error',
+          text: 'please fill all the fields',
+        })
+    }
+  }
   return (
     <>
     <SmallContainer>
@@ -288,6 +302,7 @@ const NewMission = () => {
         <span style = {{color : Colors.main}}> New Mission</span>
       </Place>
       <Parent>
+      {!showQuestionnaire ? 
         <MainData>
           <TitleDiv>
               <Title>Title</Title>
@@ -348,7 +363,7 @@ const NewMission = () => {
                     checked={voucherChecked}
                     onChange={(e)=>setVoucherChecked(e.target.checked)}
                 />
-                <CheckLabel htmlFor='voucher'>Include Purchase vouche</CheckLabel>
+                <CheckLabel htmlFor='voucher'>Include Purchase voucher</CheckLabel>
               </CheckDiv>
               {voucherChecked &&
                 <VoucherInput 
@@ -375,15 +390,17 @@ const NewMission = () => {
                 value={selectedQuestioniere}
                 onChange={handleSelectedQuestionnaire}
               >
-                {questionieres.map((branch, index) => (
-                  <StyledMenuItem key={index} value={branch.id}>
-                    {branch.title}
+                {questionieres.map((questioniere, index) => (
+                  <StyledMenuItem key={index} value={index}>
+                    {questioniere.title}
                   </StyledMenuItem>
                 ))}
             </Selectt>
           </TitleDiv>
-          <SubmitButton2>Next</SubmitButton2>
+          <SubmitButton2 onClick={handleNext}>Next</SubmitButton2>
         </MainData>
+       : <QuestionnaireData  setShowQuestionnaire = {setShowQuestionnaire}/>
+       }
         <FinishedData
           missionTitle={title}
           missionFocus={focus}

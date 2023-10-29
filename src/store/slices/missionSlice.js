@@ -19,12 +19,34 @@ async (values) => {
     }
 }
 );
+export const addMissions = createAsyncThunk(
+    "mission/addMissions", 
+    async (values) => {
+        try {
+        const response = await axios.get(
+            `https://mystery.cloudy.mohamedmansi.com/api/addMission` ,
+            values , 
+            {
+                headers: {
+                    "Authorization" : "109|cILufr8ALMtQIquXIouhMJGEkPYdilbuNTZjbIGfa023db49" , 
+                    "lang" : "ar"
+                },
+            }
+        );
+        return response.data ;
+        } catch (error) {
+        console.error(error);
+        }
+    }
+    );
 
 const missionSlice = createSlice({
     name: "mission",
     initialState: {
         getMissionsData : {} ,
-        getMissionsLoading : false , 
+        getMissionsLoading : false ,
+        addMissionsData : {} ,
+        addMissionsLoading : false ,  
     },
     extraReducers: (builder) => {
         builder
@@ -37,6 +59,17 @@ const missionSlice = createSlice({
         }) 
         .addCase(getMissions.rejected , (state, action) => {
             state.getMissionsLoading = false;
+        })
+
+        .addCase(addMissions.fulfilled , (state, action) => {
+            state.addMissionsData = action.payload;
+            state.addMissionsLoading = false;
+        }) 
+        .addCase(addMissions.pending, (state, action) => {
+            state.addMissionsLoading = true;
+        }) 
+        .addCase(addMissions.rejected , (state, action) => {
+            state.addMissionsLoading = false;
         })
     
     }

@@ -41,7 +41,6 @@ const HeadLine = ({questionData,index}) => {
   useEffect(()=>{
     const data ={
       type:questionData.type,
-     
       title:question,
     }
     dispatch(setQuestionDetails({index:index ,data:data}))

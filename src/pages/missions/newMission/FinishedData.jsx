@@ -12,10 +12,12 @@ import branch from '../../../assets/icons/branch.svg';
 import PurchaseVoucher  from '../../../assets/icons/PurchaseVoucher.svg';
 import Questionnaire from '../../../assets/icons/Questionnaire.svg';
 import { Flex } from '../../../components/Flex';
+import { useDispatch, useSelector } from 'react-redux';
+import { addMissions } from '../../../store/slices/missionSlice';
 
 
 const Parent = styled("div")(({ theme }) => ({
-  width: '25%',
+  width: '30%',
   height :"fit-content" , 
   display : "flex" ,
   flexDirection : "column" ,
@@ -23,7 +25,8 @@ const Parent = styled("div")(({ theme }) => ({
   borderRadius: '10px',
   padding : "20px" ,
   marginBottom : "10px" ,
-  [theme.breakpoints.down('1200')]: {
+  
+  [theme.breakpoints.down('850')]: {
     width: '100%',
   },
 }));
@@ -72,7 +75,7 @@ const TotalBalance = styled("div")(({ theme }) => ({
 }));
 
 const Price = styled("p")(({ theme }) => ({
-  fontSize: '36px',
+  fontSize: '25px',
   fontWeight: 500,
   lineHeight: '67px',
   color : Colors.main , 
@@ -93,6 +96,7 @@ const FinishedData = (
     missionVoucherChecked ,
     missionVoucherValue ,
     missionSelectedQuestioniere,
+    missionNotes , 
   } ) => {
     const [activePost , setActivePost] = useState(false)
     useEffect(() => {
@@ -103,11 +107,32 @@ const FinishedData = (
         setActivePost(false)
       }
     },[ missionTitle , missionFocus , missionSelectedBranch , missionDate , missionTime1 , missionTime2 , missionVoucherChecked , missionVoucherValue , missionSelectedQuestioniere])
-  return (
+  
+    const questionieresData = useSelector((state) => state.questioneirData.questionieres);
+    const currentQuestioneir = useSelector((state) => state.questioneirData.currentQuestioneir);
+    const missionData = {
+      title : missionTitle , 
+      foucs : missionFocus , 
+      branch_id : 2 , 
+      date : missionDate , 
+      from : missionTime1 , 
+      to : missionTime2 , 
+      price : missionVoucherValue , 
+      notes : missionNotes  ,
+      questions: [questionieresData[currentQuestioneir]] , 
+    }
+
+    const dispatch = useDispatch();
+
+    const handlePostMission = () => {
+      console.log(missionData)
+      dispatch(addMissions(missionData))
+    }
+    return (
     <>
       <Parent>
       { activePost==true ? 
-        <PostMissionButton className="active">Post Mission</PostMissionButton>
+        <PostMissionButton className="active" onClick={()=>handlePostMission()}>Post Mission</PostMissionButton>
         :
         <PostMissionButton >Post Mission</PostMissionButton>
       }
@@ -168,7 +193,7 @@ const FinishedData = (
                 <Title>Questionnaire</Title>
               </FocusChangeTitle>
               <FocusChangeImg>
-                <img src = {missionSelectedQuestioniere?checked :unchecked}/>
+                <img src = {missionSelectedQuestioniere >-1 ?checked :unchecked}/>
               </FocusChangeImg>
             </FocusChangeLine>
 

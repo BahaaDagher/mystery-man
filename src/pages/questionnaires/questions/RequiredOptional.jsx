@@ -6,7 +6,7 @@ const Container = styled("div")(({ theme }) => ({
     display : "flex" ,
     justifyContent : "center" ,
     alignItems : "center" ,
-    margin : "10px 0" ,
+    margin : "20px 0" ,
 }));
 const RadioLabel = styled("label")(({ theme , isActive }) => ({
     margin : "0 30px" ,
