@@ -69,7 +69,7 @@ const ReviewMissionRequest = () => {
     <SmallContainer>
     <Place>
         <span>Missions/ </span>
-        <span style = {{color : Colors.main}}> New Mission</span>
+        <span style = {{color : Colors.main}}> Review Requests </span>
     </Place>
     <Parent>
     {CurrentMissionEmployees.map((item , index) => {
