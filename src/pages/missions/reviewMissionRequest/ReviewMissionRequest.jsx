@@ -72,7 +72,7 @@ const ReviewMissionRequest = () => {
         <span style = {{color : Colors.main}}> Review Requests </span>
     </Place>
     <Parent>
-    {CurrentMissionEmployees.map((item , index) => {
+    {CurrentMissionEmployees?.map((item , index) => {
       return (
       <Line>
           <PhotoAndName>
@@ -80,8 +80,8 @@ const ReviewMissionRequest = () => {
                 <img src = {adminImage} style = {{width : "65px" , height : "65px" ,   borderRadius : "50%" }} alt = "admin"/>
               </Section>
               <div>
-                <p>{CurrentMissionEmployees[0].user.name}</p>
-                <Rating name="half-rating" defaultValue={CurrentMissionEmployees[0].user.rate} prec ision={0.5} readOnly style = {{direction : "ltr"}}/>
+                <p>{item.user.name}</p>
+                <Rating name="half-rating" defaultValue={item.user.rate} prec ision={0.5} readOnly style = {{direction : "ltr"}}/>
               </div>
           </PhotoAndName>
           <ButtonDiv>
