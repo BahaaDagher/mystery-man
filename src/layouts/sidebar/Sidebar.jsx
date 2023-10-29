@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import SidebarData from './SidebarData'
 import styled from '@emotion/styled';
 import { Colors, Dimensions } from '../../Theme';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Drawer } from '@mui/material';
 import { useTheme } from '@emotion/react';
@@ -113,6 +113,10 @@ const Sidebar = ( {phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
 
   const { t } = useTranslation();
   const theme = useTheme() ; 
+  const location = useLocation();
+  const pathnameSegments = location.pathname.split('/');
+  // Extract the first two segments
+  const firstTwoSegments = pathnameSegments.slice(0, 3).join('/');
   return (
     <>
     <SideBarDiv>
@@ -126,13 +130,13 @@ const Sidebar = ( {phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
             return (
               <LINK to={item.link} key={index}  >
                 <Li
-                  isActive={index === activeItem} 
-                  onClick={() => handleItemClick(index) }
+                  isActive={firstTwoSegments === item.link} 
+                  onClick={() => handleItemClick(index) } 
                   onMouseEnter={() => handleMouseEnter(index)}
                   onMouseLeave={handleMouseLeave} 
                 >
                   <IconContainer>
-                      <img src={index==activeItem || hoveredItem === index ? item.icon2 : item.icon1} alt={item.title} style = {{margin : "0 10px"}}/> 
+                      <img src={firstTwoSegments === item.link || hoveredItem === index ? item.icon2 : item.icon1} alt={item.title} style = {{margin : "0 10px"}}/> 
                   </IconContainer>
                   <Title >{t(`text.${item.title}`)}</Title>   
                 </Li>
@@ -182,7 +186,7 @@ const Sidebar = ( {phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
                   isActive={index === activeItem} 
                   onClick={() => { handleItemClick(index) ;   setPhoneOpen(false) } }
                   onMouseEnter={() => handleMouseEnter(index)}
-                  onMouseLeave={handleMouseLeave} 
+                  onMouseLeave={handleMouseLeave}
                 >
                   <IconContainer>
                       <img src={index==activeItem || hoveredItem === index ? item.icon2 : item.icon1} alt={item.title} style = {{margin : "0 10px"}}/> 

@@ -9,7 +9,7 @@ import { FlexCenter } from '../../components/FlexCenter';
 import QuestionsTypes from './QuestionsTypes';
 import QuestionComponent from './QuestionComponent';
 import { useDispatch, useSelector } from 'react-redux';
-import { handleReadyToSend, handleReadyToSend2, sendQuestioneir, setCurrentQuestioneir, setCurrentStep, setNewQuestioneirName, setNewStep } from '../../store/slices/questionierSlice';
+import { getQuestionnaire, handleReadyToSend, handleReadyToSend2, sendQuestioneir, setCurrentQuestioneir, setCurrentStep, setNewQuestioneirName, setNewStep } from '../../store/slices/questionierSlice';
 import Swal from 'sweetalert2';
 
 const Parent = styled(Box)(({ theme }) => ({
@@ -191,7 +191,9 @@ const QuestionnaireSettings = () => {
 
   const dispatch = useDispatch() ; 
 
-
+  useEffect(() => {
+    dispatch(getQuestionnaire())
+  }, [])
  
   const handleAddAnswerStep = () => {
     if (newAnswer.trim() !== '') {

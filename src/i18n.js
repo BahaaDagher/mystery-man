@@ -12,6 +12,7 @@ const resources = {
       text: 
       { 
         empty  :"" , 
+        noMissions : "there is no missions" , 
         hello: "hello" , 
         company_name : "Company name" ,
         home : "Home" , 
@@ -100,6 +101,7 @@ const resources = {
         Lowest_rating : "أقل تصنيف" , 
         New_Missions : "المهمات الجديدة " , 
         published : "نشرت" , 
+        noMissions : "لا يوجد اي مهمات " , 
       },
       content: {}
     }

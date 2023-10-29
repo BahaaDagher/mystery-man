@@ -100,7 +100,11 @@ const questionierSlice = createSlice({
         builder
         .addCase(getQuestionnaire.fulfilled , (state, action) => {
           state.getQuestionnaireData = action.payload;
-          if (state.getQuestionnaireData.status) state.questionieres = state.getQuestionnaireData.data.questions
+          if (state.getQuestionnaireData.status) {
+            console.log ("bahaa " , state.getQuestionnaireData )
+            state.questionieres = state.getQuestionnaireData.data.questions
+            
+          } 
 
           state.getQuestionnaireLoading = false;
         }) 

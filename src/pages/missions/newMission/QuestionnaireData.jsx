@@ -227,7 +227,9 @@ const QuestionnaireData = ({setShowQuestionnaire}) => {
 
   const dispatch = useDispatch() ; 
 
-
+  useEffect(() => {
+    dispatch(getQuestionnaire())
+  }, [])
  
   const handleAddAnswerStep = () => {
     if (newAnswer.trim() !== '') {

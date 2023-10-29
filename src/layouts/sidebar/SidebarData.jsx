@@ -30,7 +30,7 @@ const SidebarData = [
         title : "subscription" , 
         icon1 : subscription1 ,
         icon2 : subscription2 ,
-        link : "/subscription"
+        link : "/dashboard/subscription"
     },
 ]
 export default SidebarData; 

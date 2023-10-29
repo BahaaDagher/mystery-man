@@ -161,15 +161,21 @@ const ViewMissions = ({selectMissions}) => {
     
 
     const {t} = useTranslation()
+    const [findData ,  setFindData] = useState(false)
+    useEffect(() => {
+        setFindData(false)
+    },[selectMissions])
 
   return (
     <>
     <MissionSettings setAnchorEl= {setAnchorEl} anchorEl={anchorEl} setChosenSetting = {setChosenSetting}   />
     {getMissionsLoading  && <Loading/>}
+    
     {missionsData.map((mission , index) => {
 
-        if (mission.status == selectMissions && mission.finished==0)
-        return (
+        if (mission.status == selectMissions){
+            if (!findData) setFindData(true)
+            return (
             <Parent key={index}>
                 <Header>
                     <Published>
@@ -220,64 +226,26 @@ const ViewMissions = ({selectMissions}) => {
                 {mission.status ==1 ? 
                     <ReviewSubmitButton  onClick={()=>ReviewRequest(mission)}> Review Request </ReviewSubmitButton> : null 
                 }
+                {
+                    mission.status == 3 ? 
+                    <ViewSubmitButton  onClick={()=>ReviewRequest(mission)}> View Details </ViewSubmitButton> : null
+                }
             </Parent>
         ) 
-        else if (selectMissions==3 && mission.finished==1)  
-        
-        return (
-            <Parent key={index}>
-                <Header>
-                    <Published>
-                        <Box color = {Colors.grayDC} margin = "0 10px"> published</Box>
-                        <Box color = {Colors.gray} >{mission.dayWritten}</Box>
-                    </Published>
-                    <IconDiv onClick={(e)=>{showSettings(e); setSelectedMission(mission.id) }}>
-                        <img src= {ThreeDotesMore} alt ="more"/>
-                    </IconDiv>
-                </Header>
-                <MissionTitle>
-                    {mission.name}  
-                </MissionTitle>
-                <Divider/>
-                <Footer>
-                    <Focus>
-                        <FocusTitle>Focus</FocusTitle>
-                        <FocusThings>
-                            {mission.foucs} 
-                        </FocusThings>
-                    </Focus>
-                    <LocationAndTime>
-                        <LocationAndTimeTitle>location and time</LocationAndTimeTitle>
-                        <LocationAndTimeThings>
-                            <DateDiv>
-                                <ImgDiv>
-                                    <img src= {location2} alt ="location"/>
-                                </ImgDiv>
-                                <Address>{mission.address}</Address>
-                            </DateDiv>
-                            <DateTime>
-                                <Date>
-                                    <ImgDiv>
-                                        <img src= {date} alt ="location"/>
-                                    </ImgDiv>
-                                    <Address>{mission.date}</Address>
-                                </Date>
-                                <Time>
-                                    <ImgDiv>
-                                        <img src= {time} alt ="location"/>
-                                    </ImgDiv>
-                                    <Address>{mission.from} - {mission.to}</Address>
-                                </Time>
-                            </DateTime>
-                        </LocationAndTimeThings>
-                    </LocationAndTime>
-                </Footer>
-                {/* {mission.status == } */}
-                <ViewSubmitButton  > View Details </ViewSubmitButton> 
-            </Parent>
-        ) 
+        }
+
 
      } )}
+        {!findData && 
+            <FlexCenter>
+                <FlexCenter 
+                    style = {{ color : Colors.main , margin : "0 10px"  , fontSize : "24px" }} 
+                > 
+                    {t("text.noMissions")}
+                </FlexCenter>
+            </FlexCenter>
+        }
+
     </>
   ) 
 }

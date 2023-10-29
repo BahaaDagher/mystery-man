@@ -108,7 +108,7 @@ const FinishedData = (
       else {
         setActivePost(false)
       }
-    },[ missionTitle , missionFocus , missionSelectedBranch , missionDate , missionTime1 , missionTime2 , missionVoucherChecked , missionVoucherValue , missionSelectedQuestioniere>-1])
+    },[ missionTitle , missionFocus , missionSelectedBranch , missionDate , missionTime1 , missionTime2 , missionVoucherChecked , missionVoucherValue , missionSelectedQuestioniere])
   
     const questionieresData = useSelector((state) => state.questioneirData.questionieres);
     const currentQuestioneir = useSelector((state) => state.questioneirData.currentQuestioneir);

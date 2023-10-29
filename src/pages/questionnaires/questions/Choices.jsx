@@ -131,7 +131,7 @@ const Choices = ({questionData,index}) => {
               <div key={index}>
                 <AnswerContainer>
                   <img src = {grayDelete} onClick={() => handleDeleteAnswer(index)} style = {{cursor : "pointer"}}/>
-                  <Answer>{answer}</Answer>
+                  <Answer>{answer.title}</Answer>
                 </AnswerContainer>
               </div>
             ))}
