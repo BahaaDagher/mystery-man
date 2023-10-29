@@ -143,7 +143,7 @@ const MissionsButtons = ({setSelectMissions}) => {
                             style = {{width : "50px" , }}
                         />
                     </ImgContainer>
-                    <Number>{button.number}</Number>
+                    {/* <Number>{button.number}</Number> */}
                 </Button>
             )
             })}
