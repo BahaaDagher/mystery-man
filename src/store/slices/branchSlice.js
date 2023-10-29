@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-
+import i18n from "../../i18n";
+const currentLanguage = i18n.language;
 export const addBranch = createAsyncThunk(
 "branch/addBranch", 
 async (values) => {
@@ -14,6 +15,7 @@ async (values) => {
         },{
             headers: {
                 "Authorization" : "Bearer 112|nZSbjQaMv0nJkmfw2puEbR6O1LGN6g1tQ9XgWdYo3fba4d22" , 
+                "lang" : currentLanguage , 
             },
         }
     );
@@ -31,6 +33,7 @@ export const deleteBranch = createAsyncThunk(
             `https://mystery.cloudy.mohamedmansi.com/api/deleteBranch?branch_id=${values.id}` ,{
                 headers: {
                     "Authorization" : "Bearer 112|nZSbjQaMv0nJkmfw2puEbR6O1LGN6g1tQ9XgWdYo3fba4d22" , 
+                    "lang" : currentLanguage , 
                 },
             }
         );
@@ -49,6 +52,7 @@ export const getBranches = createAsyncThunk(
             "https://mystery.cloudy.mohamedmansi.com/api/getBranches" ,{
                 headers: {
                     "Authorization" : "Bearer 112|nZSbjQaMv0nJkmfw2puEbR6O1LGN6g1tQ9XgWdYo3fba4d22" , 
+                    "lang" : currentLanguage , 
                 },
             }
         );

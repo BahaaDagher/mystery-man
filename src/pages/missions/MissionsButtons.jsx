@@ -19,7 +19,8 @@ import { setCurrentMission } from '../../store/slices/missionSlice';
 const Parent = styled(Flex)(({ theme }) => ({
     width: '300px',
     position :"fixed" , 
-    right : "0" , 
+    right : theme.direction  == "ltr" ? "0" : "auto" , 
+    left  : theme.direction  == "rtl"? "0" : "auto" , 
     height : "calc(100vh - 75px)" , 
     [theme.breakpoints.down('800')]: {
         position :"static" , 
