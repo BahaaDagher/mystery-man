@@ -111,11 +111,15 @@ const Date = styled(Flex)(({ theme }) => ({
 const Time = styled(Flex)(({ theme }) => ({
 
 }));
-const CurrentSubmitButton = styled(SubmitButton)(({ theme }) => ({
+const ReviewSubmitButton = styled(SubmitButton)(({ theme }) => ({
     width : "fit-content" ,
     padding : "20px" ,  
 }));
-
+const ViewSubmitButton = styled(SubmitButton)(({ theme }) => ({
+    width : "fit-content" ,
+    padding : "20px" ,  
+    backgroundColor  : Colors.green
+}));
 const ViewMissions = ({selectMissions}) => {
 
     const [chosenSetting , setChosenSetting] = useState("sss") ;
@@ -204,8 +208,9 @@ const ViewMissions = ({selectMissions}) => {
                         </LocationAndTimeThings>
                     </LocationAndTime>
                 </Footer>
-                {/* {mission.status == } */}
-                <CurrentSubmitButton  onClick={()=>ReviewRequest(mission)}> Review Request </CurrentSubmitButton>
+                {mission.status ==1 ? 
+                    <ReviewSubmitButton  onClick={()=>ReviewRequest(mission)}> Review Request </ReviewSubmitButton> : null 
+                }
             </Parent>
         ) 
         else if (selectMissions==3 && mission.finished==1)  
@@ -259,7 +264,7 @@ const ViewMissions = ({selectMissions}) => {
                     </LocationAndTime>
                 </Footer>
                 {/* {mission.status == } */}
-                <CurrentSubmitButton  onClick={()=>ReviewRequest(mission)}> Review Request </CurrentSubmitButton>
+                <ViewSubmitButton  > View Details </ViewSubmitButton> 
             </Parent>
         ) 
 

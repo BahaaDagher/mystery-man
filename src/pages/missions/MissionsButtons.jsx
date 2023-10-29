@@ -11,21 +11,34 @@ import CompleteMissions from "../../assets/icons/CompleteMissions.svg"
 import CompleteMissions2 from "../../assets/icons/CompleteMissions2.svg"
 import CanceledMissions from "../../assets/icons/CanceledMissions.svg"
 import CanceledMissions2 from "../../assets/icons/CanceledMissions2.svg"
+import { Flex } from '../../components/Flex';
 
 
-const Parent = styled("div")(({ theme }) => ({
+const Parent = styled(Flex)(({ theme }) => ({
     width: '300px',
-    display: 'flex',
+    position :"fixed" , 
+    right : "0" , 
+    height : "calc(100vh - 75px)" , 
+    [theme.breakpoints.down('800')]: {
+        position :"static" , 
+        height : "fit-content" ,
+        width : "100%" ,
+        flexDirection : "row" ,
+        gap : "20px" ,
+    },
+}));
+const ScrollDiv = styled(Flex)(({ theme }) => ({
     flexDirection: 'column',
     alignItems: 'center',
+    overflow : "auto" ,
     [theme.breakpoints.down('800')]: {
+        height : "fit-content" ,
         width : "100%" ,
         flexDirection : "row" ,
         gap : "20px" ,
         overflow : "auto" ,
     },
 }));
-
 const Button = styled("div")(({ theme }) => ({
     width: '282px',
     height: '138px',
@@ -35,6 +48,7 @@ const Button = styled("div")(({ theme }) => ({
     cursor : "pointer" ,
     backgroundColor : "#fff" , 
     color : Colors.gray_l ,
+
     "&.active" : {
         backgroundColor: Colors.main , 
         color  : "#fff" ,
@@ -55,6 +69,7 @@ const ImgContainer = styled("div")(({ theme }) => ({
     position : "absolute" , 
     bottom : "0px" ,
     left : "15px" ,
+    
 }));
 
 const Number = styled("div")(({ theme }) => ({
@@ -117,17 +132,22 @@ const MissionsButtons = ({setSelectMissions}) => {
   return (
     <>
     <Parent>
-        {buttonsArray.map((button , index) => {
-          return (
-            <Button onClick={(e)=>handleClick(button.id) } className = { activeButton === button.id ? "active" : "" }>
-                <MissionName>{button.name}</MissionName>
-                <ImgContainer>
-                    <img src= {activeButton == button.id ? button.icon2 : button.icon1}/>
-                </ImgContainer>
-                <Number>{button.number}</Number>
-            </Button>
-          )
-        })}
+        <ScrollDiv>
+            {buttonsArray.map((button , index) => {
+            return (
+                <Button onClick={(e)=>handleClick(button.id) } className = { activeButton === button.id ? "active" : "" }>
+                    <MissionName>{button.name}</MissionName>
+                    <ImgContainer>
+                        <img 
+                            src= {activeButton == button.id ? button.icon2 : button.icon1} 
+                            style = {{width : "50px" , }}
+                        />
+                    </ImgContainer>
+                    <Number>{button.number}</Number>
+                </Button>
+            )
+            })}
+        </ScrollDiv>
     </Parent>
     </>
   )

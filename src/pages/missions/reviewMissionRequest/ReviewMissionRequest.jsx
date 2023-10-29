@@ -72,6 +72,8 @@ const ReviewMissionRequest = () => {
         <span style = {{color : Colors.main}}> New Mission</span>
     </Place>
     <Parent>
+    {CurrentMissionEmployees.map((item , index) => {
+      return (
       <Line>
           <PhotoAndName>
               <Section>
@@ -86,6 +88,10 @@ const ReviewMissionRequest = () => {
             <AcceptButton>Accept</AcceptButton>
           </ButtonDiv>
       </Line> 
+      ) 
+    }
+    )}
+      
     </Parent>
     </SmallContainer>
     </>

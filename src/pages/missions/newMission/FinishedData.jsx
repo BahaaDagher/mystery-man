@@ -81,8 +81,8 @@ const Price = styled("p")(({ theme }) => ({
   fontWeight: 500,
   lineHeight: '67px',
   color : Colors.main , 
-  [theme.breakpoints.down('500')]: {
-    fontSize: '20px', 
+  [theme.breakpoints.down('850')]: {
+    fontSize: '36px', 
   },
   textAlign : "center" ,
 }));

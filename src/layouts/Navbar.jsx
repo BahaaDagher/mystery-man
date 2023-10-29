@@ -14,7 +14,8 @@ import "../i18n";
 import LanguageIcon from '../components/LanguageIcon';
 import { useTranslation } from 'react-i18next';
 import { use } from 'i18next';
-import { ListItemText, Popover } from '@mui/material';
+import { Box, ListItemText, Popover } from '@mui/material';
+import { Flex } from '../components/Flex';
 
 const NavbarContainer = styled("div")(({ theme }) => ({
   height: '73px',
@@ -123,6 +124,7 @@ const Navbar = ({phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
           <img src = {searchImage}/>
         </SearchDiv>
       </Text> */}
+      
       <InformationDiv>
         <Section>
           <LanguageIconNavbar Navbar= {true} />
@@ -133,6 +135,9 @@ const Navbar = ({phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
         <Section >
           <img src = {chatImage} alt = "chat"/>
         </Section>
+        
+      </InformationDiv>
+      <Flex>
         <Section onClick={()=>{window.location = "/profile"}}>
           <img src = {adminImage} style = {{width : "40px" , height : "40px" ,   borderRadius : "50%" }} alt = "admin"/>
         </Section>
@@ -140,7 +145,7 @@ const Navbar = ({phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
           <p style = {{color: Colors.second , weight : "400"}}>{t("text.company_name")}</p>
           <p style = {{color: Colors.gray , weight : "400"}}>+995 14231512154</p>
         </Section>
-      </InformationDiv>
+      </Flex>
 
       
 
