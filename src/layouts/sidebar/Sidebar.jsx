@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import SidebarData from './SidebarData'
 import styled from '@emotion/styled';
 import { Colors, Dimensions } from '../../Theme';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Drawer } from '@mui/material';
 import { useTheme } from '@emotion/react';
@@ -30,6 +30,7 @@ const SideBarDiv = styled("div")(({ theme }) => ({
 const LogoContainer = styled("div")(({ theme }) => ({
   textAlign : "center",
   marginTop : "33px",
+  cursor : "pointer",
 }));
 
 const Divider = styled("div")(({ theme }) => ({
@@ -117,10 +118,15 @@ const Sidebar = ( {phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
   const pathnameSegments = location.pathname.split('/');
   // Extract the first two segments
   const firstTwoSegments = pathnameSegments.slice(0, 3).join('/');
+  const  navigate = useNavigate() ;
+  const handleLogoClick = () => {
+    navigate("/dashboard/home")
+  }
+
   return (
     <>
     <SideBarDiv>
-      <LogoContainer>
+      <LogoContainer onClick={handleLogoClick}>
         <img  src= {dashboardLogo} alt = "logo" />
       </LogoContainer>
       <Divider />

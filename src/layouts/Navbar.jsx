@@ -37,6 +37,9 @@ const NavbarContainer = styled("div")(({ theme }) => ({
   [theme.breakpoints.up('1200')]: {
     left : theme.direction =="rtl" ? "20px" : "auto" ,
   },
+  [theme.breakpoints.down('500')]: {
+    padding : "15px" ,
+  },
   direction : theme.direction , 
   zIndex : "5" ,
   
@@ -90,13 +93,16 @@ const Section = styled("div")(({ theme }) => ({
       display : "none" ,
     },
   },
+  [theme.breakpoints.down('500')]: {
+    marginRight : "15px" , 
+  },
 }));
 
 const Slider = styled("div")(({ theme }) => ({
   display : "flex" ,
   justifyContent : "center" ,
   alignItems : "center" ,
-  marginLeft : "10px" ,
+  marginLeft : "5px" ,
   cursor : "pointer" ,
   [theme.breakpoints.up('1200')]: {
     display : "none" ,
