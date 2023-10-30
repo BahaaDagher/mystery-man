@@ -27,6 +27,7 @@ const Parent = styled("div")(({ theme }) => ({
     backgroundColor: '#fff',
     padding : "20px", 
     marginBottom : "20px" ,
+    // overflowX : "auto" ,
 }));
 const Header = styled(FlexSpaceBetween)(({ theme }) => ({
 }));
@@ -35,11 +36,11 @@ const Published = styled(Flex)(({ theme }) => ({
 }));
 const IconDiv = styled("div")(({ theme }) => ({
     cursor : "pointer" ,
-
 }));
 const MissionTitle = styled("div")(({ theme }) => ({
     fontSize:"20px" , 
     color : Colors.second ,
+    overflowX : "auto"
 }));
 const Divider = styled("div")(({ theme }) => ({
     width : "97%" ,
@@ -187,7 +188,7 @@ const ViewMissions = ({selectMissions}) => {
                     </IconDiv>
                 </Header>
                 <MissionTitle>
-                    {mission.name}  
+                    {mission.name} 
                 </MissionTitle>
                 <Divider/>
                 <Footer>

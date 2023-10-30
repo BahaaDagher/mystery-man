@@ -4,6 +4,7 @@ import plusSign from '../../assets/icons/plusSign.svg'
 import {Colors} from "../../Theme"
 import { Box, ListItemText, Popover } from '@mui/material';
 import { FlexSpaceBetween } from '../../components/FlexSpaceBetween';
+import Loading  from '../../components/Loading';
 import { Flex } from '../../components/Flex';
 import { FlexCenter } from '../../components/FlexCenter';
 import QuestionsTypes from './QuestionsTypes';
@@ -136,6 +137,10 @@ const AddStepButton = styled(FlexCenter)(({ theme }) => ({
   "&:hover" : {
     backgroundColor : Colors.grayDC ,
   } , 
+  "&.active" : {
+    color:'white' , 
+  backgroundColor : Colors.second ,
+} , 
 }));
 const QuestionView = styled("div")(({ theme }) => ({
   
@@ -170,7 +175,7 @@ const AnswerInput = styled("input")(({ theme }) => ({
   margin : "0 10px" ,
 }));
 
-const QuestionnaireSettings = () => {
+const QuestionnaireSettings = ({isAddNew}) => {
   // pop over when click on the button the list of questions type will appear
   const questionieres = useSelector((state) => state.questioneirData.questionieres);
   const currentQuestioneir = useSelector((state) => state.questioneirData.currentQuestioneir);
@@ -184,16 +189,18 @@ const QuestionnaireSettings = () => {
   const showTypes = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
+  
+  useEffect(() => {
+    if(!isAddNew)dispatch(getQuestionnaire())
+  },[isAddNew])
+  const getQuestionnaireLoading = useSelector((state) => state.questioneirData.getQuestionnaireLoading);
 
   const [chosenType , setChosenType] = useState(null) ; 
   const [newAnswer, setNewAnswer] = useState('');
 
   const dispatch = useDispatch() ; 
 
-  useEffect(() => {
-    dispatch(getQuestionnaire())
-  }, [])
+
  
   const handleAddAnswerStep = () => {
     if (newAnswer.trim() !== '') {
@@ -221,7 +228,7 @@ const QuestionnaireSettings = () => {
   const [pressSave , setPressSave] = useState(false) ;
   useEffect(() => {
     if (questionierDataSent&& pressSave){
-      Swal.fire('branch deleted successfully', '', 'success')
+      Swal.fire('Questionnaire added successfully', '', 'success')
     }
   },[questionierDataSent])
 
@@ -229,7 +236,7 @@ const QuestionnaireSettings = () => {
     console.log(questionieres[currentQuestioneir]);
     setPressSave(true)
     Swal.fire({
-      title: 'are you sure you want to delete this branch?',
+      title: 'are you sure you want to add this Questionnaire?',
       showDenyButton: true,
       confirmButtonText: 'Yes',
       denyButtonText: `No`,
@@ -246,11 +253,11 @@ const QuestionnaireSettings = () => {
     console.log(questionieres[currentQuestioneir]);
     dispatch(sendQuestioneir([questionieres[currentQuestioneir]]))
   };
- 
+  const [activeStep, setActiveStep] = useState(0);
   return (
     <>
     <QuestionsTypes  setAnchorEl= {setAnchorEl} anchorEl={anchorEl} setChosenType = {setChosenType}/>
-
+    {getQuestionnaireLoading ? <Loading/> : 
     <Parent>
         <Settings>
           <InputAndButtons>
@@ -274,7 +281,12 @@ const QuestionnaireSettings = () => {
 
             {questionieres[currentQuestioneir] ? questionieres[currentQuestioneir].steps.map((answer ,index)=>
 
-               <AddStepButton onClick={()=>handleClickStep(index,answer.questions)} style={{color:'white' ,background:`${Colors.gray_l}`}}>{answer.name}</AddStepButton>
+               <AddStepButton 
+                  onClick={()=>{handleClickStep(index,answer.questions); setActiveStep(index) ;  }}
+                  className= {activeStep==index ? 'active' : ''}
+                  >
+                  {answer.name}
+               </AddStepButton>
             ): ''}
          
           <AddStepButton onClick={handleAddStep}>+</AddStepButton>
@@ -306,6 +318,8 @@ const QuestionnaireSettings = () => {
           }
         </QuestionView>
     </Parent>
+    
+    }
     </>
   )
 }

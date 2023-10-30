@@ -7,11 +7,12 @@ export const getMissions = createAsyncThunk(
 "mission/getMissions", 
 async (values) => {
     console.log("i18n.lang", i18n.language)
+    const token = localStorage.getItem('token');
     try {
     const response = await axios.get(
         `https://mystery.cloudy.mohamedmansi.com/api/getMissions` ,{
             headers: {
-                "Authorization" : "Bearer 112|nZSbjQaMv0nJkmfw2puEbR6O1LGN6g1tQ9XgWdYo3fba4d22" , 
+                "Authorization" : token , 
                 "lang" : currentLanguage
             },
         }
@@ -25,13 +26,14 @@ async (values) => {
 export const addMissions = createAsyncThunk(
     "mission/addMissions", 
     async (values) => {
+        const token = localStorage.getItem('token');
         try {
         const response = await axios.post(
             `https://mystery.cloudy.mohamedmansi.com/api/addMission` ,
             values , 
             {
                 headers: {
-                    "Authorization" : "Bearer 112|nZSbjQaMv0nJkmfw2puEbR6O1LGN6g1tQ9XgWdYo3fba4d22" ,
+                    "Authorization" : token ,
                     "lang" : currentLanguage ,
                 },
             }

@@ -1,7 +1,7 @@
 
 import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Colors ,  Dimensions } from '../Theme';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import searchImage from "../assets/images/search.svg"
@@ -9,13 +9,17 @@ import notificationImage from "../assets/images/notification.svg"
 import chatImage from "../assets/images/chat.svg"
 import adminImage from "../assets/images/admin.png"
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import "../i18n";
 import LanguageIcon from '../components/LanguageIcon';
 import { useTranslation } from 'react-i18next';
 import { use } from 'i18next';
 import { Box, ListItemText, Popover } from '@mui/material';
 import { Flex } from '../components/Flex';
+import { FlexCenter } from '../components/FlexCenter';
+import { useDispatch, useSelector } from 'react-redux';
+import Swal from 'sweetalert2';
+import { getProfile } from '../store/slices/profileSlice';
 
 const NavbarContainer = styled("div")(({ theme }) => ({
   height: '73px',
@@ -105,12 +109,57 @@ const LanguageIconNavbar = styled(LanguageIcon)(({ theme }) => ({
   
 }));
 
+const Logout = styled(LogoutOutlinedIcon)(({ theme }) => ({
+  cursor : "pointer" ,
+  
+}));
   
 
 
 const Navbar = ({phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
 
+  
+  
+  const dispatch = useDispatch();
+  const navigate = useNavigate() ; 
 
+  const logout = () => {
+    Swal.fire({
+      title: "Are you sure you want to logout?",
+      showCancelButton: true,
+      confirmButtonText: `Yes`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // dispatch(userLogout())
+        Swal.fire({
+          icon: 'success',
+          title: 'logout successfully',
+          showConfirmButton: false,
+          timer: 2000
+        })
+        setTimeout(() => {
+          localStorage.removeItem("token")
+          navigate("/login")
+        }, 2000);
+      }
+    })
+  }
+  useEffect(()=> {
+    dispatch(getProfile())
+  },[])
+  // profile data 
+  const getProfileData = useSelector(state => state.profileData.getProfileData) ;
+  const getProfileLoading = useSelector(state => state.profileData.getProfileLoading) ;
+  const [profileData , setProfileData] = useState ({})
+  useEffect(()=>{
+    if (getProfileData.status) {
+      console.log("getProfileData" , getProfileData.data)
+      setProfileData(getProfileData.data.user)
+    }
+  },[getProfileData])
+
+  const [newBranch , setNewBranch] = useState(false) ; 
+  const [currentBranches , setCurrentBranches] = useState ([])
 
   const {t } = useTranslation();
   return (
@@ -137,15 +186,16 @@ const Navbar = ({phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
         </Section>
         
       </InformationDiv>
-      <Flex>
+      <FlexCenter>
         <Section onClick={()=>{window.location = "/profile"}}>
-          <img src = {adminImage} style = {{width : "40px" , height : "40px" ,   borderRadius : "50%" }} alt = "admin"/>
+          <img src = {profileData.image} style = {{width : "40px" , height : "40px" ,   borderRadius : "50%" }} alt = "admin"/>
         </Section>
         <Section className = "company">
-          <p style = {{color: Colors.second , weight : "400"}}>{t("text.company_name")}</p>
-          <p style = {{color: Colors.gray , weight : "400"}}>+995 14231512154</p>
+          <p style = {{color: Colors.second , weight : "400"}}>{profileData.name}</p>
+          <p style = {{color: Colors.gray , weight : "400"}}>{profileData.phone}</p>
         </Section>
-      </Flex>
+        <Logout onClick={logout}/>
+      </FlexCenter>
 
       
 

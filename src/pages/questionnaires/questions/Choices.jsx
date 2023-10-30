@@ -76,7 +76,7 @@ const Answer = styled("div")(({ theme }) => ({
 const Choices = ({questionData,index}) => {
   const [radio,  setRadio] = useState(questionData.required);
   const [question, setQuestion] = useState(questionData.title);
-  const [answers, setAnswers] = useState([]); 
+  const [answers, setAnswers] = useState(questionData.options); 
   const [newAnswer, setNewAnswer] = useState('');
   const questionieres = useSelector((state) => state.questioneirData.questionieres);
   const currentQuestioneir = useSelector((state) => state.questioneirData.currentQuestioneir);
@@ -108,7 +108,7 @@ const Choices = ({questionData,index}) => {
 
   const handleAddAnswer = () => {
     if (newAnswer.trim() !== '') {
-      console.log(newAnswer);
+      console.log("newAnswer",newAnswer);
       const currentAns =questionData.options
       setAnswers([...currentAns, newAnswer]);
       setNewAnswer('');
@@ -131,7 +131,7 @@ const Choices = ({questionData,index}) => {
               <div key={index}>
                 <AnswerContainer>
                   <img src = {grayDelete} onClick={() => handleDeleteAnswer(index)} style = {{cursor : "pointer"}}/>
-                  <Answer>{answer.title}</Answer>
+                  <Answer>{answer}</Answer>
                 </AnswerContainer>
               </div>
             ))}

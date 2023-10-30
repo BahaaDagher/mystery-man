@@ -1,4 +1,4 @@
-import { Route, Router, Routes  ,Switch } from 'react-router-dom';
+import { Navigate, Route, Router, Routes  ,Switch, useNavigate } from 'react-router-dom';
 import Layout from './layouts/Layout' ;
 import Navbar from './layouts/Navbar';
 import Login from './Auth/Login/Login';
@@ -18,7 +18,7 @@ import Missions from './pages/missions/Missions';
 import NewMission from './pages/missions/newMission/NewMission';
 import ReviewMissionRequest from './pages/missions/reviewMissionRequest/ReviewMissionRequest';
 import i18n from './i18n';
-
+import ProtectAuth from './protected/ProtectAuth';
 
 function App() {
   const theme = useTheme() ;
@@ -33,11 +33,18 @@ function App() {
     }
   } , [localStorage.getItem("language")])
 
+  const navigate = useNavigate() ;
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      navigate("/login")
+    }
+  },[])
+
   return (
     <>
       <Routes>
         <Route path='/bahaa' element = <Bahaa/>  />
-        <Route path='/login' element = <Login/>  />
+        <Route path='/login' element = {<ProtectAuth> <Login/> </ProtectAuth>}  />
         <Route path='/register/enter-phone' element = <EnterPhone/>  />
         <Route path='/register/verify-phone' element = <VerifyPhone/>  />
         <Route path='/register/enter-data' element = <EnterData/>  />

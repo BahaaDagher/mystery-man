@@ -6,6 +6,7 @@ export const addBranch = createAsyncThunk(
 "branch/addBranch", 
 async (values) => {
     try {
+        const token = localStorage.getItem('token');
     const response = await axios.post(
         "https://mystery.cloudy.mohamedmansi.com/api/addBranch" ,{
             name:values.name,
@@ -14,7 +15,7 @@ async (values) => {
             long : values.long
         },{
             headers: {
-                "Authorization" : "Bearer 112|nZSbjQaMv0nJkmfw2puEbR6O1LGN6g1tQ9XgWdYo3fba4d22" , 
+                "Authorization" : token , 
                 "lang" : currentLanguage ,
             },
         }
@@ -28,11 +29,12 @@ async (values) => {
 export const deleteBranch = createAsyncThunk(
     "branch/deleteBranch", 
     async (values) => {
+        const token = localStorage.getItem('token');
         try {
         const response = await axios.get(
             `https://mystery.cloudy.mohamedmansi.com/api/deleteBranch?branch_id=${values.id}` ,{
                 headers: {
-                    "Authorization" : "Bearer 112|nZSbjQaMv0nJkmfw2puEbR6O1LGN6g1tQ9XgWdYo3fba4d22" , 
+                    "Authorization" : token , 
                     "lang" : currentLanguage ,
                 },
             }
@@ -47,11 +49,12 @@ export const deleteBranch = createAsyncThunk(
 export const getBranches = createAsyncThunk(
     "branch/getBranches", 
     async (values) => {
+        const token = localStorage.getItem('token');
         try {
         const response = await axios.get(
             "https://mystery.cloudy.mohamedmansi.com/api/getBranches" ,{
                 headers: {
-                    "Authorization" : "Bearer 112|nZSbjQaMv0nJkmfw2puEbR6O1LGN6g1tQ9XgWdYo3fba4d22" , 
+                    "Authorization" : token , 
                     "lang" : currentLanguage , 
                 },
             }

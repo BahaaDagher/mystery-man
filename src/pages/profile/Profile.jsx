@@ -9,7 +9,7 @@ import profileLogo from "../../assets/images/profileLogo.svg"
 import Commercial_Registration from "../../assets/images/Commercial Registration.svg"
 import trash  from "../../assets/icons/trash.svg"
 import pinLocation from "../../assets/icons/pinLocation.svg"
-
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import { useTranslation } from 'react-i18next';
 import { LINK } from '../../components/LINK';
 import { FlexDiv } from '../../components/FlexDiv';
@@ -22,6 +22,8 @@ import { deleteBranch, getBranches } from '../../store/slices/branchSlice';
 import Loading from '../../components/Loading';
 import Swal from 'sweetalert2';
 import DataDiv from './DataDiv';
+import { useNavigate } from 'react-router-dom';
+import { getProfile } from '../../store/slices/profileSlice';
 
 const Container = styled("div")(({ theme }) => ({
   minHeight : "100vh" , 
@@ -175,6 +177,10 @@ const LocationDiv = styled("div")(({ theme }) => ({
   marginTop :"20px" , 
 }));
 
+const Logout = styled(LogoutOutlinedIcon)(({ theme }) => ({
+  cursor : "pointer" ,
+}));
+
 const Profile = () => {
   const {t } = useTranslation();
   const theme = useTheme() ; 
@@ -193,11 +199,22 @@ const Profile = () => {
 
   useEffect(()=>{
     dispatch(getBranches())
+    dispatch(getProfile())
   },[])
 
+  const getProfileData = useSelector(state => state.profileData.getProfileData) ;
+  const getProfileLoading = useSelector(state => state.profileData.getProfileLoading) ;
+
+  useEffect(()=>{
+    if (getProfileData.status) {
+      console.log("getProfileData" , getProfileData.data)
+      setProfileData(getProfileData.data.user)
+    }
+  },[getProfileData])
 
   const [newBranch , setNewBranch] = useState(false) ; 
   const [currentBranches , setCurrentBranches] = useState ([])
+  const [profileData , setProfileData] = useState ({})
 
  
   // delete branch 
@@ -229,6 +246,29 @@ const Profile = () => {
     dispatch(deleteBranch({id : branchID}))
   }
 
+  const navigate = useNavigate() ; 
+
+  const logout = () => {
+    Swal.fire({
+      title: "Are you sure you want to logout?",
+      showCancelButton: true,
+      confirmButtonText: `Yes`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // dispatch(userLogout())
+        Swal.fire({
+          icon: 'success',
+          title: 'logout successfully',
+          showConfirmButton: false,
+          timer: 2000
+        })
+        setTimeout(() => {
+          localStorage.removeItem("token")
+          navigate("/login")
+        }, 2000);
+      }
+    })
+  }
   return (
     <>
         {deleteBranchLoading ? <Loading/> : null}
@@ -248,17 +288,18 @@ const Profile = () => {
                 <img src = {chatImage} alt = "chat"/>
               </Section>
               <Section onClick={()=>{window.location = "/profile"}}>
-                <img src = {adminImage} style = {{width : "40px" , height : "40px" ,   borderRadius : "50%" }} alt = "admin"/>
+                <img src = {profileData.image} style = {{width : "40px" , height : "40px" ,   borderRadius : "50%" }} alt = "admin"/>
               </Section>
               <Section className = "company">
-                <p style = {{color: Colors.second , weight : "400"}}>{t("text.company_name")}</p>
-                <p style = {{color: Colors.gray , weight : "400"}}>+995 14231512154</p>
+                <p style = {{color: Colors.second , weight : "400"}}>{profileData.name}</p>
+                <p style = {{color: Colors.gray , weight : "400"}}>{profileData.phone}</p>
               </Section>
+            <Logout onClick={logout}/>
             </InformationDiv>
           </NavbarContainer>
           <Content>
             {/* first div data and information part */} 
-            <DataDiv/>
+            <DataDiv profileData = {profileData}/>
 
             {/* second div branches part  */}
             <BranchesDiv>

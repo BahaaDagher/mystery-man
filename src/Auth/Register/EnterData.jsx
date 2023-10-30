@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import  { userRegister } from '../../store/slices/authSlice'
 import Swal from 'sweetalert2'
 import { useTheme } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 
 const InsideContainer = styled("div")(({ theme }) => ({
   width : "30%" ,
@@ -72,7 +73,7 @@ const EnterData = () => {
   };
 
   const RegisterData = useSelector((state) => state.authData.RegisterData);
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (clickSubmit) {
       console.log ("RegisterData" , RegisterData ) 
@@ -80,10 +81,17 @@ const EnterData = () => {
         console.log("success")
         Swal.fire({
           icon: 'success',
-          text: RegisterData.message,
+          // text: RegisterData.message,
+          text : "تم تسجيل البيانات بنجاح وفي انتظار موافقة الادمن "  , 
           showConfirmButton: false,
-          timer: 1500
+          timer: 3000
         })
+        setTimeout(() => {
+          // if (localStorage.getItem("token")) {
+            navigate("/login")
+          // } 
+        }
+        , 3000)
       }
       else {
         console.log("failed")
@@ -171,7 +179,7 @@ const EnterData = () => {
               </InputDiv>
           <InputDiv>
               <H3>{t("text.Commercial_Registration_No")} </H3>
-              <Input type = "number"  placeholder={t("text.Commercial_Registration_No")} value ={commercial_registration_no} onChange = {(e)=> setCommercial_registration_no(e.target.value)}/>
+              <Input   placeholder={t("text.Commercial_Registration_No")} value ={commercial_registration_no} onChange = {(e)=> setCommercial_registration_no(e.target.value)}/>
           </InputDiv>
           <InputDiv>
               <H3>{t("text.Copy_of_the_commercial_register")} </H3>

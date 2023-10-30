@@ -7,7 +7,7 @@ import { useTheme } from '@emotion/react';
 import { Container } from '../../components/Container';
 import { useTranslation } from 'react-i18next'
 import logo from "../../assets/images/logo.svg"
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { userLogin } from '../../store/slices/authSlice';
 import Swal from 'sweetalert2';
@@ -139,18 +139,22 @@ const Login = () => {
     const [clickSubmit , setClickSubmit] = useState(false)
 
     const LoginData = useSelector(state => state.authData.LoginData) ;  
-
+    const navigate = useNavigate();
     useEffect(() => {
         console.log(LoginData) 
         if (clickSubmit) {
-            if ("data" in  LoginData) {
+            if (LoginData.status ) {
                 console.log("success")
+                localStorage.setItem("token" , LoginData.data.user.token) ;
                 Swal.fire({
                     icon: 'success',
                     text: LoginData.message,
                     showConfirmButton: false,
-                    timer: 1500
+                    timer: 2000
                 })
+                setTimeout(() => {
+                    navigate("/dashboard/home")
+                }, 2000);
             }
             else {
                 console.log("failed")
@@ -181,7 +185,7 @@ const Login = () => {
             <H1>{t("text.Welcome_back")}</H1>
             <Div>
                 <H3>{t("text.Phone_Number")} </H3>
-                <Input type="number" placeholder='' onChange={(e)=>setPhone(e.target.value)}/>
+                <Input type="number"  placeholder='' onChange={(e)=>setPhone(e.target.value)}/>
             </Div>
             <Div>
                 <H3>{t("text.Password")} </H3>
@@ -191,7 +195,7 @@ const Login = () => {
                 {t("text.Forget_Password")}
             </LINK>
             <SubmitButton onClick={handleLogin}>{t("text.Login")}</SubmitButton>
-            <LINK  className = "register"  > {t("text.Didnt_have_an_account") }  
+            <LINK  to = "/register/enter-data" className = "register"  > {t("text.Didnt_have_an_account") }  
                 <span style = {{color : "#030087" , marginLeft : "10px" }}> {t("text.Register")} </span>
             </LINK>
         </InformationDiv>

@@ -70,7 +70,7 @@ const QuestionnaireLengthDiv = styled(FlexSpaceBetween)(({ theme }) => ({
 const SpanQ = styled("span")(({ theme }) => ({
   fontSize : "32px" , 
   color : Colors.main
-
+  
 }));
 
 const SpanNum = styled("span")(({ theme }) => ({
@@ -89,14 +89,17 @@ const Divider = styled("div")(({ theme }) => ({
 
 const Questionnaires = () => {
   const [pressCreateQuestionnaire , setPressCreateQuestionnaire] = useState(true)
+  const [ isAddNew , setIsAddNew ] = useState(false)
 
   const dispatch = useDispatch() ; 
 
   const handleAddNewQuestionnaire =()=>{
+    setIsAddNew(true)
     dispatch(setNewQuestioneir())
     setPressCreateQuestionnaire(false)
   }
   const handleQuestionierChange =(id ,index)=>{
+    setIsAddNew(false)
     dispatch(setCurrentQuestioneir(index))
     dispatch(setCurrentQuestioneirID(id))
     setPressCreateQuestionnaire(false)
@@ -127,7 +130,7 @@ const numberOFQuestioners = (item)=>{
           
             </div>
             :
-            <QuestionnaireSettings>
+            <QuestionnaireSettings isAddNew = {isAddNew}>
               
             </QuestionnaireSettings>
           }

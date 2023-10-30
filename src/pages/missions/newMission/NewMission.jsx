@@ -281,7 +281,7 @@ const NewMission = () => {
   const [showQuestionnaire , setShowQuestionnaire] = useState(false)
 
   const handleNext = () => {
-      if (title && focus && selectedBranch && date && time1 && time2 && voucherChecked && voucherValue && selectedQuestioniere>-1) {
+      if (title && focus && selectedBranch && date && time1 && time2 && selectedQuestioniere>-1) {
         setShowQuestionnaire(true)
       }
       else {

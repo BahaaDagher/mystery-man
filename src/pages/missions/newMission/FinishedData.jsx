@@ -102,7 +102,7 @@ const FinishedData = (
   } ) => {
     const [activePost , setActivePost] = useState(false)
     useEffect(() => {
-      if(missionTitle && missionFocus && missionSelectedBranch && missionDate && missionTime1 && missionTime2 && missionVoucherChecked && missionVoucherValue && missionSelectedQuestioniere>-1){
+      if(missionTitle && missionFocus && missionSelectedBranch && missionDate && missionTime1 && missionTime2  && missionSelectedQuestioniere>-1){
         setActivePost(true)
       }
       else {

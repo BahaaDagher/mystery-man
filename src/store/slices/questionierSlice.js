@@ -5,7 +5,7 @@ const currentLanguage = localStorage.getItem("language") || "en";
 export const sendQuestioneir = createAsyncThunk(
     "questionier/sendQuestioneir", 
     async (values) => {
-      const token = "Bearer 106|ddRf53vaVG6Apq6GCAaUya7JTSxOfnq7nedqH13T6c6850c8";
+      const token = localStorage.getItem('token');
       try {
         const response = await axios.post(
           `https://mystery.cloudy.mohamedmansi.com/api/addQuestion`, 
@@ -20,11 +20,12 @@ export const sendQuestioneir = createAsyncThunk(
   export const getQuestionnaire = createAsyncThunk(
     "questionnaire/getQuestionnaire", 
     async (values) => {
+      const token = localStorage.getItem('token');
         try {
         const response = await axios.get(
             `https://mystery.cloudy.mohamedmansi.com/api/getQuestion` ,{
                 headers: {
-                    "Authorization" : "Bearer 64|gEqIzAnQDN6oe8YVOYwWqoYjATsHdzFIAdUGHx5Wd8f490fd" , 
+                    "Authorization" : token , 
                     "lang" : currentLanguage ,
                 },
             }

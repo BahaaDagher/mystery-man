@@ -101,44 +101,44 @@ const DataDivContainer = styled("div")(({ theme }) => ({
     },
   }));
 
-const DataDiv = () => {
+const DataDiv = ({profileData}) => {
   return (
     <>
-        <DataDivContainer>
-                <PhotoAndName>
-                    <Section>
-                      <img src = {adminImage} style = {{width : "65px" , height : "65px" ,   borderRadius : "50%" }} alt = "admin"/>
-                    </Section>
-                    <div>
-                      <p>Company_name</p>
-                      <p>++995 14231512154</p>
-                    </div>
-                </PhotoAndName>
-                <Division/>
-                <Part>
-                  <P1 >Jaddah, Any Location</P1>
-                  <P2 > Company Location </P2>
-                </Part>
-                <Part>
-                  <P1 >www.company.com</P1>
-                  <P2 > Company Website </P2>
-                </Part>
-                <Part>
-                  <P1>12151-5645-54113-54112</P1>
-                  <P2> Commercial Registration No </P2>
-                </Part>
-                <CommercialRegistrationImgDiv>
-                  <img src = {Commercial_Registration}  style = {{width : "100%" , height: "100%" ,  borderRadius: '10px',}}/>
-                </CommercialRegistrationImgDiv>
-                <AvailableMission>
-                    <p style = {{padding : "0 20px" , fontSize : "32px" ,fontWeight : "bold" }}>06</p>
-                    <p style = {{fontSize : "18px" , color : Colors.gray}}>Available Missions</p>
-                </AvailableMission>
-                <TotalBalance>
-                  <Price>155.24 SAR</Price>
-                  <p style = {{textAlign : "center" , fontSize : "12px", color: Colors.second}}>total balance</p>
-                </TotalBalance>
-            </DataDivContainer>
+      <DataDivContainer>
+        <PhotoAndName>
+            <Section>
+              <img src = {adminImage} style = {{width : "65px" , height : "65px" ,   borderRadius : "50%" }} alt = "admin"/>
+            </Section>
+            <div>
+              <p>{profileData.name}</p>
+              <p>{profileData.phone}</p>
+            </div>
+        </PhotoAndName>
+        <Division/>
+        <Part>
+          <P1 >Jaddah, Any Location</P1>
+          <P2 > Company Location </P2>
+        </Part>
+        <Part>
+          <P1 >{profileData.url}</P1>
+          <P2 > Company Website </P2>
+        </Part>
+        <Part>
+          <P1>{profileData.CommercialRegistrationNo}</P1>
+          <P2> Commercial Registration No </P2>
+        </Part>
+        <CommercialRegistrationImgDiv>
+          <img src = {profileData.CommercialRegistrationImage}  style = {{width : "100%" , height: "100%" ,  borderRadius: '10px',}}/>
+        </CommercialRegistrationImgDiv>
+        <AvailableMission>
+            <p style = {{padding : "0 20px" , fontSize : "32px" ,fontWeight : "bold" }}>{profileData.currentMission}</p>
+            <p style = {{fontSize : "18px" , color : Colors.gray}}>Available Missions</p>
+        </AvailableMission>
+        <TotalBalance>
+          <Price>{profileData.wallet} SAR</Price>
+          <p style = {{textAlign : "center" , fontSize : "12px", color: Colors.second}}>total balance</p>
+        </TotalBalance>
+      </DataDivContainer>
     </>
   )
 }
