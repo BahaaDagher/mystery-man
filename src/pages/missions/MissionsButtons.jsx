@@ -155,6 +155,7 @@ const MissionsButtons = ({setSelectMissions}) => {
                         <img 
                             src= {activeButton == button.id ? button.icon2 : button.icon1} 
                             style = {{width : "50px" , }}
+                            alt = ""
                         />
                     </ImgContainer>
                     {/* <Number>{button.number}</Number> */}

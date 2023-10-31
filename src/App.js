@@ -19,6 +19,7 @@ import NewMission from './pages/missions/newMission/NewMission';
 import ReviewMissionRequest from './pages/missions/reviewMissionRequest/ReviewMissionRequest';
 import i18n from './i18n';
 import ProtectAuth from './protected/ProtectAuth';
+import ViewDetails from './pages/missions/viewMissionDetailes/ViewDetails';
 
 function App() {
   const theme = useTheme() ;
@@ -59,7 +60,10 @@ function App() {
           <Route path='questionnaires' element = <Questionnaires/>  />
           <Route path='missions' element = <Missions/>  />
           <Route path='missions/newMission' element = <NewMission/> />  
-          <Route path='missions/waitRequests/viewMissions' element = <ReviewMissionRequest/> />  
+          <Route path='missions/waitRequests/viewMissions' element = <ReviewMissionRequest/> /> 
+          <Route path='missions/viewMissions' element = <ReviewMissionRequest/> /> 
+          <Route path='missions/viewDetails/:id' element = <ViewDetails/> /> 
+
         </Route>
       </Routes>
 

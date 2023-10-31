@@ -123,8 +123,12 @@ const ReviewSubmitButton = styled(SubmitButton)(({ theme }) => ({
 const ViewSubmitButton = styled(SubmitButton)(({ theme }) => ({
     width : "fit-content" ,
     padding : "20px" ,  
-    backgroundColor  : Colors.green
+    backgroundColor  : Colors.green,
+    "&:hover" : {
+        backgroundColor  : Colors.hoverGreen,
+    }
 }));
+
 const ViewMissions = ({selectMissions}) => {
 
     const [chosenSetting , setChosenSetting] = useState("sss") ;
@@ -159,13 +163,16 @@ const ViewMissions = ({selectMissions}) => {
         navigate ("/dashboard/missions/waitRequests/viewMissions")
     }
 
-    
 
     const {t} = useTranslation()
     const [findData ,  setFindData] = useState(false)
     useEffect(() => {
         setFindData(false)
     },[selectMissions])
+
+    const viewDetails = (id) => {
+        navigate(`/dashboard/missions/viewDetails/${id}`)
+    }
 
   return (
     <>
@@ -229,7 +236,7 @@ const ViewMissions = ({selectMissions}) => {
                 }
                 {
                     mission.status == 3 ? 
-                    <ViewSubmitButton  onClick={()=>ReviewRequest(mission)}> View Details </ViewSubmitButton> : null
+                    <ViewSubmitButton  onClick={()=>viewDetails(mission.id)}> View Details </ViewSubmitButton> : null
                 }
             </Parent>
         ) 

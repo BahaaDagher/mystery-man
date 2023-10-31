@@ -119,6 +119,7 @@ const Sidebar = ( {phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
   // Extract the first two segments
   const firstTwoSegments = pathnameSegments.slice(0, 3).join('/');
   const  navigate = useNavigate() ;
+  
   const handleLogoClick = () => {
     navigate("/dashboard/home")
   }
