@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import { getCompletedMissionAnswer } from '../../../store/slices/missionSlice';
 
 const ViewDetails = () => {
     const location = useLocation();
@@ -63,6 +65,27 @@ const ViewDetails = () => {
         }
     ]
     const [questionsData ,setQuestionsData ] = useState(questions) 
+    const CompletedMissionAnswer = useSelector(state => state.missionData.CompletedMissionAnswer) 
+    const dispatch = useDispatch()
+    useEffect(()=>{
+        dispatch(getCompletedMissionAnswer(id))
+        
+    },[])
+    useEffect(()=>{
+
+        console.log(CompletedMissionAnswer ,"CompletedMissionAnswer");
+        if (CompletedMissionAnswer.data) {
+            const arr =[]
+            CompletedMissionAnswer.data.questions.steps.forEach((step)=>{
+                step.questions.forEach((question)=>{
+                    arr.push(question)
+                })
+
+            })
+            setQuestionsData(arr)
+         
+        }
+    },[CompletedMissionAnswer])
   return (
     <>
         <h1>ViewDetails</h1>
