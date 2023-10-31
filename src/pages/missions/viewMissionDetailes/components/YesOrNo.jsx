@@ -6,9 +6,11 @@ import { Flex } from '../../../../components/Flex';
 import { Box } from '@mui/material';
 const Label = styled("div")(({ theme }) => ({
   fontSize : "22px" , 
-  color : Colors.main  , 
+  fontWeight : "600" ,
   margin : theme.direction === "rtl" ? "0 10px 0 0 " : "0 0 0 10px " ,
-
+  "&.active" :{
+    color : Colors.main ,
+  }
 }));
 const InputDiv = styled(Flex)(({ theme }) => ({
   alignItems : "center" ,
@@ -24,10 +26,11 @@ const Input = styled("input")(({ theme }) => ({
 const YesOrNo = ({question, num}) => {
   return (
     <Box>
-        <Title>{num} - {question.title}</Title>
+        <Title>{num} -{question.title}</Title>
         <InputDiv>
-          <Input type="radio" name={question.id} value={question.title} checked />
-          <Label >{question.answer.title}</Label>
+        
+          <Input type="radio"  value={question.title} checked />
+          <Label className='active' >No</Label>
         </InputDiv>
     </Box>
   )
