@@ -1,6 +1,20 @@
 import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom';
+import { SmallContainer } from '../../../components/SmallContainer';
+import SingleChoices from './components/SingleChoices';
+import styled from '@emotion/styled';
+import MultiChoice from './components/MultiChoice';
+const Parent = styled("div")(({ theme }) => ({
+    width: "98%",
+    
+}));
+const Continer = styled("div")(({ theme }) => ({
+    borderRadius: "10px",
+    padding : "10px 20px" , 
+    marginBottom  : "20px" ,
+    backgroundColor: "#fff",
 
+}));
 const ViewDetails = () => {
     const location = useLocation();
     // git id 
@@ -22,6 +36,20 @@ const ViewDetails = () => {
                 "title": "Bad"
             },
             "type": "SingleChoice",
+            "rate": null
+        },
+        {
+            "id": 141,
+            "title": "wefefwef",
+            "answer": [
+                {
+                    "title": "ewfwefe"
+                },
+                {
+                    "title": "ewfewfefefwefefwefwefweffewff"
+                }
+            ],
+            "type": "multiChoice",
             "rate": null
         },
         {
@@ -62,10 +90,23 @@ const ViewDetails = () => {
             "rate": null
         }
     ]
+    
     const [questionsData ,setQuestionsData ] = useState(questions) 
   return (
     <>
-        <h1>ViewDetails</h1>
+        <SmallContainer>
+            <Parent>
+                <Continer>
+                    <SingleChoices num = {1} question = {questions[0]} />
+                </Continer>
+                <Continer>
+                    <MultiChoice num = {1} question = {questions[1]} />
+                </Continer>
+                {/* <Continer>
+                    <YesOrNo num = {1} question = {questions[1]} />
+                </Continer> */}
+            </Parent>
+        </SmallContainer>
     </>
   )
 }
