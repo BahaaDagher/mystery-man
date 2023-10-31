@@ -23,6 +23,26 @@ async (values) => {
     }
 }
 );
+export const getCompletedMissionAnswer = createAsyncThunk(
+"mission/getCompletedMissionAnswer", 
+async (values) => {
+
+    const token = localStorage.getItem('token');
+    try {
+    const response = await axios.get(
+        `https://mystery.cloudy.mohamedmansi.com/api/getAnswers?mission_id=${values}` ,{
+            headers: {
+                "Authorization" : token , 
+                "lang" : currentLanguage
+            },
+        }
+    );
+    return response.data ;
+    } catch (error) {
+    console.error(error);
+    }
+}
+);
 export const addMissions = createAsyncThunk(
     "mission/addMissions", 
     async (values) => {
@@ -53,6 +73,7 @@ const missionSlice = createSlice({
         addMissionsData : {} ,
         addMissionsLoading : false ,  
         CurrentMission : {} ,
+        CompletedMissionAnswer : {} ,
     },
     reducers: {
         setCurrentMission: (state, action) => {
@@ -82,7 +103,11 @@ const missionSlice = createSlice({
         .addCase(addMissions.rejected , (state, action) => {
             state.addMissionsLoading = false;
         })
-    
+        
+        .addCase(getCompletedMissionAnswer.fulfilled , (state, action) => {
+            state.CompletedMissionAnswer = action.payload;
+       
+        }) 
     }
     });
     export const { 
