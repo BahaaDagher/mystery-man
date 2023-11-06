@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { getProfile } from '../store/slices/profileSlice';
+import { ProfileData, getProfile } from '../store/slices/profileSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import LanguageIcon from './LanguageIcon';
@@ -46,6 +46,7 @@ const Parent = styled("div")(({ theme }) => ({
     marginLeft : theme.direction == "rtl" ? "20px" : "0px" , 
     cursor : "pointer" ,
     "&.company" : {
+      cursor : "default" ,
       flexDirection : "column" ,
       [theme.breakpoints.down('1200')]: {
         display : "none" ,
@@ -92,16 +93,20 @@ const NavbarContainer = () => {
 
     const getProfileData = useSelector(state => state.profileData.getProfileData) ;
     const getProfileLoading = useSelector(state => state.profileData.getProfileLoading) ;
+
   const dispatch = useDispatch()
     useEffect(()=>{
       if (getProfileData.status) {
         console.log("getProfileData" , getProfileData.data)
         setProfileData(getProfileData.data.user)
+        dispatch(ProfileData(getProfileData.data.user))
       }
     },[getProfileData])
+
     useEffect(()=>{
         dispatch(getProfile())
-      },[])
+    },[])
+
     const [profileData, setProfileData] = useState({});
     const navigate = useNavigate()
     const logout = () => {

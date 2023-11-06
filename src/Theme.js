@@ -1,5 +1,6 @@
 export const Colors = {
     main : "#3734CA" , 
+    main2 : "#386BF6" , 
     lightMain : "#3734CA1A" , 
     hoverMain: "#0a07b2" , 
     second :"#455A64" , 
@@ -20,6 +21,8 @@ export const Colors = {
     hoverGray : "#cdcbcb" , 
     Black60:"#45464E" , 
     Gray1 :"#333333" , 
+    Black3: "#8B8D97" , 
+
 
 }
 export const Dimensions = {

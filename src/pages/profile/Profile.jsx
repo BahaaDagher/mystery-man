@@ -67,6 +67,7 @@ const Section = styled("div")(({ theme }) => ({
   marginLeft : theme.direction == "rtl" ? "20px" : "0px" , 
   cursor : "pointer" ,
   "&.company" : {
+    cursor : "default" ,
     flexDirection : "column" ,
     [theme.breakpoints.down('1200')]: {
       display : "none" ,

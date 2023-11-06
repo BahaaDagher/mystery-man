@@ -85,7 +85,8 @@ const Section = styled("div")(({ theme }) => ({
   display : "flex" ,
   justifyContent : "center" ,
   alignItems : "center" ,
-  marginRight : "20px" , 
+  marginRight : theme.direction == "ltr" ? "20px" : "0px" , 
+  marginLeft : theme.direction == "rtl" ? "20px" : "0px" ,
   cursor : "pointer" ,
   "&.company" : {
     flexDirection : "column" ,

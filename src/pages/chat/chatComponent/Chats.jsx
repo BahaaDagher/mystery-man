@@ -1,10 +1,15 @@
 import styled from '@emotion/styled';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import blueSign from "../../../assets/icons/blueSign.svg"
 import { Flex } from '../../../components/Flex';
 import { Colors } from '../../../Theme';
 import { useTranslation } from 'react-i18next';
 import { FlexSpaceBetween } from '../../../components/FlexSpaceBetween';
+import { useDispatch, useSelector } from 'react-redux';
+import { getChates, setChatMessagesSendPages, setCurrentChat } from '../../../store/slices/chatSlice';
+import { use } from 'i18next';
+import Loading from '../../../components/Loading';
+
 const Parent = styled("div")(({ theme }) => ({
     width : "25%" , 
     margin : theme.direction == "ltr" ? "0 20px 0 0" : "0 0 0 20px" ,
@@ -45,7 +50,7 @@ const Divider = styled("div")(({ theme }) => ({
     width : "100%" ,
     height : "1px" ,
     backgroundColor : "#E5E5E5" ,
-    margin : "15px 0 "
+    // margin : "15px 0 "
 }));
 const MessagesDiv = styled("div")(({ theme }) => ({
   fontSize : "20px" , 
@@ -56,7 +61,18 @@ const ChatContainer = styled("div")(({ theme }) => ({
 
 }));
 const Chat = styled(Flex)(({ theme }) => ({
-  margin : "20px 20px 0px 20px" ,
+  padding : "20px" ,
+  cursor : "pointer" ,
+  "&:hover" : {
+    backgroundColor : Colors.bgBL 
+  } , 
+  "&.active": {
+    backgroundColor : Colors.bgBL,
+    
+    borderColor : Colors.main  ,
+    borderWidth :  theme.direction == "ltr" ?  "0px 3px 0px 0px" :"0px 0px 0px 3px"  ,
+    borderStyle : "solid" ,
+  }
 }));
 
 const ImageDiv = styled("div")(({ theme }) => ({
@@ -83,11 +99,15 @@ const Name = styled("div")(({ theme }) => ({
 const MessageTime = styled(FlexSpaceBetween)(({ theme }) => ({
 }));
 const Message = styled("div")(({ theme }) => ({
-  color : Colors.Gray1 , 
+  color : Colors.Black3 , 
   fontSize : "14px" , 
+  // "&:hover" : {
+  //   color : Colors.Gray1
+  // }
 }));
 const Time = styled("div")(({ theme }) => ({
-  color : Colors.Gray1 , 
+  color : Colors.Gray1 ,
+   
   fontSize : "14px" , 
   // margin : theme.direction == "ltr" ? "0 0 0 10px" : "0 10px 0 0" , 
   width : "75px" , 
@@ -113,8 +133,9 @@ const Chats = () => {
       "senderName": "شركة اسماعيل وبهاء",
       "senderImage": "https://ui-avatars.com/api/?name=شركةاسماعيلوبهاء.png",
       "adsName": "بهاء"
-  }
+    }
   ]
+  const dispatch = useDispatch()
   const getTime = (str)=>{
     const time = str.substring(11);
     return time
@@ -125,7 +146,31 @@ const Chats = () => {
     return message
   }
   const {t} = useTranslation();
+  const [activeChat , setActiveChat] = useState(-1)
+
+  const handleClick = (chat) => {
+    setActiveChat(chat.id)
+    dispatch(setCurrentChat(chat))
+    dispatch(setChatMessagesSendPages())
+  } 
+
+  const getChatesResponse = useSelector((state) => state.chatData.getChatesResponse); 
+  const getChatesLoading = useSelector((state) => state.chatData.getChatesLoading); 
+  useEffect(() => {
+    if (getChatesResponse.status) {
+      setChats(getChatesResponse.data.messages)
+    }
+  }, [getChatesResponse])
+  
+  useEffect(() => {
+    dispatch(getChates())
+  }, [])
+
+  const [chats , setChats] = useState([])
+
   return (
+    <>
+    {getChatesLoading? <Loading/> : null}
     <Parent>
         <Title>{t("text.Support")}</Title>
         <SupportDiv>
@@ -136,16 +181,16 @@ const Chats = () => {
         <MessagesDiv>Messages</MessagesDiv>
         <ChatContainer>
           {
-            arr.map((chat , index) => (
+            chats.map((chat , index) => (
               <div key = {index}>
-                <Chat>
+                <Chat className={activeChat==chat.id?'active' : ""} onClick={()=>handleClick(chat)}>
                   <ImageDiv>
                     <img src = {chat.senderImage} alt = "senderImage"/>
                   </ImageDiv>
                   <NameMessage>
-                    <Name>{chat.senderName}</Name>
+                    <Name>{chat.adsName}</Name>
                     <MessageTime>
-                      <Message>{lastMessage(chat.message+ "نتيلانلاينلانيتلانتلاينتلانت")}    </Message>
+                      <Message>{lastMessage(chat.message)}    </Message>
                       <Time>{getTime(chat.created_at)}</Time>
                     </MessageTime>
                   </NameMessage>
@@ -156,6 +201,7 @@ const Chats = () => {
           }
         </ChatContainer>
     </Parent>
+    </>
   )
 }
 

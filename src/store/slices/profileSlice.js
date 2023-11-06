@@ -28,6 +28,12 @@ const profileSlice = createSlice({
     initialState: {
         getProfileData : {} ,
         getProfileLoading : false ,
+        profileData : {} , 
+    },
+    reducers: {
+        ProfileData: (state, action) => {
+          state.profileData = action.payload
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -44,5 +50,5 @@ const profileSlice = createSlice({
     
     }
 });
-
+export const { ProfileData }=profileSlice.actions;
 export default profileSlice.reducer;
