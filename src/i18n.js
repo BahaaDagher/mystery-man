@@ -50,7 +50,8 @@ const resources = {
         Highest_rating : "Highest rating" , 
         Lowest_rating : "Lowest rating" , 
         New_Missions : "New Missions" , 
-        published : "published"
+        published : "published" , 
+        Support : "Support" , 
       },
       content: {}
     }
@@ -102,6 +103,7 @@ const resources = {
         New_Missions : "المهمات الجديدة " , 
         published : "نشرت" , 
         noMissions : "لا يوجد اي مهمات " , 
+        Support : "الدعم الفني "
       },
       content: {}
     }

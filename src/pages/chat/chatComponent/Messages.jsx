@@ -24,7 +24,10 @@ const customStyles = {
 const Parent = styled("div")(({ theme }) => ({
     width : "72%" , 
     height:'84vh',
-    [theme.breakpoints.down('800')]: {
+    [theme.breakpoints.down('1200')]: {
+      width : "65%" ,
+    },
+    [theme.breakpoints.down('900')]: {
       width : "100%" ,
     },
 }));
