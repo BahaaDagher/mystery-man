@@ -22,7 +22,8 @@ import i18n from './i18n';
 import ProtectAuth from './protected/ProtectAuth';
 import ViewDetails from './pages/missions/viewMissionDetailes/ViewDetails';
 import NavbarContainer from './components/NavbarContainer';
-
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.min.js";
 
 function App() {
   const theme = useTheme() ;

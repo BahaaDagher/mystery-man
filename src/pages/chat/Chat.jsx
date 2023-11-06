@@ -1,18 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import LanguageIcon from '../../components/LanguageIcon';
 import styled from '@emotion/styled';
-import { LINK } from '../../components/LINK';
-import profileLogo from "../../assets/images/profileLogo.svg"
-import notificationImage from "../../assets/images/notification.svg"
-import chatImage from "../../assets/images/chat.svg"
 import { Colors } from '../../Theme';
-import Swal from 'sweetalert2';
-import { useDispatch, useSelector } from 'react-redux';
-import { getProfile } from '../../store/slices/profileSlice';
-import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
-import { use } from 'i18next';
-import { useNavigate } from 'react-router-dom';
 import NavbarContainer from '../../components/NavbarContainer';
+
 const Container = styled("div")(({ theme }) => ({
     minHeight : "100vh" , 
     backgroundColor : Colors.body , 
@@ -26,15 +16,28 @@ const Content = styled("div")(({ theme }) => ({
   margin : " 20px 10px" ,
   marginTop : "90px" ,
   display : "flex" ,
-  border : "1px solid red" , 
+  flexWrap : "wrap" ,
+  // border : "1px solid red" , 
   justifyContent : "space-between" ,
   direction : theme.direction , 
+  
+}));
+const Chats = styled("div")(({ theme }) => ({
+  width : "25%" , 
+  border : "1px solid red" ,
+  margin : theme.direction == "ltr" ? "0 20px 0 0" : "0 0 0 20px" ,
   [theme.breakpoints.down('800')]: {
-    justifyContent : "center" ,
-    flexDirection : "column" ,
+    width : "100%" ,
+    margin : 0 , 
   },
 }));
-  
+const Messages = styled("div")(({ theme }) => ({
+  width : "72%" , 
+  border : "1px solid red" ,
+  [theme.breakpoints.down('800')]: {
+    width : "100%" ,
+  },
+}));
   
 const Chat = () => {
 
@@ -43,7 +46,11 @@ const Chat = () => {
     <Container>
         <NavbarContainer/>
         <Content>
-        
+          <Chats>
+          </Chats>
+          <Messages>
+
+          </Messages>
         </Content>
     </Container>
     </>
