@@ -18,6 +18,8 @@ export const Colors = {
     hoverGreen : "#00953f" , 
     bg: "#F7F7F7" , 
     hoverGray : "#cdcbcb" , 
+    Black60:"#45464E" , 
+    Gray1 :"#333333" , 
 
 }
 export const Dimensions = {

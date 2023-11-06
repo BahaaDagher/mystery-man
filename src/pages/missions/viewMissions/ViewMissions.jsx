@@ -27,7 +27,8 @@ const Parent = styled("div")(({ theme }) => ({
     backgroundColor: '#fff',
     padding : "20px", 
     marginBottom : "20px" ,
-    // overflowX : "auto" ,
+    overflowX : "auto" ,
+    overflowY : "hidden" ,
 }));
 const Header = styled(FlexSpaceBetween)(({ theme }) => ({
 }));
@@ -40,7 +41,8 @@ const IconDiv = styled("div")(({ theme }) => ({
 const MissionTitle = styled("div")(({ theme }) => ({
     fontSize:"20px" , 
     color : Colors.second ,
-    overflowX : "auto"
+    overflowY : "hidden" , 
+    overflowX : "auto" , 
 }));
 const Divider = styled("div")(({ theme }) => ({
     width : "97%" ,

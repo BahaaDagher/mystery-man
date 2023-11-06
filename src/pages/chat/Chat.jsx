@@ -4,12 +4,14 @@ import { Colors } from '../../Theme';
 import NavbarContainer from '../../components/NavbarContainer';
 import Chats from './chatComponent/Chats';
 import Messages from './chatComponent/Messages';
+import { useTranslation } from 'react-i18next';
 
 const Container = styled("div")(({ theme }) => ({
     minHeight : "100vh" , 
     backgroundColor : Colors.body , 
     position : "relative" ,
     display: 'flex',
+    direction : theme.direction ,
 }));
 
 const Content = styled("div")(({ theme }) => ({
@@ -19,7 +21,6 @@ const Content = styled("div")(({ theme }) => ({
   marginTop : "90px" ,
   display : "flex" ,
   flexWrap : "wrap" ,
-  // border : "1px solid red" , 
   justifyContent : "space-between" ,
   direction : theme.direction , 
   
@@ -28,9 +29,10 @@ const Content = styled("div")(({ theme }) => ({
 
   
 const Chat = () => {
-
+  const {t} = useTranslation();
     return (
     <>
+    {t("text.empty")}
     <Container>
         <NavbarContainer/>
         <Content>

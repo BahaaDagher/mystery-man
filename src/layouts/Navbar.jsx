@@ -201,8 +201,8 @@ const Navbar = ({phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
           <img src = {profileData.image} style = {{width : "40px" , height : "40px" ,   borderRadius : "50%" }} alt = "admin"/>
         </Section>
         <Section className = "company">
-          <p style = {{color: Colors.second , weight : "400"}}>{profileData.name}</p>
-          <p style = {{color: Colors.gray , weight : "400"}}>{profileData.phone}</p>
+          <div style = {{color: Colors.second , weight : "400"}}>{profileData.name}</div>
+          <div style = {{color: Colors.gray , weight : "400"}}>{profileData.phone}</div>
         </Section>
         <Logout onClick={logout}/>
       </FlexCenter>

@@ -44,6 +44,7 @@ const SidebarItems = styled("div")(({ theme }) => ({
 
 }));
 const Ul = styled("ul")(({ theme }) => ({
+  padding : "0" , 
 }));
 const Li = styled("li")(({ theme , isActive}) => ({
   display : "flex",
@@ -132,7 +133,7 @@ const Sidebar = ( {phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
       </LogoContainer>
       <Divider />
       <SidebarItems>
-        <Ul>
+        <Ul >
           {SidebarData.map((item, index) => {
             return (
               <LINK to={item.link} key={index}  >
