@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import styled from '@emotion/styled';
 import { Colors } from '../../Theme';
 import NavbarContainer from '../../components/NavbarContainer';
+import Chats from './chatComponent/Chats';
+import Messages from './chatComponent/Messages';
 
 const Container = styled("div")(({ theme }) => ({
     minHeight : "100vh" , 
@@ -22,22 +24,8 @@ const Content = styled("div")(({ theme }) => ({
   direction : theme.direction , 
   
 }));
-const Chats = styled("div")(({ theme }) => ({
-  width : "25%" , 
-  border : "1px solid red" ,
-  margin : theme.direction == "ltr" ? "0 20px 0 0" : "0 0 0 20px" ,
-  [theme.breakpoints.down('800')]: {
-    width : "100%" ,
-    margin : 0 , 
-  },
-}));
-const Messages = styled("div")(({ theme }) => ({
-  width : "72%" , 
-  border : "1px solid red" ,
-  [theme.breakpoints.down('800')]: {
-    width : "100%" ,
-  },
-}));
+
+
   
 const Chat = () => {
 
@@ -46,11 +34,8 @@ const Chat = () => {
     <Container>
         <NavbarContainer/>
         <Content>
-          <Chats>
-          </Chats>
-          <Messages>
-
-          </Messages>
+          <Chats/>
+          <Messages/>
         </Content>
     </Container>
     </>
