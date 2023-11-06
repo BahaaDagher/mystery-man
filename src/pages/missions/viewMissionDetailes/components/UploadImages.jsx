@@ -25,14 +25,12 @@ const UploadImages = ({question, num}) => {
     <Box>
         <Title>{num} - {question.title}</Title>
         <ImgContainer>
+            
             {question.answer.map((img , index) => {
                 return (
-                    <>
                     <ImgDiv onClick={()=>window.open(img, '_blank')}>
                         <Img key = {index} src = {img} alt = {index}  />
                     </ImgDiv>
-
-                    </>
                 )
             } )}
         </ImgContainer>

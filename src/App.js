@@ -17,9 +17,12 @@ import Questionnaires from './pages/questionnaires/Questionnaires';
 import Missions from './pages/missions/Missions';
 import NewMission from './pages/missions/newMission/NewMission';
 import ReviewMissionRequest from './pages/missions/reviewMissionRequest/ReviewMissionRequest';
+import Chat from './pages/chat/Chat';
 import i18n from './i18n';
 import ProtectAuth from './protected/ProtectAuth';
 import ViewDetails from './pages/missions/viewMissionDetailes/ViewDetails';
+import NavbarContainer from './components/NavbarContainer';
+
 
 function App() {
   const theme = useTheme() ;
@@ -44,7 +47,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path='/bahaa' element = <Bahaa/>  />
+        <Route path='/bahaa' element = <NavbarContainer/>  />
         <Route path='/login' element = {<ProtectAuth> <Login/> </ProtectAuth>}  />
         <Route path='/register/enter-phone' element = <EnterPhone/>  />
         <Route path='/register/verify-phone' element = <VerifyPhone/>  />
@@ -53,7 +56,9 @@ function App() {
         <Route path='/profile' element = <Profile/> />
         <Route path='/newBranch' element = <NewBranch/> />
         <Route path='/map' element = <Map/>  />
+        <Route path='/chat' element = <Chat/>  />
         <Route path="/" element=<Layout /> />
+        
         {/* layout */}
         <Route path='/dashboard' element = <Layout /> >
           <Route path='home' element = <Home/>  />

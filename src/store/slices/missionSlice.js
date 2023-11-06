@@ -74,10 +74,14 @@ const missionSlice = createSlice({
         addMissionsLoading : false ,  
         CurrentMission : {} ,
         CompletedMissionAnswer : {} ,
+        SelectedMission : 0  , 
     },
     reducers: {
         setCurrentMission: (state, action) => {
             state.CurrentMission = action.payload
+        },
+        setSelectedMission: (state, action) => {
+            state.SelectedMission = action.payload
         },
     },
     extraReducers: (builder) => {
@@ -112,6 +116,7 @@ const missionSlice = createSlice({
     });
     export const { 
         setCurrentMission ,
+        setSelectedMission  , 
     } = missionSlice.actions;
     
     export default missionSlice.reducer;

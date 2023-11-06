@@ -269,6 +269,9 @@ const Profile = () => {
       }
     })
   }
+  const chatPage = () => {
+    navigate("/chat")
+  }
   return (
     <>
         {deleteBranchLoading ? <Loading/> : null}
@@ -284,7 +287,7 @@ const Profile = () => {
               <Section>
                 <img src = {notificationImage} alt = "notification"/>
               </Section>
-              <Section >
+              <Section onClick={chatPage}>
                 <img src = {chatImage} alt = "chat"/>
               </Section>
               <Section onClick={()=>{window.location = "/profile"}}>

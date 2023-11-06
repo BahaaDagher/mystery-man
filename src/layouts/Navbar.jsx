@@ -167,6 +167,10 @@ const Navbar = ({phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
   const [newBranch , setNewBranch] = useState(false) ; 
   const [currentBranches , setCurrentBranches] = useState ([])
 
+  const chatPage = () => {
+    navigate("/chat")
+  }
+  
   const {t } = useTranslation();
   return (
     <NavbarContainer>
@@ -187,7 +191,7 @@ const Navbar = ({phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
         <Section>
           <img src = {notificationImage} alt = "notification"/>
         </Section>
-        <Section >
+        <Section onClick={chatPage}>
           <img src = {chatImage} alt = "chat"/>
         </Section>
         
