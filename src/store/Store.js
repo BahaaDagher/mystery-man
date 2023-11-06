@@ -5,6 +5,7 @@ import branchSlice from './slices/branchSlice'
 import questionerSlice from './slices/questionierSlice'
 import missionSlice from './slices/missionSlice'
 import profileSlice from './slices/profileSlice'
+import chatSlice from './slices/chatSlice'
 
 
 
@@ -16,6 +17,7 @@ export const store = configureStore({
     questioneirData : questionerSlice , 
     missionData : missionSlice, 
     profileData : profileSlice ,
+    chatData:chatSlice
 
   },
 })
