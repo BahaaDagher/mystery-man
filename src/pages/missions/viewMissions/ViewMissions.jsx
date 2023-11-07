@@ -35,6 +35,10 @@ const Header = styled(FlexSpaceBetween)(({ theme }) => ({
 const Published = styled(Flex)(({ theme }) => ({
 
 }));
+const PublishedTitle = styled("div")(({ theme }) => ({
+    color : Colors.grayDC , 
+    margin : theme.direction == "ltr" ? "0 20px 0 0" : "0 0 0 20px" ,
+}));
 const IconDiv = styled("div")(({ theme }) => ({
     cursor : "pointer" ,
 }));
@@ -189,7 +193,7 @@ const ViewMissions = ({selectMissions}) => {
             <Parent key={index}>
                 <Header>
                     <Published>
-                        <Box color = {Colors.grayDC} margin = "0 10px"> {t("text.published")}</Box>
+                        <PublishedTitle> {t("text.published")}</PublishedTitle>
                         <Box color = {Colors.gray} >{mission.dayWritten}</Box>
                     </Published>
                     <IconDiv onClick={(e)=>{showSettings(e); setSelectedMission(mission.id) }}>
@@ -243,8 +247,6 @@ const ViewMissions = ({selectMissions}) => {
             </Parent>
         ) 
         }
-
-
      } )}
         {!findData && 
             <FlexCenter>
