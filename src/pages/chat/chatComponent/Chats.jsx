@@ -70,7 +70,7 @@ const Chat = styled(Flex)(({ theme }) => ({
     backgroundColor : Colors.bgBL,
     
     borderColor : Colors.main  ,
-    borderWidth :  theme.direction == "ltr" ?  "0px 3px 0px 0px" :"0px 0px 0px 3px"  ,
+    borderWidth :  theme.direction == "rtl" ?  "0px 3px 0px 0px" :"0px 0px 0px 3px"  ,
     borderStyle : "solid" ,
   }
 }));
@@ -112,35 +112,15 @@ const Time = styled("div")(({ theme }) => ({
   // margin : theme.direction == "ltr" ? "0 0 0 10px" : "0 10px 0 0" , 
   width : "75px" , 
 }));
-const Chats = () => {
-  const arr = [
-    {
-      "id": 147,
-      "message": "مننننن",
-      "mission_id": 97,
-      "created_at": "2023-11-06 18:00 pm",
-      "receive_id": 33,
-      "senderName": "شركة اسماعيل وبهاء",
-      "senderImage": "https://ui-avatars.com/api/?name=شركةاسماعيلوبهاء.png",
-      "adsName": "التأكد من الطبيعه"
-  },
-  {
-      "id": 142,
-      "message": "اهلا بكم",
-      "mission_id": 98,
-      "created_at": "2023-11-06 17:59 pm",
-      "receive_id": 33,
-      "senderName": "شركة اسماعيل وبهاء",
-      "senderImage": "https://ui-avatars.com/api/?name=شركةاسماعيلوبهاء.png",
-      "adsName": "بهاء"
-    }
-  ]
+const Chats = ({LastMessage , setShowMessages }) => {
+  
   const dispatch = useDispatch()
   const getTime = (str)=>{
     const time = str.substring(11);
     return time
   }
   const lastMessage = (str)=>{
+    if (str == null) return ""
     if (str.length<25) return str
     const message = str.substring(0,25) + "...";
     return message
@@ -152,6 +132,8 @@ const Chats = () => {
     setActiveChat(chat.id)
     dispatch(setCurrentChat(chat))
     dispatch(setChatMessagesSendPages())
+    dispatch(getChates())
+    setShowMessages(true)
   } 
 
   const getChatesResponse = useSelector((state) => state.chatData.getChatesResponse); 
@@ -161,7 +143,7 @@ const Chats = () => {
       setChats(getChatesResponse.data.messages)
     }
   }, [getChatesResponse])
-  
+
   useEffect(() => {
     dispatch(getChates())
   }, [])
@@ -190,7 +172,11 @@ const Chats = () => {
                   <NameMessage>
                     <Name>{chat.adsName}</Name>
                     <MessageTime>
-                      <Message>{lastMessage(chat.message)}    </Message>
+                      <Message>
+                        {LastMessage.message!="" && LastMessage.id == chat.id ? 
+                        lastMessage(LastMessage.message)
+                        :lastMessage(chat.message) }    
+                      </Message>
                       <Time>{getTime(chat.created_at)}</Time>
                     </MessageTime>
                   </NameMessage>

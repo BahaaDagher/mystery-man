@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from '@emotion/styled';
 import { Colors } from '../../Theme';
 import NavbarContainer from '../../components/NavbarContainer';
 import Chats from './chatComponent/Chats';
 import Messages from './chatComponent/Messages';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '@emotion/react';
+import { useMediaQuery } from '@mui/material';
 
 const Container = styled("div")(({ theme }) => ({
     minHeight : "100vh" , 
@@ -29,6 +31,16 @@ const Content = styled("div")(({ theme }) => ({
 
   
 const Chat = () => {
+  const [LastMessage , setLastMessage] = useState({id : -1 , message : ""})
+  const [showMessages , setShowMessages] = useState(true)
+
+  const theme = useTheme();
+  const isWidth900 = useMediaQuery(theme.breakpoints.down('900'));
+  
+  useEffect(() => {
+    if (isWidth900)  setShowMessages(false)
+  },[isWidth900])
+  
   const {t} = useTranslation();
     return (
     <>
@@ -36,8 +48,21 @@ const Chat = () => {
     <Container>
         <NavbarContainer/>
         <Content>
-          <Chats/>
-          <Messages/>
+          {!isWidth900 ? 
+          <>
+            <Chats LastMessage = {LastMessage}  setShowMessages = {setShowMessages}/> 
+            <Messages  setLastMessage = {setLastMessage} setShowMessages = {setShowMessages} />   
+          </>  :  null 
+
+          }
+          {isWidth900 ? 
+          <>
+          { !showMessages? <Chats LastMessage = {LastMessage} setShowMessages = {setShowMessages} />:'' }
+          { showMessages? <Messages  setLastMessage = {setLastMessage} setShowMessages = {setShowMessages}/>  :'' }
+             
+          </>  :  null 
+
+          }
         </Content>
     </Container>
     </>

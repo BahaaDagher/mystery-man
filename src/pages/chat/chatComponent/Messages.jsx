@@ -18,6 +18,7 @@ import Send from "../../../assets/icons/Send.svg";
 import { Flex } from '../../../components/Flex';
 import { use } from 'i18next';
 import { FlexCenter } from '../../../components/FlexCenter';
+import EastOutlinedIcon from '@mui/icons-material/EastOutlined';
 const customStyles = {
 
   padding: '20px',
@@ -35,6 +36,7 @@ const Parent = styled("div")(({ theme }) => ({
     [theme.breakpoints.down('900')]: {
       width : "100%" ,
     },
+    direction : "ltr"
 }));
 const SendButton = styled(Flex)(({ theme }) => ({
   backgroundColor : Colors.main  ,
@@ -69,8 +71,16 @@ const Part = styled(FlexCenter)(({ theme }) => ({
 const Name = styled("div")(({ theme }) => ({
   margin : theme.direction == "ltr" ? "0 0 0 10px" : "0 10px 0 0" ,
 }));
+const BackArrow = styled(EastOutlinedIcon)(({ theme }) => ({
+  cursor : "pointer" ,
+  color : Colors.second, 
+  display : "none" ,
+  [theme.breakpoints.down('900')]: {
+    display : "block" ,
+  },
 
-const Messages = () => {
+}));
+const Messages = ({setLastMessage , setShowMessages}) => {
   const chatMessagesGetResponse = useSelector((state) => state.chatData.chatMessagesGetResponse);
   const chatMessagesSendPages = useSelector((state) => state.chatData.chatMessagesSendPages);
   const currentChat = useSelector((state) => state.chatData.currentChat);
@@ -107,7 +117,7 @@ const Messages = () => {
 
   useEffect(() => { 
    
-   
+   console.log('chatRef' ,chatRef);
     const pusher = new Pusher("8071a8e96650bf6eac15", {
       secret: "74f3c62856110435f421",
       cluster: "us3" , 
@@ -133,28 +143,38 @@ const Messages = () => {
 
 const getData=(value)=>{
 
-  dispatch(chatMessagesGet({missionId:currentChatData.mission_id, page:value})); 
+  dispatch(chatMessagesGet({missionId:currentChatData.mission_id, page:value}));
+  console.log('chatRef' ,chatRef.current.display); 
 }
 
 
 
-const handleSend = () => {
-  if (singleMessage!="") {
+const handleSend = (e) => {
+  let RealMessage = singleMessage.replace(/^\s+/, '');
+  if (RealMessage!="") {
     const formData = new FormData();
     formData.append("message", singleMessage);
-    formData.append("mission_id", '97');
+    formData.append("mission_id", currentChatData.mission_id);
     
     dispatch(chatMessagesSend(formData))
     scrollToBottom();
   }
-  setSingleMessage("") ;
+  setSingleMessage("")
 }
 
 
 useEffect(() => {
   if(scrollToBot){
     scrollToBottom();
-
+  }
+  if (messages.length > 0) {
+    console.log("messages[0].message" , messages[0].message);
+    setLastMessage(
+      {
+        id : currentChatData.id , 
+        message : messages[0].message , 
+      }
+    )
   }
   
 }, [messages]);
@@ -197,6 +217,9 @@ const handleFileSelect = (event) => {
   }
 };
 
+  const handleBack = () => {
+    setShowMessages(false)
+  }
   return (
     <>
       {!currentChatData.id ?  <Part>please select a message from the side bar</Part> : 
@@ -206,11 +229,14 @@ const handleFileSelect = (event) => {
         <div className="row d-flex justify-content-center w-100 m-0 h-100">
           <div className="col-md-12 col-lg-12 col-xl-12 h-100">
             <div className="card h-100" id="chat2">
-              <div className="card-header d-flex align-items-center p-3">
-                <div>
-                  <img src = {currentChatData.senderImage} style = {{width : "60px" ,  height : "60px" , borderRadius : "10px"}} />
-                </div>
-                <Name className="mb-0"> {currentChatData.adsName}</Name>
+              <div className="card-header d-flex align-items-center p-3 justify-content-between">
+                <Flex className = "d-flex align-items-center">
+                  <div>
+                    <img src = {currentChatData.senderImage} style = {{width : "60px" ,  height : "60px" , borderRadius : "10px"}} />
+                  </div>
+                    <Name className="mb-0"> {currentChatData.adsName}</Name>
+                </Flex>
+                <BackArrow onClick = {handleBack}/>
               </div>
               <div
                 className="card-body"
@@ -279,7 +305,6 @@ const handleFileSelect = (event) => {
                     style={{ display: "none" }}
                     onChange={handleFileSelect}
                   />
-                
                 <textarea
                   style={{resize: "none" , height : "50px" , width : "100%"}}
                   type="text"
