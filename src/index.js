@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ThemeProvider, createTheme } from '@mui/material';
 import { BrowserRouter } from 'react-router-dom';
 import { store } from '../src/store/Store';
 import { Provider } from 'react-redux';
+import './index.css';
 const theme = createTheme({
   direction: 'ltr',
   breakpoints: {

@@ -128,7 +128,7 @@ const NewBranchButton = styled("div")(({ theme }) => ({
   lineHeight: '37px',
   letterSpacing: '0em',
   transition: 'all 0.3s ease-in-out',
-  marginTop : "20px" ,
+  // marginTop : "20px" ,
   "&:hover" : {
     backgroundColor : Colors.hoverMain
   }
@@ -278,7 +278,7 @@ const Profile = () => {
         {deleteBranchLoading ? <Loading/> : null}
         <Container>
           <NavbarContainer>
-            <Logo to = "/dashboard">
+            <Logo to = "/dashboard/home">
               <Img src = {profileLogo} />
             </Logo>
             <InformationDiv>

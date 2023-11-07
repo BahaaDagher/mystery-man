@@ -107,11 +107,11 @@ const DataDiv = ({profileData}) => {
       <DataDivContainer>
         <PhotoAndName>
             <Section>
-              <img src = {adminImage} style = {{width : "65px" , height : "65px" ,   borderRadius : "50%" }} alt = "admin"/>
+              <img src = {profileData.image} style = {{width : "65px" , height : "65px" ,   borderRadius : "50%" }} alt = "admin"/>
             </Section>
             <div>
-              <p>{profileData.name}</p>
-              <p>{profileData.phone}</p>
+              <div>{profileData.name}</div>
+              <div>{profileData.phone}</div>
             </div>
         </PhotoAndName>
         <Division/>
@@ -128,11 +128,15 @@ const DataDiv = ({profileData}) => {
           <P2> Commercial Registration No </P2>
         </Part>
         <CommercialRegistrationImgDiv>
-          <img src = {profileData.CommercialRegistrationImage}  style = {{width : "100%" , height: "100%" ,  borderRadius: '10px',}}/>
+          <img 
+            src = {profileData.CommercialRegistrationImage}
+            style = {{width : "100%" , height: "100%" ,  borderRadius: '10px',}}
+            alt  = "CommercialRegistrationImage"
+          />
         </CommercialRegistrationImgDiv>
         <AvailableMission>
-            <p style = {{padding : "0 20px" , fontSize : "32px" ,fontWeight : "bold" }}>{profileData.currentMission}</p>
-            <p style = {{fontSize : "18px" , color : Colors.gray}}>Available Missions</p>
+            <div style = {{padding : "0 20px" , fontSize : "32px" ,fontWeight : "bold" }}>{profileData.newMission}</div>
+            <div style = {{fontSize : "18px" , color : Colors.gray}}>Available Missions</div>
         </AvailableMission>
         <TotalBalance>
           <Price>{profileData.wallet} SAR</Price>

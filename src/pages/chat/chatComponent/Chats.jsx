@@ -121,8 +121,8 @@ const Chats = ({LastMessage , setShowMessages }) => {
   }
   const lastMessage = (str)=>{
     if (str == null) return ""
-    if (str.length<25) return str
-    const message = str.substring(0,25) + "...";
+    if (str.length<15) return str
+    const message = str.substring(0,15) + "...";
     return message
   }
   const {t} = useTranslation();
@@ -170,7 +170,7 @@ const Chats = ({LastMessage , setShowMessages }) => {
                     <img src = {chat.senderImage} alt = "senderImage"/>
                   </ImageDiv>
                   <NameMessage>
-                    <Name>{chat.adsName}</Name>
+                    <Name>{chat.senderName}</Name>
                     <MessageTime>
                       <Message>
                         {LastMessage.message!="" && LastMessage.id == chat.id ? 

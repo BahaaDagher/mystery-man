@@ -1,3 +1,5 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.min.js";
 import { Navigate, Route, Router, Routes  ,Switch, useNavigate } from 'react-router-dom';
 import Layout from './layouts/Layout' ;
 import Navbar from './layouts/Navbar';
@@ -22,8 +24,7 @@ import i18n from './i18n';
 import ProtectAuth from './protected/ProtectAuth';
 import ViewDetails from './pages/missions/viewMissionDetailes/ViewDetails';
 import NavbarContainer from './components/NavbarContainer';
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.min.js";
+
 
 function App() {
   const theme = useTheme() ;

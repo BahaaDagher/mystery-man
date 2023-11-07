@@ -135,7 +135,7 @@ const NavbarContainer = () => {
     }
   return (
     <Parent>
-        <Logo to = "/dashboard">
+        <Logo to = "/dashboard/home">
             <Img src = {profileLogo} />
         </Logo>
         <InformationDiv>
