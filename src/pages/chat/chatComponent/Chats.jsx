@@ -45,6 +45,10 @@ const MysterySupport = styled("div")(({ theme }) => ({
   fontSize : "16px" , 
   fontWeight : "500" ,
   margin : theme.direction == "ltr" ? "0 10px 0 0" : "0 0 0 10px" ,
+  "&.active" : {
+    color : Colors.main , 
+    fontWeight : "bold" , 
+  }
 }));
 const Divider = styled("div")(({ theme }) => ({
     width : "100%" ,
@@ -149,14 +153,21 @@ const Chats = ({LastMessage , setShowMessages }) => {
   }, [])
 
   const [chats , setChats] = useState([])
-
+  const handleTechnical = ()=>{
+    setShowMessages(true)
+    dispatch(getChates())
+    dispatch(setCurrentChat({id : -1}))
+    dispatch(setChatMessagesSendPages())
+    setActiveChat(-1)
+  }
+  
   return (
     <>
     {getChatesLoading? <Loading/> : null}
     <Parent>
         <Title>{t("text.Support")}</Title>
         <SupportDiv>
-            <MysterySupport>Mystery Support</MysterySupport>
+            <MysterySupport onClick = {handleTechnical} className ={activeChat==-1?'active' : ""} >Mystery Support</MysterySupport>
             <img src= {blueSign} alt = "sign"/>
         </SupportDiv>
         <Divider/>

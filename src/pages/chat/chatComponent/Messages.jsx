@@ -11,7 +11,7 @@ import { useRef } from "react";
 
 import FileBox from "./FileBox";
 import ImageBox from "./ImageBox";
-import { chatMessagesGet, chatMessagesSend } from '../../../store/slices/chatSlice';
+import { chatMessagesGet, chatMessagesSend, technicalMessagesGet, technicalMessagesSend } from '../../../store/slices/chatSlice';
 import { SubmitButton } from '../../../components/SubmitButton';
 import { Colors } from '../../../Theme';
 import Send from "../../../assets/icons/Send.svg";
@@ -141,7 +141,8 @@ const Messages = ({setLastMessage , setShowMessages}) => {
 
 
 const getData=(value)=>{
-  dispatch(chatMessagesGet({missionId:currentChatData.mission_id, page:value}));
+  if (currentChatData.mission_id)  dispatch(chatMessagesGet({missionId:currentChatData.mission_id, page:value}));
+  else dispatch(technicalMessagesGet({page :value}))
 }
 
 
@@ -151,9 +152,13 @@ const handleSend = (e) => {
   if (RealMessage!="") {
     const formData = new FormData();
     formData.append("message", singleMessage);
-    formData.append("mission_id", currentChatData.mission_id);
-    
-    dispatch(chatMessagesSend(formData))
+    if (currentChatData.mission_id) {
+      formData.append("mission_id", currentChatData.mission_id);
+      dispatch(chatMessagesSend(formData))
+    } 
+    else {
+      dispatch(technicalMessagesSend(formData))
+    }
     scrollToBottom();
   }
   setSingleMessage("")
@@ -198,8 +203,6 @@ const handleScroll = () => {
         getData(chatMessagesSendPages)
         chatContainer.scrollTop=chatContainer.scrollTop+1000
         setMScrollToBot(false)
-      
-        
       }
     }
   }
@@ -213,9 +216,13 @@ const handleFileSelect = (event) => {
   if (file) {
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("mission_id", '97');
-    
-    dispatch(chatMessagesSend(formData))
+    if (currentChatData.mission_id) {
+      formData.append("mission_id", currentChatData.mission_id);
+      dispatch(chatMessagesSend(formData))
+    } 
+    else {
+      dispatch(technicalMessagesSend(formData))
+    }
     event.target.value = null;
   }
 };
@@ -225,7 +232,7 @@ const handleFileSelect = (event) => {
   }
   return (
     <>
-      {!currentChatData.id ?  <Part>please select a message from the side bar</Part> : 
+      {!currentChatData.id ?  <Part> select a message from the side bar</Part> : 
       <Parent>
       <section style = {{height : "100%" }}>
       <div className= "w-100 " style={{height: "100%" }}>
