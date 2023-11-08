@@ -86,6 +86,7 @@ const Messages = ({setLastMessage , setShowMessages}) => {
   const currentChat = useSelector((state) => state.chatData.currentChat);
   const [messages, setMessages] = useState([]);
   const [scrollToBot, setMScrollToBot] = useState(true);
+  const [scrollCount, setScrollCount] = useState(0);
   const [singleMessage , setSingleMessage] = useState("");
   const [lastPage, setlastPage] = useState();
   const chatRef = useRef(null);
@@ -94,13 +95,15 @@ const Messages = ({setLastMessage , setShowMessages}) => {
   useEffect(() => {
     setMessages([])
     setCurrentChatData(currentChat)
+    setMScrollToBot(true)
+    setScrollCount(0)
   },[currentChat])
   
   useEffect(() => {
+    setMessages([])
     if (currentChatData.mission_id) {
-      console.log("sayed");
       getData(1)
-      scrollToBottom();
+      setMScrollToBot(true)
     }
   },[currentChatData])
 
@@ -116,8 +119,6 @@ const Messages = ({setLastMessage , setShowMessages}) => {
 
 
   useEffect(() => { 
-   
-   console.log('chatRef' ,chatRef);
     const pusher = new Pusher("8071a8e96650bf6eac15", {
       secret: "74f3c62856110435f421",
       cluster: "us3" , 
@@ -127,8 +128,6 @@ const Messages = ({setLastMessage , setShowMessages}) => {
 
     const channel = pusher.subscribe('chat_api');
     channel.bind("VistorMessageSent", (data) => {
-      console.log('data');
-      console.log(data);
       setMessages(current => [...[data.message], ...current])
     });
 
@@ -142,9 +141,7 @@ const Messages = ({setLastMessage , setShowMessages}) => {
 
 
 const getData=(value)=>{
-
   dispatch(chatMessagesGet({missionId:currentChatData.mission_id, page:value}));
-  console.log('chatRef' ,chatRef.current.display); 
 }
 
 
@@ -166,9 +163,9 @@ const handleSend = (e) => {
 useEffect(() => {
   if(scrollToBot){
     scrollToBottom();
+    
   }
   if (messages.length > 0) {
-    console.log("messages[0].message" , messages[0].message);
     setLastMessage(
       {
         id : currentChatData.id , 
@@ -183,25 +180,31 @@ useEffect(() => {
 
 const scrollToBottom = () => {
   if (chatRef.current) {
-    console.log("chatRef.scrollTop" , chatRef.current.scrollTop);
-    console.log("chatRef.scrollHeight" , chatRef.current.scrollHeight);
     chatRef.current.scrollTop = chatRef.current.scrollHeight;
+
 }}
 
 
 
 const handleScroll = () => {
+
   const chatContainer = chatRef.current;
   if (chatContainer.scrollTop  === 0) {
-    console.log(chatMessagesSendPages);
-    
-    if(lastPage>=chatMessagesSendPages){
- 
-      getData(chatMessagesSendPages)
-      chatContainer.scrollTop=chatContainer.scrollTop+1000
-      setMScrollToBot(false)
+
+    if(scrollCount>0){
+
+
+      if(lastPage>=chatMessagesSendPages){
+        getData(chatMessagesSendPages)
+        chatContainer.scrollTop=chatContainer.scrollTop+1000
+        setMScrollToBot(false)
+      
+        
+      }
     }
   }
+  setScrollCount(1)
+  
 };
 
 
