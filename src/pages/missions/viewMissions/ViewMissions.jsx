@@ -12,13 +12,15 @@ import time from "../../../assets/icons/time.svg"
 import { FlexCenter } from '../../../components/FlexCenter';
 import MissionSettings from './MissionSettings';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMissions, setCurrentMission } from '../../../store/slices/missionSlice';
+import { getMissions, setCurrentMission, viewMission } from '../../../store/slices/missionSlice';
 import { SubmitButton } from '../../../components/SubmitButton';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { use } from 'i18next';
 import i18n from '../../../i18n';
 import { ToggleLanguage } from '../../../store/slices/directionSlice';
+import ViewDetails from '../viewMissionDetailes/ViewDetails';
+import ReviewMissionRequest from '../reviewMissionRequest/ReviewMissionRequest';
 
 
 
@@ -135,7 +137,7 @@ const ViewSubmitButton = styled(SubmitButton)(({ theme }) => ({
     }
 }));
 
-const ViewMissions = ({selectMissions}) => {
+const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
 
     const [chosenSetting , setChosenSetting] = useState("sss") ;
     const [anchorEl, setAnchorEl] = useState(null);
@@ -161,12 +163,16 @@ const ViewMissions = ({selectMissions}) => {
     useEffect(() => {
         dispatch(getMissions())
     }, [])
-    // view request 
-    const navigate = useNavigate(); 
 
+    // view request 
+    const [reviewRequest ,   setReviewRequest] = useState(false)
+    const [reviewRequestData ,   setReviewRequestData] = useState({})
     const ReviewRequest = (mission) => {
-        dispatch(setCurrentMission(mission))
-        navigate ("/dashboard/missions/waitRequests/viewMissions")
+        setShowMissions(false)
+        setReviewRequest(true)
+        setReviewRequestData(mission)
+        // dispatch(setCurrentMission(mission))
+        // navigate ("/dashboard/missions/waitRequests/viewMissions")
     }
 
 
@@ -176,17 +182,37 @@ const ViewMissions = ({selectMissions}) => {
         setFindData(false)
     },[selectMissions])
 
-    const viewDetails = (id) => {
-        navigate(`/dashboard/missions/viewDetails/${id}`)
+    const [showViewDetails , setShowViewDetails] = useState(false)
+    const [missionDetails , setMissionDetails] = useState({})
+    const viewDetails = (mission) => {
+        setShowMissions(false)
+        setShowViewDetails(true)
+        setMissionDetails(mission)
     }
+
+    useEffect(() => {
+        if ( showMissions ){
+            setShowViewDetails(false)
+            setReviewRequest(false)
+        } 
+    },[showMissions])
 
   return (
     <>
-    <MissionSettings setAnchorEl= {setAnchorEl} anchorEl={anchorEl} setChosenSetting = {setChosenSetting}   />
-    {getMissionsLoading  && <Loading/>}
+    <MissionSettings setAnchorEl= {setAnchorEl} anchorEl={anchorEl} setChosenSetting = {setChosenSetting} />
     
-    {missionsData.map((mission , index) => {
 
+    {/* loading */}
+    {getMissionsLoading  && <Loading/>}
+
+    {/* view details */}
+    {showViewDetails ? <ViewDetails missionDetails ={missionDetails} /> : null}
+
+    {/* view request */}
+    {reviewRequest ? <ReviewMissionRequest reviewRequestData = {reviewRequestData}/> : null}
+
+    {showMissions ?
+    missionsData.map((mission , index) => {
         if (mission.status == selectMissions){
             if (!findData) setFindData(true)
             return (
@@ -242,12 +268,15 @@ const ViewMissions = ({selectMissions}) => {
                 }
                 {
                     mission.status == 3 ? 
-                    <ViewSubmitButton  onClick={()=>viewDetails(mission.id)}> View Details </ViewSubmitButton> : null
+                    <ViewSubmitButton  onClick={()=>viewDetails(mission )}> View Details </ViewSubmitButton> : null
                 }
+                    
             </Parent>
         ) 
         }
-     } )}
+     } ) : null  
+    }
+
         {!findData && 
             <FlexCenter>
                 <FlexCenter 

@@ -26,11 +26,12 @@ const Input = styled("input")(({ theme }) => ({
 const YesOrNo = ({question, num}) => {
   return (
     <Box>
-        <Title>{num} -{question.title}</Title>
+        <Title>{num} - {question.title}</Title>
         <InputDiv>
         
           <Input type="radio"  value={question.title} checked />
-          <Label className='active' >No</Label>
+          
+          <Label className='active' >{question.answer}</Label>
         </InputDiv>
     </Box>
   )

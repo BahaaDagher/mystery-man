@@ -71,7 +71,7 @@ const MissionName = styled("div")(({ theme }) => ({
 
 const ImgContainer = styled("div")(({ theme }) => ({
     position : "absolute" , 
-    bottom : "0px" ,
+    bottom : "5px" ,
     left : "15px" ,
     
 }));
@@ -88,7 +88,7 @@ const Number = styled("div")(({ theme }) => ({
 }));
 
 
-const MissionsButtons = ({setSelectMissions}) => {
+const MissionsButtons = ({ setShowMissions , setSelectMissions }) => {
     const CurrentMission = useSelector(state => state.missionData.currentMission)
 
     const dispatch = useDispatch()
@@ -98,7 +98,9 @@ const MissionsButtons = ({setSelectMissions}) => {
     useEffect(() => {   
         dispatch(setCurrentMission()) ; 
     },[])
+
     const {t} = useTranslation();
+
     const buttonsArray = [
     {
         id : 0 ,
@@ -129,7 +131,7 @@ const MissionsButtons = ({setSelectMissions}) => {
         icon2 : CompleteMissions2
     } , 
     {
-        id : 5 , 
+        id : 4 , 
         name : "Canceled Missions" , 
         number :  12 , 
         icon1 : CanceledMissions, 
@@ -142,6 +144,7 @@ const MissionsButtons = ({setSelectMissions}) => {
     const handleClick = (id) => {
         setActiveButton(id)
         setSelectMissions(id)
+        setShowMissions(true)
     }
   return (
     <>

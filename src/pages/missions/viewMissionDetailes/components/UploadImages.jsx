@@ -10,7 +10,7 @@ const ImgContainer = styled(Flex)(({ theme }) => ({
     // maxHeight : "300px" , 
 }));
 const ImgDiv = styled("div")(({ theme }) => ({
-    width : "250px" ,
+    width : "200px" ,
     margin : "10px" , 
     cursor : "pointer" ,
     [theme.breakpoints.down("500")] : {

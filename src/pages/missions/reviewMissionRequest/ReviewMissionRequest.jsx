@@ -61,8 +61,10 @@ const AcceptButton = styled(SubmitButton)(({ theme }) => ({
   margin : "0"
 
 }));
-const ReviewMissionRequest = () => {
-  const CurrentMissionEmployees = useSelector(state => state.missionData.CurrentMission.employee) 
+const ReviewMissionRequest = ({reviewRequestData}) => {
+  
+
+  const CurrentMissionEmployees = reviewRequestData.employee
 
   return (
     <>

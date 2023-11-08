@@ -17,7 +17,7 @@ const MainContent = styled(FlexSpaceBetween)(({ theme }) => ({
 
 const DetailsPart = styled("div")(({ theme }) => ({
   width : `calc( 100% - 300px )` ,
-  padding : "20px" ,
+  // padding : "20px" ,
   marginBottom : "20px" ,
   [theme.breakpoints.down('800')]: {
     width : "100%" ,
@@ -51,17 +51,29 @@ const Missions = () => {
   const newMissionPage = () => {
       window.location.href = "/dashboard/missions/newMission"
   }
+
+  
+  const [showMissions , setShowMissions] = useState(true)
+ 
+  
   return (
     <>
     <SmallContainer>
     <MainContent>
       <DetailsPart>
         <NewMissionDiv>
-          <NewMissionButton onClick={newMissionPage}> New Mission </NewMissionButton>
+         {showMissions &&  <NewMissionButton onClick={newMissionPage}> New Mission </NewMissionButton> }
         </NewMissionDiv>
-        <ViewMissions selectMissions= {selectMissions}/>
+        <ViewMissions
+          showMissions = {showMissions}
+          setShowMissions={setShowMissions}
+          selectMissions= {selectMissions} 
+        />
       </DetailsPart>
-      <MissionsButtons setSelectMissions= {setSelectMissions} />
+      <MissionsButtons 
+        setShowMissions={setShowMissions}  
+        setSelectMissions= {setSelectMissions} 
+      />
     </MainContent>
     </SmallContainer>
     </>

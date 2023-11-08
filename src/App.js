@@ -24,9 +24,10 @@ import i18n from './i18n';
 import ProtectAuth from './protected/ProtectAuth';
 import ViewDetails from './pages/missions/viewMissionDetailes/ViewDetails';
 import NavbarContainer from './components/NavbarContainer';
-
+import { useSelector } from "react-redux";
 
 function App() {
+  const missionDetails = useSelector(state => state.missionData.missionDetails)
   const theme = useTheme() ;
   useEffect(() => {
     if (localStorage.getItem("language") == "ar") {
@@ -69,7 +70,7 @@ function App() {
           <Route path='missions/newMission' element = <NewMission/> />  
           <Route path='missions/waitRequests/viewMissions' element = <ReviewMissionRequest/> /> 
           <Route path='missions/viewMissions' element = <ReviewMissionRequest/> /> 
-          <Route path='missions/viewDetails/:id' element = <ViewDetails/> /> 
+          <Route path='missions/viewDetails/:id' element = <ViewDetails missionDetails={missionDetails}/> /> 
 
         </Route>
       </Routes>

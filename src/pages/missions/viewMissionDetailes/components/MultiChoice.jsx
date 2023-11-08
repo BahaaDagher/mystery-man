@@ -30,8 +30,8 @@ const MultiChoice = ({question, num}) => {
           {question.answer.map((item , index) => {
              return (
                 <InputDiv key = {index} >
-                  <Input type="checkbox" name={question.id} value={item.title} checked />
-                  <Label >{item.title}</Label>
+                  <Input type="checkbox" name={question.id} value={item} defaultChecked />
+                  <Label >{item}</Label>
                 </InputDiv>
              ) 
           })}
