@@ -136,6 +136,7 @@ const chatSlice = createSlice({
       })
       .addCase(technicalMessagesGet.fulfilled, (state, action) => {
         state.chatMessagesGetResponse = action.payload;
+        state.chatMessagesSendPages +=1
       })
 
       
