@@ -200,16 +200,18 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
     useEffect(() => {
         if(getMissionsData.status) {
             setMissionsData(getMissionsData.data.missions)
-
         }
     }, [getMissionsData])
 
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getMissions())
+        
+    }, [])
+    useEffect(() => {
         if (selectMissions==1 ) setAddPadding(true)
         else setAddPadding(false)
-    }, [])
+    }, [selectMissions])
 
     // view not completed 
     const [notCompleted , setNotCompleted] = useState(false) 
