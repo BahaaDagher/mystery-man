@@ -21,6 +21,7 @@ import i18n from '../../../i18n';
 import { ToggleLanguage } from '../../../store/slices/directionSlice';
 import ViewDetails from '../viewMissionDetailes/ViewDetails';
 import ReviewMissionRequest from '../reviewMissionRequest/ReviewMissionRequest';
+import NotCompletedDetails from '../notCompletedDetails/NotCompletedDetails';
 
 
 
@@ -140,18 +141,33 @@ const ViewSubmitButton = styled(SubmitButton)(({ theme }) => ({
 const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
 
     const [chosenSetting , setChosenSetting] = useState("sss") ;
+
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedMission, setSelectedMission] = useState(0);
     useEffect(() => {
-        console.log("chosenSetting", chosenSetting)
-        console.log("selectedMission", selectedMission)
+        if ( chosenSetting == "MissionDetails" && selectMissions == 3 ) {
+            setShowViewDetails(true)
+            setShowMissions(false)
+        }
+        else if (chosenSetting == "MissionDetails" && selectMissions != 3 ) {
+            setNotCompleted(true)
+            setShowMissions(false)
+        }
+        setSelectedMission(-1)
+        setChosenSetting("sss")
+
     } , [chosenSetting , selectedMission])
+
+
     const showSettings = (event) => {
         setAnchorEl(event.currentTarget);
     };
+
+
     const getMissionsData = useSelector((state) => state.missionData.getMissionsData);
     const getMissionsLoading = useSelector((state) => state.missionData.getMissionsLoading);
     const [missionsData , setMissionsData] = useState([])
+
     useEffect(() => {
         if(getMissionsData.status) {
             setMissionsData(getMissionsData.data.missions)
@@ -164,6 +180,9 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
         dispatch(getMissions())
     }, [])
 
+    // view not completed 
+    const [notCompleted , setNotCompleted] = useState(false) 
+
     // view request 
     const [reviewRequest ,   setReviewRequest] = useState(false)
     const [reviewRequestData ,   setReviewRequestData] = useState({})
@@ -171,10 +190,7 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
         setShowMissions(false)
         setReviewRequest(true)
         setReviewRequestData(mission)
-        // dispatch(setCurrentMission(mission))
-        // navigate ("/dashboard/missions/waitRequests/viewMissions")
     }
-
 
     const {t} = useTranslation()
     const [findData ,  setFindData] = useState(false)
@@ -184,18 +200,28 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
 
     const [showViewDetails , setShowViewDetails] = useState(false)
     const [missionDetails , setMissionDetails] = useState({})
-    const viewDetails = (mission) => {
-        setShowMissions(false)
-        setShowViewDetails(true)
-        setMissionDetails(mission)
-    }
 
+    // click on settings icon
+    const handleIconClick = (e , mission) => {
+        console.log ("you clicked the icon ")
+        console.log("the mission you clicked is " , mission)
+        showSettings(e);
+        setMissionDetails(mission) 
+        setSelectedMission(mission.id)
+    }
+    
     useEffect(() => {
         if ( showMissions ){
             setShowViewDetails(false)
             setReviewRequest(false)
+            setNotCompleted(false)
         } 
     },[showMissions])
+
+    //////////////////////////////////////////////
+
+    
+
 
   return (
     <>
@@ -211,6 +237,9 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
     {/* view request */}
     {reviewRequest ? <ReviewMissionRequest reviewRequestData = {reviewRequestData}/> : null}
 
+    {/* view notCompleted */}
+    {notCompleted ? <NotCompletedDetails missionDetails ={missionDetails} /> : null}
+
     {showMissions ?
     missionsData.map((mission , index) => {
         if (mission.status == selectMissions){
@@ -222,7 +251,7 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
                         <PublishedTitle> {t("text.published")}</PublishedTitle>
                         <Box color = {Colors.gray} >{mission.dayWritten}</Box>
                     </Published>
-                    <IconDiv onClick={(e)=>{showSettings(e); setSelectedMission(mission.id) }}>
+                    <IconDiv onClick={(e)=>{ handleIconClick(e , mission )}}>
                         <img src= {ThreeDotesMore} alt ="more"/>
                     </IconDiv>
                 </Header>
@@ -266,10 +295,7 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
                 {mission.status ==1 ? 
                     <ReviewSubmitButton  onClick={()=>ReviewRequest(mission)}> Review Request </ReviewSubmitButton> : null 
                 }
-                {
-                    mission.status == 3 ? 
-                    <ViewSubmitButton  onClick={()=>viewDetails(mission )}> View Details </ViewSubmitButton> : null
-                }
+                
                     
             </Parent>
         ) 
