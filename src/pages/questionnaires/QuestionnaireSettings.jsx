@@ -10,7 +10,7 @@ import { FlexCenter } from '../../components/FlexCenter';
 import QuestionsTypes from './QuestionsTypes';
 import QuestionComponent from './QuestionComponent';
 import { useDispatch, useSelector } from 'react-redux';
-import { getQuestionnaire, handleReadyToSend, handleReadyToSend2, sendQuestioneir, setCurrentQuestioneir, setCurrentStep, setNewQuestioneirName, setNewStep } from '../../store/slices/questionierSlice';
+import { deleteQuestioneir, editQuestioneir, getQuestionnaire, handleReadyToSend, handleReadyToSend2, sendQuestioneir, setCurrentQuestioneir, setCurrentStep, setNewQuestioneirName, setNewStep } from '../../store/slices/questionierSlice';
 import Swal from 'sweetalert2';
 
 const Parent = styled(Box)(({ theme }) => ({
@@ -177,6 +177,8 @@ const AnswerInput = styled("input")(({ theme }) => ({
 
 const QuestionnaireSettings = ({isAddNew}) => {
   // pop over when click on the button the list of questions type will appear
+  const questionierDataSent = useSelector((state) => state.questioneirData.questionierDataSent);
+  const questionierDataDelete = useSelector((state) => state.questioneirData.questionierDataDelete);
   const questionieres = useSelector((state) => state.questioneirData.questionieres);
   const currentQuestioneir = useSelector((state) => state.questioneirData.currentQuestioneir);
   const currentStep = useSelector((state) => state.questioneirData.currentStep);
@@ -224,13 +226,17 @@ const QuestionnaireSettings = ({isAddNew}) => {
     console.log(questionieres[currentQuestioneir].steps);
  
   };
-  const questionierDataSent = useSelector((state) => state.questioneirData.questionierDataSent);
   const [pressSave , setPressSave] = useState(false) ;
   useEffect(() => {
     if (questionierDataSent&& pressSave){
-      Swal.fire('Questionnaire added successfully', '', 'success')
+      Swal.fire(questionierDataSent.message, '', 'success')
     }
   },[questionierDataSent])
+  useEffect(() => {
+    if (questionierDataDelete&& pressSave){
+      Swal.fire(questionierDataDelete.message, '', 'success')
+    }
+  },[questionierDataDelete])
 
   const handleSaveQuestioneir = () => {
     console.log(questionieres[currentQuestioneir]);
@@ -242,16 +248,33 @@ const QuestionnaireSettings = ({isAddNew}) => {
       denyButtonText: `No`,
     }).then((result) => {
       if (result.isConfirmed) {
-        dispatch(sendQuestioneir([questionieres[currentQuestioneir]]))
+        if(questionieres[currentQuestioneir].id){
+
+          dispatch(editQuestioneir([questionieres[currentQuestioneir]]))
+        }
+        else dispatch(sendQuestioneir([questionieres[currentQuestioneir]]))
       } else if (result.isDenied) {
         Swal.fire('Changes are not saved', '', 'info')
       }
     })
   };
 
-  const sendToApi = () => {
+  const handleDeleteQuestioneir = () => {
     console.log(questionieres[currentQuestioneir]);
-    dispatch(sendQuestioneir([questionieres[currentQuestioneir]]))
+    setPressSave(true)
+    Swal.fire({
+      title: 'are you sure you want to delete this Questionnaire?',
+      showDenyButton: true,
+      confirmButtonText: 'Yes',
+      denyButtonText: `No`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(deleteQuestioneir([questionieres[currentQuestioneir]]))
+      } else if (result.isDenied) {
+        Swal.fire('Changes are not saved', '', 'info')
+      }
+    })
+
   };
   const [activeStep, setActiveStep] = useState(0);
   return (
@@ -274,7 +297,7 @@ const QuestionnaireSettings = ({isAddNew}) => {
                 <AddQuestionButton > Add_Question</AddQuestionButton>
               </AddQuestionContainer>
               <ActionButton onClick={()=>handleSaveQuestioneir()} > Save</ActionButton>
-              <ActionButton onClick={()=>sendToApi()} className = "cancel">Cancel</ActionButton>
+              <ActionButton onClick={()=>handleDeleteQuestioneir()} className = "cancel">Delete</ActionButton>
             </ButtonsContainer>
           </InputAndButtons>
           <FlexCenter style={{justifyContent:'start'}}>

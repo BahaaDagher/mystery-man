@@ -2,6 +2,36 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import i18n from "../../i18n";
 const currentLanguage = localStorage.getItem("language") || "en";
+export const editQuestioneir = createAsyncThunk(
+    "questionier/editQuestioneir", 
+    async (values ) => {
+      const token = localStorage.getItem('token');
+      try {
+        const response = await axios.post(
+          `https://mystery.cloudy.mohamedmansi.com/api/editQuestion`, 
+          {questions:values ,question_id:values[0].id},
+          { headers: {"Authorization" : token , "lang" : currentLanguage ,}}
+        );
+        return response.data ;
+      } catch (error) {
+        console.error(error);
+      }
+});
+export const deleteQuestioneir = createAsyncThunk(
+    "questionier/deleteQuestioneir", 
+    async (values ) => {
+      const token = localStorage.getItem('token');
+      try {
+        const response = await axios.post(
+          `https://mystery.cloudy.mohamedmansi.com/api/deleteQuestion`, 
+          {question_id:values[0].id},
+          { headers: {"Authorization" : token , "lang" : currentLanguage ,}}
+        );
+        return response.data ;
+      } catch (error) {
+        console.error(error);
+      }
+});
 export const sendQuestioneir = createAsyncThunk(
     "questionier/sendQuestioneir", 
     async (values) => {
@@ -16,26 +46,26 @@ export const sendQuestioneir = createAsyncThunk(
       } catch (error) {
         console.error(error);
       }
-  });
-  export const getQuestionnaire = createAsyncThunk(
-    "questionnaire/getQuestionnaire", 
-    async (values) => {
-      const token = localStorage.getItem('token');
-        try {
-        const response = await axios.get(
-            `https://mystery.cloudy.mohamedmansi.com/api/getQuestion` ,{
-                headers: {
-                    "Authorization" : token , 
-                    "lang" : currentLanguage ,
-                },
-            }
-        );
-        return response.data ;
-        } catch (error) {
-        console.error(error);
+});
+export const getQuestionnaire = createAsyncThunk(
+  "questionnaire/getQuestionnaire", 
+async (values) => {
+  const token = localStorage.getItem('token');
+    try {
+    const response = await axios.get(
+        `https://mystery.cloudy.mohamedmansi.com/api/getQuestion` ,{
+            headers: {
+                "Authorization" : token , 
+                "lang" : currentLanguage ,
+            },
         }
-    }
     );
+    return response.data ;
+    } catch (error) {
+    console.error(error);
+    }
+}
+);
 
 const questionierSlice = createSlice({
     name: "questionier",
@@ -47,7 +77,8 @@ const questionierSlice = createSlice({
         CurrentQuestioneirID : -1 ,  
         currentStep:0,
         isReadyToSend:false,
-        questionierDataSent:{}
+        questionierDataSent:{},
+        questionierDataDelete:{}
     },
     reducers: {
         ToggleDirection: (state, action) => {
@@ -118,6 +149,14 @@ const questionierSlice = createSlice({
 
           .addCase(sendQuestioneir.fulfilled, (state, action) => {
             state.questionierDataSent = action.payload;
+           
+          })
+          .addCase(editQuestioneir.fulfilled, (state, action) => {
+            state.questionierDataSent = action.payload;
+           
+          })
+          .addCase(deleteQuestioneir.fulfilled, (state, action) => {
+            state.questionierDataDelete = action.payload;
            
           })
          
