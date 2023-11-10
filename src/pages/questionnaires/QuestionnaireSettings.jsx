@@ -230,11 +230,23 @@ const QuestionnaireSettings = ({isAddNew}) => {
   useEffect(() => {
     if (questionierDataSent&& pressSave){
       Swal.fire(questionierDataSent.message, '', 'success')
+      .then((result) => {
+        if (result.isConfirmed) {
+          window.location.reload();
+        }
+      })
     }
   },[questionierDataSent])
+  
   useEffect(() => {
     if (questionierDataDelete&& pressSave){
       Swal.fire(questionierDataDelete.message, '', 'success')
+      .then((result) => {
+        if (result.isConfirmed) {
+          window.location.reload();
+        }
+      })
+      
     }
   },[questionierDataDelete])
 
