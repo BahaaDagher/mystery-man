@@ -32,7 +32,12 @@ const Parent = styled("div")(({ theme }) => ({
     marginBottom : "20px" ,
     overflowX : "auto" ,
     overflowY : "hidden" ,
+    position : "relative" , 
+    "&.padding" :{
+        paddingBottom : "50px" ,
+    }
 }));
+
 const Header = styled(FlexSpaceBetween)(({ theme }) => ({
 }));
 const Published = styled(Flex)(({ theme }) => ({
@@ -125,9 +130,20 @@ const Date = styled(Flex)(({ theme }) => ({
 const Time = styled(Flex)(({ theme }) => ({
 
 }));
-const ReviewSubmitButton = styled(SubmitButton)(({ theme }) => ({
-    width : "fit-content" ,
-    padding : "20px" ,  
+const ReviewSubmitButton = styled("div")(({ theme }) => ({
+    position : "absolute" ,
+    bottom : "0px" ,
+    // left : "50%" , 
+    right : "0px" , 
+    width : "235px" , 
+    padding : "5px 20px 5px 20px" , 
+    backgroundColor : Colors.main ,
+    borderRadius : "10px 0 0 0" , 
+    color : "#fff" , 
+    // transform : "translateX(-50%)" ,
+    textAlign : "center" ,
+    fontSize : "16px" , 
+    cursor : "pointer" 
 }));
 const ViewSubmitButton = styled(SubmitButton)(({ theme }) => ({
     width : "fit-content" ,
@@ -136,6 +152,19 @@ const ViewSubmitButton = styled(SubmitButton)(({ theme }) => ({
     "&:hover" : {
         backgroundColor  : Colors.hoverGreen,
     }
+}));
+const FinishedDiv = styled("div")(({ theme }) => ({
+    position : "absolute" ,
+    top : "0px" ,
+    left : "50%" , 
+    width : "235px" , 
+    padding : "5px 20px 5px 20px" , 
+    backgroundColor : Colors.main ,
+    borderRadius : "0 0 10px 10px" , 
+    color : "#fff" , 
+    transform : "translateX(-50%)" ,
+    textAlign : "center" ,
+    fontSize : "16px" , 
 }));
 
 const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
@@ -178,6 +207,8 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getMissions())
+        if (selectMissions==1 ) setAddPadding(true)
+        else setAddPadding(false)
     }, [])
 
     // view not completed 
@@ -220,12 +251,14 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
 
     //////////////////////////////////////////////
 
+    // active styled in parent 
+    const [addPadding , setAddPadding] = useState(false)
     
 
 
   return (
     <>
-    <MissionSettings setAnchorEl= {setAnchorEl} anchorEl={anchorEl} setChosenSetting = {setChosenSetting} />
+    <MissionSettings setAnchorEl= {setAnchorEl} anchorEl={anchorEl} setChosenSetting = {setChosenSetting} selectMissions = {selectMissions}/>
     
 
     {/* loading */}
@@ -245,7 +278,7 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
         if (mission.status == selectMissions){
             if (!findData) setFindData(true)
             return (
-            <Parent key={index}>
+            <Parent key={index} className = {addPadding? "padding" : ""}>
                 <Header>
                     <Published>
                         <PublishedTitle> {t("text.published")}</PublishedTitle>
@@ -294,6 +327,9 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
                 </Footer>
                 {mission.status ==1 ? 
                     <ReviewSubmitButton  onClick={()=>ReviewRequest(mission)}> Review Request </ReviewSubmitButton> : null 
+                }
+                {mission.status ==3 ? 
+                    <FinishedDiv>Finished 05 minutes ago</FinishedDiv> : null 
                 }
                 
                     

@@ -110,18 +110,25 @@ const MissionsButtons = ({ setShowMissions , setSelectMissions }) => {
         icon2 : NewMissions2
     } , 
     {
-        id : 2 , 
-        name : "Current Missions" , 
-        number :  12 , 
-        icon1 : CurrentMissions, 
-        icon2 : CurrentMissions2
-    } , 
-    {
         id : 1 , 
         name : "Wait Requests" , 
         number :  12 , 
         icon1: WaitRequests, 
         icon2 : WaitRequests2
+    } , 
+    {
+        id : 5 , 
+        name : "Pending user Acceptance" , 
+        number :  12 , 
+        icon1: WaitRequests, 
+        icon2 : WaitRequests2
+    } ,
+    {
+        id : 2 , 
+        name : "Current Missions" , 
+        number :  12 , 
+        icon1 : CurrentMissions, 
+        icon2 : CurrentMissions2
     } , 
     {
         id : 3 , 
@@ -130,13 +137,6 @@ const MissionsButtons = ({ setShowMissions , setSelectMissions }) => {
         icon1 : CompleteMissions, 
         icon2 : CompleteMissions2
     } , 
-    {
-        id : 4 , 
-        name : "Canceled Missions" , 
-        number :  12 , 
-        icon1 : CanceledMissions, 
-        icon2 : CanceledMissions2
-    } ,
 
     ]
     const [activeButton, setActiveButton] = useState(0);

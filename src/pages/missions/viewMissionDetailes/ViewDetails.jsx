@@ -44,12 +44,14 @@ const ViewDetails = ({missionDetails}) => {
     const location = useLocation();
     
     const [questionsData ,setQuestionsData ] = useState([]) 
-
+    
     const CompletedMissionAnswer = useSelector(state => state.missionData.CompletedMissionAnswer) 
+
     const dispatch = useDispatch()
     useEffect(()=>{
         dispatch(getCompletedMissionAnswer(missionDetails.id))
     },[])
+
     useEffect(()=>{
         console.log(CompletedMissionAnswer ,"CompletedMissionAnswer");
         if (CompletedMissionAnswer.data) {

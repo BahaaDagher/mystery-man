@@ -43,7 +43,7 @@ const Li = styled("li")(({ theme }) => ({
     },
 }));
     
-const MissionSettings = ({anchorEl , setAnchorEl , setChosenSetting }) => {
+const MissionSettings = ({anchorEl , setAnchorEl , setChosenSetting , selectMissions}) => {
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -62,13 +62,13 @@ const MissionSettings = ({anchorEl , setAnchorEl , setChosenSetting }) => {
         icon : MissionDetails
     },
     {
-        name : "Edite" , 
-        icon : Edite
-    },
-    {
         name : "Cancel" , 
         icon : Cancel
     },
+    {
+      name : "Delete" , 
+      icon : Cancel , 
+  },
    
   ]
   return (
@@ -88,11 +88,45 @@ const MissionSettings = ({anchorEl , setAnchorEl , setChosenSetting }) => {
     >
       <ListContainer>
         <UL>
-        {TypesArray.map((type   , index) =>    
-            <Li  onClick={()=> {handleClose() ; wantedSetting(index) ; }} key = {index}>
-                <Img src = {type.icon} alt />
-                <ListItemText  primary={type.name} />
-            </Li>
+        {TypesArray.map((type   , index) =>
+            {
+              
+              if (type.name != "Cancel") {
+
+                if (type.name == "MysteryProfile" &&  selectMissions != 0 && selectMissions != 1  ) {
+                  console.log ("hahahahahahah")
+                  return (
+                    <Li  onClick={()=> {handleClose() ; wantedSetting(index) ; }} key = {index}>
+                        <Img src = {type.icon} alt />
+                        <ListItemText  primary={type.name} />
+                    </Li>
+                  )
+                }
+                else if (type.name == "MysteryProfile" && ( selectMissions == 0 || selectMissions == 1 ) ) {
+                  return (
+                    null 
+                  )
+                }
+                else {
+                  return (
+                    <Li  onClick={()=> {handleClose() ; wantedSetting(index) ; }} key = {index}>
+                        <Img src = {type.icon} alt />
+                        <ListItemText  primary={type.name} />
+                    </Li>
+                  )
+                }
+              }
+              else  {
+                if (selectMissions == 0 || selectMissions == 1 ) {
+                  return (
+                    <Li  onClick={()=> {handleClose() ; wantedSetting(index) ; }} key = {index}>
+                        <Img src = {type.icon} alt />
+                        <ListItemText  primary={type.name} />
+                    </Li>
+                  ) 
+                }
+              } 
+            }
         )}
         </UL>
       </ListContainer>
