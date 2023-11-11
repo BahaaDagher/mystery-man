@@ -7,6 +7,7 @@ import Messages from './chatComponent/Messages';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@emotion/react';
 import { useMediaQuery } from '@mui/material';
+import { useSelector } from 'react-redux';
 
 const Container = styled("div")(({ theme }) => ({
     minHeight : "100vh" , 
@@ -36,6 +37,7 @@ const Chat = () => {
 
   const theme = useTheme();
   const isWidth900 = useMediaQuery(theme.breakpoints.down('900'));
+
   
   useEffect(() => {
     if (isWidth900)  setShowMessages(false)

@@ -138,10 +138,20 @@ const Chats = ({LastMessage , setShowMessages }) => {
     dispatch(setChatMessagesSendPages())
     dispatch(getChates())
     setShowMessages(true)
-  } 
-
+  }
   const getChatesResponse = useSelector((state) => state.chatData.getChatesResponse); 
   const getChatesLoading = useSelector((state) => state.chatData.getChatesLoading); 
+  const currentChat = useSelector((state) => state.chatData.currentChat);
+
+  useEffect(() => {
+    if (currentChat.newMission) {
+      console.log('====================================');
+      console.log('llllllllllll' , currentChat);
+      console.log('====================================');
+      setShowMessages(true)
+    }
+  },[currentChat])
+
   useEffect(() => {
     if (getChatesResponse.status) {
       setChats(getChatesResponse.data.messages)

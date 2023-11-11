@@ -22,6 +22,8 @@ import { ToggleLanguage } from '../../../store/slices/directionSlice';
 import ViewDetails from '../viewMissionDetailes/ViewDetails';
 import ReviewMissionRequest from '../reviewMissionRequest/ReviewMissionRequest';
 import NotCompletedDetails from '../notCompletedDetails/NotCompletedDetails';
+import chatAvailable from  "../../../assets/icons/chatAvailable.svg" 
+import { setCurrentChat } from '../../../store/slices/chatSlice';
 
 
 
@@ -33,8 +35,11 @@ const Parent = styled("div")(({ theme }) => ({
     overflowX : "auto" ,
     overflowY : "hidden" ,
     position : "relative" , 
-    "&.padding" :{
+    "&.PaddingBottom" :{
         paddingBottom : "50px" ,
+    } , 
+    "&.PaddingTop" :{
+        paddingTop : "50px" ,
     }
 }));
 
@@ -166,6 +171,32 @@ const FinishedDiv = styled("div")(({ theme }) => ({
     textAlign : "center" ,
     fontSize : "16px" , 
 }));
+const ChatDiv = styled("div")(({ theme }) => ({
+    display : "flex" ,
+    position : "absolute" ,
+    top : "0px" ,
+    left : "50%" , 
+    transform : "translateX(-50%)" ,
+
+}));
+
+const ChatAvailable = styled("div")(({ theme }) => ({
+     
+    width : "150px" , 
+    padding : "5px 10px 5px 10px" , 
+    backgroundColor : Colors.green ,
+    borderRadius : "0 0 10px 10px" , 
+    color : "#fff" , 
+    textAlign : "center" ,
+    fontSize : "16px" , 
+}));
+const ChatImgDiv = styled("div")(({ theme }) => ({
+    margin : theme.direction == "rtl" ? "0 10px 0 0" : "0 0 0 10px" ,
+    cursor : "pointer" ,
+}));
+const ChatImg = styled("img")(({ theme }) => ({
+
+}));
 
 const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
 
@@ -209,8 +240,11 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
         
     }, [])
     useEffect(() => {
-        if (selectMissions==1 ) setAddPadding(true)
-        else setAddPadding(false)
+        if (selectMissions==1 ) setPaddingBottom(true)
+        else setPaddingBottom(false)
+        if (selectMissions==2 ) setPaddingTop(true)
+        else setPaddingTop(false)
+
     }, [selectMissions])
 
     // view not completed 
@@ -254,9 +288,26 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
     //////////////////////////////////////////////
 
     // active styled in parent 
-    const [addPadding , setAddPadding] = useState(false)
+    const [PaddingBottom , setPaddingBottom] = useState(false)
+    const [PaddingTop , setPaddingTop] = useState(false)
     
+//////////////////////////////////////////////////////////////
 
+    // chat
+    const navigate = useNavigate()
+    const handleChat = (mission) => {
+        let employees = mission.employee
+        let senderImage = ""
+        let adsName = "" 
+        for (let i = 0; i < employees.length; i++) {
+            if (employees[i].user.status==1) {
+                senderImage = employees[i].user.image
+                adsName = employees[i].user.name
+            }
+        }
+        dispatch(setCurrentChat({mission_id :  mission.id, senderImage: senderImage , adsName: adsName , newMission : true,id:1 ,can_sent:mission.can_sent }))
+        navigate("/chat")
+    }
 
   return (
     <>
@@ -280,7 +331,7 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
         if (mission.status == selectMissions){
             if (!findData) setFindData(true)
             return (
-            <Parent key={index} className = {addPadding? "padding" : ""}>
+            <Parent key={index} className = {PaddingBottom? "PaddingBottom" : PaddingTop && mission.can_sent ? "PaddingTop" :""}>
                 <Header>
                     <Published>
                         <PublishedTitle> {t("text.published")}</PublishedTitle>
@@ -330,8 +381,26 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
                 {mission.status ==1 ? 
                     <ReviewSubmitButton  onClick={()=>ReviewRequest(mission)}> Review Request </ReviewSubmitButton> : null 
                 }
-                {mission.status ==3 ? 
-                    <FinishedDiv>Finished 05 minutes ago</FinishedDiv> : null 
+                {/* <FinishedDiv>Finished 05 minutes ago</FinishedDiv> : null  */}
+                {mission.status == 3 && mission.can_sent?  
+                    <ChatDiv onClick = {()=>handleChat(mission)}>
+                        <ChatAvailable>Chat Available</ChatAvailable>
+                        <ChatImgDiv onClick = {()=>handleChat(mission)}>
+                            <ChatImg src = {chatAvailable}/>
+                        </ChatImgDiv>
+                    </ChatDiv>
+                    : null
+
+                }
+
+                {mission.status ==2 && mission.can_sent? 
+                    <ChatDiv onClick = {()=>handleChat(mission)}>
+                        <ChatAvailable>Chat Available</ChatAvailable>
+                        <ChatImgDiv>
+                            <ChatImg src = {chatAvailable}/>
+                        </ChatImgDiv>
+                    </ChatDiv>
+                    : null
                 }
                 
             </Parent>

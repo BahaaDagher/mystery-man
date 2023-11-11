@@ -6,7 +6,7 @@ import { FlexCenter } from '../../../components/FlexCenter';
 import logoName from "../../../assets/icons/logoName.svg"
 import logoPic from "../../../assets/icons/logoPic.svg"
 import { Flex } from '../../../components/Flex';
-import test from "../../../assets/images/test.png"
+import test from "../../../assets/images/test.jpg"
 import { Box, Rating } from '@mui/material';
 
 const PrintDiv = styled("div")(({ theme }) => ({
@@ -195,8 +195,10 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
         arr.push(abj)
         setComments(arr)
     }
-    const handlePics = (obj) => {
-        setPics([...pics ,  obj]) 
+    const handlePics = (o) => {
+        let arr  = pics 
+        arr.push(o)
+        setPics(arr)
     }
     const [one , setOne] = useState(0)
     useEffect  (()=>{
