@@ -22,7 +22,7 @@ const Input = styled("input")(({ theme }) => ({
   transform: "scale(1.3)", 
 }));
 const SingleChoices = ({question, num}) => {
-  console.log(question)
+  
   return (
     <>
       <Box>

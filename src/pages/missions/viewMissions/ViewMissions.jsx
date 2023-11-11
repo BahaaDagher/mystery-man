@@ -236,8 +236,6 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
 
     // click on settings icon
     const handleIconClick = (e , mission) => {
-        console.log ("you clicked the icon ")
-        console.log("the mission you clicked is " , mission)
         showSettings(e);
         setMissionDetails(mission) 
         setSelectedMission(mission.id)
@@ -334,7 +332,6 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
                     <FinishedDiv>Finished 05 minutes ago</FinishedDiv> : null 
                 }
                 
-                    
             </Parent>
         ) 
         }

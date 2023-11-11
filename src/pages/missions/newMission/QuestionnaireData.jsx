@@ -250,7 +250,7 @@ const QuestionnaireData = ({setShowQuestionnaire}) => {
 
   const handleClickStep = (index,questions) => {
     dispatch(setCurrentStep(index))
-    console.log(questionieres[currentQuestioneir].steps);
+    
  
   };
   const questionierDataSent = useSelector((state) => state.questioneirData.questionierDataSent);
@@ -262,7 +262,7 @@ const QuestionnaireData = ({setShowQuestionnaire}) => {
   },[questionierDataSent])
 
   const handleSaveQuestioneir = () => {
-    console.log(questionieres[currentQuestioneir]);
+    
     setPressSave(true)
     Swal.fire({
       title: 'are you sure you want to delete this branch?',
@@ -279,7 +279,7 @@ const QuestionnaireData = ({setShowQuestionnaire}) => {
   };
 
   const sendToApi = () => {
-    console.log(questionieres[currentQuestioneir]);
+    
     dispatch(sendQuestioneir([questionieres[currentQuestioneir]]))
   };
   const [activeStep, setActiveStep] = useState(0);

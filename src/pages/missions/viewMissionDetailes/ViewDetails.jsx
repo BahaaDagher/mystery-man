@@ -15,6 +15,7 @@ import { SubmitButton } from '../../../components/SubmitButton';
 import InformationDiv from './InformationDiv';
 import ReactToPrint from 'react-to-print';
 import { Colors } from '../../../Theme';
+import PrintingDiv from './PrintingDiv';
 const Parent = styled("div")(({ theme }) => ({
     width: "100%",
     
@@ -29,10 +30,15 @@ const Continer = styled("div")(({ theme }) => ({
 
 
 const PrintButton = styled(SubmitButton)(({ theme }) => ({
-    width:"90%" , 
+    backgroundColor : Colors.green ,
+    borderRadius : "10px 0 10px 0 " , 
+    width:"100%" , 
     margin : "0 auto" ,
-
+    "&:hover" : {
+        backgroundColor : Colors.hoverGreen ,
+    }
 }));
+
 const QuestionsAnswers = styled("div")(({ theme }) => ({
     fontSize: "30px", 
     color : Colors.second , 
@@ -41,9 +47,9 @@ const QuestionsAnswers = styled("div")(({ theme }) => ({
 }));
 
 const ViewDetails = ({missionDetails}) => {
-    const location = useLocation();
     
     const [questionsData ,setQuestionsData ] = useState([]) 
+    const [missionAnswer ,setMissionAnswer ] = useState()
     
     const CompletedMissionAnswer = useSelector(state => state.missionData.CompletedMissionAnswer) 
 
@@ -53,39 +59,36 @@ const ViewDetails = ({missionDetails}) => {
     },[])
 
     useEffect(()=>{
-        console.log(CompletedMissionAnswer ,"CompletedMissionAnswer");
+        console.log("cccccccCompletedMissionAnswer" , CompletedMissionAnswer );
         if (CompletedMissionAnswer.data) {
+            setMissionAnswer(CompletedMissionAnswer.data.questions)
             const arr =[]
             CompletedMissionAnswer.data.questions.steps.forEach((step)=>{
                 step.questions.forEach((question)=>{
                     arr.push(question)
                 })
-
             })
             setQuestionsData(arr)
         }
     },[CompletedMissionAnswer])
 
-    // mission details 
-    // const missionDetails = useSelector(state => state.missionData.missionDetails)
+
+
     useEffect(()=>{
-        console.log(missionDetails ,"missionDetails");
-    },[missionDetails])
+        console.log("missionAnswerrrrrrrr" ,missionAnswer );
+    }, [missionAnswer])
 
-    const handlePrint = () => {
-        const printContents = document.getElementById('divToPrint').innerHTML;
-        const originalContents = document.body.innerHTML;
+    const [showPrint , setShowPrint] = useState(false)
 
-        document.body.innerHTML = printContents;
-        window.print();
-        // Restore the original content
-        document.body.innerHTML = originalContents;
-    };
+    const handleShowPrint = ()=>{
+        setShowPrint(true)
+    }
   return (
     <>
         <SmallContainer>
             
-            <Parent id="divToPrint" >
+            <Parent >
+                {/* <div>{questionsData[0].name}</div> */}
                 <InformationDiv missionDetails = {missionDetails} />
 
                 <QuestionsAnswers>Questions Answers</QuestionsAnswers>
@@ -135,10 +138,25 @@ const ViewDetails = ({missionDetails}) => {
                     }
                 })}
             </Parent>
-            <ReactToPrint
-                trigger={ () => <PrintButton>Print</PrintButton> }
-                content={ () => document.getElementById('divToPrint') }
-            />
+            {
+                !showPrint ? <SubmitButton onClick = {handleShowPrint}>show Report</SubmitButton> : null 
+            }
+            
+            
+            {showPrint ?
+                <>
+                    <ReactToPrint 
+                        trigger={ () => <PrintButton  >Print Report</PrintButton> }
+                        content={ () => document.getElementById('divToPrint') }
+                    />
+                    <PrintingDiv missionDetails = {missionDetails} missionAnswer = {missionAnswer} /> 
+                </>
+                 : 
+                null
+            }
+            
+            
+
         </SmallContainer>
     </>
   )

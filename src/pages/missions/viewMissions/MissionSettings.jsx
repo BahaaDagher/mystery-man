@@ -94,7 +94,7 @@ const MissionSettings = ({anchorEl , setAnchorEl , setChosenSetting , selectMiss
               if (type.name != "Cancel") {
 
                 if (type.name == "MysteryProfile" &&  selectMissions != 0 && selectMissions != 1  ) {
-                  console.log ("hahahahahahah")
+                  
                   return (
                     <Li  onClick={()=> {handleClose() ; wantedSetting(index) ; }} key = {index}>
                         <Img src = {type.icon} alt />

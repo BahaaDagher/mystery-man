@@ -169,13 +169,7 @@ const QuestionsAnswers = styled("div")(({ theme }) => ({
 const InformationDiv = ({missionDetails}) => {
   return (
     <>
-    <FlexCenter style = {{flexDirection : "column" }}>
-        <BranchRating>Branch General Rating</BranchRating>
-        <Continer >
-            <Rating name="half-rating" defaultValue={4}  readOnly style = {{direction : "ltr" , fontSize : "30px"}}/>
-            <Notes> تم تقييم الفرع بشكل جيد  </Notes>
-        </Continer>
-    </FlexCenter>
+    
     <QuestionsAnswers> Mission Details </QuestionsAnswers>
     <Parent>
         <TitleDiv>
