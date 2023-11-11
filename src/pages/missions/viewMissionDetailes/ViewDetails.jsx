@@ -41,7 +41,6 @@ const QuestionsAnswers = styled("div")(({ theme }) => ({
 }));
 
 const ViewDetails = ({missionDetails}) => {
-    const location = useLocation();
     
     const [questionsData ,setQuestionsData ] = useState([]) 
     

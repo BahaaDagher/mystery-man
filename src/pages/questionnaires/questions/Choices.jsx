@@ -77,7 +77,7 @@ const Choices = ({questionData,index}) => {
   const [radio,  setRadio] = useState(questionData.required);
   const [question, setQuestion] = useState(questionData.title);
   const [answers, setAnswers] = useState(questionData.options); 
-  const [newAnswer, setNewAnswer] = useState('');
+  const [newAnswer, setNewAnswer] = useState({title:'',rate:''});
   const questionieres = useSelector((state) => state.questioneirData.questionieres);
   const currentQuestioneir = useSelector((state) => state.questioneirData.currentQuestioneir);
   const currentStep = useSelector((state) => state.questioneirData.currentStep);
@@ -107,11 +107,12 @@ const Choices = ({questionData,index}) => {
   },[answers])
 
   const handleAddAnswer = () => {
-    if (newAnswer.trim() !== '') {
+    console.log("newAnswer",newAnswer);
+    if (newAnswer.title.trim() !== ''&& (newAnswer.rate>=0 && newAnswer.rate<=100 )) {
       console.log("newAnswer",newAnswer);
       const currentAns =questionData.options
       setAnswers([...currentAns, newAnswer]);
-      setNewAnswer('');
+      setNewAnswer({title:'',rate:''});
     }
   };
   const handleDeleteAnswer = (index) => {
@@ -131,7 +132,7 @@ const Choices = ({questionData,index}) => {
               <div key={index}>
                 <AnswerContainer>
                   <img src = {grayDelete} onClick={() => handleDeleteAnswer(index)} style = {{cursor : "pointer"}}/>
-                  <Answer>{answer}</Answer>
+                  <Answer>{answer.title}</Answer>
                 </AnswerContainer>
               </div>
             ))}
@@ -140,8 +141,15 @@ const Choices = ({questionData,index}) => {
               <AnswerInput
                 type="text"
                 placeholder="Enter a new answer"
-                value={newAnswer}
-                onChange={(e) => setNewAnswer(e.target.value)}
+                value={newAnswer.title}
+                onChange={(e) => setNewAnswer({title:e.target.value ,rate:newAnswer.rate})}
+              />
+              <AnswerInput
+                type="number"
+                placeholder=" rating of  answer between 0-100"
+                value={newAnswer.rate}
+                onChange={(e) => setNewAnswer({title:newAnswer.title, rate:e.target.value })
+                } 
               />
             </AddAnswerDiv>
           </div>

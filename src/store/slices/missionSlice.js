@@ -23,6 +23,26 @@ async (values) => {
     }
 }
 );
+export const getQuestionsMissions = createAsyncThunk(
+"mission/getQuestionsMissions", 
+async (values) => {
+    console.log("i18n.lang", i18n.language)
+    const token = localStorage.getItem('token');
+    try {
+    const response = await axios.get(
+        `https://mystery.cloudy.mohamedmansi.com/api/getQuestionsMissions?mission_id=${values}` ,{
+            headers: {
+                "Authorization" : token , 
+                "lang" : currentLanguage
+            },
+        }
+    );
+    return response.data ;
+    } catch (error) {
+    console.error(error);
+    }
+}
+);
 export const getCompletedMissionAnswer = createAsyncThunk(
 "mission/getCompletedMissionAnswer", 
 async (values) => {
@@ -31,6 +51,31 @@ async (values) => {
     try {
     const response = await axios.get(
         `https://mystery.cloudy.mohamedmansi.com/api/getAnswers?mission_id=${values}` ,{
+            headers: {
+                "Authorization" : token , 
+                "lang" : currentLanguage
+            },
+        }
+    );
+    return response.data ;
+    } catch (error) {
+    console.error(error);
+    }
+}
+);
+export const accepetRequest = createAsyncThunk(
+"mission/accepetRequest", 
+async (values) => {
+
+    const token = localStorage.getItem('token');
+    try {
+    const response = await axios.post(
+        `https://mystery.cloudy.mohamedmansi.com/api/accepetRequest`,
+        {
+            mission_id: values.mission_id  ,
+            order_id: values.order_id
+        } ,
+        {
             headers: {
                 "Authorization" : token , 
                 "lang" : currentLanguage
@@ -76,6 +121,8 @@ const missionSlice = createSlice({
         CompletedMissionAnswer : {} ,
         SelectedMission : 0  , 
         missionDetails : {} , 
+        accepetRequestData:{},
+        questionsMissionsData:{},
     },
     reducers: {
         setCurrentMission: (state, action) => {
@@ -114,6 +161,14 @@ const missionSlice = createSlice({
         
         .addCase(getCompletedMissionAnswer.fulfilled , (state, action) => {
             state.CompletedMissionAnswer = action.payload;
+       
+        }) 
+        .addCase(accepetRequest.fulfilled , (state, action) => {
+            state.accepetRequestData = action.payload;
+       
+        }) 
+        .addCase(getQuestionsMissions.fulfilled , (state, action) => {
+            state.questionsMissionsData = action.payload;
        
         }) 
     }

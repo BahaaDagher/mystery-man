@@ -181,7 +181,7 @@ const Chats = ({LastMessage , setShowMessages }) => {
                     <img src = {chat.senderImage} alt = "senderImage"/>
                   </ImageDiv>
                   <NameMessage>
-                    <Name>{chat.senderName}</Name>
+                    <Name>{chat.adsName}</Name>
                     <MessageTime>
                       <Message>
                         {LastMessage.message!="" && LastMessage.id == chat.id ? 

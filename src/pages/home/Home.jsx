@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { useTransition } from 'react'
+import React, { useEffect, useState, useTransition } from 'react'
 import { Colors } from '../../Theme';
 import { SmallContainer } from '../../components/SmallContainer';
 import { useTranslation } from 'react-i18next';
@@ -7,6 +7,8 @@ import paper_scroll from "../../assets/icons/paper-scroll.svg"
 import high_rate from "../../assets/icons/high-rate.svg"
 import low_rate from "../../assets/icons/low-rate.svg"
 import location from "../../assets/icons/location.svg" 
+import { useDispatch, useSelector } from 'react-redux';
+import { getBranches } from '../../store/slices/branchSlice';
 
 const Section1 = styled("div")(({ theme }) => ({
     display :"flex" , 
@@ -60,6 +62,52 @@ const Report = styled("div")(({ theme }) => ({
 
 const Home = () => {
     const {t} = useTranslation() ; 
+    const dispatch = useDispatch() ; 
+    useEffect(()=> {
+        dispatch(getBranches())
+    },[])
+      // profile data 
+      const getProfileData = useSelector(state => state.profileData.getProfileData) ;
+      const getBranchesData = useSelector(state => state.branchData.getBranchesData) ;
+      const [profileData , setProfileData] = useState ({})
+      const [branchesData , setBranchesData] = useState ({})
+      const [highestBranch , setHighestBranch] = useState ('')
+      const [lowestBranch , setLowestBranch] = useState ('')
+      useEffect(()=>{
+        if (getProfileData.status) {
+          setProfileData(getProfileData.data.user)
+        }
+      },[getProfileData])
+      useEffect(()=>{
+        if (getBranchesData.status) {
+            setBranchesData(getBranchesData.data.branches)
+     
+        }
+      },[getBranchesData])
+      useEffect(()=>{
+        let highestBranch = 0
+        let lowestBranch = 0
+        console.log("branchesData" ,branchesData ,branchesData.length>0);
+        if (branchesData.length>0) {
+            branchesData.forEach(element => {
+                console.log(element.generalRate);
+                const branchRating =element.generalRate.replace(",", ".")
+                if(branchRating >= highestBranch)
+                {
+                    
+                    highestBranch=branchRating
+                    setHighestBranch(element.name)
+                }
+                if (branchRating <= lowestBranch) {
+                    lowestBranch=branchRating
+                    setLowestBranch(element.name)
+                    
+                }
+                
+            });
+          
+        }
+      },[branchesData])
   return (
     <>
         <SmallContainer>
@@ -72,7 +120,7 @@ const Home = () => {
                         className  = "number"
                         style = {{position :"absolute" , right : "10px" , top : "70px" , fontSize : "50px" }}
                     >
-                        06
+                        {profileData.newMission}
                     </div>
                     <CircleDiv>
                         <img 
@@ -92,7 +140,7 @@ const Home = () => {
                         <div
                             style={{fontSize : "20px" , margin : "10px"}}
                         >
-                        Jaddah
+                        {highestBranch}
                         </div>
                     </div>
                     <img 
@@ -113,7 +161,7 @@ const Home = () => {
                         <div
                             style={{fontSize : "20px" , margin : "10px"}}
                         >
-                        Al Dmam
+                        {lowestBranch}
                         </div>
                     </div>
                     <img 
