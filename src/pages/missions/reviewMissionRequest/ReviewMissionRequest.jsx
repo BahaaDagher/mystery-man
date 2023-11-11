@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { SmallContainer } from '../../../components/SmallContainer';
 import { Colors } from '../../../Theme';
 import { SubmitButton } from '../../../components/SubmitButton';
@@ -9,6 +9,8 @@ import adminImage from "../../../assets/images/admin.png"
 import { Rating } from '@mui/material';
 import { Flex } from '../../../components/Flex';
 import { FlexCenter } from '../../../components/FlexCenter';
+import { accepetRequest } from '../../../store/slices/missionSlice';
+import Swal from 'sweetalert2';
 const Place = styled("div")(({ theme }) => ({
   marginBottom : "10px" ,
 }));
@@ -61,10 +63,34 @@ const AcceptButton = styled(SubmitButton)(({ theme }) => ({
   margin : "0"
 
 }));
-const ReviewMissionRequest = ({reviewRequestData}) => {
-  
-
+const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
+  const accepetRequestData = useSelector(state => state.missionData.accepetRequestData) 
   const CurrentMissionEmployees = reviewRequestData.employee
+
+  const dispatch = useDispatch()
+  useEffect(()=>{
+  
+    console.log(accepetRequestData);
+    if (accepetRequestData.status) {
+          console.log(accepetRequestData);
+          Swal.fire(accepetRequestData.message, '', 'success').then((result) => {
+            if (result.isConfirmed) {
+            
+              window.location.href ="/dashboard/missions"
+            }
+          })
+    }
+
+     
+  },[accepetRequestData])
+
+  
+  const handleAccept = (CurrentMissionEmployee)=>{
+
+    console.log(CurrentMissionEmployee.id);
+    dispatch(accepetRequest({order_id:CurrentMissionEmployee.id , mission_id:missionId}))
+
+  }
 
   return (
     <>
@@ -87,7 +113,7 @@ const ReviewMissionRequest = ({reviewRequestData}) => {
               </div>
           </PhotoAndName>
           <ButtonDiv>
-            <AcceptButton>Accept</AcceptButton>
+            <AcceptButton onClick={()=>handleAccept(item)}>Accept</AcceptButton>
           </ButtonDiv>
       </Line> 
       ) 

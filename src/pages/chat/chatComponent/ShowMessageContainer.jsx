@@ -312,6 +312,48 @@ const ShowMessageContainer = ({setLastMessage , setShowMessages }) => {
                 </div>
                 <div className="card-footer text-muted d-flex justify-content-start align-items-center p-3" style = {{direction : "rtl"}}>
                     
+                    {currentChat.can_sent ? 
+                    
+                    
+                    <>
+                    
+                            <SendButton onClick={handleSend}>
+                                <SendImg src = {Send}/>
+                                Send
+                            </SendButton>
+                                
+                                {/* style = {{fontSize : "30px" , color : 'red' , cursor: "pointer" , marginLeft : "10px"}} */}
+                            
+                            <label className="ms-1 text-muted" htmlFor="fileInput" >
+                                <AttachFileOutlinedIcon style={{ fontSize: "30px", color: Colors.main , cursor: "pointer"}} />
+                            </label>
+                            <input
+                                type="file"
+                                id="fileInput"
+                                style={{ display: "none" }}
+                                onChange={handleFileSelect}
+                            />
+                            <textarea
+                            style={{resize: "none" , height : "50px" , width : "100%"}}
+                            type="text"
+                            multiple 
+                            className="form-control form-control-lg"
+                            id="exampleFormControlInput1"
+                            placeholder="Enter Message"
+                            value={singleMessage}
+                            onChange = {(e) => setSingleMessage(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter" && !e.shiftKey) {
+                                handleSend()
+                                }
+                            }}
+                            />
+                    </>
+                    : !currentChatData.mission_id ? 
+                    
+                    
+                    <>
+                    
                     <SendButton onClick={handleSend}>
                         <SendImg src = {Send}/>
                         Send
@@ -343,6 +385,9 @@ const ShowMessageContainer = ({setLastMessage , setShowMessages }) => {
                         }
                     }}
                     />
+            </>
+                    
+                    :'' }
                 </div>
                 </div>
             </div>

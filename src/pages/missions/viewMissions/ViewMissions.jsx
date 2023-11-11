@@ -219,10 +219,12 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
     // view request 
     const [reviewRequest ,   setReviewRequest] = useState(false)
     const [reviewRequestData ,   setReviewRequestData] = useState({})
+    const [missionId ,   setMissionId] = useState()
     const ReviewRequest = (mission) => {
         setShowMissions(false)
         setReviewRequest(true)
         setReviewRequestData(mission)
+        setMissionId(mission.id)
     }
 
     const {t} = useTranslation()
@@ -268,7 +270,7 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
     {showViewDetails ? <ViewDetails missionDetails ={missionDetails} /> : null}
 
     {/* view request */}
-    {reviewRequest ? <ReviewMissionRequest reviewRequestData = {reviewRequestData}/> : null}
+    {reviewRequest ? <ReviewMissionRequest missionId={missionId} reviewRequestData = {reviewRequestData}/> : null}
 
     {/* view notCompleted */}
     {notCompleted ? <NotCompletedDetails missionDetails ={missionDetails} /> : null}
