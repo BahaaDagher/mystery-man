@@ -6,7 +6,7 @@ import { FlexCenter } from '../../../components/FlexCenter';
 import logo from "../../../assets/images/logo.svg"
 import logoPic from "../../../assets/icons/logoPic.svg"
 import { Flex } from '../../../components/Flex';
-import test from "../../../assets/images/test.jpg"
+import test from "../../../assets/images/test.png"
 import { Box, Rating } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
@@ -31,11 +31,19 @@ const LogoName = styled("img")(({ theme }) => ({
     marginBottom : "20px" ,
     // width : "300px" ,
 }));
-const BasicInfo = styled("div")(({ theme }) => ({
+const BasicInfo = styled(FlexSpaceBetween)(({ theme }) => ({
     width : "100%" , 
-    border : `3px solid ${Colors.main}` ,
+    borderBottom : `3px solid ${Colors.main}` ,
+    borderRadius : "10px" ,
     padding : "10px" ,
 }));
+const CompanyInfo = styled("div")(({ theme }) => ({
+
+}));
+const VisitorInfo = styled("div")(({ theme }) => ({
+
+}));
+
 const Tab = styled(Flex)(({ theme }) => ({
 }));
 const TabTitle = styled("div")(({ theme }) => ({
@@ -46,12 +54,16 @@ const TabAnswer = styled("div")(({ theme }) => ({
 }));
 
 const Section = styled("div")(({ theme }) => ({
-    backgroundColor : Colors.main ,
-    color : "#fff" , 
+    // backgroundColor : Colors.main ,
+    color : Colors.main ,
+    fontWeight : "bold" , 
     margin : "30px 0 20px 0" ,  
-    width : "100%" , 
+    // width : "100%" ,
+    borderBottom : `3px solid ${Colors.main}` ,
+    borderRadius : "10px" , 
     padding : "5px" ,
     textAlign : "center" , 
+    fontSize: "20px" ,
 }));
 
 const OverallPerformance = styled(FlexSpaceBetween)(({ theme }) => ({
@@ -82,14 +94,14 @@ const PerformanceRate = styled(Flex)(({ theme }) => ({
 
 }));
 const YourPerformance = styled("div")(({ theme }) => ({
-    border : `2px solid ${Colors.green}` ,
+    // border : `2px solid ${Colors.main}` ,
     padding : "5px 10px" ,
     borderRadius : "5px" , 
     fontWeight : "bold" , 
 
 }));
 const Rate = styled("div")(({ theme }) => ({
-    color : Colors.green ,
+    color : Colors.main ,
     fontWeight : "bold" , 
     margin : "0 10px" , 
 }));
@@ -105,14 +117,15 @@ const StepName = styled("div")(({ theme }) => ({
     fontWeight :"bold" , 
 }));
 const StepRate = styled("div")(({ theme }) => ({
-    width : "50%" ,
-    backgroundColor : "#3734ca42" ,
-    color : "#fff" ,
+    width : "70%" ,
+    // backgroundColor : "#3734ca42" ,
+    border : `2px solid ${Colors.main}` ,
+    fontWeight : "bold" ,
 }));
 const PercentageDiv = styled("div")(({ theme }) => ({
     // width : "92.5%" , 
     textAlign: "right"  , 
-    backgroundColor : Colors.main  ,
+    backgroundColor :   "#3734ca42",
 }));
 const Percentage = styled("div")(({ theme }) => ({
     paddingRight : "5px" ,
@@ -136,17 +149,18 @@ const Tr = styled("tr")(({ theme }) => ({
 
 }));
 const Td = styled("td")(({ theme }) => ({
-    border : `2px solid ${Colors.green}` ,
-    paddingLeft : "5px" , 
-
+    border : `2px solid ${Colors.main}` ,
+    padding : "0 10px" , 
+    
 }));
 const TdCenter = styled("td")(({ theme }) => ({
-    border : `2px solid ${Colors.green}` ,
+    padding : "0 10px" , 
+    border : `2px solid ${Colors.main}` ,
     textAlign : "center" ,
     width : "200px" , 
 }));
 const StepTable = styled("table")(({ theme }) => ({
-    border : `2px solid ${Colors.green}` ,
+    border : `2px solid ${Colors.main}` ,
     width : "100%" , 
     marginBottom : "30px" , 
 }));
@@ -174,15 +188,17 @@ const RateContainer = styled("div")(({ theme }) => ({
     marginBottom  : "20px" ,
     width : "100%" , 
     textAlign : "center" ,
-    height : "135px" ,
+    // height : "135px" ,
 }));
 
 const Notes = styled("div")(({ theme }) => ({
     color : Colors.second , 
     fontSize : "18px" ,
     fontWeight : "600" 
-
 }));
+
+
+
 const PrintingDiv = ({missionDetails , missionAnswer}) => {
 
 
@@ -233,10 +249,22 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
     } ,[missionAnswer])
 
 
+
     useEffect(()=>{
         console.log("commentssssssss" , comments);
     }
     ,[comments])
+    
+    const [employee , setEmployee] = useState({})
+    useEffect(()=>{
+        let employees = missionDetails.employee
+        for (let i = 0; i < employees.length; i++) {
+            if (employees[i].status!= 0 && employees[i].status!= 3 ) {
+                setEmployee(employees[i].user )
+            }
+        }
+    }
+    ,[missionDetails])
     const {t} = useTranslation() ;
   return (
 
@@ -244,41 +272,55 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
         <MainInformation>
             <LogoName src = {logo}/>
             <BasicInfo>
-                <Tab>
-                    <TabTitle>Survey:</TabTitle>
-                    <TabAnswer>{missionDetails.companyName}</TabAnswer>
-                </Tab>
-                <Tab>
-                    <TabTitle>Campaign Date:</TabTitle>
-                    <TabAnswer>{missionDetails.date}</TabAnswer>
-                </Tab>
-                <Tab>
-                    <TabTitle>Campaign Time:</TabTitle>
-                    <TabAnswer>  {missionDetails.from} - {missionDetails.to}</TabAnswer>
-                </Tab>
-                <Tab>
-                    <TabTitle>Name of Mystery Shopper:</TabTitle>
-                    <TabAnswer>{missionDetails.employee[0].user.name}</TabAnswer>
-                </Tab>
-                <Tab>
-                    <TabTitle>Gender:</TabTitle>
-                    <TabAnswer>{missionDetails.employee[0].user.gender}</TabAnswer>
-                </Tab>
-                <Tab>
-                    <TabTitle>Branch Address:</TabTitle>
-                    <TabAnswer>{missionDetails.address}</TabAnswer>
-                </Tab>
+                <CompanyInfo>
+
+                    <Tab>
+                        <TabTitle>Company Name:</TabTitle>
+                        <TabAnswer>{missionDetails.companyName}</TabAnswer>
+                    </Tab>
+                    <Tab>
+                        <TabTitle>Mission Date:</TabTitle>
+                        <TabAnswer>{missionDetails.date}</TabAnswer>
+                    </Tab>
+                    <Tab>
+                        <TabTitle>Mission Time:</TabTitle>
+                        <TabAnswer>  {missionDetails.from} - {missionDetails.to}</TabAnswer>
+                    </Tab>
+                    <Tab>
+                        <TabTitle>Branch Address:</TabTitle>
+                        <TabAnswer>{missionDetails.branch}</TabAnswer>
+                    </Tab>
+                </CompanyInfo>
+                <VisitorInfo>
+                    <Tab>
+                        <TabTitle>Visitor Name:</TabTitle>
+                        <TabAnswer>{employee.name}</TabAnswer>
+                    </Tab>
+                    <Tab>
+                        <TabTitle>Visitor Gender:</TabTitle>
+                        <TabAnswer>{employee.gender}</TabAnswer>
+                    </Tab>
+                    <Tab>
+                        <TabTitle>Visitor phone:</TabTitle>
+                        <TabAnswer>{employee.phone}</TabAnswer>
+                    </Tab>
+                    <Tab>
+                        <TabTitle>Visitor email:</TabTitle>
+                        <TabAnswer>{employee.email}</TabAnswer>
+                    </Tab>
+                </VisitorInfo>
             </BasicInfo>
+
             <Section>{t("text.OVERALL_PERFORMANCE")}</Section>
 
             <OverallPerformance>
                 <LogoContainer>
                     <RateContainer>
-                        <Rating name="half-rating" defaultValue={missionDetails.rate.rate}  readOnly style = {{direction : "ltr" , fontSize : "40px"}} precision={0.5}/>
+                        <Rating name="half-rating" defaultValue={missionDetails.rate.rate}  readOnly style = {{direction : "ltr" , fontSize : "50px"}} precision={0.5}/>
                         <Notes> {missionDetails.rate.note} </Notes>
                     </RateContainer>
                     <PerformanceRate>
-                        <YourPerformance> {t("text.general_performance_from_visitor")} </YourPerformance>
+                        <YourPerformance> {t("text.visitor_Rating")} </YourPerformance>
                         <Rate>{missionDetails.rate.rate * 20 } %</Rate>
                     </PerformanceRate>
                 </LogoContainer>
@@ -314,27 +356,27 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
         </MainInformation>
 
         <StepsDetails>
-            <HeaderTable>
-                <Tr style = {{backgroundColor : Colors.main}}>
-                    <Td style = {{color : "#fff" , fontSize : "20px" , }}>{t("text.OVERALL_PERFORMANCE")}</Td>
-                    <TdCenter style = {{color : "#fff" , fontSize : "25px" , }}>{missionAnswer?.rate} %</TdCenter>
+            {/* <HeaderTable>
+                <Tr style = {{backgroundColor :"#3734ca42"}}>
+                    <Td style = {{ fontWeight : "bold", fontSize : "20px" , }}>{t("text.OVERALL_PERFORMANCE")}</Td>
+                    <TdCenter style = {{ fontSize : "25px" , fontWeight : "bold" }}>{missionAnswer?.rate} %</TdCenter>
                 </Tr>
-            </HeaderTable>
+            </HeaderTable> */}
             {missionAnswer?.steps?.map((step , index) => {
                 return (
                     <>
                         
                         <StepTable key = {index}>
                             <Tr >
-                                <Td style = {{fontWeight : "bold" , backgroundColor : Colors.main , color : "#fff"}} >{step.name}</Td>
-                                <TdCenter style = {{backgroundColor : Colors.main , color : "#fff"}}>{convert(step.rate)}</TdCenter>
+                                <Td style = {{fontWeight : "bold" , backgroundColor : "#3734ca42" }} >{step.name}</Td>
+                                <TdCenter style = {{ fontWeight : "bold" ,backgroundColor : "#3734ca42" }}>{convert(step.rate)}</TdCenter>
                             </Tr>
                             {step.questions?.map((question , index) => {
 
                                 if (question.type !== "uploadImages" && question.type !== "headLine" && question.type !== "open") {
                                     return (
                                         <Tr key = {index}>
-                                        <Td style = {{fontWeight : "bold"}}>{question.title}</Td>
+                                        <Td >{question.title}</Td>
                                         { question.type !== "multiChoice" ?
                                             <TdCenter>{question.answer}</TdCenter> : 
                                             <TdCenter>
@@ -351,7 +393,7 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                                 
                             }
                             )}
-                            {comments[index]?.length>0 ? 
+                            {/* {comments[index]?.length>0 ? 
                                 <>
                                 <div style = {{fontWeight : "bold" , paddingLeft : "10px"}}>{t("text.Comments")}</div>
                                     {comments[index].map((comment , index) => {
@@ -367,7 +409,7 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                                         )
                                     })}
                                 </>
-                            : null}
+                            : null} */}
                         </StepTable>
 
                     </>
@@ -379,7 +421,7 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
             { pics.map((pic , index) => {
                 return (
                     <PicsDiv key = {index}>
-                        <div>{pic.title}</div>
+                        {/* <div>{pic.title}</div> */}
                         <img src = {pic.answer} style = {{height : "85%" , width : "70%"}}/>
                     </PicsDiv>
                 )

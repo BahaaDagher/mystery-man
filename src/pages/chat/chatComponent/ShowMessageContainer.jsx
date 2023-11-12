@@ -19,6 +19,7 @@ import { use } from 'i18next';
 import { FlexCenter } from '../../../components/FlexCenter';
 import EastOutlinedIcon from '@mui/icons-material/EastOutlined';
 import { useTranslation } from 'react-i18next';
+import admin from "../../../assets/images/admin.png"
 const customStyles = {
 
   padding: '20px',
@@ -257,9 +258,9 @@ const ShowMessageContainer = ({setLastMessage , setShowMessages }) => {
                 <div className="card-header d-flex align-items-center p-3 justify-content-between">
                     <Flex className = "d-flex align-items-center">
                     <div>
-                        <img src = {currentChatData.senderImage} style = {{width : "60px" ,  height : "60px" , borderRadius : "10px"}} />
+                        <img src = {currentChatData.senderImage ?currentChatData.senderImage : admin } style = {{width : "60px" ,  height : "60px" , borderRadius : "10px"}} />
                     </div>
-                        <Name className="mb-0"> {currentChatData.adsName}</Name>
+                        <Name className="mb-0"> {currentChatData.senderName? currentChatData.senderName : "Admin"}</Name>
                     </Flex>
                     <BackArrow onClick = {handleBack}/>
                 </div>
