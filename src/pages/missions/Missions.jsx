@@ -7,6 +7,7 @@ import MissionsButtons from './MissionsButtons';
 import { Colors } from '../../Theme';
 import { Box } from '@mui/material';
 import ViewMissions from './viewMissions/ViewMissions';
+import { useTranslation } from 'react-i18next';
 
 const MainContent = styled(FlexSpaceBetween)(({ theme }) => ({
   [theme.breakpoints.down('800')]: {
@@ -55,14 +56,14 @@ const Missions = () => {
   
   const [showMissions , setShowMissions] = useState(true)
  
-  
+  const {t} = useTranslation()
   return (
     <>
     <SmallContainer>
     <MainContent>
       <DetailsPart>
         <NewMissionDiv>
-         {showMissions &&  <NewMissionButton onClick={newMissionPage}> New Mission </NewMissionButton> }
+         {showMissions &&  <NewMissionButton onClick={newMissionPage}> {t("text.New_Mission")} </NewMissionButton> }
         </NewMissionDiv>
         <ViewMissions
           showMissions = {showMissions}

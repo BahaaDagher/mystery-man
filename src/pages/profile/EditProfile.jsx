@@ -9,6 +9,7 @@ import LanguageIcon from '../../components/LanguageIcon'
 import LabelFile from '../../components/LabelFile'
 import { FlexDiv } from '../../components/FlexDiv'
 import { SubmitButton } from '../../components/SubmitButton'
+import  Loading  from '../../components/Loading'
 import camera from "../../assets/icons/camera.svg"
 import file_text from "../../assets/icons/file-text.svg"
 import { useDispatch, useSelector } from 'react-redux'
@@ -16,6 +17,9 @@ import  { userRegister } from '../../store/slices/authSlice'
 import Swal from 'sweetalert2'
 import { useTheme } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
+import { ProfileData, updateProfile } from '../../store/slices/profileSlice'
+import blueCamera from "../../assets/icons/blueCamera.svg"
+import { FlexCenter } from '../../components/FlexCenter'
 
 const InsideContainer = styled("div")(({ theme }) => ({
   width : "30%" ,
@@ -36,18 +40,29 @@ const InputDiv = styled("div")(({ theme }) => ({
 }));
 
 const CameraDiv = styled(FlexDiv)(({ theme }) => ({
-  width : "100px" ,
-  height : "100px" , 
-  margin : "auto" ,
-  backgroundColor : "#fff" ,
-  borderRadius : "50%" ,
+    width : "100px" ,
+    height : "100px" , 
+    margin : "auto" ,
+    backgroundColor : "#fff" ,
+    borderRadius : "50%" ,
+    position : "relative" ,
+  }));
+const BlueCameraDiv = styled(FlexCenter)(({ theme }) => ({
+    position :"absolute" , 
+    padding : "10px" , 
+    backgroundColor : Colors.main ,
+    bottom : "0" , 
+    borderRadius : "50%" ,
+}));
+const BlueCamera = styled("img")(({ theme }) => ({
+
 }));
 
 
 const InputInformation = styled("div")(({ theme }) => ({
 }));
 
-const EnterData = () => {
+const EditProfile = () => {
   const [commercialRegisterFile, setCommercial_registration_file] = useState(null);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
   const [Phone_Number , setPhone_number] = useState("")
@@ -59,9 +74,26 @@ const EnterData = () => {
   const [commercial_registration_no , setCommercial_registration_no] = useState("")
   const [clickSubmit , setClickSubmit] = useState(false)
 
+
+  // my work 
+  const getProfileData = useSelector((state) => state.profileData.getProfileData);
+  const getProfileLoading = useSelector((state) => state.profileData.getProfileLoading);
+    useEffect(() => {
+        if (getProfileData.status) {
+            console.log ("getProfileData" , getProfileData)
+            setCompany_name(getProfileData.data.user.name)
+            setPhone_number(getProfileData.data.user.phone)
+            setCompany_email(getProfileData.data.user.email)
+            setCompany_website(getProfileData.data.user.url)
+            setCommercial_registration_no(getProfileData.data.user.CommercialRegistrationNo)
+            setCommercial_registration_file(getProfileData.data.user.CommercialRegistrationImage)
+            setSelectedPhoto(getProfileData.data.user.image)
+        }
+    }, [getProfileData]);
+
+
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    console.log ("booha", file)
     if (file) {
       setCommercial_registration_file(file);
     }
@@ -73,24 +105,23 @@ const EnterData = () => {
     }
   };
 
-  const RegisterData = useSelector((state) => state.authData.RegisterData);
+  const updateProfileData = useSelector((state) => state.profileData.updateProfileData);
+  const updateProfileLoading = useSelector((state) => state.profileData.updateProfileLoading);
+
   const navigate = useNavigate();
   useEffect(() => {
     if (clickSubmit) {
-      console.log ("RegisterData" , RegisterData ) 
-      if ("data" in  RegisterData) {
+      console.log ("RegisterData" , updateProfileData ) 
+      if (updateProfileData.status) {
         console.log("success")
         Swal.fire({
           icon: 'success',
-          // text: RegisterData.message,
-          text : "تم تسجيل البيانات بنجاح وفي انتظار موافقة الادمن "  , 
+          text : "edited successfully", 
           showConfirmButton: false,
           timer: 3000
         })
         setTimeout(() => {
-          // if (localStorage.getItem("token")) {
-            navigate("/login")
-          // } 
+            navigate("/profile")
         }
         , 3000)
       }
@@ -98,22 +129,24 @@ const EnterData = () => {
         console.log("failed")
         Swal.fire({
           icon: 'error',
-          text: RegisterData.message,
+          text: updateProfileData.message,
         })
       }
     }
-  }, [RegisterData]);
+  }, [updateProfileData]);
 
   const dispatch = useDispatch(); 
   const theme = useTheme() ; 
   const handleSubmit = () => {
       setClickSubmit(true)
-      if (password !== confirm_password)  {
-        Swal.fire({
-          icon: 'error',
-          text:theme.direction == "ltr" ? 'Password and confirm password are not the same!' : "! كلمتا السر غير متطابقتين",
-          
-        })
+      if (password!="" || confirm_password!="") {
+        if (password !== confirm_password)  {
+            Swal.fire({
+              icon: 'error',
+              text:theme.direction == "ltr" ? 'Password and confirm password are not the same!' : "! كلمتا السر غير متطابقتين",
+              
+            })
+          }
       }
       else {
         const formData = new FormData();
@@ -121,19 +154,24 @@ const EnterData = () => {
         formData.append("url", company_website);
         formData.append("email", company_email);
         formData.append("phone", Phone_Number);
-        formData.append("password", password);
         formData.append("CommercialRegistrationNo", commercial_registration_no);
-        formData.append("CommercialRegistrationImage", commercialRegisterFile);
-        formData.append("image", selectedPhoto);
-        dispatch(userRegister(formData))
+        if (password!="") formData.append("password", password);
+        if (typeof commercialRegisterFile !== 'string') formData.append("CommercialRegistrationImage", commercialRegisterFile);
+        if (typeof selectedPhoto !== 'string') formData.append("image", selectedPhoto);
+        dispatch(updateProfile(formData))
       }
       
   }
   
+
+
+  
+
   const {t} = useTranslation()
   return (
     <>
-      <LanguageIcon className= "notNavbar"/>
+        {getProfileLoading ? <Loading/> : null}
+        {updateProfileLoading ? <Loading/> : null}
       <Container>
         <InsideContainer>
               <input
@@ -145,8 +183,11 @@ const EnterData = () => {
               />
               <label htmlFor='uploadPhoto' style = {{cursor : "pointer"}}>
                 <CameraDiv>
+                    <BlueCameraDiv>
+                        <BlueCamera src= {blueCamera}/>
+                    </BlueCameraDiv>
                     <img
-                      src = { selectedPhoto ? URL.createObjectURL(selectedPhoto) : camera }  
+                      src = { typeof selectedPhoto === 'string'? selectedPhoto :  selectedPhoto ? URL.createObjectURL(selectedPhoto) : camera }  
                       style = {{  width : selectedPhoto ? "100%" : "fit-content"  , height : selectedPhoto ? "100%" : "fit-content"  , borderRadius : "50%"}} alt=  "company logo"/>
                 </CameraDiv>
               </label>
@@ -186,9 +227,10 @@ const EnterData = () => {
               <H3>{t("text.Copy_of_the_commercial_register")} </H3>
               <FlexDiv style = {{border :` 1px dashed ${Colors.second}` ,  borderRadius : "10px" , padding : "20px 0 "}}>
                 <img 
-                  src = { commercialRegisterFile ? URL.createObjectURL(commercialRegisterFile) : file_text } 
+                  src =  {typeof commercialRegisterFile === 'string'? commercialRegisterFile : commercialRegisterFile ? URL.createObjectURL(commercialRegisterFile) : file_text}  
                   alt = "file" 
-                  style = {{marginBottom : "40px" , maxWidth : "95%"}}/>
+                  style = {{marginBottom : "40px" , maxWidth : "95%"}}
+                />
                 <input
                   id = "uploadFile"
                   type="file"
@@ -202,11 +244,11 @@ const EnterData = () => {
                 </LabelFile>
               </FlexDiv>
           </InputDiv>
-          <SubmitButton onClick = {handleSubmit}> {t("text.Create_Account")}</SubmitButton>
+          <SubmitButton onClick = {handleSubmit}> {t("text.edit_profile")}</SubmitButton>
         </InsideContainer>
       </Container>
     </>
   )
 }
 
-export default EnterData
+export default EditProfile

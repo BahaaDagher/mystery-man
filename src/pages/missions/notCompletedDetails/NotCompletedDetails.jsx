@@ -11,6 +11,7 @@ import Open from './components/Open';
 import UploadImages from './components/UploadImages';
 import HeadLine from './components/HeadLine';
 import { getQuestionsMissions } from '../../../store/slices/missionSlice';
+import { useTranslation } from 'react-i18next';
 
 
 const Continer = styled("div")(({ theme }) => ({
@@ -51,12 +52,12 @@ const NotCompletedDetails = ({missionDetails}) => {
           setQuestionsData(arr)
       }
   },[questionsMissionsData])
-
+  const {t} = useTranslation()
   return (
     <div>
 
       <InformationDiv missionDetails={missionDetails}></InformationDiv>
-      <QuestionsAnswers>Questions </QuestionsAnswers>
+      <QuestionsAnswers>{t("text.Questions")} </QuestionsAnswers>
                 {questionsData.map((question , index)=>{
                     if (question.type === "SingleChoice") {
                         return (

@@ -12,7 +12,7 @@ import time from "../../../assets/icons/time.svg"
 import { FlexCenter } from '../../../components/FlexCenter';
 import MissionSettings from './MissionSettings';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMissions, setCurrentMission, viewMission } from '../../../store/slices/missionSlice';
+import { deleteMission, getMissions, setCurrentMission, viewMission } from '../../../store/slices/missionSlice';
 import { SubmitButton } from '../../../components/SubmitButton';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -24,6 +24,8 @@ import ReviewMissionRequest from '../reviewMissionRequest/ReviewMissionRequest';
 import NotCompletedDetails from '../notCompletedDetails/NotCompletedDetails';
 import chatAvailable from  "../../../assets/icons/chatAvailable.svg" 
 import { setCurrentChat } from '../../../store/slices/chatSlice';
+import MysteryProfile from '../mysteryProfile/MysteryProfile';
+import Swal from 'sweetalert2';
 
 
 
@@ -122,6 +124,7 @@ const ImgDiv = styled(FlexCenter)(({ theme }) => ({
 }));
 const Address = styled("div")(({ theme }) => ({
     color : Colors.second ,
+     
 }));
 const DateTime = styled(FlexSpaceBetween)(({ theme }) => ({
     [theme.breakpoints.down('500')]: {
@@ -204,6 +207,7 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedMission, setSelectedMission] = useState(0);
+    const [anchorClicked , setAnchorClicked] = useState(false)
     useEffect(() => {
         if ( chosenSetting == "MissionDetails" && selectMissions == 3 ) {
             setShowViewDetails(true)
@@ -212,6 +216,24 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
         else if (chosenSetting == "MissionDetails" && selectMissions != 3 ) {
             setNotCompleted(true)
             setShowMissions(false)
+        }
+        else if (chosenSetting== "MysteryProfile") {
+            setMysteryProfile(true)
+            setShowMissions(false)
+        }
+        else if (chosenSetting== "Delete" ) {
+            Swal.fire({
+                title: 'are you sure you want to delete this mission?',
+                showDenyButton: true,
+                confirmButtonText: 'Yes',
+                denyButtonText: `No`,
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  dispatch(deleteMission({mission_id :  missionDetails.id}))
+                } else if (result.isDenied) {
+                  Swal.fire('Changes are not saved', '', 'info')
+                }
+              })
         }
         setSelectedMission(-1)
         setChosenSetting("sss")
@@ -222,6 +244,35 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
     const showSettings = (event) => {
         setAnchorEl(event.currentTarget);
     };
+
+    // delete 
+
+    const deleteMissionData = useSelector((state) => state.missionData.deleteMissionData);
+    const deleteMissionLoading = useSelector((state) => state.missionData.deleteMissionLoading);
+
+
+    useEffect(() => {
+        if (deleteMissionData.status &&  anchorClicked) {
+            Swal.fire({
+                icon: 'success',
+                text : deleteMissionData.message  , 
+                showConfirmButton: false,
+                timer: 2000
+              })
+              setTimeout(() => {
+                  window.location.reload()
+              }
+              , 2000)
+        }
+        else if (anchorClicked) {
+            Swal.fire({
+                icon: 'error',
+                text : deleteMissionData.message  , 
+                showConfirmButton: false,
+                timer: 3000
+              })
+        }
+    },[deleteMissionData])
 
 
     const getMissionsData = useSelector((state) => state.missionData.getMissionsData);
@@ -272,6 +323,7 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
 
     // click on settings icon
     const handleIconClick = (e , mission) => {
+        setAnchorClicked(true)
         showSettings(e);
         setMissionDetails(mission) 
         setSelectedMission(mission.id)
@@ -282,6 +334,7 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
             setShowViewDetails(false)
             setReviewRequest(false)
             setNotCompleted(false)
+            setMysteryProfile(false)
         } 
     },[showMissions])
 
@@ -300,14 +353,22 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
         let senderImage = ""
         let adsName = "" 
         for (let i = 0; i < employees.length; i++) {
-            if (employees[i].user.status==1) {
+            if (employees[i].status!= 0 && employees[i].status!= 3 ) {
                 senderImage = employees[i].user.image
                 adsName = employees[i].user.name
+                break;
             }
         }
         dispatch(setCurrentChat({mission_id :  mission.id, senderImage: senderImage , adsName: adsName , newMission : true,id:1 ,can_sent:mission.can_sent }))
         navigate("/chat")
     }
+
+    //////////////////////////////////////////////////////////////////////////////
+
+    // mystery profile 
+
+    const [mysteryProfile , setMysteryProfile] = useState(false)
+
 
   return (
     <>
@@ -325,6 +386,10 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
 
     {/* view notCompleted */}
     {notCompleted ? <NotCompletedDetails missionDetails ={missionDetails} /> : null}
+
+    {/* mystery profile  */}
+
+    {mysteryProfile ? <MysteryProfile missionDetails ={missionDetails} /> : null}
 
     {showMissions ?
     missionsData.map((mission , index) => {
@@ -366,13 +431,13 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
                                     <ImgDiv>
                                         <img src= {date} alt ="location"/>
                                     </ImgDiv>
-                                    <Address>{mission.date}</Address>
+                                    <Address style = {{color :mission.can_sent? Colors.green : ""}}>{mission.date}</Address>
                                 </Date>
                                 <Time>
                                     <ImgDiv>
                                         <img src= {time} alt ="location"/>
                                     </ImgDiv>
-                                    <Address>{mission.from} - {mission.to}</Address>
+                                    <Address style = {{ direction : "ltr"  , color :mission.can_sent? Colors.green : "" }}> {mission.from} -  {mission.to}</Address>
                                 </Time>
                             </DateTime>
                         </LocationAndTimeThings>
@@ -383,20 +448,19 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
                 }
                 {/* <FinishedDiv>Finished 05 minutes ago</FinishedDiv> : null  */}
                 {mission.status == 3 && mission.can_sent?  
-                    <ChatDiv onClick = {()=>handleChat(mission)}>
+                    <ChatDiv>
                         <ChatAvailable>Chat Available</ChatAvailable>
                         <ChatImgDiv onClick = {()=>handleChat(mission)}>
                             <ChatImg src = {chatAvailable}/>
                         </ChatImgDiv>
                     </ChatDiv>
                     : null
-
                 }
 
                 {mission.status ==2 && mission.can_sent? 
-                    <ChatDiv onClick = {()=>handleChat(mission)}>
+                    <ChatDiv >
                         <ChatAvailable>Chat Available</ChatAvailable>
-                        <ChatImgDiv>
+                        <ChatImgDiv onClick = {()=>handleChat(mission)}>
                             <ChatImg src = {chatAvailable}/>
                         </ChatImgDiv>
                     </ChatDiv>

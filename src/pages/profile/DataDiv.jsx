@@ -4,7 +4,10 @@ import { FlexDiv } from '../../components/FlexDiv';
 import { Colors } from '../../Theme';
 import Commercial_Registration from "../../assets/images/Commercial Registration.svg"
 import adminImage from "../../assets/images/admin.png"
+import editProfile from "../../assets/icons/editProfile.svg"
+import { useNavigate } from 'react-router-dom';
 const DataDivContainer = styled("div")(({ theme }) => ({
+  position : "relative" , 
     width: '364px',
     borderRadius: '10px',
     backgroundColor: '#fff',
@@ -92,7 +95,6 @@ const DataDivContainer = styled("div")(({ theme }) => ({
     alignItems : "center" ,
     marginRight : theme.direction == "ltr" ? "20px" : "0px" , 
     marginLeft : theme.direction == "rtl" ? "20px" : "0px" , 
-    cursor : "pointer" ,
     "&.company" : {
       flexDirection : "column" ,
       [theme.breakpoints.down('1200')]: {
@@ -100,11 +102,27 @@ const DataDivContainer = styled("div")(({ theme }) => ({
       },
     },
   }));
+  const EditIcon = styled("div")(({ theme }) => ({
+    position : "absolute" ,
+    left : theme.direction == "rtl"? "20px" : "auto",
+    right : theme.direction == "ltr"? "20px" : "auto",
+    top : "20px" ,
+    cursor : "pointer" ,
+  }));
+  const EditImg = styled("img")(({ theme }) => ({
 
-const DataDiv = ({profileData}) => {
+  }));
+  const DataDiv = ({profileData}) => {
+  
+    const handleEditProfile = () => {
+      window.location.href = "dashboard/editProfile" 
+    }
   return (
     <>
       <DataDivContainer>
+        <EditIcon onClick= {handleEditProfile}>
+          <EditImg src= {editProfile}/>
+        </EditIcon>
         <PhotoAndName>
             <Section>
               <img src = {profileData.image} style = {{width : "65px" , height : "65px" ,   borderRadius : "50%" }} alt = "admin"/>
@@ -115,10 +133,6 @@ const DataDiv = ({profileData}) => {
             </div>
         </PhotoAndName>
         <Division/>
-        <Part>
-          <P1 >Jaddah, Any Location</P1>
-          <P2 > Company Location </P2>
-        </Part>
         <Part>
           <P1 >{profileData.url}</P1>
           <P2 > Company Website </P2>

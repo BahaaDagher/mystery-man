@@ -18,6 +18,7 @@ import { Flex } from '../../../components/Flex';
 import { use } from 'i18next';
 import { FlexCenter } from '../../../components/FlexCenter';
 import EastOutlinedIcon from '@mui/icons-material/EastOutlined';
+import { useTranslation } from 'react-i18next';
 const customStyles = {
 
   padding: '20px',
@@ -245,6 +246,7 @@ const ShowMessageContainer = ({setLastMessage , setShowMessages }) => {
     const handleBack = () => {
     setShowMessages(false)
     }
+    const {t} = useTranslation();
     return (
         <Parent>
             <section style = {{height : "100%" }}>
@@ -319,7 +321,7 @@ const ShowMessageContainer = ({setLastMessage , setShowMessages }) => {
                     
                             <SendButton onClick={handleSend}>
                                 <SendImg src = {Send}/>
-                                Send
+                                {t("text.Send")}
                             </SendButton>
                                 
                                 {/* style = {{fontSize : "30px" , color : 'red' , cursor: "pointer" , marginLeft : "10px"}} */}
@@ -339,7 +341,7 @@ const ShowMessageContainer = ({setLastMessage , setShowMessages }) => {
                             multiple 
                             className="form-control form-control-lg"
                             id="exampleFormControlInput1"
-                            placeholder="Enter Message"
+                            placeholder={t("text.Enter_Message")}
                             value={singleMessage}
                             onChange = {(e) => setSingleMessage(e.target.value)}
                             onKeyDown={(e) => {
@@ -356,7 +358,7 @@ const ShowMessageContainer = ({setLastMessage , setShowMessages }) => {
                     
                     <SendButton onClick={handleSend}>
                         <SendImg src = {Send}/>
-                        Send
+                        {t("text.Send")}
                     </SendButton>
                         
                         {/* style = {{fontSize : "30px" , color : 'red' , cursor: "pointer" , marginLeft : "10px"}} */}
@@ -376,7 +378,7 @@ const ShowMessageContainer = ({setLastMessage , setShowMessages }) => {
                     multiple 
                     className="form-control form-control-lg"
                     id="exampleFormControlInput1"
-                    placeholder="Enter Message"
+                    placeholder={t("text.Enter_Message")}
                     value={singleMessage}
                     onChange = {(e) => setSingleMessage(e.target.value)}
                     onKeyDown={(e) => {

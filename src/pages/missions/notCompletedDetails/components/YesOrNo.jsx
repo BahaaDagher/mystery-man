@@ -5,6 +5,7 @@ import { Colors } from '../../../../Theme';
 import { Flex } from '../../../../components/Flex';
 import { Box } from '@mui/material';
 import { FlexCenter } from '../../../../components/FlexCenter';
+import { useTranslation } from 'react-i18next';
 const Label = styled("div")(({ theme }) => ({
   fontSize : "22px" , 
   fontWeight : "600" ,
@@ -48,6 +49,7 @@ const P = styled("p")(({ theme }) => ({
 
 const YesOrNo = ({question, num}) => {
   console.log(question ,'yesorno');
+  const {t} = useTranslation() ; 
   return (
     <Box>
         <Title>{num} - {question.title}</Title>
@@ -57,11 +59,11 @@ const YesOrNo = ({question, num}) => {
           <Flex>
             <FlexCenterP>
               <Circle/>
-              <P for="no">Yes</P>
+              <P for="no">{t("text.Yes")}</P>
             </FlexCenterP>
             <FlexCenterP>
               <Circle/>
-              <P for="no">No</P>
+              <P for="no">{t("text.No")}</P>
             </FlexCenterP>
           </Flex>
         </Answer>

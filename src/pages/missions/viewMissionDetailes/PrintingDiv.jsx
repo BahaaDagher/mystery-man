@@ -3,11 +3,12 @@ import { Colors } from '../../../Theme';
 import styled from '@emotion/styled';
 import { FlexSpaceBetween } from '../../../components/FlexSpaceBetween';
 import { FlexCenter } from '../../../components/FlexCenter';
-import logoName from "../../../assets/icons/logoName.svg"
+import logo from "../../../assets/images/logo.svg"
 import logoPic from "../../../assets/icons/logoPic.svg"
 import { Flex } from '../../../components/Flex';
 import test from "../../../assets/images/test.jpg"
 import { Box, Rating } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 const PrintDiv = styled("div")(({ theme }) => ({
     padding : "20px" , 
@@ -28,6 +29,7 @@ const MainInformation = styled("div")(({ theme }) => ({
 
 const LogoName = styled("img")(({ theme }) => ({
     marginBottom : "20px" ,
+    // width : "300px" ,
 }));
 const BasicInfo = styled("div")(({ theme }) => ({
     width : "100%" , 
@@ -66,15 +68,17 @@ const PerformanceContainer = styled("div")(({ theme }) => ({
     display : "flex" , 
     flexDirection : "column" ,
     alignItems : "center" ,
-    justifyContent : "space-between" ,
+    justifyContent : "center" ,
     height : "250px" , 
+    width : "50%" , 
 }));
 const ScaleDiv = styled("div")(({ theme }) => ({
-    
+    marginBottom  : "20px" ,
 }));
-const PerformanceRate = styled(FlexSpaceBetween)(({ theme }) => ({
+const PerformanceRate = styled(Flex)(({ theme }) => ({
     alignItems : "center" ,
-    width : "60%" ,
+    width : "100%" ,
+    justifyContent : "center" ,
 
 }));
 const YourPerformance = styled("div")(({ theme }) => ({
@@ -87,6 +91,7 @@ const YourPerformance = styled("div")(({ theme }) => ({
 const Rate = styled("div")(({ theme }) => ({
     color : Colors.green ,
     fontWeight : "bold" , 
+    margin : "0 10px" , 
 }));
 
 const SummaryDiv = styled("div")(({ theme }) => ({
@@ -165,10 +170,11 @@ const PicsDiv = styled("div")(({ theme }) => ({
 
 const RateContainer = styled("div")(({ theme }) => ({
     borderRadius: "10px",
-    padding : "20px" , 
+    // padding : "20px" , 
     marginBottom  : "20px" ,
     width : "100%" , 
     textAlign : "center" ,
+    height : "135px" ,
 }));
 
 const Notes = styled("div")(({ theme }) => ({
@@ -231,12 +237,12 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
         console.log("commentssssssss" , comments);
     }
     ,[comments])
-
+    const {t} = useTranslation() ;
   return (
 
     <PrintDiv id="divToPrint">
         <MainInformation>
-            <LogoName src = {logoName}/>
+            <LogoName src = {logo}/>
             <BasicInfo>
                 <Tab>
                     <TabTitle>Survey:</TabTitle>
@@ -263,29 +269,30 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                     <TabAnswer>{missionDetails.address}</TabAnswer>
                 </Tab>
             </BasicInfo>
-            <Section>OVERALL PERFORMANCE</Section>
-            <FlexCenter style = {{flexDirection : "column" }}>
-                <RateContainer >
-                    <Rating name="half-rating" defaultValue={missionDetails.rate.rate}  readOnly style = {{direction : "ltr" , fontSize : "30px"}} precision={0.5}/>
-                    <Notes> {missionDetails.rate.note} </Notes>
-                </RateContainer>
-            </FlexCenter>
+            <Section>{t("text.OVERALL_PERFORMANCE")}</Section>
 
             <OverallPerformance>
                 <LogoContainer>
-                    <LogoPic src = {logoPic}/>
+                    <RateContainer>
+                        <Rating name="half-rating" defaultValue={missionDetails.rate.rate}  readOnly style = {{direction : "ltr" , fontSize : "40px"}} precision={0.5}/>
+                        <Notes> {missionDetails.rate.note} </Notes>
+                    </RateContainer>
+                    <PerformanceRate>
+                        <YourPerformance> {t("text.general_performance_from_visitor")} </YourPerformance>
+                        <Rate>{missionDetails.rate.rate * 20 } %</Rate>
+                    </PerformanceRate>
                 </LogoContainer>
                 <PerformanceContainer>
                     <ScaleDiv>
-                        <img src = {test} style = {{width :"400px"}}/>
+                        <img src = {test} style = {{width :"300px" , height : "137px" ,}}/>
                     </ScaleDiv>
                     <PerformanceRate>
-                        <YourPerformance> YOUR PERFORMANCE </YourPerformance>
+                        <YourPerformance> {t("text.YOUR_PERFORMANCE")} </YourPerformance>
                         <Rate>{missionAnswer?.rate} %</Rate>
                     </PerformanceRate>
                 </PerformanceContainer>
             </OverallPerformance>
-            <Section>SECTION SUMMARY </Section>
+            <Section>{t("text.SECTION_SUMMARY")} </Section>
             <SummaryDiv>
                 {missionAnswer?.steps.map((step , index) => {
                     return (
@@ -309,7 +316,7 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
         <StepsDetails>
             <HeaderTable>
                 <Tr style = {{backgroundColor : Colors.main}}>
-                    <Td style = {{color : "#fff" , fontSize : "20px" , }}>Over All Performance</Td>
+                    <Td style = {{color : "#fff" , fontSize : "20px" , }}>{t("text.OVERALL_PERFORMANCE")}</Td>
                     <TdCenter style = {{color : "#fff" , fontSize : "25px" , }}>{missionAnswer?.rate} %</TdCenter>
                 </Tr>
             </HeaderTable>
@@ -346,7 +353,7 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                             )}
                             {comments[index]?.length>0 ? 
                                 <>
-                                <div style = {{fontWeight : "bold" , paddingLeft : "10px"}}>Comments</div>
+                                <div style = {{fontWeight : "bold" , paddingLeft : "10px"}}>{t("text.Comments")}</div>
                                     {comments[index].map((comment , index) => {
                                         return (
                                             <>

@@ -73,6 +73,7 @@ const Home = () => {
       const [branchesData , setBranchesData] = useState ({})
       const [highestBranch , setHighestBranch] = useState ('')
       const [lowestBranch , setLowestBranch] = useState ('')
+      
       useEffect(()=>{
         if (getProfileData.status) {
           setProfileData(getProfileData.data.user)
@@ -81,7 +82,6 @@ const Home = () => {
       useEffect(()=>{
         if (getBranchesData.status) {
             setBranchesData(getBranchesData.data.branches)
-     
         }
       },[getBranchesData])
       useEffect(()=>{
@@ -94,7 +94,6 @@ const Home = () => {
                 const branchRating =element.generalRate.replace(",", ".")
                 if(branchRating >= highestBranch)
                 {
-                    
                     highestBranch=branchRating
                     setHighestBranch(element.name)
                 }
@@ -164,7 +163,7 @@ const Home = () => {
                         {lowestBranch}
                         </div>
                     </div>
-                    <img 
+                    <img
                         src= {low_rate}  alt = "circle" 
                         style = {{position :"absolute" , right : "10px" , bottom : "20px" , zIndex : "5"}}
                     />

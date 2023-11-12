@@ -13,6 +13,7 @@ import FinishedData from './FinishedData';
 import { getQuestionnaire, setCurrentQuestioneir, setCurrentQuestioneirID } from '../../../store/slices/questionierSlice';
 import QuestionnaireData from './QuestionnaireData';
 import Swal from 'sweetalert2';
+import { useTranslation } from 'react-i18next';
 
 const Container = styled(SmallContainer)(({ theme }) => ({
   
@@ -29,6 +30,7 @@ const Parent = styled(SmallContainer)(({ theme }) => ({
 }));
 const Place = styled("div")(({ theme }) => ({
   marginBottom : "10px" ,
+  display : "flex" ,
 }));
 const MainData = styled("div")(({ theme }) => ({
   width : "70%" ,
@@ -45,6 +47,7 @@ const TitleDiv = styled("div")(({ theme }) => ({
 }));
 const Title = styled("div")(({ theme }) => ({
   fontSize: "18px",
+  marginBottom: "5px",
 }));
 const Input = styled("input")(({ theme }) => ({
   width : "100%" , 
@@ -85,6 +88,7 @@ const Selectt = styled(Select)(({ theme }) => ({
 }));
 const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
   fontFamily: 'Cairo', 
+  direction : theme.direction
 }));
 
 const DateInput = styled("input")(({ theme }) => ({
@@ -291,18 +295,19 @@ const NewMission = () => {
         })
     }
   }
+  const {t} = useTranslation() ; 
   return (
     <>
     <SmallContainer>
       <Place>
-        <span>Missions/ </span>
-        <span style = {{color : Colors.main}}> New Mission</span>
+        <span> {t("text.missions")} / </span>
+        <span style = {{color : Colors.main}}>{t("text.New_Mission")} </span>
       </Place>
       <Parent>
       {!showQuestionnaire ? 
         <MainData>
           <TitleDiv>
-              <Title>Title</Title>
+              <Title>{t("text.Title")}</Title>
               <Input 
                 placeholder='here'
                 value={title}
@@ -311,7 +316,7 @@ const NewMission = () => {
           </TitleDiv>
           <Divider/>
           <TitleDiv>
-              <Title>type what you want he/she to focus on!</Title>
+              <Title>{t("text.type_what_you_want_him_her_to_focus_on")}</Title>
               <Input 
                 placeholder='here' 
                 className='small'
@@ -321,7 +326,7 @@ const NewMission = () => {
           </TitleDiv>
           <Divider/>
           <TitleDiv>
-              <Title>Branch</Title>
+              <Title>{t("text.Branch")}</Title>
               <Selectt
                 value={selectedBranch}
                 onChange={handleSelectedBranch}
@@ -337,16 +342,16 @@ const NewMission = () => {
           {/* date time section  */}
           <DateTime>
             <DateDiv>
-            <Title>Date</Title>   
+            <Title>{t("text.Date")}</Title>   
               <DateInput type="date" value={date} onChange={(e)=>setDate(e.target.value)} />
             </DateDiv>
             <TimeDiv>
               <FromToTimeDiv>
-              <Title>from</Title>   
+              <Title>{t("text.from")}</Title>   
                 <TimeInput type="time" value={time1} onChange={(e)=>setTime1(e.target.value)} />
               </FromToTimeDiv>   
               <FromToTimeDiv>
-              <Title>to</Title>  
+              <Title>{t("text.to")}</Title>  
                 <TimeInput type="time" value={time2} onChange={(e)=>setTime2(e.target.value)} />
               </FromToTimeDiv>    
             </TimeDiv>
@@ -360,11 +365,11 @@ const NewMission = () => {
                     checked={voucherChecked}
                     onChange={(e)=>setVoucherChecked(e.target.checked)}
                 />
-                <CheckLabel htmlFor='voucher'>Include Purchase voucher</CheckLabel>
+                <CheckLabel htmlFor='voucher'>{t("text.Include_Purchase_voucher")}</CheckLabel>
               </CheckDiv>
               {voucherChecked &&
                 <VoucherInput 
-                  placeholder='00 SAR'
+                  placeholder= {"00 " + t("text.SAR")} 
                   type = "text"
                   value={voucherValue}
                   onChange={handleVoucher}
@@ -374,7 +379,7 @@ const NewMission = () => {
             </VoucherDiv>
           <Divider/>
           <TitleDiv>
-              <Title>Notes</Title>
+              <Title>{t("text.Notes")}</Title>
               <NotesText 
                 placeholder='here'
                 value={notes}
@@ -382,7 +387,7 @@ const NewMission = () => {
               />
           </TitleDiv>
           <TitleDiv>
-              <Title>questionnaires</Title>
+              <Title>{t("text.questionnaires")}</Title>
               <Selectt
                 value={selectedQuestioniere}
                 onChange={handleSelectedQuestionnaire}
@@ -394,7 +399,7 @@ const NewMission = () => {
                 ))}
             </Selectt>
           </TitleDiv>
-          <SubmitButton2 onClick={handleNext}>Next</SubmitButton2>
+          <SubmitButton2 onClick={handleNext}>{t("text.Next")}</SubmitButton2>
         </MainData>
        : <QuestionnaireData  setShowQuestionnaire = {setShowQuestionnaire}/>
        }

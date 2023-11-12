@@ -11,6 +11,8 @@ import { Flex } from '../../../components/Flex';
 import { FlexCenter } from '../../../components/FlexCenter';
 import { accepetRequest } from '../../../store/slices/missionSlice';
 import Swal from 'sweetalert2';
+import { useTranslation } from 'react-i18next';
+import { FlexSpaceBetween } from '../../../components/FlexSpaceBetween';
 const Place = styled("div")(({ theme }) => ({
   marginBottom : "10px" ,
 }));
@@ -20,17 +22,16 @@ const Parent = styled("div")(({ theme }) => ({
   borderRadius: '10px',
 }));
 
-const Line = styled(FlexCenter)(({ theme }) => ({
+const Line = styled(FlexSpaceBetween)(({ theme }) => ({
   width : "100%" , 
-  borderRadius: '10px',
-  padding : "20px", 
+  borderRadius: '5px',
+  padding : "10px", 
   marginBottom : "20px" ,
   backgroundColor : "#fff" , 
 }));
 
-const PhotoAndName = styled(FlexDiv)(({ theme }) => ({
-  width : "100%" , 
-  display : "flex" , 
+const PhotoAndName = styled(Flex)(({ theme }) => ({
+  // width : "100%" , 
   flexDirection : "row" ,
   justifyContent : "flex-start" ,
   [theme.breakpoints.down('800')]: {
@@ -59,10 +60,29 @@ const ButtonDiv = styled("div")(({ theme }) => ({
 }));
 const AcceptButton = styled(SubmitButton)(({ theme }) => ({
   backgroundColor : Colors.green ,
-  padding : "10px" ,  
-  margin : "0"
+  padding : "0px 10px" ,  
+  margin : "0" , 
+  "&:hover" : {
+    backgroundColor : Colors.hoverGreen ,
+  
+  }
 
 }));
+
+const CategoryDiv = styled(FlexCenter)(({ theme }) => ({
+    
+}));
+const Category = styled(FlexCenter)(({ theme }) => ({
+    height : "35px" ,  
+    padding : "5px 10px" , 
+    color : "#fff" , 
+    fontWeight : "bold" ,
+    backgroundColor : "#605df9" ,
+    borderRadius : "10px" ,
+    margin : "0 5px" ,
+
+}));
+
 const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
   const accepetRequestData = useSelector(state => state.missionData.accepetRequestData) 
   const CurrentMissionEmployees = reviewRequestData.employee
@@ -75,29 +95,37 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
           console.log(accepetRequestData);
           Swal.fire(accepetRequestData.message, '', 'success').then((result) => {
             if (result.isConfirmed) {
-            
               window.location.href ="/dashboard/missions"
             }
           })
     }
-
-     
   },[accepetRequestData])
 
   
   const handleAccept = (CurrentMissionEmployee)=>{
-
     console.log(CurrentMissionEmployee.id);
-    dispatch(accepetRequest({order_id:CurrentMissionEmployee.id , mission_id:missionId}))
+    Swal.fire({
+      title: 'are you sure you want to accept this visitor ?',
+      showDenyButton: true,
+      confirmButtonText: 'Yes',
+      denyButtonText: `No`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(accepetRequest({order_id:CurrentMissionEmployee.id , mission_id:missionId}))
+      } else if (result.isDenied) {
+        Swal.fire('Changes are not saved', '', 'info')
+      }
+    })
 
   }
 
+  const {t} = useTranslation() ; 
   return (
     <>
     <SmallContainer>
     <Place>
         <span>Missions/ </span>
-        <span style = {{color : Colors.main}}> Review Requests </span>
+        <span style = {{color : Colors.main}}>{t("text.Review_Requests")} </span>
     </Place>
     <Parent>
     {CurrentMissionEmployees?.map((item , index) => {
@@ -105,15 +133,22 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
       <Line>
           <PhotoAndName>
               <Section>
-                <img src = {adminImage} style = {{width : "65px" , height : "65px" ,   borderRadius : "50%" }} alt = "admin"/>
+                <img src = {item.user.image} style = {{width : "65px" , height : "65px" ,   borderRadius : "50%" }} alt = "pic"/>
               </Section>
               <div>
                 <p>{item.user.name}</p>
-                <Rating name="half-rating" defaultValue={item.user.rate} prec ision={0.5} readOnly style = {{direction : "ltr"}}/>
+                <Rating name="half-rating" defaultValue={item.user.rate} precision={0.5} readOnly style = {{direction : "ltr"}}/>
               </div>
           </PhotoAndName>
+          <CategoryDiv>
+                  {item.user.categories?.map((item , index) => {
+                      return (
+                          <Category key = {index}>{item.name}</Category>
+                      )
+                  })}
+            </CategoryDiv>
           <ButtonDiv>
-            <AcceptButton onClick={()=>handleAccept(item)}>Accept</AcceptButton>
+            <AcceptButton onClick={()=>handleAccept(item)}>{t("text.Accept")}</AcceptButton>
           </ButtonDiv>
       </Line> 
       ) 

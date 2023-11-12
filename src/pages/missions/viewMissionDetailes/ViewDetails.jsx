@@ -16,6 +16,7 @@ import InformationDiv from './InformationDiv';
 import ReactToPrint from 'react-to-print';
 import { Colors } from '../../../Theme';
 import PrintingDiv from './PrintingDiv';
+import { useTranslation } from 'react-i18next';
 const Parent = styled("div")(({ theme }) => ({
     width: "100%",
     
@@ -83,6 +84,7 @@ const ViewDetails = ({missionDetails}) => {
     const handleShowPrint = ()=>{
         setShowPrint(true)
     }
+    const {t} = useTranslation()
   return (
     <>
         <SmallContainer>
@@ -91,7 +93,7 @@ const ViewDetails = ({missionDetails}) => {
                 {/* <div>{questionsData[0].name}</div> */}
                 <InformationDiv missionDetails = {missionDetails} />
 
-                <QuestionsAnswers>Questions Answers</QuestionsAnswers>
+                <QuestionsAnswers>{t("text.Questions_Answers")}</QuestionsAnswers>
                 {questionsData.map((question , index)=>{
                     if (question.type === "SingleChoice") {
                         return (
@@ -139,14 +141,14 @@ const ViewDetails = ({missionDetails}) => {
                 })}
             </Parent>
             {
-                !showPrint ? <SubmitButton onClick = {handleShowPrint}>show Report</SubmitButton> : null 
+                !showPrint ? <SubmitButton onClick = {handleShowPrint}>{t("text.show_Report")}</SubmitButton> : null 
             }
             
             
             {showPrint ?
                 <>
                     <ReactToPrint 
-                        trigger={ () => <PrintButton  >Print Report</PrintButton> }
+                        trigger={ () => <PrintButton  >{t("text.Print_Report")}</PrintButton> }
                         content={ () => document.getElementById('divToPrint') }
                     />
                     <PrintingDiv missionDetails = {missionDetails} missionAnswer = {missionAnswer} /> 

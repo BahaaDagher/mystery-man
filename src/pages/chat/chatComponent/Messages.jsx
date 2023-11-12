@@ -6,6 +6,7 @@ import { Flex } from '../../../components/Flex';
 import { FlexCenter } from '../../../components/FlexCenter';
 import EastOutlinedIcon from '@mui/icons-material/EastOutlined';
 import ShowMessageContainer from './ShowMessageContainer';
+import { useTranslation } from 'react-i18next';
 
 
 const customStyles = {
@@ -73,10 +74,10 @@ const Messages = ({setLastMessage , setShowMessages}) => {
   const currentChat = useSelector((state) => state.chatData.currentChat);
 
 
-  
+  const {t} = useTranslation();
   return (
     <>
-      {!currentChat.id ?  <Part> select a message from the side bar</Part> : 
+      {!currentChat.id ?  <Part>{t("text.select_a_message_from_the_side_bar")}</Part> : 
       <ShowMessageContainer   setLastMessage={setLastMessage} setShowMessages={setShowMessages} />
       }
     </>

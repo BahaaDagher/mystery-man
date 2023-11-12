@@ -109,6 +109,27 @@ export const addMissions = createAsyncThunk(
         }
     }
     );
+export const deleteMission = createAsyncThunk(
+    "mission/deleteMission", 
+    async (values) => {
+        const token = localStorage.getItem('token');
+        try {
+        const response = await axios.post(
+            `https://mystery.cloudy.mohamedmansi.com/api/deleteMission` ,
+            values , 
+            {
+                headers: {
+                    "Authorization" : token ,
+                    "lang" : currentLanguage ,
+                },
+            }
+        );
+        return response.data ;
+        } catch (error) {
+        console.error(error);
+        }
+    }
+    );
 
 const missionSlice = createSlice({
     name: "mission",
@@ -123,6 +144,8 @@ const missionSlice = createSlice({
         missionDetails : {} , 
         accepetRequestData:{},
         questionsMissionsData:{},
+        deleteMissionData:{},
+        deleteMissionLoading:false
     },
     reducers: {
         setCurrentMission: (state, action) => {
@@ -170,6 +193,17 @@ const missionSlice = createSlice({
         .addCase(getQuestionsMissions.fulfilled , (state, action) => {
             state.questionsMissionsData = action.payload;
        
+        }) 
+        // delete mission 
+        .addCase(deleteMission.fulfilled , (state, action) => {
+            state.deleteMissionData = action.payload;
+            state.deleteMissionLoading = false;
+        }) 
+        .addCase(deleteMission.pending , (state, action) => {
+            state.deleteMissionLoading = true;
+        }) 
+        .addCase(deleteMission.rejected , (state, action) => {
+            state.deleteMissionLoading = false;
         }) 
     }
     });

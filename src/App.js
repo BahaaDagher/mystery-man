@@ -25,6 +25,8 @@ import ProtectAuth from './protected/ProtectAuth';
 import ViewDetails from './pages/missions/viewMissionDetailes/ViewDetails';
 import NavbarContainer from './components/NavbarContainer';
 import { useSelector } from "react-redux";
+import EditProfile from "./pages/profile/EditProfile";
+import MysteryProfile from "./pages/missions/mysteryProfile/MysteryProfile";
 
 function App() {
   const missionDetails = useSelector(state => state.missionData.missionDetails)
@@ -50,7 +52,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path='/bahaa' element = <NavbarContainer/>  />
+        <Route path='/bahaa' element = <MysteryProfile/>  />
         <Route path='/login' element = {<ProtectAuth> <Login/> </ProtectAuth>}  />
         <Route path='/register/enter-phone' element = <EnterPhone/>  />
         <Route path='/register/verify-phone' element = <VerifyPhone/>  />
@@ -64,6 +66,7 @@ function App() {
         
         {/* layout */}
         <Route path='/dashboard' element = <Layout /> >
+          <Route path='editProfile' element = <EditProfile/>  />
           <Route path='home' element = <Home/>  />
           <Route path='questionnaires' element = <Questionnaires/>  />
           <Route path='missions' element = <Missions/>  />

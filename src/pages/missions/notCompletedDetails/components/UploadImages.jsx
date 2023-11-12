@@ -4,6 +4,7 @@ import { Title } from './Title'
 import styled from '@emotion/styled';
 import { Flex } from '../../../../components/Flex';
 import { Colors } from '../../../../Theme';
+import { useTranslation } from 'react-i18next';
 
 const ImgContainer = styled(Flex)(({ theme }) => ({
     flexWrap : "wrap" ,
@@ -47,11 +48,12 @@ const UploadImages = ({question, num}) => {
           fontSize: "18px",
         }
       })) 
+      const {t} = useTranslation() ; 
   return (
     <Box>
         <Title>{num} - {question.title}</Title>
         <ImgContainer>
-        <LabelFile htmlFor="uploadFile">Take photos</LabelFile>
+        <LabelFile htmlFor="uploadFile">{t("text.Take_photos")}</LabelFile>
         </ImgContainer>
     </Box>
   )

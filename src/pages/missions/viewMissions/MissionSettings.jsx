@@ -14,22 +14,24 @@ import MysteryProfile from '../../../assets/icons/MysteryProfile.svg'
 import MissionDetails from '../../../assets/icons/MissionDetails.svg'
 import Edite from '../../../assets/icons/Edite.svg'
 import Cancel from '../../../assets/icons/Cancel.svg'
+import { useTranslation } from 'react-i18next';
 
 
 const ListContainer = styled("div")(({ theme }) => ({
     width: "200px",
     padding: "10px",
+    fontFamily: "Cairo",
 }));
 
 
 const Img = styled("img")(({ theme }) => ({
-    marginRight: theme.direction == "ltr" ? "10px" : "0",
-    marginLeft: theme.direction == "rtl" ? "10px" : "0",
+    marginRight: "10px"  , 
 }));
 const UL = styled("ul")(({ theme }) => ({
     margin: 0,
 }));
 const Li = styled("li")(({ theme }) => ({
+  fontFamily: "Cairo",
     display: "flex",
     listStyle: "none",
     color: Colors.second,
@@ -42,6 +44,10 @@ const Li = styled("li")(({ theme }) => ({
     backgroundColor: Colors.bg,
     },
 }));
+const Span = styled("span")(({ theme }) => ({
+  fontWeight: "normal",
+}));
+    
     
 const MissionSettings = ({anchorEl , setAnchorEl , setChosenSetting , selectMissions}) => {
 
@@ -52,25 +58,26 @@ const MissionSettings = ({anchorEl , setAnchorEl , setChosenSetting , selectMiss
     setChosenSetting(TypesArray[index].name)
   };
 
+  const {t} = useTranslation() ; 
   const TypesArray = [
     {
         name : "MysteryProfile" , 
+        name2 : t("text.MysteryProfile") , 
         icon : MysteryProfile
     },
     {
         name : "MissionDetails" , 
+        name2 : t("text.MissionDetails")  , 
         icon : MissionDetails
     },
     {
-        name : "Cancel" , 
-        icon : Cancel
-    },
-    {
-      name : "Delete" , 
+      name : "Delete" ,
+      name2 : t("text.Delete")  , 
       icon : Cancel , 
-  },
+    },
    
   ]
+
   return (
     <>
     <Popover
@@ -98,12 +105,13 @@ const MissionSettings = ({anchorEl , setAnchorEl , setChosenSetting , selectMiss
                   return (
                     <Li  onClick={()=> {handleClose() ; wantedSetting(index) ; }} key = {index}>
                         <Img src = {type.icon} alt />
-                        <ListItemText  primary={type.name} />
+                        <Span> {type.name2} </Span>
                     </Li>
                   )
                 }
                 else if (type.name == "MysteryProfile" && ( selectMissions == 0 || selectMissions == 1 ) ) {
                   return (
+
                     null 
                   )
                 }
@@ -111,7 +119,7 @@ const MissionSettings = ({anchorEl , setAnchorEl , setChosenSetting , selectMiss
                   return (
                     <Li  onClick={()=> {handleClose() ; wantedSetting(index) ; }} key = {index}>
                         <Img src = {type.icon} alt />
-                        <ListItemText  primary={type.name} />
+                        <Span > {type.name2} </Span>
                     </Li>
                   )
                 }
@@ -121,7 +129,7 @@ const MissionSettings = ({anchorEl , setAnchorEl , setChosenSetting , selectMiss
                   return (
                     <Li  onClick={()=> {handleClose() ; wantedSetting(index) ; }} key = {index}>
                         <Img src = {type.icon} alt />
-                        <ListItemText  primary={type.name} />
+                        <Span> {type.name2} </Span>
                     </Li>
                   ) 
                 }

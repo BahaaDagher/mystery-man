@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addMissions } from '../../../store/slices/missionSlice';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 
 const Parent = styled("div")(({ theme }) => ({
@@ -152,19 +153,20 @@ const FinishedData = (
       })
       
     }
+    const {t} = useTranslation();
     return (
     <>
       <Parent>
       { activePost==true ? 
         <PostMissionButton className="active" onClick={()=>handlePostMission()}>Post Mission</PostMissionButton>
         :
-        <PostMissionButton >Post Mission</PostMissionButton>
+        <PostMissionButton >{t("text.Post_Mission")}</PostMissionButton>
       }
         <FocusChange>
             <FocusChangeLine>
               <FocusChangeTitle>
                 <img src = {title}/>
-                <Title>Title & Focus</Title>
+                <Title>{t("text.Title")} & {t("text.Focus")}</Title>
               </FocusChangeTitle>
               <FocusChangeImg>
                 <img src = {(missionTitle && missionFocus) ? checked : unchecked}/>
@@ -174,7 +176,7 @@ const FinishedData = (
             <FocusChangeLine>
               <FocusChangeTitle>
                 <img src = {branch}/>
-                <Title>Branch</Title>
+                <Title>{t("text.Branch")}</Title>
               </FocusChangeTitle>
               <FocusChangeImg>
                 <img src = {missionSelectedBranch ? checked :unchecked}/>
@@ -184,7 +186,7 @@ const FinishedData = (
             <FocusChangeLine>
               <FocusChangeTitle>
                 <img src = {newDate}/>
-                <Title>Date</Title>
+                <Title>{t("text.Date")}</Title>
               </FocusChangeTitle>
               <FocusChangeImg>
                 <img src = { missionDate ? checked :unchecked}/>
@@ -194,7 +196,7 @@ const FinishedData = (
             <FocusChangeLine>
               <FocusChangeTitle>
                 <img src = {newTime}/>
-                <Title>Time</Title>
+                <Title>{t("text.Time")}</Title>
               </FocusChangeTitle>
               <FocusChangeImg>
                 <img src = {missionTime1 && missionTime2 ? checked :unchecked}/>
@@ -204,7 +206,7 @@ const FinishedData = (
             <FocusChangeLine>
               <FocusChangeTitle>
                 <img src = {PurchaseVoucher}/>
-                <Title>Purchase voucher</Title>
+                <Title>{t("text.Purchase_voucher")}</Title>
               </FocusChangeTitle>
               <FocusChangeImg>
                 <img src = {missionVoucherChecked && missionVoucherValue ? checked :unchecked}/>
@@ -214,7 +216,7 @@ const FinishedData = (
             <FocusChangeLine>
               <FocusChangeTitle>
                 <img src = {Questionnaire}/>
-                <Title>Questionnaire</Title>
+                <Title>{t("text.Questionnaire")}</Title>
               </FocusChangeTitle>
               <FocusChangeImg>
                 <img src = {missionSelectedQuestioniere >-1 ?checked :unchecked}/>
@@ -223,8 +225,8 @@ const FinishedData = (
 
         </FocusChange>
         <TotalBalance>
-          <Price>155.24 SAR</Price>
-          <p style = {{textAlign : "center" , fontSize : "12px", color: Colors.second}}>total balance</p>
+          <Price>155.24 {t("text.SAR")}</Price>
+          <p style = {{textAlign : "center" , fontSize : "12px", color: Colors.second}}>{t("text.total_balance")}</p>
         </TotalBalance>
         
       </Parent>

@@ -6,7 +6,6 @@ const currentLanguage = localStorage.getItem("language") || "en";
 export const getProfile = createAsyncThunk(
     "profile/getProfile", 
     async (values) => {
-        console.log("i18n.lang", i18n.language)
         const token = localStorage.getItem('token');
         try {
         const response = await axios.get(
@@ -23,12 +22,36 @@ export const getProfile = createAsyncThunk(
         }
     }
     );
+    export const updateProfile = createAsyncThunk(
+        "profile/updateProfile", 
+        async (values) => {
+            const token = localStorage.getItem('token');
+            try {
+            const response = await axios.post(
+                `https://mystery.cloudy.mohamedmansi.com/api/updateProfilemission` ,
+                values ,
+                {
+                    headers: {
+                        "Authorization" : token , 
+                        "lang" : currentLanguage
+                    },
+                }
+            );
+            return response.data ;
+            } catch (error) {
+            console.error(error);
+            }
+        }
+        );
 const profileSlice = createSlice({
     name: "profile",
     initialState: {
         getProfileData : {} ,
         getProfileLoading : false ,
         profileData : {} , 
+
+        updateProfileData : {}, 
+        updateProfileLoading : false ,
     },
     reducers: {
         ProfileData: (state, action) => {
@@ -46,6 +69,17 @@ const profileSlice = createSlice({
         }) 
         .addCase(getProfile.rejected , (state, action) => {
             state.getProfileLoading = false;
+        }) 
+        // update profile 
+        .addCase(updateProfile.fulfilled , (state, action) => {
+            state.updateProfileData = action.payload;
+            state.updateProfileLoading = false;
+        }) 
+        .addCase(updateProfile.pending , (state, action) => {
+            state.updateProfileLoading = true;
+        }) 
+        .addCase(updateProfile.rejected , (state, action) => {
+            state.updateProfileLoading = false;
         }) 
     
     }

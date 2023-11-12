@@ -11,6 +11,7 @@ import QuestionComponent from '../../questionnaires/QuestionComponent';
 import { useDispatch, useSelector } from 'react-redux';
 import { getQuestionnaire, handleReadyToSend, handleReadyToSend2, sendQuestioneir, setCurrentQuestioneir, setCurrentStep, setNewQuestioneirName, setNewStep } from '../../../store/slices/questionierSlice';
 import Swal from 'sweetalert2';
+import { useTranslation } from 'react-i18next';
 
 const Parent = styled(Box)(({ theme }) => ({
   width : "70%" ,
@@ -283,7 +284,7 @@ const QuestionnaireData = ({setShowQuestionnaire}) => {
     dispatch(sendQuestioneir([questionieres[currentQuestioneir]]))
   };
   const [activeStep, setActiveStep] = useState(0);
-  
+  const {t} = useTranslation();
   return (
     <>
     <QuestionsTypes  setAnchorEl= {setAnchorEl} anchorEl={anchorEl} setChosenType = {setChosenType}/>
@@ -293,7 +294,7 @@ const QuestionnaireData = ({setShowQuestionnaire}) => {
           <InputAndButtons>
           <ButtonsContainer>
               <AddQuestionContainer className = "previous" onClick={()=>setShowQuestionnaire(false)} >
-                <AddQuestionButton > previous</AddQuestionButton>
+                <AddQuestionButton > {t("text.previous")}</AddQuestionButton>
               </AddQuestionContainer>
             </ButtonsContainer>
             <InputContainer>
@@ -306,7 +307,7 @@ const QuestionnaireData = ({setShowQuestionnaire}) => {
             <ButtonsContainer>
               <AddQuestionContainer onClick = {showTypes}>
                 <img src = {plusSign} style = {{margin : "10px" }} />
-                <AddQuestionButton > Add_Question</AddQuestionButton>
+                <AddQuestionButton > {t("text.Add_Question")}</AddQuestionButton>
               </AddQuestionContainer>
             </ButtonsContainer>
           </InputAndButtons>
@@ -332,7 +333,7 @@ const QuestionnaireData = ({setShowQuestionnaire}) => {
           
           <FlexCenter style={{justifyContent:'start' ,flexWrap:'wrap'}}>
             {/* <AnswerInput></AnswerInput> */}
-            <AddButton onClick={handleAddAnswerStep}>Save </AddButton>
+            <AddButton onClick={handleAddAnswerStep}>{t("text.Save")} </AddButton>
               <AnswerInput
                 type="text"
                 placeholder="Write a new step"

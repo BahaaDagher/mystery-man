@@ -9,6 +9,7 @@ import clock from "../../../assets/icons/clock.svg"
 import calendar from "../../../assets/icons/calendar.svg"
 import { Rating } from '@mui/material';
 import { FlexCenter } from '../../../components/FlexCenter';
+import { useTranslation } from 'react-i18next';
 const TitleDiv = styled("div")(({ theme }) => ({
 }));
 const Title = styled("div")(({ theme }) => ({
@@ -167,23 +168,25 @@ const QuestionsAnswers = styled("div")(({ theme }) => ({
     textAlign : "center" ,
 }));
 const InformationDiv = ({missionDetails}) => {
+  const {t} = useTranslation() ; 
+
   return (
     <>
     
-    <QuestionsAnswers> Mission Details </QuestionsAnswers>
+    <QuestionsAnswers> {t("text.Mission_Details")} </QuestionsAnswers>
     <Parent>
         <TitleDiv>
-            <Title>Title</Title>
+            <Title>{t("text.Title")}</Title>
             <Text>{missionDetails.name}</Text>
         </TitleDiv>
         <Divider/>
         <TitleDiv>
-            <Title>focus on!</Title>
+            <Title>{t("text.Focus")}</Title>
             <FocusThings>{missionDetails.foucs}</FocusThings>  
         </TitleDiv>
         <Divider/>
         <TitleDiv>
-            <Title>Branch</Title>
+            <Title>{t("text.Branch")}</Title>
             <AddressDiv>
                 <Img src = {location2} />
                 <Address>{missionDetails.address}</Address>
@@ -196,7 +199,7 @@ const InformationDiv = ({missionDetails}) => {
         {/* date time section  */}
         <DateTime>
             <DateDiv>
-                <Title>Date</Title>   
+                <Title>{t("text.Date")}</Title>   
                 <Flex>
                     <Img src = {calendar} />
                     <Date>{missionDetails.date }</Date>   
@@ -204,14 +207,14 @@ const InformationDiv = ({missionDetails}) => {
             </DateDiv>
             <TimeDiv>
                 <FromToTimeDiv>
-                    <Title>from</Title>  
+                    <Title>{t("text.from")}</Title>  
                     <Flex>
                         <Img src = {clock} />
                         <Date>{missionDetails.from}</Date>   
                     </Flex>
                 </FromToTimeDiv>   
                 <FromToTimeDiv>
-                    <Title>to</Title>  
+                    <Title>{t("text.to")}</Title>  
                     <Flex>
                         <Img src = {clock} />
                         <Date>{missionDetails.to}</Date>   
@@ -228,14 +231,14 @@ const InformationDiv = ({missionDetails}) => {
                 defaultChecked={missionDetails.price >0}
                 disabled
             />
-            <CheckLabel htmlFor='voucher'>Include Purchase voucher</CheckLabel>
+            <CheckLabel htmlFor='voucher'>{t("text.Purchase_voucher")}</CheckLabel>
             </CheckDiv>
-            {missionDetails.price >0 && <Voucher>{missionDetails.price} SAR</Voucher> }
+            {missionDetails.price >0 && <Voucher>{missionDetails.price} {t("text.SAR")}</Voucher> }
             
             </VoucherDiv>
         <Divider/>
         <TitleDiv>
-            <Title>Notes</Title>
+            <Title>{t("text.Notes")}</Title>
             <Text>{missionDetails.notes}</Text>
         </TitleDiv> 
     </Parent>

@@ -111,28 +111,28 @@ const MissionsButtons = ({ setShowMissions , setSelectMissions }) => {
     } , 
     {
         id : 1 , 
-        name : "Wait Requests" , 
+        name : t("text.Wait_Requests") , 
         number :  12 , 
         icon1: WaitRequests, 
         icon2 : WaitRequests2
     } , 
     {
         id : 5 , 
-        name : "Pending user Acceptance" , 
+        name : t("text.Pending_user_Acceptance") , 
         number :  12 , 
         icon1: WaitRequests, 
         icon2 : WaitRequests2
     } ,
     {
         id : 2 , 
-        name : "Current Missions" , 
+        name : t("text.Current_Missions") , 
         number :  12 , 
         icon1 : CurrentMissions, 
         icon2 : CurrentMissions2
     } , 
     {
         id : 3 , 
-        name : "Complete Missions" , 
+        name : t("text.Complete_Missions") , 
         number :  12 , 
         icon1 : CompleteMissions, 
         icon2 : CompleteMissions2

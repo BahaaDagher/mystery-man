@@ -129,9 +129,8 @@ const Chats = ({LastMessage , setShowMessages }) => {
     const message = str.substring(0,15) + "...";
     return message
   }
-  const {t} = useTranslation();
-  const [activeChat , setActiveChat] = useState(-1)
-
+  const [activeChat , setActiveChat] = useState(-2)
+  
   const handleClick = (chat) => {
     setActiveChat(chat.id)
     dispatch(setCurrentChat(chat))
@@ -142,12 +141,9 @@ const Chats = ({LastMessage , setShowMessages }) => {
   const getChatesResponse = useSelector((state) => state.chatData.getChatesResponse); 
   const getChatesLoading = useSelector((state) => state.chatData.getChatesLoading); 
   const currentChat = useSelector((state) => state.chatData.currentChat);
-
+  
   useEffect(() => {
     if (currentChat.newMission) {
-      console.log('====================================');
-      console.log('llllllllllll' , currentChat);
-      console.log('====================================');
       setShowMessages(true)
     }
   },[currentChat])
@@ -157,11 +153,11 @@ const Chats = ({LastMessage , setShowMessages }) => {
       setChats(getChatesResponse.data.messages)
     }
   }, [getChatesResponse])
-
+  
   useEffect(() => {
     dispatch(getChates())
   }, [])
-
+  
   const [chats , setChats] = useState([])
   const handleTechnical = ()=>{
     setShowMessages(true)
@@ -170,18 +166,20 @@ const Chats = ({LastMessage , setShowMessages }) => {
     dispatch(setChatMessagesSendPages())
     setActiveChat(-1)
   }
+
   
+  const {t} = useTranslation();
   return (
     <>
     {getChatesLoading? <Loading/> : null}
     <Parent>
         <Title>{t("text.Support")}</Title>
         <SupportDiv>
-            <MysterySupport onClick = {handleTechnical} className ={activeChat==-1?'active' : ""} >Mystery Support</MysterySupport>
+            <MysterySupport onClick = {handleTechnical} className ={activeChat==-1?'active' : ""}> {t("text.Mystery_Support")}</MysterySupport>
             <img src= {blueSign} alt = "sign"/>
         </SupportDiv>
         <Divider/>
-        <MessagesDiv>Messages</MessagesDiv>
+        <MessagesDiv>{t("text.Messages")}</MessagesDiv>
         <ChatContainer>
           {
             chats.map((chat , index) => (
