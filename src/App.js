@@ -52,7 +52,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path='/bahaa' element = <MysteryProfile/>  />
+        <Route path='/bahaa' element = <Bahaa/>  />
         <Route path='/login' element = {<ProtectAuth> <Login/> </ProtectAuth>}  />
         <Route path='/register/enter-phone' element = <EnterPhone/>  />
         <Route path='/register/verify-phone' element = <VerifyPhone/>  />

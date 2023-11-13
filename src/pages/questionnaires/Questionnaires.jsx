@@ -50,9 +50,14 @@ const PreviousQuestionnaire = styled(FlexSpaceBetween)(({ theme }) => ({
   backgroundColor : Colors.bg  ,
   margin : "5px auto" ,
   cursor:'pointer',
-  ":hover":{
-    background:"white"
-  }
+  transition : "all 0.3s ease-in-out" , 
+  
+  "&:hover":{
+    background:Colors.input , 
+  } ,
+  "&.active":{
+    background:Colors.input , 
+  } ,
   
 }));
 const QuestionnaireName = styled("div")(({ theme }) => ({
@@ -109,6 +114,10 @@ const Questionnaires = () => {
   useEffect(() => {
     dispatch(getQuestionnaire())
   }, [])
+  useEffect(() => {
+    dispatch(setCurrentQuestioneir(0))
+    setPressCreateQuestionnaire(false)
+  }, [])
 
 
 const numberOFQuestioners = (item)=>{ 
@@ -119,6 +128,7 @@ const numberOFQuestioners = (item)=>{
   return count
 }
 
+  const [active , setActive] = useState(0)
   return (
     <>
       <SmallContainer>
@@ -148,7 +158,8 @@ const numberOFQuestioners = (item)=>{
                 return (
                   <>
 
-                    <PreviousQuestionnaire onClick={()=>handleQuestionierChange(item.id ,index)}>
+                    <PreviousQuestionnaire className = {active == index ? "active" : ""}
+                    onClick={()=> {handleQuestionierChange(item.id ,index)  ; setActive(index) }} >
 
                       <QuestionnaireName>{item.title}</QuestionnaireName>
                       <QuestionnaireLengthDiv>

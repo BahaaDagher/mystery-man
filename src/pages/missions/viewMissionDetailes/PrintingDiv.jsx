@@ -9,6 +9,11 @@ import { Flex } from '../../../components/Flex';
 import test from "../../../assets/images/test.png"
 import { Box, Rating } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import badScale from "../../../assets/images/badScale.svg"
+import goodScale from "../../../assets/images/goodScale.svg"
+import normalScale from "../../../assets/images/normalScale.svg"
+import excellentScale from "../../../assets/images/excellentScale.svg"
+
 
 const PrintDiv = styled("div")(({ theme }) => ({
     padding : "20px" , 
@@ -83,14 +88,16 @@ const PerformanceContainer = styled("div")(({ theme }) => ({
     justifyContent : "center" ,
     height : "250px" , 
     width : "50%" , 
+    marginBottom : "20px" ,
 }));
 const ScaleDiv = styled("div")(({ theme }) => ({
-    marginBottom  : "20px" ,
+    // marginBottom  : "20px" ,
 }));
 const PerformanceRate = styled(Flex)(({ theme }) => ({
     alignItems : "center" ,
     width : "100%" ,
     justifyContent : "center" ,
+    
 
 }));
 const YourPerformance = styled("div")(({ theme }) => ({
@@ -206,6 +213,10 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
         str = str.replace(",", ".") 
         return str+"%" 
     }
+    const removeQum = (str)=>{
+        str = str.replace(",", ".") 
+        return str 
+    }
     const [comments , setComments] = useState([])
     const [pics , setPics] = useState([])
 
@@ -223,8 +234,11 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
         setPics(arr)
     }
     const [one , setOne] = useState(0)
+
+
     useEffect  (()=>{
-   
+        if (convert("11,5")<100) console.log ("convert(11,5)<100")
+        else console.log (convert("11,5"))
         if (one<2) {
             setOne(one+1)  
             missionAnswer?.steps.map ((step , index) => {
@@ -249,11 +263,6 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
     } ,[missionAnswer])
 
 
-
-    useEffect(()=>{
-        console.log("commentssssssss" , comments);
-    }
-    ,[comments])
     
     const [employee , setEmployee] = useState({})
     useEffect(()=>{
@@ -265,6 +274,9 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
         }
     }
     ,[missionDetails])
+
+
+    
     const {t} = useTranslation() ;
   return (
 
@@ -326,11 +338,18 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                 </LogoContainer>
                 <PerformanceContainer>
                     <ScaleDiv>
-                        <img src = {test} style = {{width :"300px" , height : "137px" ,}}/>
+                        {
+                            removeQum(missionAnswer?.rate)>=85 ? <img src = {excellentScale} style = {{ width  : "300px"}}/> :
+                            removeQum(missionAnswer?.rate)>=75 ? <img src = {goodScale} style = {{ width  : "300px"}}/> :
+                            removeQum(missionAnswer?.rate)>=50 ? <img src = {normalScale} style = {{ width  : "300px"}}/> :
+                            <img src = {badScale} style = {{ width  : "300px"}}/> 
+                            
+                        }
+                        
                     </ScaleDiv>
                     <PerformanceRate>
                         <YourPerformance> {t("text.YOUR_PERFORMANCE")} </YourPerformance>
-                        <Rate>{missionAnswer?.rate} %</Rate>
+                        <Rate>{convert(missionAnswer?.rate)} </Rate>
                     </PerformanceRate>
                 </PerformanceContainer>
             </OverallPerformance>

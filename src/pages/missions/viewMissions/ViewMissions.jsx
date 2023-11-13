@@ -3,7 +3,7 @@ import React, { Fragment, useEffect, useState, useTransition } from 'react'
 import { FlexSpaceBetween } from '../../../components/FlexSpaceBetween';
 import  Loading  from '../../../components/Loading';
 import { Flex } from '../../../components/Flex';
-import { Box } from '@mui/material';
+import { Box, Rating } from '@mui/material';
 import { Colors } from '../../../Theme';
 import ThreeDotesMore from "../../../assets/icons/ThreeDotesMore.svg"
 import location2 from "../../../assets/icons/location2.svg"
@@ -12,7 +12,7 @@ import time from "../../../assets/icons/time.svg"
 import { FlexCenter } from '../../../components/FlexCenter';
 import MissionSettings from './MissionSettings';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteMission, getMissions, setCurrentMission, viewMission } from '../../../store/slices/missionSlice';
+import { RateVisitor, deleteMission, getMissions, setCurrentMission, viewMission } from '../../../store/slices/missionSlice';
 import { SubmitButton } from '../../../components/SubmitButton';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -26,7 +26,13 @@ import chatAvailable from  "../../../assets/icons/chatAvailable.svg"
 import { setCurrentChat } from '../../../store/slices/chatSlice';
 import MysteryProfile from '../mysteryProfile/MysteryProfile';
 import Swal from 'sweetalert2';
-
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 
 const Parent = styled("div")(({ theme }) => ({
@@ -351,7 +357,7 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
     const handleChat = (mission) => {
         let employees = mission.employee
         let senderImage = ""
-        let adsName = "" 
+        let adsName = ""
         for (let i = 0; i < employees.length; i++) {
             if (employees[i].status!= 0 && employees[i].status!= 3 ) {
                 senderImage = employees[i].user.image
@@ -369,7 +375,65 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
 
     const [mysteryProfile , setMysteryProfile] = useState(false)
 
+    /////////////////////////////////////////////////////////////////////
+    // rate the visitor 
+   
+    const [open, setOpen] = React.useState(false);
 
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
+  
+    const handleClose = () => {
+      setOpen(false);
+    };
+
+    const [rateEmployee, setRateEmployee] = useState(0);
+    const [confirm , setConfirm] = useState(false);
+
+    const [needMission , setNeedMission] = useState({}) 
+    const confirmRate = () => {
+        let mission =  needMission 
+        console.log ("mission" , mission)
+        setConfirm(true) 
+        let employees = mission.employee
+        let missionID  = mission.id
+        let employeeID = -5
+        for (let i = 0; i < employees.length; i++) {
+            if (employees[i].status!= 0 && employees[i].status!= 3 ) {
+                employeeID = employees[i].user_id
+                break;
+            }
+        }
+
+        dispatch(RateVisitor({mission_id:missionID , vistor_id :employeeID , rate:rateEmployee   })) 
+    }
+
+    const rateVisitorData = useSelector((state) => state.missionData.rateVisitorData);
+    const rateVisitorLoading = useSelector((state) => state.missionData.rateVisitorLoading);
+
+    useEffect(() => {
+        if (rateVisitorData.status &&confirm) {
+            Swal.fire({
+                icon: 'success',
+                text : rateVisitorData.message  , 
+                showConfirmButton: false,
+                timer: 2000
+              })
+        }
+        else if (confirm) {
+            Swal.fire({
+                icon: 'error',
+                text : rateVisitorData.message  , 
+                showConfirmButton: false,
+                timer: 3000
+              })
+        }
+    },[rateVisitorData])
+
+
+    ///////////////////////////////////////////////////////
+    
   return (
     <>
     <MissionSettings setAnchorEl= {setAnchorEl} anchorEl={anchorEl} setChosenSetting = {setChosenSetting} selectMissions = {selectMissions}/>
@@ -447,6 +511,31 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
                     <ReviewSubmitButton  onClick={()=>ReviewRequest(mission)}> Review Request </ReviewSubmitButton> : null 
                 }
                 {/* <FinishedDiv>Finished 05 minutes ago</FinishedDiv> : null  */}
+                {mission.status == 3 ?  
+                    <React.Fragment>
+                        <Button style = {{marginTop : "10px"}} variant="outlined" onClick={()=>{setNeedMission(mission) ;  handleClickOpen()  } }>
+                            Rate the visitor
+                        </Button>
+                        <Dialog open={open} onClose={handleClose}>
+                            <DialogTitle style = {{ textAlign : "center" , fontWeight : "bold" , color : Colors.main}}>Rate</DialogTitle>
+                            <DialogContent>
+                                <Rating 
+                                    style = {{fontSize : "50px"}}
+                                    name="half-rating" 
+                                    defaultValue={rateEmployee} 
+                                    precision={0.5}
+                                    onChange={(event, newValue) => {setRateEmployee(newValue);}}
+                                />
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={handleClose} style = {{color : Colors.main}}>Cancel</Button>
+                                <Button onClick={()=>{ confirmRate() ;  handleClose()  }} style = {{color : Colors.main}}>confirm</Button>
+                            </DialogActions>
+                        </Dialog>
+                    </React.Fragment>
+                    
+                : null
+                }
                 {mission.status == 3 && mission.can_sent?  
                     <ChatDiv>
                         <ChatAvailable>Chat Available</ChatAvailable>
@@ -456,7 +545,6 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
                     </ChatDiv>
                     : null
                 }
-
                 {mission.status ==2 && mission.can_sent? 
                     <ChatDiv >
                         <ChatAvailable>Chat Available</ChatAvailable>

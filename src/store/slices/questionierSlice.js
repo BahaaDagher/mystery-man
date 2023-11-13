@@ -116,7 +116,7 @@ const questionierSlice = createSlice({
         },
         setQuestionDetails: (state, action) => {
             if(action.payload.data.required) {console.log(action.payload.data); state.questionieres[state.currentQuestioneir].steps[state.currentStep].questions[action.payload.index].required =action.payload.data.required;}
-            else if(action.payload.data.title) { console.log(action.payload.data);state.questionieres[state.currentQuestioneir].steps[state.currentStep].questions[action.payload.index].title =action.payload.data.title}
+            else if(action.payload.data.title || action.payload.data.title === "" ) { console.log(action.payload.data);state.questionieres[state.currentQuestioneir].steps[state.currentStep].questions[action.payload.index].title =action.payload.data.title}
             else if(action.payload.data.options) {console.log(action.payload.data); state.questionieres[state.currentQuestioneir].steps[state.currentStep].questions[action.payload.index].options =action.payload.data.options}
           
        

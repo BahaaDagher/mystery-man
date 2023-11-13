@@ -130,6 +130,27 @@ export const deleteMission = createAsyncThunk(
         }
     }
     );
+    export const RateVisitor = createAsyncThunk(
+        "mission/RateVisitor", 
+        async (values) => {
+            const token = localStorage.getItem('token');
+            try {
+            const response = await axios.post(
+                `https://mystery.cloudy.mohamedmansi.com/api/rate_vistors` ,
+                values , 
+                {
+                    headers: {
+                        "Authorization" : token ,
+                        "lang" : currentLanguage ,
+                    },
+                }
+            );
+            return response.data ;
+            } catch (error) {
+            console.error(error);
+            }
+        }
+        );
 
 const missionSlice = createSlice({
     name: "mission",
@@ -145,7 +166,10 @@ const missionSlice = createSlice({
         accepetRequestData:{},
         questionsMissionsData:{},
         deleteMissionData:{},
-        deleteMissionLoading:false
+        deleteMissionLoading:false , 
+
+        rateVisitorData:{},
+        rateVisitorLoading:false ,
     },
     reducers: {
         setCurrentMission: (state, action) => {
@@ -205,6 +229,17 @@ const missionSlice = createSlice({
         .addCase(deleteMission.rejected , (state, action) => {
             state.deleteMissionLoading = false;
         }) 
+        // rate visitor
+        .addCase(RateVisitor.fulfilled , (state, action) => {
+            state.rateVisitorData = action.payload;
+            state.rateVisitorLoading = false;
+        }) 
+        .addCase(RateVisitor.pending, (state, action) => {
+            state.rateVisitorLoading = true;
+        }) 
+        .addCase(RateVisitor.rejected , (state, action) => {
+            state.rateVisitorLoading = false;
+        })
     }
     });
     export const { 
