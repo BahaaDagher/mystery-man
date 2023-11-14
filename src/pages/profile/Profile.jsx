@@ -191,6 +191,13 @@ const Profile = () => {
 
   const navigate = useNavigate() ; 
 
+
+  const Percent  = (str)=> {
+    str =  str.replace(',', '.');
+    console.log ("strrrrrr" , str)
+    str = str/20
+    return str 
+  }
   return (
     <>
         {deleteBranchLoading ? <Loading/> : null}
@@ -211,7 +218,7 @@ const Profile = () => {
                         <FlexSpaceBetween>
                           <Box>
                             <p style = {{color : Colors.second , fontSize : "18px"}}>{branch.name}</p>
-                            <Rating name="half-rating" defaultValue={branch.rate} precision={0.5} readOnly style = {{direction : "ltr"}}/>
+                            <Rating name="half-rating" defaultValue={Percent(branch.generalRate)} precision={0.5} readOnly style = {{direction : "ltr"}}/>
                           </Box>
                           <Flex>
                             <IconDiv>

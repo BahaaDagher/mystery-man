@@ -28,6 +28,11 @@ const Line = styled(FlexSpaceBetween)(({ theme }) => ({
   padding : "10px", 
   marginBottom : "20px" ,
   backgroundColor : "#fff" , 
+  [theme.breakpoints.down('600')]: {
+    flexDirection : "column" ,
+    // alignItems : "center" ,
+  
+  }
 }));
 
 const PhotoAndName = styled(Flex)(({ theme }) => ({
@@ -37,6 +42,9 @@ const PhotoAndName = styled(Flex)(({ theme }) => ({
   [theme.breakpoints.down('800')]: {
     justifyContent : "center" ,
   },
+  [theme.breakpoints.down('600')]: {
+    justifyContent : "space-between" ,
+  }
 }));
 const Section = styled("div")(({ theme }) => ({
   display : "flex" ,
@@ -70,7 +78,9 @@ const AcceptButton = styled(SubmitButton)(({ theme }) => ({
 }));
 
 const CategoryDiv = styled(FlexCenter)(({ theme }) => ({
-    
+    [theme.breakpoints.down('600')]: {
+      margin : "10px 0" ,
+    }
 }));
 const Category = styled(FlexCenter)(({ theme }) => ({
     height : "35px" ,  
