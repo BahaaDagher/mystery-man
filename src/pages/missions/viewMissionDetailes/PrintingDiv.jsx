@@ -328,12 +328,12 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
             <OverallPerformance>
                 <LogoContainer>
                     <RateContainer>
-                        <Rating name="half-rating" defaultValue={missionDetails.rate.rate}  readOnly style = {{direction : "ltr" , fontSize : "50px"}} precision={0.5}/>
-                        <Notes> {missionDetails.rate.note} </Notes>
+                        <Rating name="half-rating" defaultValue={missionDetails.companyRate}  readOnly style = {{direction : "ltr" , fontSize : "50px"}} precision={0.5}/>
+                        <Notes> {missionDetails.generalNote} </Notes>
                     </RateContainer>
                     <PerformanceRate>
                         <YourPerformance> {t("text.visitor_Rating")} </YourPerformance>
-                        <Rate>{missionDetails.rate.rate * 20 } %</Rate>
+                        <Rate>{missionDetails.companyRate * 20 } %</Rate>
                     </PerformanceRate>
                 </LogoContainer>
                 <PerformanceContainer>
