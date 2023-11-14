@@ -22,6 +22,7 @@ export const Colors = {
     Black60:"#45464E" , 
     Gray1 :"#333333" , 
     Black3: "#8B8D97" , 
+    input_fill : "#F5F5F5" , 
 
 
 }

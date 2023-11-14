@@ -20,6 +20,7 @@ import { FlexCenter } from '../components/FlexCenter';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import { getProfile } from '../store/slices/profileSlice';
+import NotificationIcon from '../components/NotificationIcon';
 
 const NavbarContainer = styled("div")(({ theme }) => ({
   height: '73px',
@@ -190,7 +191,7 @@ const Navbar = ({phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
           <LanguageIconNavbar Navbar= {true} />
         </Section>
         <Section>
-          <img src = {notificationImage} alt = "notification"/>
+          <NotificationIcon  />
         </Section>
         <Section onClick={chatPage}>
           <img src = {chatImage} alt = "chat"/>

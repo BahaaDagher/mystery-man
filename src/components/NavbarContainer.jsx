@@ -11,6 +11,7 @@ import { Colors } from '../Theme';
 import profileLogo from "../assets/images/profileLogo.svg"
 import notificationImage from "../assets/images/notification.svg"
 import chatImage from "../assets/images/chat.svg"
+import NotificationIcon from './NotificationIcon';
 
 const Parent = styled("div")(({ theme }) => ({
     height: '73px',
@@ -143,7 +144,7 @@ const NavbarContainer = () => {
                 <LanguageIconNavbar Navbar={true} />
             </Section>
             <Section>
-                <img src = {notificationImage} alt = "notification"/>
+              <NotificationIcon />
             </Section>
             <Section onClick={chatPage}>
                 <img src = {chatImage} alt = "chat"/>

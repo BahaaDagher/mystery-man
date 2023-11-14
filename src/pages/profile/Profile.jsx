@@ -16,6 +16,7 @@ import { FlexDiv } from '../../components/FlexDiv';
 import { Box, CircularProgress, Rating, useTheme } from '@mui/material';
 import { Flex } from '../../components/Flex';
 import { FlexSpaceBetween } from '../../components/FlexSpaceBetween';
+import  NavbarContainer from '../../components/NavbarContainer';
 import Map from '../../components/Map';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteBranch, getBranches } from '../../store/slices/branchSlice';
@@ -33,64 +34,7 @@ const Container = styled("div")(({ theme }) => ({
   display: 'flex',
 }));
 
-const NavbarContainer = styled("div")(({ theme }) => ({
-  height: '73px',
-  width : `calc(100% - 10px )` ,
-  margin : "0 5px" ,
-  backgroundColor: "#fff", 
-  borderRadius: '10px', 
-  position : "fixed" , 
-  top : "0" ,
-  left : "0" ,
-  display : "flex" ,
-  justifyContent : "space-between" ,
-  alignItems : "center" ,
-  padding : "20px" ,
-  direction : theme.direction , 
-  zIndex : "5" ,
-  [theme.breakpoints.down('500')]: {
-    padding : "10px"
-  },
-  
-}));
-const InformationDiv = styled("div")(({ theme }) => ({
-  display : "flex" ,
-  alignItems : "center" , 
-  justifyContent : "center" , 
-}));
 
-const Section = styled("div")(({ theme }) => ({
-  display : "flex" ,
-  justifyContent : "center" ,
-  alignItems : "center" ,
-  marginRight : theme.direction == "ltr" ? "20px" : "0px" , 
-  marginLeft : theme.direction == "rtl" ? "20px" : "0px" , 
-  cursor : "pointer" ,
-  "&.company" : {
-    cursor : "default" ,
-    flexDirection : "column" ,
-    [theme.breakpoints.down('1200')]: {
-      display : "none" ,
-    },
-  },
-}));
-
-const LanguageIconNavbar = styled(LanguageIcon)(({ theme }) => ({
-  position : "relative" ,
-}));
-
-const Logo = styled(LINK)(({ theme }) => ({
-   display : "flex" ,
-    alignItems : "center" ,
-    justifyContent : "center" ,
-}));
-const Img = styled("img")(({ theme }) => ({
-  marginRight :theme.direction == "ltr"?   "10px" : "0px" ,
-  marginLeft :theme.direction == "rtl"?   "10px" : "0px" ,
-  [theme.breakpoints.down('500')]: {
-    width :"100px"
-  },
-}));
 
 const Content = styled("div")(({ theme }) => ({
   width : `calc(100% - 20px )` ,
@@ -178,9 +122,7 @@ const LocationDiv = styled("div")(({ theme }) => ({
   marginTop :"20px" , 
 }));
 
-const Logout = styled(LogoutOutlinedIcon)(({ theme }) => ({
-  cursor : "pointer" ,
-}));
+
 
 const Profile = () => {
   const {t } = useTranslation();
@@ -249,58 +191,11 @@ const Profile = () => {
 
   const navigate = useNavigate() ; 
 
-  const logout = () => {
-    Swal.fire({
-      title: "Are you sure you want to logout?",
-      showCancelButton: true,
-      confirmButtonText: `Yes`,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // dispatch(userLogout())
-        Swal.fire({
-          icon: 'success',
-          title: 'logout successfully',
-          showConfirmButton: false,
-          timer: 2000
-        })
-        setTimeout(() => {
-          localStorage.removeItem("token")
-          navigate("/login")
-        }, 2000);
-      }
-    })
-  }
-  const chatPage = () => {
-    navigate("/chat")
-  }
   return (
     <>
         {deleteBranchLoading ? <Loading/> : null}
         <Container>
-          <NavbarContainer>
-            <Logo to = "/dashboard/home">
-              <Img src = {profileLogo} />
-            </Logo>
-            <InformationDiv>
-              <Section>
-                <LanguageIconNavbar Navbar= {true} />
-              </Section>
-              <Section>
-                <img src = {notificationImage} alt = "notification"/>
-              </Section>
-              <Section onClick={chatPage}>
-                <img src = {chatImage} alt = "chat"/>
-              </Section>
-              <Section onClick={()=>{window.location = "/profile"}}>
-                <img src = {profileData.image} style = {{width : "40px" , height : "40px" ,   borderRadius : "50%" }} alt = "admin"/>
-              </Section>
-              <Section className = "company">
-                <div style = {{color: Colors.second , weight : "400"}}>{profileData.name}</div>
-                <div style = {{color: Colors.gray , weight : "400"}}>{profileData.phone}</div>
-              </Section>
-            <Logout onClick={logout}/>
-            </InformationDiv>
-          </NavbarContainer>
+          <NavbarContainer/>
           <Content>
             {/* first div data and information part */} 
             <DataDiv profileData = {profileData}/>

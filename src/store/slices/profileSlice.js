@@ -21,28 +21,48 @@ export const getProfile = createAsyncThunk(
         console.error(error);
         }
     }
-    );
-    export const updateProfile = createAsyncThunk(
-        "profile/updateProfile", 
-        async (values) => {
-            const token = localStorage.getItem('token');
-            try {
-            const response = await axios.post(
-                `https://mystery.cloudy.mohamedmansi.com/api/updateProfilemission` ,
-                values ,
-                {
-                    headers: {
-                        "Authorization" : token , 
-                        "lang" : currentLanguage
-                    },
-                }
-            );
-            return response.data ;
-            } catch (error) {
-            console.error(error);
+);
+export const updateProfile = createAsyncThunk(
+    "profile/updateProfile", 
+    async (values) => {
+        const token = localStorage.getItem('token');
+        try {
+        const response = await axios.post(
+            `https://mystery.cloudy.mohamedmansi.com/api/updateProfilemission` ,
+            values ,
+            {
+                headers: {
+                    "Authorization" : token , 
+                    "lang" : currentLanguage
+                },
             }
-        }
         );
+        return response.data ;
+        } catch (error) {
+        console.error(error);
+        }
+    }
+);
+
+export const getNotifications = createAsyncThunk(
+    "profile/getNotifications", 
+    async (values) => {
+        const token = localStorage.getItem('token');
+        try {
+        const response = await axios.get(
+            `https://mystery.cloudy.mohamedmansi.com/api/getNotifications` , {
+                headers: {
+                    "Authorization" : token , 
+                    "lang" : currentLanguage
+                },
+            }
+        );
+        return response.data ;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+);
 const profileSlice = createSlice({
     name: "profile",
     initialState: {
@@ -52,6 +72,9 @@ const profileSlice = createSlice({
 
         updateProfileData : {}, 
         updateProfileLoading : false ,
+
+        getNotificationsData : {} ,
+        getNotificationsLoading : false ,
     },
     reducers: {
         ProfileData: (state, action) => {
@@ -81,6 +104,18 @@ const profileSlice = createSlice({
         .addCase(updateProfile.rejected , (state, action) => {
             state.updateProfileLoading = false;
         }) 
+        // get notification 
+        .addCase(getNotifications.fulfilled , (state, action) => {
+            state.getNotificationsData = action.payload;
+            state.getNotificationsLoading = false;
+        }) 
+        .addCase(getNotifications.pending , (state, action) => {
+            state.getNotificationsLoading = true;
+        }) 
+        .addCase(getNotifications.rejected , (state, action) => {
+            state.getNotificationsLoading = false;
+        }) 
+
     
     }
 });

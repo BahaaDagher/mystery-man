@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Container } from '../../components/Container'
 import { H3 } from '../../components/H3'
-import { Input } from '../../components/Input'
+import { Input} from '../../components/Input'
 import { Colors } from '../../Theme'
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next'
@@ -21,6 +21,15 @@ import { ProfileData, updateProfile } from '../../store/slices/profileSlice'
 import blueCamera from "../../assets/icons/blueCamera.svg"
 import { FlexCenter } from '../../components/FlexCenter'
 
+
+const Parent = styled(Container)(({ theme }) => ({
+  background  : "#fff" ,
+}));
+
+const ProfileInput = styled(Input)(({ theme }) => ({
+  backgroundColor : Colors.input_fill ,
+  border : `1px solid ${Colors.green}` ,
+}));
 const InsideContainer = styled("div")(({ theme }) => ({
   width : "30%" ,
   [theme.breakpoints.down("1200")]: {
@@ -50,7 +59,7 @@ const CameraDiv = styled(FlexDiv)(({ theme }) => ({
 const BlueCameraDiv = styled(FlexCenter)(({ theme }) => ({
     position :"absolute" , 
     padding : "10px" , 
-    backgroundColor : Colors.main ,
+    backgroundColor : Colors.green ,
     bottom : "0" , 
     borderRadius : "50%" ,
 }));
@@ -60,6 +69,14 @@ const BlueCamera = styled("img")(({ theme }) => ({
 
 
 const InputInformation = styled("div")(({ theme }) => ({
+}));
+
+const UpdateButton = styled(SubmitButton)(({ theme }) => ({
+  backgroundColor : Colors.green ,
+  "&:hover":  {
+    backgroundColor : Colors.hoverGreen ,
+  },
+
 }));
 
 const EditProfile = () => {
@@ -172,7 +189,7 @@ const EditProfile = () => {
     <>
         {getProfileLoading ? <Loading/> : null}
         {updateProfileLoading ? <Loading/> : null}
-      <Container>
+      <Parent>
         <InsideContainer>
               <input
                 id = "uploadPhoto"
@@ -194,34 +211,34 @@ const EditProfile = () => {
             <InputInformation>
               <InputDiv >
                   <H3>{t("text.Company_name")}</H3>
-                  <Input  placeholder={t("text.Company_name")} value ={company_name} onChange = {(e)=> setCompany_name(e.target.value)} />
+                  <ProfileInput placeholder={t("text.Company_name")} value ={company_name} onChange = {(e)=> setCompany_name(e.target.value)} />
               </InputDiv>
               <InputDiv>
                   <H3> {t("text.Phone_Number")}</H3>
-                  <Input  placeholder={t("text.Phone_Number")} value ={Phone_Number} onChange = {(e)=> setPhone_number(e.target.value)}/>
+                  <ProfileInput placeholder={t("text.Phone_Number")} value ={Phone_Number} onChange = {(e)=> setPhone_number(e.target.value)}/>
               </InputDiv>
               <InputDiv>
                   <H3> {t("text.Company_Email")}</H3>
-                  <Input  placeholder={t("text.Company_Email")} value ={company_email} onChange = {(e)=> setCompany_email(e.target.value)}/>
+                  <ProfileInput placeholder={t("text.Company_Email")} value ={company_email} onChange = {(e)=> setCompany_email(e.target.value)}/>
               </InputDiv>
               <InputDiv>
                   <H3>{t("text.Password")} </H3>
-                  <Input type='password' placeholder={t("text.Password")} value ={password} onChange = {(e)=> setPassword(e.target.value)}/>
+                  <ProfileInput type='password' placeholder={t("text.Password")} value ={password} onChange = {(e)=> setPassword(e.target.value)}/>
               </InputDiv>
               <InputDiv>
                   <H3>{t("text.Confirm_Password")} </H3>
-                  <Input  type='password' placeholder={t("text.Confirm_Password")} value ={confirm_password} onChange = {(e)=> setConfirm_password(e.target.value)}/>
+                  <ProfileInput type='password' placeholder={t("text.Confirm_Password")} value ={confirm_password} onChange = {(e)=> setConfirm_password(e.target.value)}/>
               </InputDiv>
             </InputInformation>
         </InsideContainer>
         <InsideContainer>
         <InputDiv>
                   <H3> {t("text.Company_Website")}</H3>
-                  <Input  placeholder={t("text.Company_Website")} value ={company_website} onChange = {(e)=> setCompany_website(e.target.value)}/>
+                  <ProfileInput placeholder={t("text.Company_Website")} value ={company_website} onChange = {(e)=> setCompany_website(e.target.value)}/>
               </InputDiv>
           <InputDiv>
               <H3>{t("text.Commercial_Registration_No")} </H3>
-              <Input   placeholder={t("text.Commercial_Registration_No")} value ={commercial_registration_no} onChange = {(e)=> setCommercial_registration_no(e.target.value)}/>
+              <ProfileInput  placeholder={t("text.Commercial_Registration_No")} value ={commercial_registration_no} onChange = {(e)=> setCommercial_registration_no(e.target.value)}/>
           </InputDiv>
           <InputDiv>
               <H3>{t("text.Copy_of_the_commercial_register")} </H3>
@@ -244,9 +261,9 @@ const EditProfile = () => {
                 </LabelFile>
               </FlexDiv>
           </InputDiv>
-          <SubmitButton onClick = {handleSubmit}> {t("text.edit_profile")}</SubmitButton>
+          <UpdateButton onClick = {handleSubmit}> {t("text.update")}</UpdateButton>
         </InsideContainer>
-      </Container>
+      </Parent>
     </>
   )
 }
