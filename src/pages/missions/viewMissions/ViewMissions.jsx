@@ -209,6 +209,17 @@ const ChatImgDiv = styled("div")(({ theme }) => ({
 const ChatImg = styled("img")(({ theme }) => ({
 
 }));
+const RateButton = styled(Button)(({ theme }) => ({
+    marginTop : "10px" ,
+    border : `1px solid ${Colors.main}` ,
+    color : Colors.main ,
+    fontWeight : "700" , 
+    fontFamily : "Cairo" ,
+}));
+const VisitorRating = styled(Rating)(({ theme }) => ({
+    fontSize : "50px" , 
+    direction :theme.direction ,
+}));
 
 const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
 
@@ -479,13 +490,13 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
                 <Divider/>
                 <Footer>
                     <Focus>
-                        <FocusTitle>Focus</FocusTitle>
+                        <FocusTitle>{t("text.Focus")}</FocusTitle>
                         <FocusThings>
                             {mission.foucs} 
                         </FocusThings>
                     </Focus>
                     <LocationAndTime>
-                        <LocationAndTimeTitle>location and time</LocationAndTimeTitle>
+                        <LocationAndTimeTitle>{t("text.locationAndTime")}</LocationAndTimeTitle>
                         <LocationAndTimeThings>
                             <DateDiv>
                                 <ImgDiv>
@@ -511,19 +522,21 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
                     </LocationAndTime>
                 </Footer>
                 {mission.status ==1 ? 
-                    <ReviewSubmitButton  onClick={()=>ReviewRequest(mission)}> Review Request </ReviewSubmitButton> : null 
+                    <ReviewSubmitButton  onClick={()=>ReviewRequest(mission)}> {t("text.ReviewRequests")}  </ReviewSubmitButton> : null 
                 }
                 {/* <FinishedDiv>Finished 05 minutes ago</FinishedDiv> : null  */}
                 {mission.status == 3 ?  
                     <React.Fragment>
-                        <Button style = {{marginTop : "10px"}} variant="outlined" onClick={()=>{setNeedMission(mission) ;  handleClickOpen()  } }>
-                            Rate the visitor
-                        </Button>
+                        <RateButton 
+                            variant="outlined" 
+                            onClick={()=>{setNeedMission(mission) ;  handleClickOpen()  } }
+                        >
+                            {t("text.RateTheVisitor")}
+                        </RateButton>
                         <Dialog open={open} onClose={handleClose}>
                             <DialogTitle style = {{ textAlign : "center" , fontWeight : "bold" , color : Colors.main}}>Rate</DialogTitle>
-                            <DialogContent>
-                                <Rating 
-                                    style = {{fontSize : "50px"}}
+                            <DialogContent >
+                                <VisitorRating 
                                     name="half-rating" 
                                     defaultValue={rateEmployee} 
                                     precision={0.5}
@@ -531,8 +544,8 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
                                 />
                             </DialogContent>
                             <DialogActions>
-                                <Button onClick={handleClose} style = {{color : Colors.main}}>Cancel</Button>
-                                <Button onClick={()=>{ confirmRate() ;  handleClose()  }} style = {{color : Colors.main}}>confirm</Button>
+                                <RateButton onClick={handleClose} style = {{color : Colors.main}}>{t("text.Cancel")}</RateButton>
+                                <RateButton onClick={()=>{ confirmRate() ;  handleClose()  }} style = {{color : Colors.main}}>{t("text.Confirm")}</RateButton>
                             </DialogActions>
                         </Dialog>
                     </React.Fragment>

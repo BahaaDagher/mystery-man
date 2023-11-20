@@ -25,7 +25,7 @@ const ListContainer = styled("div")(({ theme }) => ({
 
 
 const Img = styled("img")(({ theme }) => ({
-    marginRight: "10px"  , 
+    margin: theme.direction === "ltr" ? "0 8px 0 0" : "0 0 0 8px"  , 
 }));
 const UL = styled("ul")(({ theme }) => ({
     margin: 0,
@@ -43,6 +43,7 @@ const Li = styled("li")(({ theme }) => ({
     "&:hover": {
     backgroundColor: Colors.bg,
     },
+    direction: theme.direction,
 }));
 const Span = styled("span")(({ theme }) => ({
   fontWeight: "normal",

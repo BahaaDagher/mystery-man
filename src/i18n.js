@@ -103,6 +103,12 @@ const resources = {
         MissionDetails : "Mission Details" ,
         Cancel : "Cancel" ,
         Delete : "Delete" ,
+        Focus : "Focus" ,
+        locationAndTime : "location And Time" ,
+        ReviewRequests : "Review Requests" ,
+        RateTheVisitor  : "Rate The Visitor" ,
+        Confirm : "Confirm" ,
+        VisitorName : "Visitor Name" ,
       },
       content: {}
     }
@@ -206,6 +212,12 @@ const resources = {
         MissionDetails : "تفاصيل المهمة" ,
         Cancel : "إلغاء" ,
         Delete : "حذف" ,
+        Focus : "التركيز" ,
+        locationAndTime : "الموقع والوقت" ,
+        ReviewRequests : "مراجعة الطلبات" ,
+        RateTheVisitor  : "قيم الزائر" ,
+        Confirm : "تأكيد" ,
+        VisitorName : "اسم الزائر" ,
 
 
       },

@@ -7,7 +7,7 @@ import logo from "../../../assets/images/logo.svg"
 import logoPic from "../../../assets/icons/logoPic.svg"
 import { Flex } from '../../../components/Flex';
 import test from "../../../assets/images/test.png"
-import { Box, Rating } from '@mui/material';
+import { Box, Rating, hexToRgb } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import badScale from "../../../assets/images/badScale.svg"
 import goodScale from "../../../assets/images/goodScale.svg"
@@ -55,7 +55,7 @@ const TabTitle = styled("div")(({ theme }) => ({
     fontWeight : "bold" ,
 }));
 const TabAnswer = styled("div")(({ theme }) => ({
-    marginLeft : "10px" ,
+    margin : theme.direction === "rtl" ? "0 10px 0 0" : "0 0 0 10px" ,
 }));
 
 const Section = styled("div")(({ theme }) => ({
@@ -305,8 +305,8 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                 </CompanyInfo>
                 <VisitorInfo>
                     <Tab>
-                        <TabTitle>Visitor Name:</TabTitle>
-                        <TabAnswer>{employee.name}</TabAnswer>
+                        <TabTitle>{t("text.VisitorName")}:</TabTitle>
+                        <TabAnswer>{employee.name} </TabAnswer>
                     </Tab>
                     <Tab>
                         <TabTitle>Visitor Gender:</TabTitle>
