@@ -71,8 +71,8 @@ const MissionSettings = ({anchorEl , setAnchorEl , setChosenSetting , selectMiss
         icon : MissionDetails
     },
     {
-      name : "Delete" ,
-      name2 : t("text.Delete")  , 
+      name : "Cancel" ,
+      name2 : t("text.Cancel")  , 
       icon : Cancel , 
     },
    
@@ -125,7 +125,7 @@ const MissionSettings = ({anchorEl , setAnchorEl , setChosenSetting , selectMiss
                 }
               }
               else  {
-                if (selectMissions == 0 || selectMissions == 1 ) {
+                if (selectMissions == 0 || selectMissions == 1 || selectMissions == 5 ) {
                   return (
                     <Li  onClick={()=> {handleClose() ; wantedSetting(index) ; }} key = {index}>
                         <Img src = {type.icon} alt />

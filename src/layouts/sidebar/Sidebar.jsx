@@ -58,6 +58,7 @@ const Li = styled("li")(({ theme , isActive}) => ({
   borderColor: isActive ? Colors.main : "transparent", 
   borderWidth: isActive ? theme.direction =="ltr" ?  '0px 0px 0px 3px' : '0px 3px 0px 0px' : '0px',
   borderStyle: 'solid',
+  fontWeight :"600" , 
   "& div": {
     color: isActive ? Colors.main : Colors.gray_input,
   },

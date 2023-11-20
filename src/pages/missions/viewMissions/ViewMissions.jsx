@@ -68,6 +68,9 @@ const MissionTitle = styled("div")(({ theme }) => ({
     color : Colors.second ,
     overflowY : "hidden" , 
     overflowX : "auto" , 
+    "&.cancel" :{
+        textDecoration : "line-through" ,
+    }
 }));
 const Divider = styled("div")(({ theme }) => ({
     width : "97%" ,
@@ -227,9 +230,9 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
             setMysteryProfile(true)
             setShowMissions(false)
         }
-        else if (chosenSetting== "Delete" ) {
+        else if (chosenSetting== "Cancel" ) {
             Swal.fire({
-                title: 'are you sure you want to delete this mission?',
+                title: 'are you sure you want to Cancel this mission?',
                 showDenyButton: true,
                 confirmButtonText: 'Yes',
                 denyButtonText: `No`,
@@ -470,7 +473,7 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
                         <img src= {ThreeDotesMore} alt ="more"/>
                     </IconDiv>
                 </Header>
-                <MissionTitle>
+                <MissionTitle className = {mission.status==6 ? "cancel" : ""}>
                     {mission.name} 
                 </MissionTitle>
                 <Divider/>

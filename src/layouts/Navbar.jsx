@@ -21,6 +21,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import { getProfile } from '../store/slices/profileSlice';
 import NotificationIcon from '../components/NotificationIcon';
+import Loading from '../components/Loading';
 
 const NavbarContainer = styled("div")(({ theme }) => ({
   height: '73px',
@@ -175,6 +176,8 @@ const Navbar = ({phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
   
   const {t } = useTranslation();
   return (
+    <>
+    {getProfileLoading && <Loading/>}
     <NavbarContainer>
       <Slider onClick={()=> { setPhoneOpen(true) ;  } }>
         <FormatListBulletedIcon/>
@@ -212,6 +215,7 @@ const Navbar = ({phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
       
 
     </NavbarContainer>
+    </>
   )
 }
 

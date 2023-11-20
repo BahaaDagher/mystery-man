@@ -235,7 +235,6 @@ const NewMission = () => {
 
   const [date, setDate] = useState('');
   const [time1, setTime1] = useState('');
-  const [time2, setTime2] = useState('');
 
   // voucher 
   const [voucherChecked ,  setVoucherChecked] = useState(false);
@@ -285,7 +284,7 @@ const NewMission = () => {
   const [showQuestionnaire , setShowQuestionnaire] = useState(false)
 
   const handleNext = () => {
-      if (title && focus && selectedBranch && date && time1 && time2 && selectedQuestioniere>-1) {
+      if (title && focus && selectedBranch && date && time1  && selectedQuestioniere>-1) {
         setShowQuestionnaire(true)
       }
       else {
@@ -295,6 +294,9 @@ const NewMission = () => {
         })
     }
   }
+
+  
+
   const {t} = useTranslation() ; 
   return (
     <>
@@ -347,13 +349,13 @@ const NewMission = () => {
             </DateDiv>
             <TimeDiv>
               <FromToTimeDiv>
-              <Title>{t("text.from")}</Title>   
+                <Title>{t("text.from")}</Title>   
                 <TimeInput type="time" value={time1} onChange={(e)=>setTime1(e.target.value)} />
               </FromToTimeDiv>   
-              <FromToTimeDiv>
-              <Title>{t("text.to")}</Title>  
+              {/* <FromToTimeDiv>
+                <Title>{t("text.to")}</Title>  
                 <TimeInput type="time" value={time2} onChange={(e)=>setTime2(e.target.value)} />
-              </FromToTimeDiv>    
+              </FromToTimeDiv>     */}
             </TimeDiv>
           </DateTime>
           <Divider/>
@@ -409,7 +411,6 @@ const NewMission = () => {
           missionSelectedBranch={selectedBranch}
           missionDate={date}
           missionTime1={time1}
-          missionTime2={time2}
           missionVoucherChecked={voucherChecked}
           missionVoucherValue={voucherValue}
           missionNotes={notes}

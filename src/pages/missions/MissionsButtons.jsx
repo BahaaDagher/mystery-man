@@ -73,7 +73,7 @@ const ImgContainer = styled("div")(({ theme }) => ({
     position : "absolute" , 
     bottom : "5px" ,
     left : "15px" ,
-    
+    direction : "ltr" , 
 }));
 
 const Number = styled("div")(({ theme }) => ({
@@ -136,7 +136,14 @@ const MissionsButtons = ({ setShowMissions , setSelectMissions }) => {
         number :  12 , 
         icon1 : CompleteMissions, 
         icon2 : CompleteMissions2
-    } , 
+    } ,
+    {
+        id : 6 , 
+        name : t("text.CanceledMissions") , 
+        number :  12 , 
+        icon1 : CanceledMissions, 
+        icon2 : CanceledMissions2
+    } ,  
 
     ]
     const [activeButton, setActiveButton] = useState(0);
@@ -157,7 +164,7 @@ const MissionsButtons = ({ setShowMissions , setSelectMissions }) => {
                     <ImgContainer>
                         <img 
                             src= {activeButton == button.id ? button.icon2 : button.icon1} 
-                            style = {{width : "50px" , }}
+                            style = {{width : "60%"  }}
                             alt = ""
                         />
                     </ImgContainer>

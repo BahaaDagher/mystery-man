@@ -96,6 +96,7 @@ const resources = {
         Pending_user_Acceptance : "Pending user Acceptance" ,
         Current_Missions : "Current Missions" ,
         Complete_Missions : "Complete Missions" ,
+        CanceledMissions : "Canceled Missions" ,
         update : "Update" ,
         visitor_Rating : "Visitor Rating" ,
         MysteryProfile : "Mystery Profile" ,
@@ -198,12 +199,14 @@ const resources = {
         Pending_user_Acceptance : "انتظار قبول المستخدم" ,
         Current_Missions : "المهمات الحالية" ,
         Complete_Missions : "المهمات المكتملة" ,
+        CanceledMissions : "المهمات الملغية" ,
         update : "تحديث" ,
         visitor_Rating : "تقييم الزائر" ,
         MysteryProfile : "ملف الزائر" ,
         MissionDetails : "تفاصيل المهمة" ,
         Cancel : "إلغاء" ,
         Delete : "حذف" ,
+
 
       },
       content: {}

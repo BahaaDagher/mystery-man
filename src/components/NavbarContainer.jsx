@@ -12,6 +12,7 @@ import profileLogo from "../assets/images/profileLogo.svg"
 import notificationImage from "../assets/images/notification.svg"
 import chatImage from "../assets/images/chat.svg"
 import NotificationIcon from './NotificationIcon';
+import Loading from './Loading';
 
 const Parent = styled("div")(({ theme }) => ({
     height: '73px',
@@ -135,6 +136,8 @@ const NavbarContainer = () => {
         navigate("/chat")
     }
   return (
+    <>
+    {getProfileLoading && <Loading/>}
     <Parent>
         <Logo to = "/dashboard/home">
             <Img src = {profileLogo} />
@@ -158,7 +161,8 @@ const NavbarContainer = () => {
             </Section>
             <Logout onClick={logout}/>
         </InformationDiv>
-        </Parent>
+    </Parent>
+    </>
   )
 }
 

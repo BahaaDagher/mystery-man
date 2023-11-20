@@ -8,6 +8,8 @@ import { Colors } from '../../Theme';
 import { Box } from '@mui/material';
 import ViewMissions from './viewMissions/ViewMissions';
 import { useTranslation } from 'react-i18next';
+import { use } from 'i18next';
+import { useNavigate } from 'react-router-dom';
 
 const MainContent = styled(FlexSpaceBetween)(({ theme }) => ({
   [theme.breakpoints.down('800')]: {
@@ -48,9 +50,9 @@ const Missions = () => {
   useEffect(() => {
     console.log(selectMissions)
   }, [selectMissions])
-
+  const navigate = useNavigate() ; 
   const newMissionPage = () => {
-      window.location.href = "/dashboard/missions/newMission"
+      navigate ("/dashboard/missions/newMission")
   }
 
   

@@ -95,7 +95,7 @@ const FinishedData = (
     missionSelectedBranch ,
     missionDate ,
     missionTime1 , 
-    missionTime2 ,
+    
     missionVoucherChecked ,
     missionVoucherValue ,
     missionSelectedQuestioniere,
@@ -103,13 +103,13 @@ const FinishedData = (
   } ) => {
     const [activePost , setActivePost] = useState(false)
     useEffect(() => {
-      if(missionTitle && missionFocus && missionSelectedBranch && missionDate && missionTime1 && missionTime2  && missionSelectedQuestioniere>-1){
+      if(missionTitle && missionFocus && missionSelectedBranch && missionDate && missionTime1  && missionSelectedQuestioniere>-1){
         setActivePost(true)
       }
       else {
         setActivePost(false)
       }
-    },[ missionTitle , missionFocus , missionSelectedBranch , missionDate , missionTime1 , missionTime2 , missionVoucherChecked , missionVoucherValue , missionSelectedQuestioniere])
+    },[ missionTitle , missionFocus , missionSelectedBranch , missionDate , missionTime1  , missionVoucherChecked , missionVoucherValue , missionSelectedQuestioniere])
   
     const questionieresData = useSelector((state) => state.questioneirData.questionieres);
     const currentQuestioneir = useSelector((state) => state.questioneirData.currentQuestioneir);
@@ -119,7 +119,6 @@ const FinishedData = (
       branch_id : missionSelectedBranch , 
       date : missionDate , 
       from : missionTime1 , 
-      to : missionTime2 , 
       price : missionVoucherValue , 
       notes : missionNotes  ,
       questions: [questionieresData[currentQuestioneir]] , 
@@ -153,6 +152,19 @@ const FinishedData = (
       })
       
     }
+
+
+    // profile Data 
+    const getProfileData = useSelector(state => state.profileData.getProfileData) ;
+    const [wallet , setWallet] = useState(0)
+
+    useEffect(()=>{
+      if (getProfileData.status) {
+        setWallet(getProfileData.data.user.wallet)
+      }
+    },[getProfileData])
+
+
     const {t} = useTranslation();
     return (
     <>
@@ -199,7 +211,7 @@ const FinishedData = (
                 <Title>{t("text.Time")}</Title>
               </FocusChangeTitle>
               <FocusChangeImg>
-                <img src = {missionTime1 && missionTime2 ? checked :unchecked}/>
+                <img src = {missionTime1  ? checked :unchecked}/>
               </FocusChangeImg>
             </FocusChangeLine>
 
@@ -225,7 +237,7 @@ const FinishedData = (
 
         </FocusChange>
         <TotalBalance>
-          <Price>155.24 {t("text.SAR")}</Price>
+          <Price>{wallet} {t("text.SAR")}</Price>
           <p style = {{textAlign : "center" , fontSize : "12px", color: Colors.second}}>{t("text.total_balance")}</p>
         </TotalBalance>
         
