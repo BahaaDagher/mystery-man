@@ -258,7 +258,7 @@ const QuestionnaireData = ({setShowQuestionnaire}) => {
   const [pressSave , setPressSave] = useState(false) ;
   useEffect(() => {
     if (questionierDataSent&& pressSave){
-      Swal.fire('branch deleted successfully', '', 'success')
+      Swal.fire(t("text.branch_deleted_successfully"), '', 'success')
     }
   },[questionierDataSent])
 
@@ -266,15 +266,15 @@ const QuestionnaireData = ({setShowQuestionnaire}) => {
     
     setPressSave(true)
     Swal.fire({
-      title: 'are you sure you want to delete this branch?',
+      title:t("text.are_you_sure_you_want_to_delete_this_branch") ,
       showDenyButton: true,
-      confirmButtonText: 'Yes',
-      denyButtonText: `No`,
+      confirmButtonText: t("text.Yes"),
+      denyButtonText: t("text.No"),
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(sendQuestioneir([questionieres[currentQuestioneir]]))
       } else if (result.isDenied) {
-        Swal.fire('Changes are not saved', '', 'info')
+        Swal.fire(t("text.Changes_are_not_saved"), '', 'info')
       }
     })
   };

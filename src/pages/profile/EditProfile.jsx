@@ -133,7 +133,7 @@ const EditProfile = () => {
         console.log("success")
         Swal.fire({
           icon: 'success',
-          text : "edited successfully", 
+          text : t("text.edited_successfully"), 
           showConfirmButton: false,
           timer: 3000
         })

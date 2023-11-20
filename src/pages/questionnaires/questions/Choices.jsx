@@ -7,6 +7,7 @@ import grayDelete from '../../../assets/icons/grayDelete.svg'
 import DeleteIcon from './DeleteIcon';
 import { useDispatch, useSelector } from 'react-redux';
 import { handleDeleteQuestion, setQuestionDetails } from '../../../store/slices/questionierSlice';
+import { useTranslation } from 'react-i18next';
 
 
 const Parent = styled("div")(({ theme }) => ({
@@ -48,7 +49,7 @@ const AddButton = styled("div")(({ theme }) => ({
     backgroundColor : Colors.hoverMain ,
   },
   textAlign : "center" ,
-  width : "50px" , 
+  // width : "50px" , 
 }));
 const AnswerContainer = styled("div")(({ theme }) => ({
   display : "flex" ,
@@ -120,7 +121,7 @@ const Choices = ({questionData,index}) => {
     updatedAnswers.splice(index, 1);
     setAnswers(updatedAnswers);
   };
-
+  const {t} = useTranslation();
   return (
     <>
       <Parent>
@@ -137,16 +138,16 @@ const Choices = ({questionData,index}) => {
               </div>
             ))}
             <AddAnswerDiv>
-              <AddButton onClick={handleAddAnswer}>Add </AddButton>
+              <AddButton onClick={handleAddAnswer}>{t("text.Add")} </AddButton>
               <AnswerInput
                 type="text"
-                placeholder="Enter a new answer"
+                placeholder={t("text.EnterAnewAnswer")}
                 value={newAnswer.title}
                 onChange={(e) => setNewAnswer({title:e.target.value ,rate:newAnswer.rate})}
               />
               <AnswerInput
                 type="number"
-                placeholder=" rating of  answer between 0-100"
+                placeholder={t("text.RatingOfAnswerBetween0100")}
                 value={newAnswer.rate}
                 onChange={(e) => setNewAnswer({title:newAnswer.title, rate:e.target.value })
                 } 

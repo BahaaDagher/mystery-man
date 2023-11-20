@@ -11,6 +11,7 @@ import open from  '../../assets/icons/open.svg'
 import headLine from  '../../assets/icons/headLine.svg'
 import { useDispatch } from 'react-redux';
 import { setQuestionsInStep } from '../../store/slices/questionierSlice';
+import { useTranslation } from 'react-i18next';
 
 
 
@@ -20,11 +21,13 @@ const ListContainer = styled("div")(({ theme }) => ({
 }));
 
 const Title = styled("div")(({ theme }) => ({
-    fontSize: "18px",
+    fontSize: "20px",
     lineHeight: '21px',
     padding: "5px 10px 15px 10px",
+    direction : theme.direction ,
 }));
 const Img = styled("img")(({ theme }) => ({
+    width : "20px" ,
     marginRight: theme.direction == "ltr" ? "10px" : "0",
     marginLeft: theme.direction == "rtl" ? "10px" : "0",
 }));
@@ -43,6 +46,11 @@ const Li = styled("li")(({ theme }) => ({
     "&:hover": {
     backgroundColor: Colors.bg,
     },
+    direction: theme.direction,
+}));
+const Span = styled("span")(({ theme }) => ({
+  fontWeight: "normal",
+  fontSize :"16px" , 
 }));
     
 const QuestionsTypes = ({anchorEl , setAnchorEl , setChosenType }) => {
@@ -55,34 +63,42 @@ const QuestionsTypes = ({anchorEl , setAnchorEl , setChosenType }) => {
     dispatch(setQuestionsInStep(TypesArray[index].name))
  
   };
+  const {t} = useTranslation() ; 
 
   const TypesArray = [
     {
         name : "SingleChoice" , 
+        name2 : t("text.SingleChoice") , 
         icon : singleChoice
     },
     {
         name : "multiChoice" , 
+        name2 : t("text.multiChoice") , 
         icon : multiChoice
     },
     {
         name : "yesOrNo" , 
+        name2 : t("text.yesOrNo") , 
         icon : yesOrNo
     },
     {
         name : "rating" , 
+        name2 : t("text.rating") , 
         icon : rating
     },
     {
         name : "open" , 
+        name2 :t("text.open")  , 
         icon : open
     },
     {
         name : "uploadImages" , 
+        name2 : t("text.uploadImages") , 
         icon : uploadImages
     },
     {
         name : "headLine" , 
+        name2 : t("text.headLine") , 
         icon : headLine
     },
   ]
@@ -102,12 +118,12 @@ const QuestionsTypes = ({anchorEl , setAnchorEl , setChosenType }) => {
         }}
     >
       <ListContainer>
-      <Title>choose a question type</Title>
+      <Title>{t("text.chooseAQuestionType")}</Title>
         <UL>
         {TypesArray.map((type   , index) =>    
             <Li  onClick={()=> {handleClose() ; wantedType(index) ; }} key = {index}>
                 <Img src = {type.icon} alt />
-                <ListItemText  primary={type.name} />
+                <Span > {type.name2} </Span>
             </Li>
         )}
         </UL>

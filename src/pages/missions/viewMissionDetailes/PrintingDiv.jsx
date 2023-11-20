@@ -287,19 +287,19 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                 <CompanyInfo>
 
                     <Tab>
-                        <TabTitle>Company Name:</TabTitle>
+                        <TabTitle>{t("text.CompanyName")}:</TabTitle>
                         <TabAnswer>{missionDetails.companyName}</TabAnswer>
                     </Tab>
                     <Tab>
-                        <TabTitle>Mission Date:</TabTitle>
+                        <TabTitle>{t("text.MissionDate")}:</TabTitle>
                         <TabAnswer>{missionDetails.date}</TabAnswer>
                     </Tab>
                     <Tab>
-                        <TabTitle>Mission Time:</TabTitle>
+                        <TabTitle>{t("text.MissionTime")}:</TabTitle>
                         <TabAnswer>  {missionDetails.from} - {missionDetails.to}</TabAnswer>
                     </Tab>
                     <Tab>
-                        <TabTitle>Branch Address:</TabTitle>
+                        <TabTitle>{t("text.BranchAddress")}:</TabTitle>
                         <TabAnswer>{missionDetails.branch}</TabAnswer>
                     </Tab>
                 </CompanyInfo>
@@ -309,15 +309,15 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                         <TabAnswer>{employee.name} </TabAnswer>
                     </Tab>
                     <Tab>
-                        <TabTitle>Visitor Gender:</TabTitle>
+                        <TabTitle>{t("text.VisitorGender")}:</TabTitle>
                         <TabAnswer>{employee.gender}</TabAnswer>
                     </Tab>
                     <Tab>
-                        <TabTitle>Visitor phone:</TabTitle>
+                        <TabTitle>{t("text.VisitorPhone")}:</TabTitle>
                         <TabAnswer>{employee.phone}</TabAnswer>
                     </Tab>
                     <Tab>
-                        <TabTitle>Visitor email:</TabTitle>
+                        <TabTitle>{t("text.VisitorEmail")}:</TabTitle>
                         <TabAnswer>{employee.email}</TabAnswer>
                     </Tab>
                 </VisitorInfo>

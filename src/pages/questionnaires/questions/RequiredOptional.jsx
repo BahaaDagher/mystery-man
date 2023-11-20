@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import React, { useState } from 'react'
 import { Colors } from '../../../Theme';
+import { useTranslation } from 'react-i18next';
 
 const Container = styled("div")(({ theme }) => ({
     display : "flex" ,
@@ -27,6 +28,7 @@ const RequiredOptional = ({radio , setRadio}) => {
         console.log(event.target.value);
         setRadio(event.target.value);
     }
+    const {t} = useTranslation();
 return (
     <>
         <Container>
@@ -37,7 +39,7 @@ return (
                 checked={radio.required === 'required'}
                 onChange={handleOptionChange}
                 />
-                Required
+                {t("text.Required")}
             </RadioLabel>
             <RadioLabel isActive={radio.required === 'optional'}>
                 <RadioInput
@@ -46,7 +48,7 @@ return (
                 checked={radio.required === 'optional'}
                 onChange={handleOptionChange}
                 />
-                Optional
+                {t("text.Optional")}
             </RadioLabel>
         </Container>
     </>

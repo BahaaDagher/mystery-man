@@ -2,6 +2,7 @@ import React from 'react'
 import { Colors } from '../../../Theme';
 import styled from '@emotion/styled';
 import { Box } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 const Input = styled("input")(({ theme }) => ({
     backgroundColor : "transparent" ,
@@ -17,10 +18,11 @@ const Input = styled("input")(({ theme }) => ({
   }));
 
 const QuestionInput = ({question ,setQuestion }) => {
+  const {t } = useTranslation();
   return (
     <Box margin = "20px 0">
         <Input
-          placeholder='Enter your question'
+          placeholder= {t("text.EnterYourQuestion")}
           type="text"
           value={question.title}
           onChange={(e) => setQuestion(e.target.value)}

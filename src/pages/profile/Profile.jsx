@@ -121,11 +121,15 @@ const LocationDiv = styled("div")(({ theme }) => ({
   borderRadius: '10px',
   marginTop :"20px" , 
 }));
+const BranchRating = styled(Rating)(({ theme }) => ({
+  direction : "ltr"
+}));
 
 
 
 const Profile = () => {
-  const {t } = useTranslation();
+  
+  const {t} = useTranslation();
   const theme = useTheme() ; 
 
   const getBranchesData = useSelector(state => state.branchData.getBranchesData) ;
@@ -167,16 +171,16 @@ const Profile = () => {
   useEffect(()=>{
     if (deleteBranchData.status) {
       Swal.fire({
-        title: 'are you sure you want to delete this branch?',
+        title: t("text.are_you_sure_you_want_to_delete_this_branch"),
         showDenyButton: true,
-        confirmButtonText: 'Yes',
-        denyButtonText: `No`,
+        confirmButtonText: t("text.Yes"),
+        denyButtonText: t("text.No"),
       }).then((result) => {
         if (result.isConfirmed) {
-          Swal.fire('branch deleted successfully', '', 'success')
+          Swal.fire(t("text.branch_deleted_successfully"), '', 'success')
           dispatch(getBranches())
         } else if (result.isDenied) {
-          Swal.fire('Changes are not saved', '', 'info')
+          Swal.fire(t("text.Changes_are_not_saved"), '', 'info')
         }
       })
     }
@@ -209,7 +213,7 @@ const Profile = () => {
 
             {/* second div branches part  */}
             <BranchesDiv>
-              <NewBranchButton onClick= {()=>{window.location.href = '/newBranch'}}>New Branch</NewBranchButton>
+              <NewBranchButton onClick= {()=>{window.location.href = '/newBranch'}}>{t("text.NewBranch")}</NewBranchButton>
               {getBranchesDataLoading ? <CircularProgress style = {{margin :"30px" , color : Colors.main}}/> : 
                 <BranchesContainer>
                   {currentBranches.map((branch , index) => {
@@ -218,7 +222,7 @@ const Profile = () => {
                         <FlexSpaceBetween>
                           <Box>
                             <p style = {{color : Colors.second , fontSize : "18px"}}>{branch.name}</p>
-                            <Rating name="half-rating" defaultValue={Percent(branch.generalRate)} precision={0.5} readOnly style = {{direction : "ltr"}}/>
+                            <BranchRating name="half-rating" defaultValue={Percent(branch.generalRate)} precision={0.5} readOnly />
                           </Box>
                           <Flex>
                             <IconDiv>

@@ -6,6 +6,7 @@ import Commercial_Registration from "../../assets/images/Commercial Registration
 import adminImage from "../../assets/images/admin.png"
 import editProfile from "../../assets/icons/editProfile.svg"
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 const DataDivContainer = styled("div")(({ theme }) => ({
   position : "relative" , 
     width: '364px',
@@ -38,6 +39,7 @@ const DataDivContainer = styled("div")(({ theme }) => ({
   const Part = styled("div")(({ theme }) => ({
     flexDirection : "row" ,
     justifyContent : "flex-start" ,
+    marginBottom : "10px" ,
     [theme.breakpoints.down('800')]: {
       textAlign : "center" ,
     },
@@ -117,6 +119,7 @@ const DataDivContainer = styled("div")(({ theme }) => ({
     const handleEditProfile = () => {
       window.location.href = "dashboard/editProfile" 
     }
+    const {t} = useTranslation() ;
   return (
     <>
       <DataDivContainer>
@@ -135,11 +138,11 @@ const DataDivContainer = styled("div")(({ theme }) => ({
         <Division/>
         <Part>
           <P1 >{profileData.url}</P1>
-          <P2 > Company Website </P2>
+          <P2 > {t("text.CompanyWebsite")} </P2>
         </Part>
         <Part>
           <P1>{profileData.CommercialRegistrationNo}</P1>
-          <P2> Commercial Registration No </P2>
+          <P2> {t("text.CommercialRegistrationNo")} </P2>
         </Part>
         <CommercialRegistrationImgDiv>
           <img 
@@ -150,11 +153,11 @@ const DataDivContainer = styled("div")(({ theme }) => ({
         </CommercialRegistrationImgDiv>
         <AvailableMission>
             <div style = {{padding : "0 20px" , fontSize : "32px" ,fontWeight : "bold" }}>{profileData.newMission}</div>
-            <div style = {{fontSize : "18px" , color : Colors.gray}}>Available Missions</div>
+            <div style = {{fontSize : "18px" , color : Colors.gray}}>{t("text.AvailableMissions")}</div>
         </AvailableMission>
         <TotalBalance>
-          <Price>{profileData.wallet} SAR</Price>
-          <p style = {{textAlign : "center" , fontSize : "12px", color: Colors.second}}>total balance</p>
+          <Price>{profileData.wallet} {t("text.SAR")}</Price>
+          <p style = {{textAlign : "center" , fontSize : "12px", color: Colors.second}}>{t("text.totalBalance")}</p>
         </TotalBalance>
       </DataDivContainer>
     </>

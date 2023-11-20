@@ -70,7 +70,7 @@ const Part = styled(FlexCenter)(({ theme }) => ({
 
 
 const Name = styled("div")(({ theme }) => ({
-  margin : theme.direction == "ltr" ? "0 0 0 10px" : "0 10px 0 0" ,
+  marginLeft : "10px" ,
 }));
 const BackArrow = styled(EastOutlinedIcon)(({ theme }) => ({
   cursor : "pointer" ,

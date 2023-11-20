@@ -115,15 +115,15 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
   const handleAccept = (CurrentMissionEmployee)=>{
     console.log(CurrentMissionEmployee.id);
     Swal.fire({
-      title: 'are you sure you want to accept this visitor ?',
+      title: t("text.are_you_sure_you_want_to_accept_this_visitor"),
       showDenyButton: true,
-      confirmButtonText: 'Yes',
-      denyButtonText: `No`,
+      confirmButtonText: t("text.Yes"),
+      denyButtonText: t("text.No"),
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(accepetRequest({order_id:CurrentMissionEmployee.id , mission_id:missionId}))
       } else if (result.isDenied) {
-        Swal.fire('Changes are not saved', '', 'info')
+        Swal.fire(t("text.Changes_are_not_saved"), '', 'info')
       }
     })
 

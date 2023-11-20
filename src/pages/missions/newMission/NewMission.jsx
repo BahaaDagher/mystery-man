@@ -256,7 +256,7 @@ const NewMission = () => {
   // notes 
   const [notes ,  setNotes] = useState('');
 
-
+  const {t} = useTranslation() ; 
 
   
   
@@ -290,14 +290,14 @@ const NewMission = () => {
       else {
         Swal.fire({
           icon: 'error',
-          text: 'please fill all the fields',
+          text: t("text.please_fill_all_the_fields"),
         })
     }
   }
 
   
 
-  const {t} = useTranslation() ; 
+  
   return (
     <>
     <SmallContainer>
@@ -311,7 +311,7 @@ const NewMission = () => {
           <TitleDiv>
               <Title>{t("text.Title")}</Title>
               <Input 
-                placeholder='here'
+                placeholder={t("text.type_here")} 
                 value={title}
                 onChange={handleTitle}
               />
@@ -320,7 +320,7 @@ const NewMission = () => {
           <TitleDiv>
               <Title>{t("text.type_what_you_want_him_her_to_focus_on")}</Title>
               <Input 
-                placeholder='here' 
+                placeholder={t("text.type_here")} 
                 className='small'
                 value={focus}
                 onChange={handleFocus}
@@ -383,7 +383,7 @@ const NewMission = () => {
           <TitleDiv>
               <Title>{t("text.Notes")}</Title>
               <NotesText 
-                placeholder='here'
+                placeholder={t("text.type_here")} 
                 value={notes}
                 onChange={(e)=>setNotes(e.target.value)}
               />

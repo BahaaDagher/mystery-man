@@ -132,22 +132,22 @@ const FinishedData = (
 
     useEffect(() => {
       if (addMissionsData.status) {
-        Swal.fire('mission added successfully', '', 'success')
+        Swal.fire(t("text.mission_added_successfully"), '', 'success')
         window.location.href ="/dashboard/missions"
       }
     }, [addMissionsData])
 
     const handlePostMission = () => {
       Swal.fire({
-        title: 'are you sure you want to add this mission?',
+        title: t("text.are_you_sure_you_want_to_add_this_mission"),
         showDenyButton: true,
-        confirmButtonText: 'Yes',
-        denyButtonText: `No`,
+        confirmButtonText: t("text.Yes"),
+        denyButtonText: t("text.No"),
       }).then((result) => {
         if (result.isConfirmed) {
           dispatch(addMissions(missionData))
         } else if (result.isDenied) {
-          Swal.fire('Changes are not saved', '', 'info')
+          Swal.fire(t("text.Changes_are_not_saved"), '', 'info')
         }
       })
       

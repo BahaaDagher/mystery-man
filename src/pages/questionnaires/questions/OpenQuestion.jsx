@@ -7,6 +7,7 @@ import DeleteIcon from './DeleteIcon';
 import { Colors } from '../../../Theme';
 import { useDispatch, useSelector } from 'react-redux';
 import { setQuestionDetails } from '../../../store/slices/questionierSlice';
+import { useTranslation } from 'react-i18next';
 
 
 const Parent = styled("div")(({ theme }) => ({
@@ -54,12 +55,13 @@ const OpenQuestion = ({questionData,index}) => {
     }
     dispatch(setQuestionDetails({index:index ,data:data}))
   },[radio])
+  const {t} = useTranslation() ; 
   return (
     <Parent>
       <DeleteIcon index={index} />
       <RequiredOptional radio={questionData} setRadio= {setRadio} />
       <QuestionInput question= {questionData} setQuestion= {setQuestion}/>
-        <HintContainer value = "hint"/>
+        <HintContainer value = {t("text.hint")}/>
     </Parent>
   )
 }

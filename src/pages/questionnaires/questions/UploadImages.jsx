@@ -7,6 +7,7 @@ import DeleteIcon from './DeleteIcon';
 import { Colors } from '../../../Theme';
 import { useDispatch, useSelector } from 'react-redux';
 import { setQuestionDetails } from '../../../store/slices/questionierSlice';
+import { useTranslation } from 'react-i18next';
 
 
 const Parent = styled("div")(({ theme }) => ({
@@ -72,7 +73,7 @@ const UploadImages = ({questionData,index}) => {
       setPhoto(file);
     }
   };
-
+  const {t} = useTranslation() ; 
   return (
     <Parent>
       <DeleteIcon />
@@ -85,7 +86,7 @@ const UploadImages = ({questionData,index}) => {
         style={{ display: "none" }}
         onChange={handlePhotoChange}
       />
-      <LabelFile htmlFor="uploadFile">Take photos</LabelFile>
+      <LabelFile htmlFor="uploadFile">{t("text.TakePhotos")}</LabelFile>
     </Parent>
   )
 }

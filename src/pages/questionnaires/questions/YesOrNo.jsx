@@ -9,6 +9,7 @@ import { FlexCenter } from '../../../components/FlexCenter';
 import DeleteIcon from './DeleteIcon';
 import { useDispatch, useSelector } from 'react-redux';
 import { setQuestionDetails } from '../../../store/slices/questionierSlice';
+import { useTranslation } from 'react-i18next';
 
 const Parent = styled("div")(({ theme }) => ({
   backgroundColor : "#fff" ,
@@ -33,6 +34,8 @@ const FlexCenterP = styled(FlexCenter)(({ theme }) => ({
 const P = styled("p")(({ theme }) => ({
   fontSize: '20px',
   color: Colors.gray , 
+  padding : "0" , 
+  margin :"0" , 
 }));
 
 const YesOrNo = ({questionData,index}) => {
@@ -56,6 +59,7 @@ const YesOrNo = ({questionData,index}) => {
     }
     dispatch(setQuestionDetails({index:index ,data:data}))
   },[radio])
+  const {t } = useTranslation();
   return (
     <Parent>
       <DeleteIcon />
@@ -64,11 +68,11 @@ const YesOrNo = ({questionData,index}) => {
       <Flex>
         <FlexCenterP>
           <Circle/>
-          <P for="no">Yes</P>
+          <P for="no">{t("text.Yes")}</P>
         </FlexCenterP>
         <FlexCenterP>
           <Circle/>
-          <P for="no">No</P>
+          <P for="no">{t("text.No")}</P>
         </FlexCenterP>
       </Flex>
     </Parent>

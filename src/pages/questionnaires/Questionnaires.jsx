@@ -12,6 +12,7 @@ import QuestionnaireSettings from './QuestionnaireSettings';
 import { useDispatch, useSelector } from 'react-redux';
 import { getQuestionnaire, setCurrentQuestioneir, setCurrentQuestioneirID, setNewQuestioneir } from '../../store/slices/questionierSlice';
 import { use } from 'i18next';
+import { useTranslation } from 'react-i18next';
 
 const MainContent = styled(FlexSpaceBetween)(({ theme }) => ({
   [theme.breakpoints.down('800')]: {
@@ -129,10 +130,11 @@ const numberOFQuestioners = (item)=>{
 }
 
   const [active , setActive] = useState(0)
+  const {t} = useTranslation() ; 
   return (
     <>
       <SmallContainer>
-        <div style = {{color : Colors.gray_l , marginBottom : "20px"}}>Questionnaires</div>
+        <div style = {{color : Colors.gray_l , marginBottom : "20px"}}>{t("text.questionnaires")} </div>
         <MainContent>
           {pressCreateQuestionnaire == true 
             ? 
@@ -146,12 +148,12 @@ const numberOFQuestioners = (item)=>{
           }
             <PreviousQuestionnaires>
               <CreateQuestionnaire>
-                <Box>
-                  <SubmitButton style = {{padding : "20px", width : "95%" , margin : "10px  auto"}} onClick = {()=>{handleAddNewQuestionnaire()}}>Create_New_Questionnaire</SubmitButton>
+                <Box style = {{width : "100%"}}>
+                  <SubmitButton style = {{padding : "20px", width : "95%" , margin : "10px  auto"}} onClick = {()=>{handleAddNewQuestionnaire()}}>{t("text.Create_New_Questionnaire")} </SubmitButton>
                 </Box>
               </CreateQuestionnaire>
               <Divider/>
-              <FlexCenter style = {{fontSize : "20px"}}>Saved_Questioners</FlexCenter>
+              <FlexCenter style = {{fontSize : "20px"}}>{t("text.Saved_Questioners")}</FlexCenter>
               <Divider/>
               {
                 questionieres.map((item , index)=>{

@@ -12,6 +12,7 @@ import QuestionComponent from './QuestionComponent';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteQuestioneir, editQuestioneir, getQuestionnaire, handleReadyToSend, handleReadyToSend2, sendQuestioneir, setCurrentQuestioneir, setCurrentStep, setNewQuestioneirName, setNewStep } from '../../store/slices/questionierSlice';
 import Swal from 'sweetalert2';
+import { useTranslation } from 'react-i18next';
 
 const Parent = styled(Box)(({ theme }) => ({
   width : "100%" ,
@@ -71,7 +72,7 @@ const ButtonsContainer = styled(Flex)(({ theme }) => ({
   },
 }));
 const AddQuestionContainer = styled("div")(({ theme }) => ({
-  padding : "20px" ,
+  padding : "10px" ,
   borderRadius: '10px',
   display : "flex" , 
   justifyContent : "space-between" ,
@@ -81,6 +82,7 @@ const AddQuestionContainer = styled("div")(({ theme }) => ({
   height : "60px" , 
   cursor : "pointer" ,
   transition : "all 0.3s ease" , 
+  width : "200px" ,
   "&:hover" : {
     backgroundColor : Colors.hoverGray ,
   } , 
@@ -96,9 +98,8 @@ const AddQuestionContainer = styled("div")(({ theme }) => ({
 const AddQuestionButton = styled("div")(({ theme }) => ({
   fontSize: '18px',
   fontWeight: 500,
-  lineHeight: '21px',
-  letterSpacing: '0.02em',
   textAlign: 'center',
+  width : "100%" ,
 }));
 const ActionButton = styled(FlexCenter)(({ theme }) => ({
   width: '76px',
@@ -254,10 +255,10 @@ const QuestionnaireSettings = ({isAddNew}) => {
     console.log(questionieres[currentQuestioneir]);
     setPressSave(true)
     Swal.fire({
-      title: 'are you sure you want to add this Questionnaire?',
+      title: t("text.are_you_sure_you_want_to_save_this_Questionnaire"),
       showDenyButton: true,
-      confirmButtonText: 'Yes',
-      denyButtonText: `No`,
+      confirmButtonText: t("text.Yes"),
+      denyButtonText: t("text.No"),
     }).then((result) => {
       if (result.isConfirmed) {
         if(questionieres[currentQuestioneir].id){
@@ -266,7 +267,7 @@ const QuestionnaireSettings = ({isAddNew}) => {
         }
         else dispatch(sendQuestioneir([questionieres[currentQuestioneir]]))
       } else if (result.isDenied) {
-        Swal.fire('Changes are not saved', '', 'info')
+        Swal.fire(t("text.Changes_are_not_saved"), '', 'info')
       }
     })
   };
@@ -275,20 +276,21 @@ const QuestionnaireSettings = ({isAddNew}) => {
     console.log(questionieres[currentQuestioneir]);
     setPressSave(true)
     Swal.fire({
-      title: 'are you sure you want to delete this Questionnaire?',
+      title: t("text.are_you_sure_you_want_to_delete_this_Questionnaire"),
       showDenyButton: true,
-      confirmButtonText: 'Yes',
-      denyButtonText: `No`,
+      confirmButtonText: t("text.Yes"),
+      denyButtonText: t("text.No"),
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(deleteQuestioneir([questionieres[currentQuestioneir]]))
       } else if (result.isDenied) {
-        Swal.fire('Changes are not saved', '', 'info')
+        Swal.fire(t("text.Changes_are_not_saved"), '', 'info')
       }
     })
 
   };
   const [activeStep, setActiveStep] = useState(0);
+  const {t} = useTranslation() ; 
   return (
     <>
     <QuestionsTypes  setAnchorEl= {setAnchorEl} anchorEl={anchorEl} setChosenType = {setChosenType}/>
@@ -306,10 +308,10 @@ const QuestionnaireSettings = ({isAddNew}) => {
             <ButtonsContainer>
               <AddQuestionContainer onClick = {showTypes}>
                 <img src = {plusSign} style = {{margin : "10px" }} />
-                <AddQuestionButton > Add_Question</AddQuestionButton>
+                <AddQuestionButton > {t("text.Add_Question")}</AddQuestionButton>
               </AddQuestionContainer>
-              <ActionButton onClick={()=>handleSaveQuestioneir()} > Save</ActionButton>
-              <ActionButton onClick={()=>handleDeleteQuestioneir()} className = "cancel">Delete</ActionButton>
+              <ActionButton onClick={()=>handleSaveQuestioneir()} > {t("text.Save")}</ActionButton>
+              <ActionButton onClick={()=>handleDeleteQuestioneir()} className = "cancel">{t("text.Delete")}</ActionButton>
             </ButtonsContainer>
           </InputAndButtons>
           <FlexCenter style={{justifyContent:'start'}}>

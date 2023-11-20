@@ -243,15 +243,15 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
         }
         else if (chosenSetting== "Cancel" ) {
             Swal.fire({
-                title: 'are you sure you want to Cancel this mission?',
+                title: t("text.are_you_sure_you_want_to_cancel_this_mission"),
                 showDenyButton: true,
-                confirmButtonText: 'Yes',
-                denyButtonText: `No`,
+                confirmButtonText: t("text.Yes"),
+                denyButtonText: t("text.No"),
               }).then((result) => {
                 if (result.isConfirmed) {
                   dispatch(deleteMission({mission_id :  missionDetails.id}))
                 } else if (result.isDenied) {
-                  Swal.fire('Changes are not saved', '', 'info')
+                  Swal.fire(t("text.Changes_are_not_saved"), '', 'info')
                 }
               })
         }
