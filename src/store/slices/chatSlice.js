@@ -8,7 +8,7 @@ const currentLanguage = localStorage.getItem("language") || "en";
         const token = localStorage.getItem('token');
         try {
           const response = await axios.get(
-            `https://mystery.cloudy.mohamedmansi.com/api/getMessagesWeb?mission_id=${values.missionId}&limit=10&page=${values.page}`, 
+            `https://secretvisitor.co/dashboard/api/getMessagesWeb?mission_id=${values.missionId}&limit=10&page=${values.page}`, 
             { headers: {
                 "Authorization" : token,
                 "lang" : currentLanguage
@@ -26,7 +26,7 @@ const currentLanguage = localStorage.getItem("language") || "en";
             const token = localStorage.getItem('token');
         try{
             const response = await axios.post(
-              "https://mystery.cloudy.mohamedmansi.com/api/sendMessageWeb" ,
+              "https://secretvisitor.co/dashboard/api/sendMessageWeb" ,
               values
               ,
               { headers: {  "Authorization" : token,
@@ -44,7 +44,7 @@ const currentLanguage = localStorage.getItem("language") || "en";
           const token = localStorage.getItem('token');
           try {
             const response = await axios.get(
-              `https://mystery.cloudy.mohamedmansi.com/api/getChatesWeb`, 
+              `https://secretvisitor.co/dashboard/api/getChatesWeb`, 
               { headers: {
                   "Authorization" : token,
                   "lang" : currentLanguage
@@ -62,7 +62,7 @@ const currentLanguage = localStorage.getItem("language") || "en";
           const token = localStorage.getItem('token');
           try {
             const response = await axios.get(
-              `https://mystery.cloudy.mohamedmansi.com/api/getSupportMessageWeb?limit=10&page=${values.page}`, 
+              `https://secretvisitor.co/dashboard/api/getSupportMessageWeb?limit=10&page=${values.page}`, 
               { headers: {
                   "Authorization" : token,
                   "lang" : currentLanguage
@@ -79,7 +79,7 @@ const currentLanguage = localStorage.getItem("language") || "en";
             const token = localStorage.getItem('token');
         try{
             const response = await axios.post(
-              "https://mystery.cloudy.mohamedmansi.com/api/sendSupportMessageWeb" ,
+              "https://secretvisitor.co/dashboard/api/sendSupportMessageWeb" ,
               values
               ,
               { headers: {  "Authorization" : token,

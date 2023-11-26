@@ -11,6 +11,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { userLogin } from '../../store/slices/authSlice';
 import Swal from 'sweetalert2';
+import Loading from '../../components/Loading';
 
 const UpperTriangle = styled("div")(({ theme }) => ({
     position: "absolute" ,
@@ -139,6 +140,8 @@ const Login = () => {
     const [clickSubmit , setClickSubmit] = useState(false)
 
     const LoginData = useSelector(state => state.authData.LoginData) ;  
+    const LoginDataLoading = useSelector(state => state.authData.LoginDataLoading) ;
+
     const navigate = useNavigate();
     useEffect(() => {
         console.log(LoginData) 
@@ -176,6 +179,7 @@ const Login = () => {
     const {t} =  useTranslation() ; 
   return (
     <>
+    {LoginDataLoading? <Loading/> : null}
     <LanguageIcon />
     <Container>
         <UpperTriangle/>
@@ -189,9 +193,9 @@ const Login = () => {
             </Div>
             <Div>
                 <H3>{t("text.Password")} </H3>
-                <Input type="text" placeholder={t("text.Password")} onChange={(e)=>setPassword(e.target.value)}/>
+                <Input type="password" placeholder={t("text.Password")} onChange={(e)=>setPassword(e.target.value)}/>
             </Div>
-            <LINK>
+            <LINK to = "/register/ForgetPassword">
                 {t("text.Forget_Password")}
             </LINK>
             <SubmitButton onClick={handleLogin}>{t("text.Login")}</SubmitButton>

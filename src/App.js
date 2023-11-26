@@ -8,8 +8,8 @@ import { useEffect } from 'react';
 import { useTheme } from '@emotion/react';
 import EnterData from './Auth/Register/EnterData';
 import Review from './Auth/Register/Review';
-import EnterPhone from './Auth/Register/EnterPhone';
-import VerifyPhone from './Auth/Register/VerifyPhone';
+import EnterPhone from './Auth/Register/ForgetPassword';
+import VerifyPhone from './Auth/Register/VerifyEmail';
 import Home from './pages/home/Home';
 import Profile from "./pages/profile/Profile";
 import Map from './components/Map';
@@ -28,6 +28,8 @@ import { useSelector } from "react-redux";
 import EditProfile from "./pages/profile/EditProfile";
 import MysteryProfile from "./pages/missions/mysteryProfile/MysteryProfile";
 import Subscription from "./pages/subscription/Subscription";
+import ForgetPassword from "./Auth/Register/ForgetPassword";
+import VerifyEmail from "./Auth/Register/VerifyEmail";
 
 function App() {
   const missionDetails = useSelector(state => state.missionData.missionDetails)
@@ -44,19 +46,19 @@ function App() {
   } , [localStorage.getItem("language")])
 
   const navigate = useNavigate() ;
-  useEffect(() => {
-    if (!localStorage.getItem("token")) {
-      navigate("/login")
-    }
-  },[])
+  // useEffect(() => {
+  //   if (!localStorage.getItem("token")) {
+  //     navigate("/login")
+  //   }
+  // },[])
 
   return (
     <>
       <Routes>
         <Route path='/bahaa' element = <Bahaa/>  />
         <Route path='/login' element = {<ProtectAuth> <Login/> </ProtectAuth>}  />
-        <Route path='/register/enter-phone' element = <EnterPhone/>  />
-        <Route path='/register/verify-phone' element = <VerifyPhone/>  />
+        <Route path='/register/ForgetPassword' element = <ForgetPassword/>  />
+        <Route path='/register/VerifyEmail' element = <VerifyEmail/>  />
         <Route path='/register/enter-data' element = <EnterData/>  />
         <Route path='/register/review' element = <Review/>  />
         <Route path='/profile' element = <Profile/> />

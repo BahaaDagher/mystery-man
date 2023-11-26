@@ -40,7 +40,7 @@ const resources = {
         Enter_your_phone_number : "Enter your phone number" , 
         We_need_your_phone_number_to_create_an_account_and_log_in_with_later : "we need your phone number to create an account and log in with later" , 
         confirm :"confirm" , 
-        You_will_receive_a_SMS_with_a_verification_code_on : "You will receive a SMS with a verification code on" , 
+        You_will_receive_an_email_with_a_verification_code_on : "You will receive an email with a verification code on" , 
         Verify : "Verify" , 
         change : "change" , 
         Didnt_receive_anything : "Didn’t receive anything?" , 
@@ -155,6 +155,12 @@ const resources = {
         are_you_sure_you_want_to_cancel_this_mission : "are you sure you want to cancel this mission ?" ,
         type_here : "type here" ,
         Will_Available_Soon : "Will Available Soon" ,
+        Send_again : "Send again" ,
+        Enter_your_email : "Enter your email" ,
+        Please_enter_your_email_address_to_search_for_your_account : "Please enter your email address to search for your account" ,
+        email : "Email" ,
+        Please_enter_your_email : "Please enter your email" ,
+
       },
       content: {}
     }
@@ -194,7 +200,7 @@ const resources = {
         Enter_your_phone_number : "أدخل رقم الهاتف الخاص بك" , 
         We_need_your_phone_number_to_create_an_account_and_log_in_with_later : "نحتاج إلى رقم هاتفك لإنشاء حساب وتسجيل الدخول به لاحقًا" , 
         confirm :"تأكيد" , 
-        You_will_receive_a_SMS_with_a_verification_code_on : "سوف تتلقى رسالة نصية قصيرة تحتوي على رمز التحقق" , 
+        You_will_receive_an_email_with_a_verification_code_on :  "ستتلقى رسالة بريد إلكتروني تحتوي على رمز التحقق على" , 
         Verify : "تأكيد" , 
         change : "تغيير" , 
         Didnt_receive_anything : "لم تتلق أي شيء؟" , 
@@ -310,7 +316,11 @@ const resources = {
         are_you_sure_you_want_to_cancel_this_mission : "هل أنت متأكد أنك تريد إلغاء هذه المهمة؟" ,
         Will_Available_Soon : "سيتوفر قريبا  " ,
         type_here : "اكتب هنا" ,
-
+        Send_again : "إرسال مرة أخرى" ,
+        Enter_your_email : "أدخل بريدك الإلكتروني" ,
+        Please_enter_your_email_address_to_search_for_your_account : "يرجى إدخال عنوان بريدك الإلكتروني للبحث عن حسابك" ,
+        email : "البريد الإلكتروني" ,
+        Please_enter_your_email : "الرجاء إدخال بريدك الإلكتروني" ,
       },
       content: {}
     }

@@ -16,6 +16,7 @@ import  { userRegister } from '../../store/slices/authSlice'
 import Swal from 'sweetalert2'
 import { useTheme } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
+import Loading from '../../components/Loading'
 
 const InsideContainer = styled("div")(({ theme }) => ({
   width : "30%" ,
@@ -74,23 +75,22 @@ const EnterData = () => {
   };
 
   const RegisterData = useSelector((state) => state.authData.RegisterData);
+  const RegisterDataLoading = useSelector(state => state.authData.RegisterDataLoading) ;
   const navigate = useNavigate();
   useEffect(() => {
     if (clickSubmit) {
       console.log ("RegisterData" , RegisterData ) 
-      if ("data" in  RegisterData) {
-        console.log("success")
+      if (RegisterData.status) {
+        sessionStorage.setItem("company_email" , company_email) ;
         Swal.fire({
           icon: 'success',
-          // text: RegisterData.message,
-          text : "تم تسجيل البيانات بنجاح وفي انتظار موافقة الادمن "  , 
+          text: RegisterData.message,
+          // text : "تم تسجيل البيانات بنجاح وفي انتظار موافقة الادمن "  , 
           showConfirmButton: false,
           timer: 3000
         })
         setTimeout(() => {
-          // if (localStorage.getItem("token")) {
-            navigate("/login")
-          // } 
+          navigate("/register/VerifyEmail")
         }
         , 3000)
       }
@@ -133,6 +133,7 @@ const EnterData = () => {
   const {t} = useTranslation()
   return (
     <>
+    {RegisterDataLoading ? <Loading/> : null}
       <LanguageIcon className= "notNavbar"/>
       <Container>
         <InsideContainer>
