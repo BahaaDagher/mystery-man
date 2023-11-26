@@ -8,7 +8,7 @@ export const editQuestioneir = createAsyncThunk(
       const token = localStorage.getItem('token');
       try {
         const response = await axios.post(
-          `https://mystery.cloudy.mohamedmansi.com/api/editQuestion`, 
+          `https://secretvisitor.co/dashboard/api/editQuestion`, 
           {questions:values ,question_id:values[0].id},
           { headers: {"Authorization" : token , "lang" : currentLanguage ,}}
         );
@@ -23,7 +23,7 @@ export const deleteQuestioneir = createAsyncThunk(
       const token = localStorage.getItem('token');
       try {
         const response = await axios.post(
-          `https://mystery.cloudy.mohamedmansi.com/api/deleteQuestion`, 
+          `https://secretvisitor.co/dashboard/api/deleteQuestion`, 
           {question_id:values[0].id},
           { headers: {"Authorization" : token , "lang" : currentLanguage ,}}
         );
@@ -38,7 +38,7 @@ export const sendQuestioneir = createAsyncThunk(
       const token = localStorage.getItem('token');
       try {
         const response = await axios.post(
-          `https://mystery.cloudy.mohamedmansi.com/api/addQuestion`, 
+          `https://secretvisitor.co/dashboard/api/addQuestion`, 
           {questions:values},
           { headers: {"Authorization" : token , "lang" : currentLanguage ,}}
         );
@@ -53,7 +53,7 @@ async (values) => {
   const token = localStorage.getItem('token');
     try {
     const response = await axios.get(
-        `https://mystery.cloudy.mohamedmansi.com/api/getQuestion` ,{
+        `https://secretvisitor.co/dashboard/api/getQuestion` ,{
             headers: {
                 "Authorization" : token , 
                 "lang" : currentLanguage ,

@@ -10,7 +10,7 @@ export const userRegister = createAsyncThunk(
       
       try {
         const response = await axios.post(
-          "https://mystery.cloudy.mohamedmansi.com/api/registerMission" ,
+          "https://secretvisitor.co/dashboard/api/registerMission" ,
             values, 
             {
               headers: {
@@ -30,7 +30,7 @@ export const userRegister = createAsyncThunk(
       
       try {
         const response = await axios.post(
-          "https://mystery.cloudy.mohamedmansi.com/api/loginMission" ,{
+          "https://secretvisitor.co/dashboard/api/loginMission" ,{
               phone:values.phone,
               password:values.password
           } , 
