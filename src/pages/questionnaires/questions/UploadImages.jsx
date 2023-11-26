@@ -25,7 +25,7 @@ const LabelFile = styled("label")(({ theme }) => ({
   color: Colors.main,
   backgroundColor: Colors.lightMain,
   textAlign: "center",
-  padding: "5px 80px 5px 80px",
+  padding: "5px",
   letterSpacing: "1.5px",
   cursor: "pointer",
   borderRadius: "10px",

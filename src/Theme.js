@@ -28,4 +28,5 @@ export const Colors = {
 }
 export const Dimensions = {
     sidebarWidth : "257px" ,
+    navbarHeight : "73px" , 
 }

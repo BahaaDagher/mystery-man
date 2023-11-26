@@ -142,6 +142,9 @@ const AddStepButton = styled(FlexCenter)(({ theme }) => ({
     color:'white' , 
   backgroundColor : Colors.second ,
 } , 
+[theme.breakpoints.down('350')]: {
+  width : "100%" , 
+  },
 }));
 const QuestionView = styled("div")(({ theme }) => ({
   
@@ -162,6 +165,9 @@ const AddButton = styled("div")(({ theme }) => ({
   },
   textAlign : "center" ,
   width : "50px" , 
+}));
+const StepsContainer = styled(FlexCenter)(({ theme }) => ({
+  flexWrap : "wrap" , 
 }));
 
 const AnswerInput = styled("input")(({ theme }) => ({
@@ -314,23 +320,24 @@ const QuestionnaireSettings = ({isAddNew}) => {
               <ActionButton onClick={()=>handleDeleteQuestioneir()} className = "cancel">{t("text.Delete")}</ActionButton>
             </ButtonsContainer>
           </InputAndButtons>
-          <FlexCenter style={{justifyContent:'start'}}>
+          <StepsContainer style={{justifyContent:'start'}}>
 
             {questionieres[currentQuestioneir] ? questionieres[currentQuestioneir].steps.map((answer ,index)=>
-
+              <>
                <AddStepButton 
                   onClick={()=>{handleClickStep(index,answer.questions); setActiveStep(index) ;  }}
                   className= {activeStep==index ? 'active' : ''}
                   >
                   {answer.name}
                </AddStepButton>
+              </>
             ): ''}
          
           <AddStepButton onClick={handleAddStep}>+</AddStepButton>
 
 
 
-          </FlexCenter>
+          </StepsContainer>
           {showNewStep ?  
           
           <FlexCenter style={{justifyContent:'start' ,flexWrap:'wrap'}}>

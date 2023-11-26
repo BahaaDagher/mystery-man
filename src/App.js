@@ -27,6 +27,7 @@ import NavbarContainer from './components/NavbarContainer';
 import { useSelector } from "react-redux";
 import EditProfile from "./pages/profile/EditProfile";
 import MysteryProfile from "./pages/missions/mysteryProfile/MysteryProfile";
+import Subscription from "./pages/subscription/Subscription";
 
 function App() {
   const missionDetails = useSelector(state => state.missionData.missionDetails)
@@ -74,6 +75,7 @@ function App() {
           <Route path='missions/waitRequests/viewMissions' element = <ReviewMissionRequest/> /> 
           <Route path='missions/viewMissions' element = <ReviewMissionRequest/> /> 
           <Route path='missions/viewDetails/:id' element = <ViewDetails missionDetails={missionDetails}/> /> 
+          <Route path='subscription' element = <Subscription/> /> 
 
         </Route>
       </Routes>

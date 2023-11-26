@@ -4,6 +4,7 @@ import redDelete from '../../../assets/icons/redDelete.svg'
 import { useDispatch } from 'react-redux';
 import { handleDeleteQuestion } from '../../../store/slices/questionierSlice';
 const DeleteImg = styled("img")(({ theme }) => ({
+    width : "30px" ,
     cursor : "pointer" ,
     position : "absolute" ,
     top : "10px" ,

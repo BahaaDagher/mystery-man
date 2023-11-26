@@ -91,6 +91,12 @@ const Divider = styled("div")(({ theme }) => ({
   margin : "10px 0"
 }));
 
+const NewQuestionnaire = styled(SubmitButton)(({ theme }) => ({
+  padding : "20px", 
+  margin : "10px  auto" , 
+  textAlign : "center" ,
+  fontSize : "18px" ,
+}));
 
 
 const Questionnaires = () => {
@@ -133,7 +139,7 @@ const numberOFQuestioners = (item)=>{
   const {t} = useTranslation() ; 
   return (
     <>
-      <SmallContainer>
+      <SmallContainer >
         <div style = {{color : Colors.gray_l , marginBottom : "20px"}}>{t("text.questionnaires")} </div>
         <MainContent>
           {pressCreateQuestionnaire == true 
@@ -146,10 +152,10 @@ const numberOFQuestioners = (item)=>{
               
             </QuestionnaireSettings>
           }
-            <PreviousQuestionnaires>
+            <PreviousQuestionnaires style = {{padding : "10px"}}>
               <CreateQuestionnaire>
                 <Box style = {{width : "100%"}}>
-                  <SubmitButton style = {{padding : "20px", width : "95%" , margin : "10px  auto"}} onClick = {()=>{handleAddNewQuestionnaire()}}>{t("text.Create_New_Questionnaire")} </SubmitButton>
+                  <NewQuestionnaire  onClick = {()=>{handleAddNewQuestionnaire()}}>{t("text.Create_New_Questionnaire")} </NewQuestionnaire>
                 </Box>
               </CreateQuestionnaire>
               <Divider/>

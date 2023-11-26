@@ -154,6 +154,7 @@ const resources = {
         are_you_sure_you_want_to_accept_this_visitor : "are you sure you want to accept this visitor ?" ,
         are_you_sure_you_want_to_cancel_this_mission : "are you sure you want to cancel this mission ?" ,
         type_here : "type here" ,
+        Will_Available_Soon : "Will Available Soon" ,
       },
       content: {}
     }
@@ -307,6 +308,7 @@ const resources = {
         branch_deleted_successfully : "تم حذف الفرع بنجاح" ,
         are_you_sure_you_want_to_accept_this_visitor : "هل أنت متأكد أنك تريد قبول هذا الزائر؟" ,
         are_you_sure_you_want_to_cancel_this_mission : "هل أنت متأكد أنك تريد إلغاء هذه المهمة؟" ,
+        Will_Available_Soon : "سيتوفر قريبا  " ,
         type_here : "اكتب هنا" ,
 
       },
