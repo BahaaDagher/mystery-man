@@ -53,30 +53,26 @@ function App() {
       navigate("/login")
     }
   },[])
-  const { pathname } = useLocation()
-
-     if ( pathname == '/') {
-       window.location.href='https://app.baetiy.com/home'
-     }
+ 
   return (
     <>
       <Routes>
-        <Route path='mysteryMan/bahaa' element = <Bahaa/>  />
-        <Route path='mysteryMan/login' element = {<ProtectAuth> <Login/> </ProtectAuth>}  />
-        <Route path='mysteryMan/forgetPassword' element = <ForgetPassword/>  />
-        <Route path='mysteryMan/forgetPassword/OtpPassword' element = <OtpPassword/>  />
-        <Route path='mysteryMan/forgetPassword/changePassword' element = <ChangePassword/>  />
-        <Route path='mysteryMan/register/VerifyEmail' element = <VerifyEmail/>  />
-        <Route path='mysteryMan/register/enter-data' element = <EnterData/>  />
-        <Route path='mysteryMan/register/review' element = <Review/>  />
-        <Route path='mysteryMan/profile' element = <Profile/> />
-        <Route path='mysteryMan/newBranch' element = <NewBranch/> />
-        <Route path='mysteryMan/map' element = <Map/>  />
-        <Route path='mysteryMan/chat' element = <Chat/>  />
-        <Route path="mysteryMan/" element=<Layout /> />
+        <Route path='/bahaa' element = <Bahaa/>  />
+        <Route path='/login' element = {<ProtectAuth> <Login/> </ProtectAuth>}  />
+        <Route path='/forgetPassword' element = <ForgetPassword/>  />
+        <Route path='/forgetPassword/OtpPassword' element = <OtpPassword/>  />
+        <Route path='/forgetPassword/changePassword' element = <ChangePassword/>  />
+        <Route path='/register/VerifyEmail' element = <VerifyEmail/>  />
+        <Route path='/register/enter-data' element = <EnterData/>  />
+        <Route path='/register/review' element = <Review/>  />
+        <Route path='/profile' element = <Profile/> />
+        <Route path='/newBranch' element = <NewBranch/> />
+        <Route path='/map' element = <Map/>  />
+        <Route path='/chat' element = <Chat/>  />
+        <Route path="/" element=<Layout /> />
         
         {/* layout */}
-        <Route path='mysteryMan/dashboard' element = <Layout /> >
+        <Route path='/dashboard' element = <Layout /> >
           <Route path='editProfile' element = <EditProfile/>  />
           <Route path='home' element = <Home/>  />
           <Route path='questionnaires' element = <Questionnaires/>  />
