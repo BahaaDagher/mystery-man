@@ -195,7 +195,7 @@ const Login = () => {
                 <H3>{t("text.Password")} </H3>
                 <Input type="password" placeholder={t("text.Password")} onChange={(e)=>setPassword(e.target.value)}/>
             </Div>
-            <LINK to = "/register/ForgetPassword">
+            <LINK to = "/forgetPassword">
                 {t("text.Forget_Password")}
             </LINK>
             <SubmitButton onClick={handleLogin}>{t("text.Login")}</SubmitButton>

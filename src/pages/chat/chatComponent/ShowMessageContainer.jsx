@@ -91,8 +91,17 @@ const ShowMessageContainer = ({setLastMessage , setShowMessages }) => {
     const [scrollCount, setScrollCount] = useState(0);
     const [singleMessage , setSingleMessage] = useState("");
     const [lastPage, setlastPage] = useState();
+    const [ProfileID , setProfileID] = useState(-1);
     const chatRef = useRef(null);
     const dispatch = useDispatch();
+    const getProfileData = useSelector((state) => state.profileData.getProfileData);
+
+    useEffect(() => {
+        if (getProfileData.status) {
+            setProfileID(getProfileData.data.user.id)
+        }
+    }, [getProfileData])
+
     const currentChat = useSelector((state) => state.chatData.currentChat);
 
     const [currentChatData , setCurrentChatData] = useState({}); 
@@ -142,7 +151,11 @@ const ShowMessageContainer = ({setLastMessage , setShowMessages }) => {
         });
         channel.bind("supportEvent", (data) => {
             console.log(currentChat);
-         if(!currentChat.mission_id) setMessages(current => [...[data.message], ...current])
+            
+         if(!currentChat.mission_id && data.message.user_id==ProfileID){
+            console.log("bahaa data " ,data);
+            setMessages(current => [...[data.message], ...current]) 
+         } 
         });
     }, 1000);
 

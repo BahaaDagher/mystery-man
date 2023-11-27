@@ -103,11 +103,11 @@ export const userRegister = createAsyncThunk(
         }
   });
   export const forgetPassword = createAsyncThunk(
-    "auth/forgetPassword", 
+    "auth/forgetPassword",
     async (values) => {
         try {
           const response = await axios.post(
-            "https://secretvisitor.co/dashboard/api/forgetPassword" ,
+            "https://secretvisitor.co/dashboard/api/forgetPasswordMission" ,
               values, 
               {
                 headers: {
@@ -115,6 +115,7 @@ export const userRegister = createAsyncThunk(
                 },
               }
           );
+          console.log("response bahaa ",response)
           return response.data ;
         } catch (error) {
           console.error(error);
@@ -143,7 +144,7 @@ export const userRegister = createAsyncThunk(
     async (values) => {
         try {
           const response = await axios.post(
-            "https://secretvisitor.co/dashboard/api/changePassword" ,
+            "https://secretvisitor.co/dashboard/api/changePasswordMission" ,
               values, 
               {
                 headers: {

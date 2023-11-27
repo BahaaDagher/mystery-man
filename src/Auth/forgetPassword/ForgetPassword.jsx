@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { forgetPassword } from '../../store/slices/authSlice';
 import Swal from 'sweetalert2';
 import Loading from '../../components/Loading';
+import { useNavigate } from 'react-router-dom';
 const ParentContainer = styled(Container)(({ theme }) => ({
   direction : theme.direction ,
   [theme.breakpoints.down("1000")]: {
@@ -77,6 +78,7 @@ const ForgetPassword = () => {
   const [clicked , setClicked] = useState(false) ;
   const {t} =  useTranslation() ; 
   const dispatch = useDispatch() ;
+
   // start submit
   const handleSubmit = () => {
     if (email) {
@@ -90,18 +92,25 @@ const ForgetPassword = () => {
       })
     }
   }
-  const forgetPasswordData = useSelector((state) => state.authData.forgetPasswordData); 
+  
+  const forgetPasswordData = useSelector(state => state.authData.forgetPasswordData) ; 
   const forgetPasswordDataLoading = useSelector((state) => state.authData.forgetPasswordDataLoading);
-
+  const navigate = useNavigate() ; 
   useEffect(() => {
     console.log ("forgetPasswordData", forgetPasswordData)
-    if (clicked && forgetPasswordData) {
-      const numberOfKeys = Object.keys(forgetPasswordData).length;
-      if (numberOfKeys>1) {
+    if (clicked) {
+      if (forgetPasswordData.status) {
+        sessionStorage.setItem("email" , email)
         Swal.fire({
           icon: 'success',
           text: forgetPasswordData.message,
+          showConfirmButton: false,
+          timer: 3000
         })
+        setTimeout(() => {
+          navigate("/forgetPassword/OtpPassword")
+        }
+        , 3000)
       }
       else {
         Swal.fire({

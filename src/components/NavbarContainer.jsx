@@ -13,6 +13,7 @@ import notificationImage from "../assets/images/notification.svg"
 import chatImage from "../assets/images/chat.svg"
 import NotificationIcon from './NotificationIcon';
 import Loading from './Loading';
+import { useTranslation } from 'react-i18next';
 
 const Parent = styled("div")(({ theme }) => ({
     height: '73px',
@@ -92,7 +93,7 @@ const Parent = styled("div")(({ theme }) => ({
   }));
 
 const NavbarContainer = () => {
-
+    const {t} = useTranslation() ; 
     const getProfileData = useSelector(state => state.profileData.getProfileData) ;
     const getProfileLoading = useSelector(state => state.profileData.getProfileLoading) ;
 
@@ -112,25 +113,26 @@ const NavbarContainer = () => {
     const [profileData, setProfileData] = useState({});
     const navigate = useNavigate()
     const logout = () => {
-        Swal.fire({
-          title: "Are you sure you want to logout?",
-          showCancelButton: true,
-          confirmButtonText: `Yes`,
-        }).then((result) => {
-          if (result.isConfirmed) {
-            // dispatch(userLogout())
-            Swal.fire({
-              icon: 'success',
-              title: 'logout successfully',
-              showConfirmButton: false,
-              timer: 2000
-            })
-            setTimeout(() => {
-              localStorage.removeItem("token")
-              navigate("/login")
-            }, 2000);
-          }
-        })
+      Swal.fire({
+        title:t("text.Are_you_sure_you_want_to_logout") ,
+        showCancelButton: true,
+        confirmButtonText: t("text.Yes"),
+        cancelButtonText: t("text.Cancel")
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // dispatch(userLogout())
+          Swal.fire({
+            icon: 'success',
+            title: t("text.Logout_successfully"),
+            showConfirmButton: false,
+            timer: 2000
+          })
+          setTimeout(() => {
+            localStorage.removeItem("token")
+            navigate("/login")
+          }, 2000);
+        }
+      })
     }
     const chatPage = () => {
         navigate("/chat")

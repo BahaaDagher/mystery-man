@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Loading from '../../components/Loading';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
-import { resendOtp, verifyOtp } from '../../store/slices/authSlice';
+import { forgetPassword, resendOtp, verifyOtp, verifyOtpPassword } from '../../store/slices/authSlice';
 const IMG = styled("img")(({ theme }) => ({
   [theme.breakpoints.down("1000")]: {
     width : "250px" ,
@@ -70,11 +70,11 @@ const Input = styled("input")(({ theme }) => ({
   backgroundColor : "#fff" ,
 }));
 
-const VerifyEmail = () => {
+const OtpPassword = () => {
   const [otp, setOtp] = useState(new Array(4).fill(""));
-  const [seconds, setSeconds] = useState(60);
+  const [seconds, setSeconds] = useState(3);
   const [isRunning, setIsRunning] = useState(true);
-  const [companyEmail , setCompanyEmail] = useState(sessionStorage.getItem("company_email"))
+  const [email , setEmail] = useState(sessionStorage.getItem("email"))
   
   const dispatch  = useDispatch() ;
 
@@ -108,82 +108,88 @@ const VerifyEmail = () => {
   const [clickSend , setClickSend] = useState(false)
   const handleSendAgain = ()=> {
     setClickSend(true)
-    dispatch(resendOtp({email: companyEmail}))
+    dispatch(forgetPassword({email :  email}))
   }
-  const resendOtpData = useSelector((state) => state.authData.resendOtpData);
-  const resendOtpDataLoading = useSelector((state) => state.authData.resendOtpDataLoading);
+  const forgetPasswordData = useSelector(state => state.authData.forgetPasswordData) ; 
+  const forgetPasswordDataLoading = useSelector((state) => state.authData.forgetPasswordDataLoading);
   useEffect(() => {
+    console.log ("forgetPasswordData", forgetPasswordData)
     if (clickSend) {
-      if (resendOtpData.data) {
+      if (forgetPasswordData.status) {
+        setIsRunning(true)
+        setSeconds (60)
+        sessionStorage.setItem("email" , email)
         Swal.fire({
           icon: 'success',
-          text:  resendOtpData.message,
+          text: forgetPasswordData.message,
           showConfirmButton: false,
-          timer: 2000
+          timer: 3000
         })
-        setSeconds(60);
-        setIsRunning(true);
+        setTimeout(() => {
+          navigate("/forgetPassword/OtpPassword")
+        }
+        , 3000)
       }
       else {
         Swal.fire({
           icon: 'error',
-          text:  resendOtpData.message,
-          showConfirmButton: false,
-          timer: 2000
+          text: forgetPasswordData.message,
         })
       }
     }
-  } , [resendOtpData])
+  } , [forgetPasswordData])
+  //////////////////////////////////end send again ///////////////////////////////////////////////////
+
+
+
   //////////////////////////////////start submit ///////////////////////////////////////
   const [clicked , setClicked] = useState(false)
   const handleSubmit = ()=> {
     setClicked(true)
     let theOtp = otp.join("");
     
-    console.log(theOtp)
-    dispatch(verifyOtp({otp :theOtp , email : companyEmail}))
+    dispatch(verifyOtpPassword({otp :theOtp , email : email}))
    
   }
-  const verifyOtpData = useSelector((state) => state.authData.verifyOtpData);
-  const verifyOtpDataLoading = useSelector((state) => state.authData.verifyOtpDataLoading);
+  const verifyOtpPasswordData = useSelector((state) => state.authData.verifyOtpPasswordData);
+  const verifyOtpPasswordDataLoading = useSelector((state) => state.authData.verifyOtpPasswordDataLoading);
   const navigate = useNavigate() ; 
   useEffect(() => {
     if (clicked) {
-      if (verifyOtpData.status) {
-        sessionStorage.removeItem("company_email") ;
+      if (verifyOtpPasswordData.status) {
           Swal.fire({
             icon: 'success',
-            text:  verifyOtpData.message,
+            text:  verifyOtpPasswordData.message,
             showConfirmButton: false,
             timer: 2000
           })
           setTimeout(() => {
-            navigate("/login")
+            navigate("/forgetPassword/changePassword")
           }, 2000);
       }
       else {
         Swal.fire({
           icon: 'error',
-          text:  verifyOtpData.message,
+          text:  verifyOtpPasswordData.message,
           showConfirmButton: false,
           timer: 2000
         })
       }
     }
-  } , [verifyOtpData])
+  } , [verifyOtpPasswordData])
   //////////////////////////////////end submit ///////////////////////////////////////
 
 const {t} = useTranslation () ; 
   return (
     <>  
-    {(verifyOtpDataLoading || resendOtpDataLoading ) ? <Loading/> : null}
+    {(verifyOtpPasswordDataLoading || forgetPasswordDataLoading ) ? <Loading/> : null}
       <LanguageIcon className= "notNavbar"/>
       <Container>
         <IMG src= {verification} alt="email" />
         <VerificationDiv>
             <Title></Title>
             <Paragraph> {t("text.You_will_receive_an_email_with_a_verification_code_on")}
-              <span style = {{ color : Colors.second , padding : "10px"}}>{companyEmail}</span>
+              <span style = {{ color : Colors.second , padding : "10px"}}>{email}</span>
               {/* <LINK style = {{ color : Colors.main}} to= "/enter-phone">{t("text.change")}</LINK> */}
             </Paragraph>
               <Box sx = {{display : "flex" , justifyContent : "space-between" , margin : "50px 0 " , direction : "ltr"}}>
@@ -221,4 +227,4 @@ const {t} = useTranslation () ;
   )
 }
 
-export default VerifyEmail
+export default OtpPassword

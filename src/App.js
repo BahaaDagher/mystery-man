@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 import { useTheme } from '@emotion/react';
 import EnterData from './Auth/Register/EnterData';
 import Review from './Auth/Register/Review';
-import EnterPhone from './Auth/Register/ForgetPassword';
+import EnterPhone from './Auth/forgetPassword/ForgetPassword';
 import VerifyPhone from './Auth/Register/VerifyEmail';
 import Home from './pages/home/Home';
 import Profile from "./pages/profile/Profile";
@@ -28,8 +28,10 @@ import { useSelector } from "react-redux";
 import EditProfile from "./pages/profile/EditProfile";
 import MysteryProfile from "./pages/missions/mysteryProfile/MysteryProfile";
 import Subscription from "./pages/subscription/Subscription";
-import ForgetPassword from "./Auth/Register/ForgetPassword";
+import ForgetPassword from "./Auth/forgetPassword/ForgetPassword";
 import VerifyEmail from "./Auth/Register/VerifyEmail";
+import OtpPassword from "./Auth/forgetPassword/OtpPassword";
+import ChangePassword from "./Auth/forgetPassword/ChangePassword";
 
 function App() {
   const missionDetails = useSelector(state => state.missionData.missionDetails)
@@ -46,18 +48,20 @@ function App() {
   } , [localStorage.getItem("language")])
 
   const navigate = useNavigate() ;
-  // useEffect(() => {
-  //   if (!localStorage.getItem("token")) {
-  //     navigate("/login")
-  //   }
-  // },[])
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      navigate("/login")
+    }
+  },[])
 
   return (
     <>
       <Routes>
         <Route path='/bahaa' element = <Bahaa/>  />
         <Route path='/login' element = {<ProtectAuth> <Login/> </ProtectAuth>}  />
-        <Route path='/register/ForgetPassword' element = <ForgetPassword/>  />
+        <Route path='/forgetPassword' element = <ForgetPassword/>  />
+        <Route path='/forgetPassword/OtpPassword' element = <OtpPassword/>  />
+        <Route path='/forgetPassword/changePassword' element = <ChangePassword/>  />
         <Route path='/register/VerifyEmail' element = <VerifyEmail/>  />
         <Route path='/register/enter-data' element = <EnterData/>  />
         <Route path='/register/review' element = <Review/>  />

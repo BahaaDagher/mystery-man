@@ -160,6 +160,14 @@ const resources = {
         Please_enter_your_email_address_to_search_for_your_account : "Please enter your email address to search for your account" ,
         email : "Email" ,
         Please_enter_your_email : "Please enter your email" ,
+        change_password : "Change Password" ,
+        Please_enter_your_new_password_and_confirm_it_to_change_it : "Please enter your new password and confirm it to change it" ,
+        password : "Password" ,
+        confirm_password : "Confirm Password" ,
+        please_fill_all_fields : "please fill all fields" ,
+        password_and_confirmation_are_not_identical : "password and confirmation are not identical" ,
+        Are_you_sure_you_want_to_logout : "Are you sure you want to logout ?" ,
+        Logout_successfully : "Logout successfully" ,
 
       },
       content: {}
@@ -321,6 +329,15 @@ const resources = {
         Please_enter_your_email_address_to_search_for_your_account : "يرجى إدخال عنوان بريدك الإلكتروني للبحث عن حسابك" ,
         email : "البريد الإلكتروني" ,
         Please_enter_your_email : "الرجاء إدخال بريدك الإلكتروني" ,
+        change_password : "تغيير كلمة المرور" ,
+        Please_enter_your_new_password_and_confirm_it_to_change_it : "الرجاء إدخال كلمة المرور الجديدة وتأكيدها لتغييرها" ,
+        password : "كلمة المرور" ,
+        confirm_password : "تأكيد كلمة المرور" ,
+        please_fill_all_fields : "يرجى ملء جميع الحقول" ,
+        password_and_confirmation_are_not_identical : "كلمة المرور والتأكيد غير متطابقين" ,
+        Are_you_sure_you_want_to_logout : "هل أنت متأكد أنك تريد تسجيل الخروج؟" ,
+        Logout_successfully : "تم تسجيل الخروج بنجاح" ,
+
       },
       content: {}
     }

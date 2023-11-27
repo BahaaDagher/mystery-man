@@ -127,22 +127,23 @@ const Logout = styled(LogoutOutlinedIcon)(({ theme }) => ({
 
 const Navbar = ({phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
 
-  
+  const {t } = useTranslation();
   
   const dispatch = useDispatch();
   const navigate = useNavigate() ; 
 
   const logout = () => {
     Swal.fire({
-      title: "Are you sure you want to logout?",
+      title:t("text.Are_you_sure_you_want_to_logout") ,
       showCancelButton: true,
-      confirmButtonText: `Yes`,
+      confirmButtonText: t("text.Yes"),
+      cancelButtonText: t("text.Cancel")
     }).then((result) => {
       if (result.isConfirmed) {
         // dispatch(userLogout())
         Swal.fire({
           icon: 'success',
-          title: 'logout successfully',
+          title: t("text.Logout_successfully"),
           showConfirmButton: false,
           timer: 2000
         })
@@ -153,6 +154,7 @@ const Navbar = ({phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
       }
     })
   }
+  
   useEffect(()=> {
     dispatch(getProfile())
   },[])
@@ -174,9 +176,10 @@ const Navbar = ({phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
     navigate("/chat")
   }
   
-  const {t } = useTranslation();
+  
   return (
     <>
+    
     {getProfileLoading && <Loading/>}
     <NavbarContainer>
       <Slider onClick={()=> { setPhoneOpen(true) ;  } }>

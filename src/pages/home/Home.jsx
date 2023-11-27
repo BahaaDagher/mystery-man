@@ -9,6 +9,7 @@ import low_rate from "../../assets/icons/low-rate.svg"
 import location from "../../assets/icons/location.svg" 
 import { useDispatch, useSelector } from 'react-redux';
 import { getBranches } from '../../store/slices/branchSlice';
+import Report from './Report';
 
 const Section1 = styled("div")(({ theme }) => ({
     display :"flex" , 
@@ -56,9 +57,7 @@ const CircleDiv = styled("div")(({ theme }) => ({
     }
 }));
 
-const Report = styled("div")(({ theme }) => ({
-    
-}));
+
 
 const Home = () => {
     const {t} = useTranslation() ; 
@@ -169,11 +168,8 @@ const Home = () => {
                     />
                     <CircleDiv className = "second" style = {{backgroundColor : "#D6DBF266"}}> </CircleDiv>
                 </Div>
-
             </Section1>
-            <Report>
-
-            </Report>
+            <Report/>
         </SmallContainer>
     </>
   )
