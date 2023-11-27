@@ -17,7 +17,6 @@ const Report = () => {
             <Header>
                 <Title>Branches Report</Title>
             </Header>
-            
         </Parent>
     </>
   )
