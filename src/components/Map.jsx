@@ -5,6 +5,7 @@ import "./Map.css";
 import { CircularProgress } from "@mui/material";
 import search from "../assets/images/search.svg"
 import styled from "@emotion/styled";
+import GooglePlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-google-places-autocomplete';
 import {
   setKey,
   setDefaults,
@@ -20,7 +21,7 @@ import {
 
 
 
-const Autocompletee = styled(Autocomplete)(({ theme }) => ({
+const AutocompleteWrapper = styled('div')(({ theme }) => ({
   width: '434px',
   height: '60px',
   padding: '0 20px 0 35px ',
@@ -32,6 +33,7 @@ const Autocompletee = styled(Autocomplete)(({ theme }) => ({
   outline : "none" ,
   borderRadius : "10px" ,
   opacity : "0.8" ,
+  cursor:"pointer",
   [theme.breakpoints.down("500")]: {
     width:"96%",
     marginLeft : "2%" ,  
@@ -95,36 +97,40 @@ const Map = ({setLocation , latPos  , lngPos , mapWidth , mapHeight , showSearch
               zoom={zoom}
               onClick={(event)=>{ placeMarker(event.latLng.toJSON());}}
             >
-              <Autocompletee
-                 
-                  style={{
+              <AutocompleteWrapper  style={{
                       display : showSearch == false ?  "none" : "block"
-                  }}
-                  // onPlaceSelected={ this.onPlaceSelected }
-
-
-                  apiKey='AIzaSyBBZLX5WuQeLU8CSkyCbvkXRQJZ8OsoIZs'
-                  onPlaceSelected={(place) => 
-                   {
-                    setZoom(10)
-                    placeMarker(place.geometry.location.toJSON());
-                    
-                   } 
+                  }}> 
+                <GooglePlacesAutocomplete
+                apiKey='AIzaSyBBZLX5WuQeLU8CSkyCbvkXRQJZ8OsoIZs'
+              
+                 selectProps={{
+                  styles: {
+                    input: (provided) => ({
+                      ...provided,
+                      cursor: 'pointer',
+                    }),
+                
+                
+                  },
                   
-                  
-                  }
+                  onChange: (place)=>{
+                    console.log(place);
+                    geocodeByAddress(place.label)
+                    .then(results => getLatLng(results[0]))
+                    .then(({ lat, lng }) =>{
 
+                      console.log('Successfully got latitude and longitude', { lat, lng })
+                      setZoom(10)
+                      placeMarker({ lat, lng });
+                    }
+                    );
 
-                  placeholder="search"
-              >
-              </Autocompletee>
-                <SearchIcon 
-                  src= {search} 
-                  alt="s-icon" 
-                  border="0"  
-                  style={{
-                    display : showSearch == false ?  "none" : "block"
-                  }}/>
+                  },
+                }}
+                />
+              </AutocompleteWrapper>
+             
+  
               <MarkerF draggable position={mPosition} onDrag={(event)=>placeMarker(event.latLng.toJSON())} />
             </GoogleMap>
           )}
