@@ -133,7 +133,7 @@ const FinishedData = (
     useEffect(() => {
       if (addMissionsData.status) {
         Swal.fire(t("text.mission_added_successfully"), '', 'success')
-        window.location.href ="/dashboard/missions"
+        window.location.href ="/userDashboard/missions"
       }
     }, [addMissionsData])
 

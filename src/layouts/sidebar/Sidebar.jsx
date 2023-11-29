@@ -123,7 +123,7 @@ const Sidebar = ( {phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
   const  navigate = useNavigate() ;
   
   const handleLogoClick = () => {
-    navigate("/dashboard/home")
+    navigate("/userDashboard/home")
   }
 
   return (

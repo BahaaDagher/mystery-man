@@ -52,7 +52,7 @@ const Missions = () => {
   }, [selectMissions])
   const navigate = useNavigate() ; 
   const newMissionPage = () => {
-      navigate ("/dashboard/missions/newMission")
+      navigate ("/userDashboard/missions/newMission")
   }
 
   

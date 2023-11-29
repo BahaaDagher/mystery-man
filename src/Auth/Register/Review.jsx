@@ -38,7 +38,7 @@ const Review = () => {
   const {t}= useTranslation();
   const theme = useTheme()  ; 
   const handleSubmit = ()=>{
-    window.location.href = "/dashboard" ;
+    window.location.href = "/userDashboard" ;
   }
   return (
     <>

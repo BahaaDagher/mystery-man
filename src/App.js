@@ -72,7 +72,7 @@ function App() {
         <Route path="/" element=<Layout /> />
         
         {/* layout */}
-        <Route path='/dashboard' element = <Layout /> >
+        <Route path='/userDashboard' element = <Layout /> >
           <Route path='editProfile' element = <EditProfile/>  />
           <Route path='home' element = <Home/>  />
           <Route path='questionnaires' element = <Questionnaires/>  />

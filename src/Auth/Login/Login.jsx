@@ -156,7 +156,7 @@ const Login = () => {
                     timer: 2000
                 })
                 setTimeout(() => {
-                    navigate("/dashboard/home")
+                    navigate("/userDashboard/home")
                 }, 2000);
             }
             else {

@@ -92,6 +92,7 @@ const AddQuestionContainer = styled("div")(({ theme }) => ({
   height : "60px" , 
   cursor : "pointer" ,
   transition : "all 0.3s ease" , 
+  width : "200px" ,
   "&:hover" : {
     backgroundColor : Colors.hoverGray ,
   } , 
@@ -103,6 +104,7 @@ const AddQuestionContainer = styled("div")(({ theme }) => ({
     justifyContent : "center" ,
   },
   "&.previous" :{
+    width : "100px" , 
     backgroundColor : "#fff" ,
     color : Colors.main , 
     border  : `1px solid ${Colors.main}` ,
@@ -113,9 +115,8 @@ const AddQuestionContainer = styled("div")(({ theme }) => ({
 const AddQuestionButton = styled("div")(({ theme }) => ({
   fontSize: '18px',
   fontWeight: 500,
-  lineHeight: '21px',
-  letterSpacing: '0.02em',
   textAlign: 'center',
+  width : "100%" ,
 }));
 const ActionButton = styled(FlexCenter)(({ theme }) => ({
   width: '76px',

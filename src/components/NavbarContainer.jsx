@@ -141,7 +141,7 @@ const NavbarContainer = () => {
     <>
     {getProfileLoading && <Loading/>}
     <Parent>
-        <Logo to = "/dashboard/home">
+        <Logo to = "/userDashboard/home">
             <Img src = {profileLogo} />
         </Logo>
         <InformationDiv>

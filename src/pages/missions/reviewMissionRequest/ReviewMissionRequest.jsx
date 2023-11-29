@@ -105,7 +105,7 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
           console.log(accepetRequestData);
           Swal.fire(accepetRequestData.message, '', 'success').then((result) => {
             if (result.isConfirmed) {
-              window.location.href ="/dashboard/missions"
+              window.location.href ="/userDashboard/missions"
             }
           })
     }
