@@ -19,7 +19,7 @@ const Subscription = () => {
   return (
     <Parent>
         <Container>
-            <Title>{t("text.Will_Available_Soon")} </Title>
+            <Title>{t("text.Will_Available_Soon")} ...... </Title>
         </Container>
     </Parent>
   )
