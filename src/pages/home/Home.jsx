@@ -13,16 +13,16 @@ import Report from './Report';
 
 const Section1 = styled("div")(({ theme }) => ({
     display :"flex" , 
-    justifyContent : "center" ,
+    justifyContent : "space-between" ,
     alignItems : "center" ,
-    flexWrap : "wrap" ,
     [theme.breakpoints.down('1000')]: {
+        flexWrap : "wrap" ,
     },
 }));
 const Div = styled("div")(({ theme }) => ({
     height : "204px" , 
     width : "32%" ,
-    margin : "5px" , 
+    marginTop : "10px" ,
     backgroundColor : "#fff" , 
     borderRadius : "10px" ,
     position : "relative" ,
@@ -85,7 +85,7 @@ const Home = () => {
       },[getBranchesData])
       useEffect(()=>{
         let highestBranch = 0
-        let lowestBranch = 0
+        let lowestBranch = 500
         console.log("branchesData" ,branchesData ,branchesData.length>0);
         if (branchesData.length>0) {
             branchesData.forEach(element => {
@@ -99,7 +99,6 @@ const Home = () => {
                 if (branchRating <= lowestBranch) {
                     lowestBranch=branchRating
                     setLowestBranch(element.name)
-                    
                 }
                 
             });

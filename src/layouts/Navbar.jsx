@@ -43,7 +43,7 @@ const NavbarContainer = styled("div")(({ theme }) => ({
     padding : "15px" ,
   },
   direction : theme.direction , 
-  zIndex : "5" ,
+  zIndex : "20" ,
   
 }));
 

@@ -168,6 +168,10 @@ const resources = {
         password_and_confirmation_are_not_identical : "password and confirmation are not identical" ,
         Are_you_sure_you_want_to_logout : "Are you sure you want to logout ?" ,
         Logout_successfully : "Logout successfully" ,
+        print : "print" ,
+        Branches_Report : "Branches Report" ,
+        Missions : "Missions" ,
+        rate  : "rate" ,
 
       },
       content: {}
@@ -337,6 +341,10 @@ const resources = {
         password_and_confirmation_are_not_identical : "كلمة المرور والتأكيد غير متطابقين" ,
         Are_you_sure_you_want_to_logout : "هل أنت متأكد أنك تريد تسجيل الخروج؟" ,
         Logout_successfully : "تم تسجيل الخروج بنجاح" ,
+        print : "طباعة" , 
+        Branches_Report : "تقرير الفروع" ,
+        Missions : "مهمة" ,
+        rate  : "التقييم" ,
 
       },
       content: {}
