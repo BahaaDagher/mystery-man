@@ -10,6 +10,8 @@ import ViewMissions from './viewMissions/ViewMissions';
 import { useTranslation } from 'react-i18next';
 import { use } from 'i18next';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import Swal from 'sweetalert2';
 
 const MainContent = styled(FlexSpaceBetween)(({ theme }) => ({
   [theme.breakpoints.down('800')]: {
@@ -46,19 +48,37 @@ const NewMissionButton = styled(FlexCenter)(({ theme }) => ({
 const Missions = () => {
   
   const [selectMissions, setSelectMissions] = useState(0); 
-
+  const {t} = useTranslation()
   useEffect(() => {
     console.log(selectMissions)
   }, [selectMissions])
   const navigate = useNavigate() ; 
+  const getProfileData = useSelector(state => state.profileData.getProfileData)
+
+  const [wallet , setWallet] = useState(0)
+
+  useEffect(() => {
+    if (getProfileData.status) {
+      setWallet(getProfileData.data.user.wallet)
+    }
+  } , [getProfileData])
+
   const newMissionPage = () => {
-      navigate ("/userDashboard/missions/newMission")
+    if (wallet >0) navigate ("/userDashboard/missions/newMission")
+    else {
+      Swal.fire ({
+        icon : "error" ,
+        title : t("text.Error") ,
+        text : t("text.You_dont_have_enough_money_to_create_a_new_mission")  ,
+        confirmButtonText : "Ok" ,
+      })
+    }
   }
 
   
   const [showMissions , setShowMissions] = useState(true)
  
-  const {t} = useTranslation()
+  
   return (
     <>
     <SmallContainer>

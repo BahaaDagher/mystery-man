@@ -172,6 +172,8 @@ const resources = {
         Branches_Report : "Branches Report" ,
         Missions : "Missions" ,
         rate  : "rate" ,
+        Error : "Error" ,
+        You_dont_have_enough_money_to_create_a_new_mission : "You don't have enough money to create a new mission" ,
 
       },
       content: {}
@@ -345,6 +347,8 @@ const resources = {
         Branches_Report : "تقرير الفروع" ,
         Missions : "مهمة" ,
         rate  : "التقييم" ,
+        Error : "خطأ" ,
+        You_dont_have_enough_money_to_create_a_new_mission : "ليس لديك ما يكفي من المال لإنشاء مهمة جديدة" ,
 
       },
       content: {}

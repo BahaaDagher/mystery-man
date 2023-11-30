@@ -170,7 +170,7 @@ const FinishedData = (
     <>
       <Parent>
       { activePost==true ? 
-        <PostMissionButton className="active" onClick={()=>handlePostMission()}>Post Mission</PostMissionButton>
+        <PostMissionButton className="active" onClick={()=>handlePostMission()}> {t("text.Post_Mission")}</PostMissionButton>
         :
         <PostMissionButton >{t("text.Post_Mission")}</PostMissionButton>
       }
