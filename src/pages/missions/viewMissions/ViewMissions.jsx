@@ -221,7 +221,7 @@ const VisitorRating = styled(Rating)(({ theme }) => ({
     direction :theme.direction ,
 }));
 
-const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
+const ViewMissions = ({showMissions , setShowMissions , selectMissions , setButtonsMissions }) => {
 
     const [chosenSetting , setChosenSetting] = useState("sss") ;
 
@@ -302,6 +302,7 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions  }) => {
     useEffect(() => {
         if(getMissionsData.status) {
             setMissionsData(getMissionsData.data.missions)
+            setButtonsMissions(getMissionsData.data.missions)
         }
     }, [getMissionsData])
 

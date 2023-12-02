@@ -201,7 +201,7 @@ const Report = () => {
                   }}
                   barSize={20}
                 >
-                  <XAxis dataKey="name" scale="point" padding= {theme.direction === 'ltr' ? { left: 50, right: 10 } : { left: 10, right: 50 } } />
+                  <XAxis dataKey="name" scale="point" padding= {theme.direction === 'ltr' ? { left: 50, right: 30 } : { left: 30, right: 50 } } />
                   <YAxis 
                     domain={[0, 5]} 
                     tickCount={6}  
@@ -227,7 +227,7 @@ const Report = () => {
                   }}
                   barSize={20}
                 >
-                  <XAxis dataKey="name" scale="point" padding= {theme.direction === 'ltr' ? { left: 50, right: 10 } : { left: 10, right: 50 } } />
+                  <XAxis dataKey="name" scale="point" padding= {theme.direction === 'ltr' ? { left: 50, right: 30 } : { left: 30, right: 50 } } />
                   <YAxis domain={[0, maxMission]} tickCount={6} orientation= {theme.direction=="rtl" ?  "right" : "left"}/>
                   <Tooltip content={<CustomTooltip />} />
                   <CartesianGrid strokeDasharray="3 3" />

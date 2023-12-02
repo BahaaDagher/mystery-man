@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 import { Colors } from '../../../../Theme';
 
 const Label = styled("div")(({ theme }) => ({
-  fontSize : "22px" , 
+  fontSize : "18px" , 
   color : Colors.gray  , 
   margin : theme.direction === "rtl" ? "0 10px 0 0 " : "0 0 0 10px " ,
 

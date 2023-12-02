@@ -13,5 +13,5 @@ export const Input = styled("input")(({ theme }) => ({
     '&:focus': {
         outline: 'none', 
     } ,
-    border : "none" 
+    border : `1px solid ${Colors.gold}` 
 }));

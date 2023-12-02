@@ -45,6 +45,14 @@ function App() {
       theme.direction = "ltr" ;
       i18n.changeLanguage("en");
     }
+
+    const language = localStorage.getItem('language');
+    const root = document.documentElement; // Access the root element
+    if (language === 'en') {
+      root.style.setProperty('--app-font-family', "'Roboto', sans-serif");
+    } else if (language === 'ar') {
+      root.style.setProperty('--app-font-family', "'Noto Sans Arabic', sans-serif");
+    }
   } , [localStorage.getItem("language")])
 
   const navigate = useNavigate() ;

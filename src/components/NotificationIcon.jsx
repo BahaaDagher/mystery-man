@@ -111,10 +111,13 @@ const NotificationIcon = () => {
   return (
     <>
     <Container  >
-        <img 
-            src = {notificationImage} alt = "notification" 
-            onClick={handleIconClick} style = {{cursor : "pointer" }}
-        />
+    <div onClick={handleIconClick} style = {{cursor : "pointer" }}>
+      <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M4.08777 8.7364C4.84209 4.96483 8.15365 2.25 11.9999 2.25C15.8462 2.25 19.1577 4.96483 19.912 8.7364L21.1658 15.0054C21.5686 17.019 20.4996 19.0431 18.6323 19.873C17.9505 20.176 17.2507 20.4298 16.5387 20.6343L16.435 20.8678C15.656 22.6205 13.9179 23.75 11.9999 23.75C10.0819 23.75 8.34382 22.6205 7.56484 20.8678L7.46108 20.6343C6.74912 20.4298 6.0493 20.176 5.36748 19.873C3.50016 19.0431 2.43126 17.019 2.83398 15.0054L4.08777 8.7364ZM9.44866 21.0731C10.0757 21.808 11.0026 22.25 11.9999 22.25C12.9972 22.25 13.9241 21.808 14.5511 21.0731C12.8624 21.3372 11.1374 21.3372 9.44866 21.0731Z" fill="#455A64"/>
+        <rect x="1.5" y="0.5" width="9" height="9" rx="4.5" fill={Colors.main}/>
+        <rect x="1.5" y="0.5" width="9" height="9" rx="4.5" stroke="white"/>
+      </svg>
+    </div>
       <Popover
         open={Boolean(anchorEl)}
         anchorEl={anchorEl}

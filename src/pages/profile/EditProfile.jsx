@@ -28,7 +28,7 @@ const Parent = styled(Container)(({ theme }) => ({
 
 const ProfileInput = styled(Input)(({ theme }) => ({
   backgroundColor : Colors.input_fill ,
-  border : `1px solid ${Colors.green}` ,
+  border : `2px solid ${Colors.gold}` ,
 }));
 const InsideContainer = styled("div")(({ theme }) => ({
   width : "30%" ,
@@ -59,7 +59,7 @@ const CameraDiv = styled(FlexDiv)(({ theme }) => ({
 const BlueCameraDiv = styled(FlexCenter)(({ theme }) => ({
     position :"absolute" , 
     padding : "10px" , 
-    backgroundColor : Colors.green ,
+    backgroundColor : Colors.gold ,
     bottom : "0" , 
     borderRadius : "50%" ,
 }));
@@ -72,9 +72,10 @@ const InputInformation = styled("div")(({ theme }) => ({
 }));
 
 const UpdateButton = styled(SubmitButton)(({ theme }) => ({
-  backgroundColor : Colors.green ,
+  color : "#000" , 
+  backgroundColor : Colors.gold ,
   "&:hover":  {
-    backgroundColor : Colors.hoverGreen ,
+    backgroundColor : Colors.hoverGold ,
   },
 
 }));

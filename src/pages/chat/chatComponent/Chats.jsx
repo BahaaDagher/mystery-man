@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react'
-import blueSign from "../../../assets/icons/blueSign.svg"
+// import blueSign from "../../../assets/icons/blueSign.svg"
+import { ReactComponent as BlueSign } from '../../../assets/icons/blueSign.svg';
 import { Flex } from '../../../components/Flex';
 import { Colors } from '../../../Theme';
 import { useTranslation } from 'react-i18next';
@@ -9,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getChates, setChatMessagesSendPages, setCurrentChat } from '../../../store/slices/chatSlice';
 import { use } from 'i18next';
 import Loading from '../../../components/Loading';
+import { FlexCenter } from '../../../components/FlexCenter';
 
 const Parent = styled("div")(({ theme }) => ({
     width : "25%" , 
@@ -34,6 +36,7 @@ const Title = styled("div")(({ theme }) => ({
 }));
 
 const SupportDiv = styled(Flex)(({ theme }) => ({
+  alignItems : "center" ,
   cursor : "pointer" ,
   margin : "20px 20px 0px 20px" ,
   "&:hover" : {
@@ -166,7 +169,10 @@ const Chats = ({LastMessage , setShowMessages }) => {
     dispatch(setChatMessagesSendPages())
     setActiveChat(-1)
   }
-
+  const svgStyle = {
+    fill : Colors.main , 
+    // backgroundColor : Colors.main ,
+  };
   
   const {t} = useTranslation();
   return (
@@ -176,7 +182,10 @@ const Chats = ({LastMessage , setShowMessages }) => {
         <Title>{t("text.Support")}</Title>
         <SupportDiv>
             <MysterySupport onClick = {handleTechnical} className ={activeChat==-1?'active' : ""}> {t("text.Mystery_Support")}</MysterySupport>
-            <img src= {blueSign} alt = "sign"/>
+            {/* <YourSvg className="custom-svg" /> */}
+            <svg width="15" height="16" viewBox="0 0 15 16" fill="none" xmlns="http://www.w3.org/2000/svg"  >
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M6.53256 1.31996C7.03262 0.709104 7.96681 0.709102 8.46694 1.31996L9.08681 2.07711L10.0022 1.73134C10.7408 1.45239 11.5498 1.91946 11.6774 2.69854L11.8358 3.66421L12.8014 3.82247C13.5805 3.95016 14.0476 4.75916 13.7686 5.4977L13.4228 6.41312L14.18 7.03302C14.7908 7.53315 14.7908 8.46727 14.18 8.9674L13.4228 9.58734L13.7686 10.5027C14.0476 11.2413 13.5805 12.0503 12.8014 12.178L11.8358 12.3362L11.6775 13.3019C11.5498 14.081 10.7408 14.548 10.0022 14.2691L9.08681 13.9233L8.46694 14.6805C7.96681 15.2913 7.03262 15.2913 6.53256 14.6805L5.91264 13.9233L4.99721 14.2691C4.25866 14.548 3.44967 14.081 3.32199 13.3019L3.16371 12.3362L2.19804 12.178C1.41897 12.0503 0.951906 11.2413 1.23086 10.5027L1.57662 9.58734L0.819468 8.9674C0.208616 8.46727 0.208613 7.53315 0.819468 7.03302L1.57662 6.41312L1.23086 5.4977C0.9519 4.75916 1.41897 3.95016 2.19805 3.82247L3.16371 3.66421L3.32199 2.69854C3.44967 1.91946 4.25867 1.45239 4.99721 1.73134L5.91264 2.07711L6.53256 1.31996ZM7.00444 10.6296L11.3794 6.25466L10.4956 5.37078L6.5625 9.30384L4.50444 7.24577L3.62056 8.12965L6.12056 10.6296C6.23777 10.7469 6.39675 10.8127 6.5625 10.8127C6.72825 10.8127 6.88725 10.7469 7.00444 10.6296Z" fill={Colors.main}/>
+            </svg>
         </SupportDiv>
         <Divider/>
         <MessagesDiv>{t("text.Messages")}</MessagesDiv>

@@ -59,7 +59,7 @@ const BranchesDiv = styled("div")(({ theme }) => ({
 }));
 
 const NewBranchButton = styled("div")(({ theme }) => ({
-  width: '190px',
+  width: '200px',
   height: '60px',
   padding: '12px 43px',
   borderRadius: '10px',
@@ -93,6 +93,7 @@ const BranchDetails = styled("div")(({ theme }) => ({
   [theme.breakpoints.down('1520')]: {
     width : "100%" , 
   },
+  border : `1px solid ${Colors.gold}` ,
 }));
 
 const IconDiv = styled("div")(({ theme }) => ({

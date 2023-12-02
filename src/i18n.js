@@ -35,7 +35,7 @@ const resources = {
         Phone_Number : "Phone Number" , 
         Forget_Password : "Forget Password ?" ,
         Login : "Login" , 
-        Didnt_have_an_account : "Didn't have an account" , 
+        Didnt_have_an_account : "Didn't have an account ?" , 
         Register : "Register" , 
         Enter_your_phone_number : "Enter your phone number" , 
         We_need_your_phone_number_to_create_an_account_and_log_in_with_later : "we need your phone number to create an account and log in with later" , 

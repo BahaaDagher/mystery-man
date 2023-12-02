@@ -35,14 +35,18 @@ const NewMissionDiv = styled("div")(({ theme }) => ({
   marginBottom : "20px" 
 }));
 const NewMissionButton = styled(FlexCenter)(({ theme }) => ({
-  width: '190px',
+  width: '200px',
   height: '54px',
   padding: '9px 40px 8px 40px',
   borderRadius: '10px',
-  backgroundColor: Colors.second,
-  color: "#fff",
+  backgroundColor: Colors.gold,
+  color: "#000",
   fontSize : "20px" , 
   cursor : "pointer" ,
+  transition : "all 0.3s ease" ,
+  "&:hover" :{
+    backgroundColor : Colors.hoverGold
+  }
 }));
 
 const Missions = () => {
@@ -77,7 +81,7 @@ const Missions = () => {
 
   
   const [showMissions , setShowMissions] = useState(true)
- 
+  const [buttonsMissions , setButtonsMissions] = useState([])
   
   return (
     <>
@@ -91,9 +95,11 @@ const Missions = () => {
           showMissions = {showMissions}
           setShowMissions={setShowMissions}
           selectMissions= {selectMissions} 
+          setButtonsMissions = {setButtonsMissions}
         />
       </DetailsPart>
       <MissionsButtons 
+        buttonsMissions = {buttonsMissions}
         setShowMissions={setShowMissions}  
         setSelectMissions= {setSelectMissions} 
       />

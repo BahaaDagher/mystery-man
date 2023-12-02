@@ -87,7 +87,7 @@ const Selectt = styled(Select)(({ theme }) => ({
   fontFamily : "Cairo" ,
 }));
 const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
-  fontFamily: 'Cairo', 
+   
   direction : theme.direction
 }));
 

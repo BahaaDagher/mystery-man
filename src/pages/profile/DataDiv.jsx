@@ -19,6 +19,7 @@ const DataDivContainer = styled("div")(({ theme }) => ({
       flexDirection : "column" ,
       width : "100%" ,
     },
+    border : `1px solid ${Colors.gold}` ,
   }));
   const PhotoAndName = styled(FlexDiv)(({ theme }) => ({
     width : "100%" , 
@@ -55,6 +56,8 @@ const DataDivContainer = styled("div")(({ theme }) => ({
   const CommercialRegistrationImgDiv = styled("div")(({ theme }) => ({
     width: '100%',
     height: '139px',
+    border : `2px solid ${Colors.gold}` ,
+    borderRadius: '10px',
   }));
   const AvailableMission = styled("div")(({ theme }) => ({
     width: '100%',
@@ -115,9 +118,9 @@ const DataDivContainer = styled("div")(({ theme }) => ({
 
   }));
   const DataDiv = ({profileData}) => {
-  
+    const navigate = useNavigate()
     const handleEditProfile = () => {
-      window.location.href = "dashboard/editProfile" 
+      navigate("/userDashboard/editProfile")
     }
     const {t} = useTranslation() ;
   return (

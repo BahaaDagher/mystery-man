@@ -13,6 +13,7 @@ import Loading from '../../components/Loading';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import { resendOtp, verifyOtp } from '../../store/slices/authSlice';
+import VerificationSVG from '../forgetPassword/VerificationSVG';
 const IMG = styled("img")(({ theme }) => ({
   [theme.breakpoints.down("1000")]: {
     width : "250px" ,
@@ -24,7 +25,7 @@ const VerificationDiv = styled("div")(({ theme }) => ({
 }));
 
 const Title = styled("p")(({ theme }) => ({
-  fontFamily: 'Cairo',
+  
   fontSize: '24px',
   fontWeight: 500,
   lineHeight: '45px',
@@ -34,7 +35,7 @@ const Title = styled("p")(({ theme }) => ({
   textAlign:"center" ,
 }));
 const Paragraph = styled("p")(({ theme }) => ({
-  fontFamily: 'Cairo',
+  
     fontSize: '16px',
     fontWeight: 400,
     lineHeight: '22px',
@@ -50,7 +51,7 @@ const Input = styled("input")(({ theme }) => ({
   width: '85.2px',
   height: '85.2px',
   borderRadius: '14.2px',
-  border:"none" , 
+  border: `1px solid ${Colors.gold}` , 
   display : "flex" , 
   justifyContent : "center" ,
   alignItems : "center" ,
@@ -179,7 +180,7 @@ const {t} = useTranslation () ;
     {(verifyOtpDataLoading || resendOtpDataLoading ) ? <Loading/> : null}
       <LanguageIcon className= "notNavbar"/>
       <Container>
-        <IMG src= {verification} alt="email" />
+        <VerificationSVG/>
         <VerificationDiv>
             <Title></Title>
             <Paragraph> {t("text.You_will_receive_an_email_with_a_verification_code_on")}

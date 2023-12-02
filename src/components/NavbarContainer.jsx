@@ -11,6 +11,7 @@ import { Colors } from '../Theme';
 import profileLogo from "../assets/images/profileLogo.svg"
 import notificationImage from "../assets/images/notification.svg"
 import chatImage from "../assets/images/chat.svg"
+import BlueLogo from '../assets/images/BlueLogo.png' ;
 import NotificationIcon from './NotificationIcon';
 import Loading from './Loading';
 import { useTranslation } from 'react-i18next';
@@ -67,6 +68,7 @@ const Parent = styled("div")(({ theme }) => ({
       justifyContent : "center" ,
   }));
   const Img = styled("img")(({ theme }) => ({
+    width : "100px" ,
     marginRight :theme.direction == "ltr"?   "10px" : "0px" ,
     marginLeft :theme.direction == "rtl"?   "10px" : "0px" ,
     [theme.breakpoints.down('500')]: {
@@ -142,7 +144,7 @@ const NavbarContainer = () => {
     {getProfileLoading && <Loading/>}
     <Parent>
         <Logo to = "/userDashboard/home">
-            <Img src = {profileLogo} />
+            <Img src = {BlueLogo}  />
         </Logo>
         <InformationDiv>
             <Section>

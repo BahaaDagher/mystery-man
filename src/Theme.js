@@ -1,8 +1,9 @@
 export const Colors = {
-    main : "#3734CA" , 
-    main2 : "#386BF6" , 
+    main : "#50489C" , 
+    main2 : "#736dae" , 
+    light : "#dad8e9" , 
     lightMain : "#3734CA1A" , 
-    hoverMain: "#0a07b2" , 
+    hoverMain: "#453c9c" , 
     second :"#455A64" , 
     input : "#C8C8C8" , 
     gray :"#8E8E93" , 
@@ -23,6 +24,8 @@ export const Colors = {
     Gray1 :"#333333" , 
     Black3: "#8B8D97" , 
     input_fill : "#F5F5F5" , 
+    gold : "#F3B51A" , 
+    hoverGold : "#f1ac00" ,
 
 
 }

@@ -6,75 +6,91 @@ import LanguageIcon from '../../components/LanguageIcon';
 import { useTheme } from '@emotion/react';
 import { Container } from '../../components/Container';
 import { useTranslation } from 'react-i18next'
-import logo from "../../assets/images/logo.svg"
+import logo from "../../assets/images/BlueLogo.png"
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { userLogin } from '../../store/slices/authSlice';
 import Swal from 'sweetalert2';
 import Loading from '../../components/Loading';
-
+import { FlexCenter } from '../../components/FlexCenter';
+const Parent = styled("div")(({ theme }) => ({
+    
+}));
 const UpperTriangle = styled("div")(({ theme }) => ({
-    position: "absolute" ,
+    position: "fixed" ,
+    zIndex : "-5" , 
     left : 0 ,
     top : 0 ,
     width: 0 ,
     borderWidth : "150px 300px 150px 300px" , 
     borderStyle : "solid" ,
-    borderColor : "#3734CA transparent transparent #3734CA" ,
+    borderColor : `${Colors.main} transparent transparent ${Colors.main}` ,
     [theme.breakpoints.down("1300")]: {
         borderWidth : "40px 80px 40px 80px " , 
     },
 }));
 const LowerTriangle = styled("div")(({ theme }) => ({
-    position: "absolute" ,
+    position: "fixed" ,
+    zIndex : "-5" ,
     right : 0 ,
     bottom : 0 ,
     width: 0 , 
     borderWidth : "150px 300px 150px 300px" , 
     borderStyle : "solid" ,
-    borderColor : "transparent #3734CA #3734CA transparent" ,
+    borderColor : `transparent ${Colors.main} ${Colors.main} transparent` ,
     [theme.breakpoints.down("1300")]: {
         borderWidth : "100% 0 0 0 " , 
     },
 }));
+const ImgDiv = styled(FlexCenter)(({ theme }) => ({
+    marginTop : "70px" ,
+    marginBottom : "50px" ,  
+}));
 const IMG = styled("img")(({ theme }) => ({
-    position: "absolute" ,
-    top : "10%" ,
-    left : "50%" ,
-    transform : "translateX(-50%)" ,
+    // position: "absolute" ,
+    // top : "0" ,
+    // left : "50%" ,
+
+    width  : "250px",  
+    // transform : "translateX(-50%)" ,
     [theme.breakpoints.down("500")]: {
         width : "250px" ,
     },
 }));
+
+const InformationDivParent = styled(FlexCenter)(({ theme }) => ({
+
+}));
 const InformationDiv = styled("div")(({ theme }) => ({
-    position : "absolute" ,
+    // position : "absolute" ,
+    flexDirection : "column" ,
     maxWidth: "500px",
     width: "100%",
     padding: "0px 20px",
-    top: '30%',
-    left: '50%',
-    transform : "translateX(-50%)" ,
+    // top: '30%',
+    // left: '50%',
+    // transform : "translateX(-50%)" ,
     direction : theme.direction 
 }));
 const H1 = styled("h1")(({ theme }) => ({
     fontSize: "32px",
-    fontWeight: "500",
+    fontWeight: "700",
     lineHeight: "60px",
     letterSpacing: "0em",
-    color: Colors.second,
-    marginBottom : "40px" ,
+    color: Colors.gray_l,
+    marginBottom : "20px" ,
     direction : theme.direction 
 }));
 const Div = styled("div")(({ theme }) => ({
     width: '100%', 
-    direction : theme.direction 
+    direction : theme.direction ,  
+    marginBottom : "10px"  , 
 }));
 const H3 = styled("h3")(({ theme }) => ({
     fontSize: '16px',
-    fontWeight: 400,
     lineHeight: '30px',
     letterSpacing: '0em',
-    color: Colors.second,
+    color: Colors.gray_l,
 }));
 const Input = styled("input")(({ theme }) => ({
     width: '100%', 
@@ -82,28 +98,27 @@ const Input = styled("input")(({ theme }) => ({
     padding: '15px 16px', 
     borderRadius: '10px',
     gap: '10px',
+    border : `1px solid ${Colors.gold}` ,
     '&::placeholder': {
         color: Colors.input, 
     },
     '&:focus': {
         outline: 'none', 
     } ,
-    border : "none" 
+    // border : "none" 
 }));
 const LINK = styled(Link)(({ theme }) => ({
     display:"flex" , 
-    fontFamily: 'Cairo', 
     fontSize: '16px', 
-    fontWeight: 400, 
     lineHeight: '22px', 
     letterSpacing: '0em', 
     textAlign: 'right', 
-    color: Colors.gray_l,
+    color: Colors.gold,
     textDecoration : "none" ,
     cursor : "pointer" ,
     transition : "all 0.5s ease" ,
     "&:hover" : {
-        color : Colors.second , 
+        color : Colors.hoverGold , 
     } , 
     marginTop : "10px" ,
     "&.register" : {
@@ -115,8 +130,8 @@ const SubmitButton = styled("div")(({ theme }) => ({
     height: '60px',
     padding: '2px 0px 1px 0px',
     borderRadius: '10px',
-    color : "white" , 
-    backgroundColor : Colors.main ,
+    color : "#000" , 
+    backgroundColor : Colors.gold ,
     cursor : "pointer" , 
     display : "flex" ,
     justifyContent : "center" ,
@@ -125,11 +140,8 @@ const SubmitButton = styled("div")(({ theme }) => ({
     marginTop : "30px" ,
     transition : "all 0.5s ease" ,
     "&:hover" : {
-        backgroundColor : Colors.hoverMain ,
+        backgroundColor : Colors.hoverGold ,
     } , 
-    [theme.breakpoints.down("1000")]: {
-        backgroundColor : "#030087" ,
-    },
 }));
 const RegisterDiV = styled("div")(({ theme }) => ({
 
@@ -174,36 +186,45 @@ const Login = () => {
         setClickSubmit(true)
         dispatch (userLogin({phone : phone , password : password})) ; 
     }
-
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            handleLogin();
+        }
+    };
     const theme = useTheme() ;
     const {t} =  useTranslation() ; 
   return (
     <>
     {LoginDataLoading? <Loading/> : null}
     <LanguageIcon />
-    <Container>
+    <Parent>
         <UpperTriangle/>
         <LowerTriangle/>
-        <IMG src={logo}/>
-        <InformationDiv>
-            <H1>{t("text.Welcome_back")}</H1>
-            <Div>
-                <H3>{t("text.Phone_Number")} </H3>
-                <Input type="number"  placeholder='' onChange={(e)=>setPhone(e.target.value)}/>
-            </Div>
-            <Div>
-                <H3>{t("text.Password")} </H3>
-                <Input type="password" placeholder={t("text.Password")} onChange={(e)=>setPassword(e.target.value)}/>
-            </Div>
-            <LINK to = "/forgetPassword">
-                {t("text.Forget_Password")}
-            </LINK>
-            <SubmitButton onClick={handleLogin}>{t("text.Login")}</SubmitButton>
-            <LINK  to = "/register/enter-data" className = "register"  > {t("text.Didnt_have_an_account") }  
-                <span style = {{color : "#030087" , marginLeft : "10px" }}> {t("text.Register")} </span>
-            </LINK>
-        </InformationDiv>
-    </Container>
+        <ImgDiv>
+            <IMG src={logo}/>
+        </ImgDiv>
+        <InformationDivParent>
+            <InformationDiv>
+                <H1>{t("text.Welcome_back")}</H1>
+                <Div>
+                    <H3>{t("text.Phone_Number")} </H3>
+                    <Input type="number"  placeholder={t("text.Phone_Number")} onChange={(e)=>setPhone(e.target.value)}  onKeyPress={handleKeyPress}/>
+                </Div>
+                <Div>
+                    <H3>{t("text.Password")} </H3>
+                    <Input type="password" placeholder={t("text.Password")} onChange={(e)=>setPassword(e.target.value)}  onKeyPress={handleKeyPress}/>
+                </Div>
+                <LINK to = "/forgetPassword">
+                    {t("text.Forget_Password")}
+                </LINK>
+                <SubmitButton onClick={handleLogin} >{t("text.Login")}</SubmitButton>
+                <LINK  to = "/register/enter-data" className = "register"  > 
+                   <span style = {{color : Colors.gray_l  }}>{t("text.Didnt_have_an_account") }</span>   
+                    <span style = {{color : Colors.gold , margin : "0 10px" , fontWeight : "bold" }}> {t("text.Register")} </span>
+                </LINK>
+            </InformationDiv>
+        </InformationDivParent>
+    </Parent>
     </>
   )
 }

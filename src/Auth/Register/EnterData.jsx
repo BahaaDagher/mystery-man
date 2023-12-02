@@ -17,6 +17,8 @@ import Swal from 'sweetalert2'
 import { useTheme } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import Loading from '../../components/Loading'
+import blueCamera from "../../assets/icons/blueCamera.svg"
+import { FlexCenter } from '../../components/FlexCenter'
 
 const InsideContainer = styled("div")(({ theme }) => ({
   width : "30%" ,
@@ -42,7 +44,22 @@ const CameraDiv = styled(FlexDiv)(({ theme }) => ({
   margin : "auto" ,
   backgroundColor : "#fff" ,
   borderRadius : "50%" ,
+  position : "relative" , 
+  border : `1px solid ${Colors.gold}` ,
 }));
+const CircleCamera = styled(FlexCenter)(({ theme }) => ({
+    position :"absolute" , 
+    padding : "10px" , 
+    backgroundColor : Colors.main ,
+    bottom : "0" , 
+    borderRadius : "50%" ,
+    width : "40px" , 
+    height : "40px" , 
+}));
+const CircleImg = styled("img")(({ theme }) => ({
+
+}));
+
 
 
 const InputInformation = styled("div")(({ theme }) => ({
@@ -146,6 +163,12 @@ const EnterData = () => {
               />
               <label htmlFor='uploadPhoto' style = {{cursor : "pointer"}}>
                 <CameraDiv>
+                  {selectedPhoto ?        
+                    <CircleCamera>
+                      <CircleImg src = {blueCamera}/>
+                    </CircleCamera> 
+                    : null 
+                  }
                     <img
                       src = { selectedPhoto ? URL.createObjectURL(selectedPhoto) : camera }  
                       style = {{  width : selectedPhoto ? "100%" : "fit-content"  , height : selectedPhoto ? "100%" : "fit-content"  , borderRadius : "50%"}} alt=  "company logo"/>
@@ -185,7 +208,7 @@ const EnterData = () => {
           </InputDiv>
           <InputDiv>
               <H3>{t("text.Copy_of_the_commercial_register")} </H3>
-              <FlexDiv style = {{border :` 1px dashed ${Colors.second}` ,  borderRadius : "10px" , padding : "20px 0 "}}>
+              <FlexDiv style = {{border :` 1px dashed ${Colors.gold}` ,  borderRadius : "10px" , padding : "20px 0 "}}>
                 <img 
                   src = { commercialRegisterFile ? URL.createObjectURL(commercialRegisterFile) : file_text } 
                   alt = "file" 

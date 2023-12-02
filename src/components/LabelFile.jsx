@@ -16,7 +16,7 @@ const LabelFile = styled("label")(({ theme }) => ({
     cursor: "pointer",
     borderRadius: "10px",
     transition: "all 0.3s ease-in-out",
-    border : `1px solid ${Colors.second}` , 
+    border : `1px solid ${Colors.gold}` , 
     "&:active": {
         transform: "scale(0.8)",
     } , 

@@ -5,7 +5,7 @@ const ProtectAuth = ({children}) => {
 const token = localStorage.getItem('token');
     
     if (token) {
-        return <Navigate to ="/dashboard/home" />
+        return <Navigate to ="/userDashboard/home" />
     }
     return children
   

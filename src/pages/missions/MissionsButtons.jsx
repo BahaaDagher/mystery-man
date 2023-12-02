@@ -65,7 +65,7 @@ const Button = styled("div")(({ theme }) => ({
 
 const MissionName = styled("div")(({ theme }) => ({
     position: 'relative' , 
-    fontSize : "24px" ,
+    fontSize : "22px" ,
     
 }));
 
@@ -78,9 +78,9 @@ const ImgContainer = styled("div")(({ theme }) => ({
 
 const Number = styled("div")(({ theme }) => ({
     position : "absolute" , 
-    bottom : "10px" ,
+    bottom : "0px" ,
     right : "20px" ,
-    fontSize: '48px',
+    fontSize: '30px',
     fontWeight: 500,
     lineHeight: '58px',
     letterSpacing: '0em',
@@ -88,7 +88,7 @@ const Number = styled("div")(({ theme }) => ({
 }));
 
 
-const MissionsButtons = ({ setShowMissions , setSelectMissions }) => {
+const MissionsButtons = ({ setShowMissions , setSelectMissions , buttonsMissions }) => {
     const CurrentMission = useSelector(state => state.missionData.currentMission)
 
     const dispatch = useDispatch()
@@ -101,51 +101,50 @@ const MissionsButtons = ({ setShowMissions , setSelectMissions }) => {
 
     const {t} = useTranslation();
 
-    const buttonsArray = [
+    const [buttonsArray , setButtonsArray] = useState([
     {
         id : 0 ,
-        name : t("text.New_Missions") , 
-        number :  12 , 
+        name : "New_Missions" , 
+        number :  0 , 
         icon1 : NewMissions, 
         icon2 : NewMissions2
     } , 
     {
         id : 1 , 
-        name : t("text.Wait_Requests") , 
-        number :  12 , 
+        name : "Wait_Requests" , 
+        number :  0 , 
         icon1: WaitRequests, 
         icon2 : WaitRequests2
     } , 
     {
         id : 5 , 
-        name : t("text.Pending_user_Acceptance") , 
-        number :  12 , 
+        name : "Pending_user_Acceptance" , 
+        number :  0 , 
         icon1: WaitRequests, 
         icon2 : WaitRequests2
     } ,
     {
         id : 2 , 
-        name : t("text.Current_Missions") , 
-        number :  12 , 
+        name : "Current_Missions" , 
+        number :  0 , 
         icon1 : CurrentMissions, 
         icon2 : CurrentMissions2
     } , 
     {
         id : 3 , 
-        name : t("text.Complete_Missions") , 
-        number :  12 , 
+        name : "Complete_Missions" , 
+        number :  0 , 
         icon1 : CompleteMissions, 
         icon2 : CompleteMissions2
     } ,
     {
         id : 6 , 
-        name : t("text.CanceledMissions") , 
-        number :  12 , 
+        name : "CanceledMissions" , 
+        number :  0 , 
         icon1 : CanceledMissions, 
         icon2 : CanceledMissions2
     } ,  
-
-    ]
+    ])
     const [activeButton, setActiveButton] = useState(0);
 
     const handleClick = (id) => {
@@ -153,14 +152,63 @@ const MissionsButtons = ({ setShowMissions , setSelectMissions }) => {
         setSelectMissions(id)
         setShowMissions(true)
     }
+
+    // number of every mission 
+    const [numbers , setNumbers] = useState({
+        zero : 0 , 
+        one : 0 , 
+        two : 0 , 
+        three : 0 , 
+        five : 0 , 
+        six : 0 ,
+    }
+    )
+
+    useEffect(() => {
+        console.log("buttonsMissions", buttonsMissions)
+        buttonsMissions.map((mission , index) => {
+            console.log ("mission.status", mission.status )
+            let arr = numbers 
+            if (mission.status == 0) {
+                arr.zero = arr.zero + 1
+                setNumbers(arr)
+            }else if (mission.status == 1) {
+                arr.one = arr.one + 1
+                setNumbers(arr)
+            }else if (mission.status == 2) {
+                arr.two = arr.two + 1
+                setNumbers(arr)
+            }else if (mission.status == 3) {
+                arr.three = arr.three + 1
+                setNumbers(arr)
+            }else if (mission.status == 5) {
+                arr.five = arr.five + 1
+                setNumbers(arr)
+            }else if (mission.status == 6) {
+                arr.six = arr.six + 1
+                setNumbers(arr)
+            }
+        })
+        let arr = [...buttonsArray]
+        arr[0].number = numbers.zero
+        arr[1].number = numbers.one
+        arr[2].number = numbers.five
+        arr[3].number = numbers.two
+        arr[4].number = numbers.three
+        arr[5].number = numbers.six
+        setButtonsArray(arr)
+
+    },[buttonsMissions])
+    
   return (
     <>
     <Parent>
+        {t("text.empty")}
         <ScrollDiv>
             {buttonsArray.map((button , index) => {
             return (
                 <Button onClick={(e)=>handleClick(button.id) } className = { activeButton === button.id ? "active" : "" }>
-                    <MissionName>{button.name}</MissionName>
+                    <MissionName>{t(`text.${button.name}`)}</MissionName>
                     <ImgContainer>
                         <img 
                             src= {activeButton == button.id ? button.icon2 : button.icon1} 
@@ -168,7 +216,7 @@ const MissionsButtons = ({ setShowMissions , setSelectMissions }) => {
                             alt = ""
                         />
                     </ImgContainer>
-                    {/* <Number>{button.number}</Number> */}
+                    <Number>{button.number}</Number>
                 </Button>
             )
             })}

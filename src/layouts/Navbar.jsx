@@ -45,6 +45,7 @@ const NavbarContainer = styled("div")(({ theme }) => ({
   direction : theme.direction , 
   zIndex : "20" ,
   
+  
 }));
 
 const InformationDiv = styled("div")(({ theme }) => ({
@@ -179,7 +180,6 @@ const Navbar = ({phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
   
   return (
     <>
-    
     {getProfileLoading && <Loading/>}
     <NavbarContainer>
       <Slider onClick={()=> { setPhoneOpen(true) ;  } }>

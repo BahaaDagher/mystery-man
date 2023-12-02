@@ -6,7 +6,7 @@ import { SubmitButton } from '../../components/SubmitButton';
 import LanguageIcon from '../../components/LanguageIcon';
 import { Container } from '../../components/Container';
 import { useTranslation } from 'react-i18next';
-import logo2 from "../../assets/images/logo2.svg"
+import logo2 from "../../assets/images/BlueLogo.png"
 import { useDispatch, useSelector } from 'react-redux';
 import { forgetPassword } from '../../store/slices/authSlice';
 import Swal from 'sweetalert2';
@@ -21,7 +21,7 @@ const ParentContainer = styled(Container)(({ theme }) => ({
 
 const IMG = styled("img")(({ theme }) => ({
   [theme.breakpoints.down("1000")]: {
-    width : "250px" ,
+    width : "300px" ,
   },
 }));
 
@@ -30,7 +30,6 @@ const PhoneDiv = styled("div")(({ theme }) => ({
   direction : theme.direction ,
 }));
 const Title = styled("p")(({ theme }) => ({
-  fontFamily: 'Cairo',
   fontSize: '24px',
   fontWeight: 500,
   lineHeight: '45px',
@@ -39,7 +38,6 @@ const Title = styled("p")(({ theme }) => ({
 }));
 const Paragraph = styled("div")(({ theme }) => ({
   direction : theme.direction ,
-  fontFamily: 'Cairo',
   fontSize: '16px',
   fontWeight: 400,
   lineHeight: '22px',
@@ -69,7 +67,7 @@ const Input = styled("input")(({ theme }) => ({
   '&:focus': {
       outline: 'none', 
   } ,
-  border : "none" 
+  border : `1px solid ${Colors.gold}` ,
 }));
 
 const ForgetPassword = () => {
@@ -140,6 +138,7 @@ const ForgetPassword = () => {
           </Div>
           <SubmitButton onClick={handleSubmit} >{t("text.confirm")}</SubmitButton>
         </PhoneDiv>
+
         <IMG src = {logo2}/>
       </ParentContainer>
     </>

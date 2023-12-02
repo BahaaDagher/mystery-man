@@ -6,7 +6,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Drawer } from '@mui/material';
 import { useTheme } from '@emotion/react';
-import dashboardLogo from "../../assets/images/dashboardLogo.svg"
+import BlueLogo from '../../assets/images/BlueLogo.png' ;
 
 const SideBarDiv = styled("div")(({ theme }) => ({
   height : "calc(100% - 10px)",
@@ -31,6 +31,7 @@ const LogoContainer = styled("div")(({ theme }) => ({
   textAlign : "center",
   marginTop : "33px",
   cursor : "pointer",
+  width : "150px" , 
 }));
 
 const Divider = styled("div")(({ theme }) => ({
@@ -54,7 +55,7 @@ const Li = styled("li")(({ theme , isActive}) => ({
   padding: '13px 20px', 
   borderRadius: '8px',
   cursor : "pointer", 
-  backgroundColor: isActive ? "#3734CA1A" : "transparent",
+  backgroundColor: isActive ? Colors.light : "transparent",
   borderColor: isActive ? Colors.main : "transparent", 
   borderWidth: isActive ? theme.direction =="ltr" ?  '0px 0px 0px 3px' : '0px 3px 0px 0px' : '0px',
   borderStyle: 'solid',
@@ -63,7 +64,7 @@ const Li = styled("li")(({ theme , isActive}) => ({
     color: isActive ? Colors.main : Colors.gray_input,
   },
   "&:hover": {
-    backgroundColor : "#3734CA1A" , 
+    backgroundColor : Colors.light , 
     borderWidth: theme.direction =="ltr" ?  '0px 0px 0px 3px' : '0px 3px 0px 0px' ,
     borderStyle: 'solid',
     borderColor: Colors.main,
@@ -84,11 +85,11 @@ const LINK = styled(Link)(({ theme }) => ({
 const IconContainer = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center" , 
-  marginRight : "20px",
+  // marginRight : "20px",
 }));
 
 const Title = styled("div")(({ theme }) => ({
-
+  margin : theme.direction == "ltr" ? "0 0 0 20px" : "0 20px 0 0" ,
 }));
 
 const SideBarDivPhone = styled(Drawer)(({ theme }) => ({
@@ -130,7 +131,7 @@ const Sidebar = ( {phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
     <>
     <SideBarDiv>
       <LogoContainer onClick={handleLogoClick}>
-        <img  src= {dashboardLogo} alt = "logo" />
+        <img  src= {BlueLogo} alt = "logo" style = {{width : "100%"}}/>
       </LogoContainer>
       <Divider />
       <SidebarItems>
@@ -145,7 +146,9 @@ const Sidebar = ( {phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
                   onMouseLeave={handleMouseLeave} 
                 >
                   <IconContainer>
-                      <img src={firstTwoSegments === item.link || hoveredItem === index ? item.icon2 : item.icon1} alt={item.title} style = {{margin : "0 10px"}}/> 
+                      {
+                        firstTwoSegments === item.link || hoveredItem === index ? item.icon2 : item.icon1
+                      }
                   </IconContainer>
                   <Title >{t(`text.${item.title}`)}</Title>   
                 </Li>
@@ -183,7 +186,7 @@ const Sidebar = ( {phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
       }}
     >
       <LogoContainer>
-        <img  src= {dashboardLogo} alt = "logo" />
+        <img  src= {BlueLogo} alt = "logo" style = {{width : "100%"}}/>
       </LogoContainer>
       <Divider />
       <SidebarItems>
@@ -192,13 +195,15 @@ const Sidebar = ( {phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
             return (
               <LINK to={item.link} key={index}  >
                 <Li
-                  isActive={index === activeItem} 
+                  isActive={firstTwoSegments === item.link} 
                   onClick={() => { handleItemClick(index) ;   setPhoneOpen(false) } }
                   onMouseEnter={() => handleMouseEnter(index)}
                   onMouseLeave={handleMouseLeave}
                 >
                   <IconContainer>
-                      <img src={index==activeItem || hoveredItem === index ? item.icon2 : item.icon1} alt={item.title} style = {{margin : "0 10px"}}/> 
+                    {
+                        firstTwoSegments === item.link || hoveredItem === index ? item.icon2 : item.icon1
+                      }
                   </IconContainer>
                   <Title >{t(`text.${item.title}`)}</Title>   
                 </Li>

@@ -36,7 +36,7 @@ const Circle = styled("div")(({ theme }) => ({
 const FlexCenterP = styled(FlexCenter)(({ theme }) => ({
   margin  : "0 30px" , 
 }));
-const P = styled("p")(({ theme }) => ({
+const P = styled("div")(({ theme }) => ({
   fontSize: '20px',
   color: Colors.gray , 
 }));
