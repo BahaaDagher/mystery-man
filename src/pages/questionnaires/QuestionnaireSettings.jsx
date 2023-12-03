@@ -327,7 +327,7 @@ const QuestionnaireSettings = ({isAddNew}) => {
                <AddStepButton 
                   onClick={()=>{handleClickStep(index,answer.questions); setActiveStep(index) ;  }}
                   className= {activeStep==index ? 'active' : ''}
-                  >
+                >
                   {answer.name}
                </AddStepButton>
               </>
