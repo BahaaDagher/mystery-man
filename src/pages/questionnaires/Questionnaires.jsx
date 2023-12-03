@@ -165,7 +165,6 @@ const numberOFQuestioners = (item)=>{
                 questionieres.map((item , index)=>{
                 return (
                   <>
-
                     <PreviousQuestionnaire className = {active == index ? "active" : ""}
                     onClick={()=> {handleQuestionierChange(item.id ,index)  ; setActive(index) }} >
 

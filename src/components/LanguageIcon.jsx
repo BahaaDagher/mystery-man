@@ -29,6 +29,9 @@ const UL = styled("ul")(({ theme }) => ({
       borderRadius: "5px",
     },
   }));
+  const Span = styled("span")(({ theme }) => ({
+
+  }));
   
 const LanguageIcon = ({Navbar}) => {
 
@@ -96,10 +99,10 @@ const LanguageIcon = ({Navbar}) => {
       >
         <UL>
           <Li button onClick={() => { englishDirection(); handleClose(); }}>
-            <ListItemText  primary="English" />
+            <Span>English</Span>
           </Li>
           <Li button onClick={() => { arabicDirection(); handleClose(); }}>
-            <ListItemText primary="Arabic" />
+            <Span>العربية</Span>
           </Li>
         </UL>
       </Popover>

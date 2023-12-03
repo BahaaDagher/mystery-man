@@ -128,7 +128,7 @@ const Report = () => {
         })
         if (branchMissions >mxMission ) mxMission = branchMissions ; 
       }
-      setMaxMissions(mxMission+10)
+      setMaxMissions(mxMission+5)
       setBranchesMissions(Missions)
       setNumberOfMissions(numOfMissions)
       setBranchesRates(Rates)
