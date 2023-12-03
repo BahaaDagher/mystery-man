@@ -10,7 +10,7 @@ import { FlexCenter } from '../../components/FlexCenter';
 import QuestionsTypes from './QuestionsTypes';
 import QuestionComponent from './QuestionComponent';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteQuestioneir, editQuestioneir, getQuestionnaire, handleReadyToSend, handleReadyToSend2, sendQuestioneir, setCurrentQuestioneir, setCurrentStep, setNewQuestioneirName, setNewStep } from '../../store/slices/questionierSlice';
+import { deleteQuestioneir, deleteStep, editQuestioneir, getQuestionnaire, handleReadyToSend, handleReadyToSend2, sendQuestioneir, setCurrentQuestioneir, setCurrentStep, setNewQuestioneirName, setNewStep, setNewStepName } from '../../store/slices/questionierSlice';
 import Swal from 'sweetalert2';
 import { useTranslation } from 'react-i18next';
 
@@ -63,6 +63,25 @@ const Input = styled("input")(({ theme }) => ({
   '::selection': {
     backgroundColor: Colors.hoverMain, 
   },
+}));
+const StepInput = styled("input")(({ theme }) => ({
+  backgroundColor : "transparent" ,
+  width : "100%" ,
+  color : Colors.gray_l ,
+  border: "1px solid transparent" , 
+  borderBottom: "1px solid #fff" , 
+  outline : "none" ,
+  fontSize : "20px" ,
+  "::placeholder": {
+    color: Colors.gray_l
+  },
+  '::selection': {
+    backgroundColor: Colors.hoverMain, 
+  },
+  "&.active" : {
+    color:'white' , 
+  backgroundColor : Colors.second ,
+} , 
 }));
 
 const ButtonsContainer = styled(Flex)(({ theme }) => ({
@@ -129,6 +148,7 @@ const AddStepButton = styled(FlexCenter)(({ theme }) => ({
   padding: '5px 20px',
   borderRadius: '10px',
   gap: '10px',
+  width:'30%',
   backgroundColor: Colors.bg,
   margin : "10px 10px" , 
   fontSize : "20px" ,
@@ -222,6 +242,9 @@ const QuestionnaireSettings = ({isAddNew}) => {
   const handleQuestioneirTitle = (value) => {
     dispatch(setNewQuestioneirName(value))
   };
+  const handleStepTitle = (value) => {
+    dispatch(setNewStepName(value))
+  };
 
   const handleAddStep = () => {
     setShowNewStep(true)
@@ -231,6 +254,11 @@ const QuestionnaireSettings = ({isAddNew}) => {
   const handleClickStep = (index,questions) => {
     dispatch(setCurrentStep(index))
     console.log(questionieres[currentQuestioneir].steps);
+ 
+  };
+  const handleRemoveStep = (index,questions) => {
+    dispatch(deleteStep(index))
+    // console.log(questionieres[currentQuestioneir].steps);
  
   };
   const [pressSave , setPressSave] = useState(false) ;
@@ -325,10 +353,22 @@ const QuestionnaireSettings = ({isAddNew}) => {
             {questionieres[currentQuestioneir] ? questionieres[currentQuestioneir].steps.map((answer ,index)=>
               <>
                <AddStepButton 
-                  onClick={()=>{handleClickStep(index,answer.questions); setActiveStep(index) ;  }}
+               
                   className= {activeStep==index ? 'active' : ''}
-                >
-                  {answer.name}
+
+                  >
+                     
+                    <span    onClick={()=>{handleClickStep(index,answer.questions); setActiveStep(index) ;  }}>
+                        <StepInput 
+                        value={answer.name} 
+                        placeholder= "Step Title"
+                        onChange={(e) => handleStepTitle(e.target.value)}
+                        className= {activeStep==index ? 'active' : ''}
+                        />
+                       
+                    </span>
+                   <span  onClick={()=>{handleRemoveStep(index,answer.questions);  }} style={{color:'red'}}>X</span>
+
                </AddStepButton>
               </>
             ): ''}
@@ -354,9 +394,9 @@ const QuestionnaireSettings = ({isAddNew}) => {
         </Settings>
         <QuestionView>
           {
-            questionieres[currentQuestioneir].steps.length>0 ?
+            questionieres[currentQuestioneir].steps[currentStep]?.questions.length>0 ?
             
-            <QuestionComponent questions ={questionieres[currentQuestioneir].steps[currentStep].questions}></QuestionComponent>
+            <QuestionComponent questions ={questionieres[currentQuestioneir].steps[currentStep]?.questions}></QuestionComponent>
             :''
 
           }
