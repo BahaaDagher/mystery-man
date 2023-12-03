@@ -355,6 +355,7 @@ const QuestionnaireSettings = ({isAddNew}) => {
                <AddStepButton 
                
                   className= {activeStep==index ? 'active' : ''}
+
                   >
                      
                     <span    onClick={()=>{handleClickStep(index,answer.questions); setActiveStep(index) ;  }}>
@@ -367,6 +368,7 @@ const QuestionnaireSettings = ({isAddNew}) => {
                        
                     </span>
                    <span  onClick={()=>{handleRemoveStep(index,answer.questions);  }} style={{color:'red'}}>X</span>
+
                </AddStepButton>
               </>
             ): ''}
