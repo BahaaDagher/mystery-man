@@ -87,6 +87,10 @@ const questionierSlice = createSlice({
         setCurrentStep: (state, action) => {
             state.currentStep = action.payload
         },
+    
+        deleteStep: (state, action) => {
+          state.questionieres[state.currentQuestioneir].steps.splice(action.payload, 1);
+        },
         setCurrentQuestioneirID: (state, action) => {
           state.CurrentQuestioneirID += action.payload
         },
@@ -103,6 +107,9 @@ const questionierSlice = createSlice({
         setNewStep: (state, action) => {
             console.log(state.questionieres[state.currentQuestioneir]);
             state.questionieres[state.currentQuestioneir].steps.push({name:action.payload ,questions:[]}) 
+        },
+        setNewStepName: (state ,action) => {
+          state.questionieres[state.currentQuestioneir].steps[state.currentStep].name =action.payload
         },
         setQuestionsInStep: (state, action) => {
       
@@ -165,10 +172,12 @@ const questionierSlice = createSlice({
   export const { 
     ToggleDirection ,
     setCurrentStep,
+    deleteStep,
     setCurrentQuestioneir,
     setNewStep,
     setNewQuestioneir
     ,setQuestionsInStep,
+    setNewStepName,
     handleReadyToSend,
     setQuestionDetails,
     setNewQuestioneirName,
