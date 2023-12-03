@@ -60,8 +60,8 @@ const QuestionsTypes = ({anchorEl , setAnchorEl , setChosenType }) => {
   };
   const wantedType = (index) => {
     setChosenType(TypesArray[index].name)
+    
     dispatch(setQuestionsInStep(TypesArray[index].name))
- 
   };
   const {t} = useTranslation() ; 
 
@@ -120,7 +120,7 @@ const QuestionsTypes = ({anchorEl , setAnchorEl , setChosenType }) => {
       <ListContainer>
       <Title>{t("text.chooseAQuestionType")}</Title>
         <UL>
-        {TypesArray.map((type   , index) =>    
+        {TypesArray.map((type   , index) => 
             <Li  onClick={()=> {handleClose() ; wantedType(index) ; }} key = {index}>
                 <Img src = {type.icon} alt />
                 <Span > {type.name2} </Span>

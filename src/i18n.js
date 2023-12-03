@@ -174,7 +174,10 @@ const resources = {
         rate  : "rate" ,
         Error : "Error" ,
         You_dont_have_enough_money_to_create_a_new_mission : "You don't have enough money to create a new mission" ,
-
+        Please_enter_a_new_answer : "Please enter a new answer" ,
+        Please_enter_a_new_answer_rate : "Please enter a new answer rate" ,
+        Rating_must_be_between_0_and_100 : "Rating must be between 0 and 100" ,
+        please_add_step_first : "please add step first" ,
       },
       content: {}
     }
@@ -349,6 +352,10 @@ const resources = {
         rate  : "التقييم" ,
         Error : "خطأ" ,
         You_dont_have_enough_money_to_create_a_new_mission : "ليس لديك ما يكفي من المال لإنشاء مهمة جديدة" ,
+        Please_enter_a_new_answer : "الرجاء إدخال إجابة جديدة" ,
+        Please_enter_a_new_answer_rate : "الرجاء إدخال تقييم للإجابة جديدة" ,
+        Rating_must_be_between_0_and_100 : "يجب أن يكون التقييم بين 0 و 100" ,
+        please_add_step_first : "يرجى إضافة خطوة أولا" ,
 
       },
       content: {}

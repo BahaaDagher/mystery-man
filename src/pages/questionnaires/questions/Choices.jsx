@@ -8,6 +8,7 @@ import DeleteIcon from './DeleteIcon';
 import { useDispatch, useSelector } from 'react-redux';
 import { handleDeleteQuestion, setQuestionDetails } from '../../../store/slices/questionierSlice';
 import { useTranslation } from 'react-i18next';
+import Swal from 'sweetalert2';
 
 
 const Parent = styled("div")(({ theme }) => ({
@@ -75,6 +76,7 @@ const Answer = styled("div")(({ theme }) => ({
 }));
 
 const Choices = ({questionData,index}) => {
+  const {t} = useTranslation();
   const [radio,  setRadio] = useState(questionData.required);
   const [question, setQuestion] = useState(questionData.title);
   const [answers, setAnswers] = useState(questionData.options); 
@@ -109,7 +111,26 @@ const Choices = ({questionData,index}) => {
 
   const handleAddAnswer = () => {
     console.log("newAnswer",newAnswer);
-    if (newAnswer.title.trim() !== ''&& (newAnswer.rate>=0 && newAnswer.rate<=100 )) {
+    if (newAnswer.title.trim() === '') {
+      Swal.fire({
+        icon: 'error',
+        text: t("text.Please_enter_a_new_answer"),
+      })
+    }
+    else if (newAnswer.rate.trim() === '') {
+      Swal.fire({
+        icon: 'error',
+        text: t("text.Please_enter_a_new_answer_rate"),
+      })
+    }
+    else if (newAnswer.rate<0 || newAnswer.rate>100 ) {
+      Swal.fire({
+        icon: 'error',
+        text: t("text.Rating_must_be_between_0_and_100"),
+      })
+    }
+
+    if (newAnswer.title.trim() !== ''&& (newAnswer.rate>=0 && newAnswer.rate<=100 ) && newAnswer.rate.trim()!="") {
       console.log("newAnswer",newAnswer);
       const currentAns =questionData.options
       setAnswers([...currentAns, newAnswer]);
@@ -121,7 +142,6 @@ const Choices = ({questionData,index}) => {
     updatedAnswers.splice(index, 1);
     setAnswers(updatedAnswers);
   };
-  const {t} = useTranslation();
   return (
     <>
       <Parent>

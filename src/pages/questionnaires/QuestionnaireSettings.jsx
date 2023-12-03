@@ -145,6 +145,7 @@ const ActionButton = styled(FlexCenter)(({ theme }) => ({
   },
 }));
 const AddStepButton = styled(FlexCenter)(({ theme }) => ({
+  position : "relative" , 
   padding: '5px 20px',
   borderRadius: '10px',
   gap: '10px',
@@ -160,19 +161,46 @@ const AddStepButton = styled(FlexCenter)(({ theme }) => ({
   } , 
   "&.active" : {
     color:'white' , 
-  backgroundColor : Colors.second ,
-} , 
-[theme.breakpoints.down('350')]: {
-  width : "100%" , 
+    backgroundColor : Colors.second ,
+  } , 
+  "&.addButton" : {
+    width : "fit-content" ,
+  } , 
+  
+  [theme.breakpoints.down('350')]: {
+    width : "100%" , 
   },
+}));
+
+const StepName = styled("span")(({ theme }) => ({
+  width : "fit-content" , 
+
+}));
+const DeleteStep = styled(FlexCenter)(({ theme }) => ({
+  position : "absolute" ,
+  fontSize : "12px" , 
+  fontWeight : "bold" , 
+  border : "2px solid #fff" ,
+  borderRadius : "50%" ,
+  width : "20px" , 
+  height : "20px" ,
+  right : "-10px" ,
+  top : "-7px" , 
+  backgroundColor : Colors.red ,
+  color : "#fff" , 
+  cursor : "pointer" , 
+  transition : "all 0.3s ease" ,
+  "&:hover" :{
+    backgroundColor : Colors.hoverRed ,
+  }
+
 }));
 const QuestionView = styled("div")(({ theme }) => ({
   
 }));
 
-const AddButton = styled("div")(({ theme }) => ({
+const AddButton = styled(FlexCenter)(({ theme }) => ({
   backgroundColor : Colors.main ,
-  display : "inline" ,
   padding : "5px 10px" ,
   borderRadius : "10px" ,
   color : "#fff" ,
@@ -216,7 +244,13 @@ const QuestionnaireSettings = ({isAddNew}) => {
   const [showNewStep, setShowNewStep] = useState(false); 
 
   const showTypes = (event) => {
-    setAnchorEl(event.currentTarget);
+    console.log ("questionieres", questionieres[currentQuestioneir].steps)
+    if (questionieres[currentQuestioneir].steps.length == 0 ){
+      Swal.fire(t("text.please_add_step_first"), '', 'info')
+    }
+    else {
+      setAnchorEl(event.currentTarget);
+    }
   };
   
   useEffect(() => {
@@ -249,17 +283,13 @@ const QuestionnaireSettings = ({isAddNew}) => {
   const handleAddStep = () => {
     setShowNewStep(true)
   };
-
-
   const handleClickStep = (index,questions) => {
     dispatch(setCurrentStep(index))
     console.log(questionieres[currentQuestioneir].steps);
- 
   };
   const handleRemoveStep = (index,questions) => {
     dispatch(deleteStep(index))
     // console.log(questionieres[currentQuestioneir].steps);
- 
   };
   const [pressSave , setPressSave] = useState(false) ;
   useEffect(() => {
@@ -352,37 +382,26 @@ const QuestionnaireSettings = ({isAddNew}) => {
 
             {questionieres[currentQuestioneir] ? questionieres[currentQuestioneir].steps.map((answer ,index)=>
               <>
-               <AddStepButton 
-               
-                  className= {activeStep==index ? 'active' : ''}
-
-                  >
-                     
-                    <span    onClick={()=>{handleClickStep(index,answer.questions); setActiveStep(index) ;  }}>
-                        <StepInput 
+               <AddStepButton  className= {activeStep==index ? 'active' : ''}>
+                  <StepName  onClick={()=>{handleClickStep(index,answer.questions); setActiveStep(index) ;  }}>
+                      <StepInput 
                         value={answer.name} 
                         placeholder= "Step Title"
                         onChange={(e) => handleStepTitle(e.target.value)}
                         className= {activeStep==index ? 'active' : ''}
-                        />
-                       
-                    </span>
-                   <span  onClick={()=>{handleRemoveStep(index,answer.questions);  }} style={{color:'red'}}>X</span>
-
+                      />
+                  </StepName>
+                  <DeleteStep  onClick={()=>{handleRemoveStep(index,answer.questions);  }}>×</DeleteStep>
                </AddStepButton>
               </>
             ): ''}
          
-          <AddStepButton onClick={handleAddStep}>+</AddStepButton>
-
-
-
+          <AddStepButton onClick={handleAddStep} className = "addButton">+</AddStepButton>
           </StepsContainer>
           {showNewStep ?  
-          
           <FlexCenter style={{justifyContent:'start' ,flexWrap:'wrap'}}>
             {/* <AnswerInput></AnswerInput> */}
-            <AddButton onClick={handleAddAnswerStep}>Save </AddButton>
+            <AddButton onClick={handleAddAnswerStep}> {t("text.Save")}</AddButton>
               <AnswerInput
                 type="text"
                 placeholder="Write a new step"
