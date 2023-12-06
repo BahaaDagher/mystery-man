@@ -78,7 +78,8 @@ const questionierSlice = createSlice({
         currentStep:0,
         isReadyToSend:false,
         questionierDataSent:{},
-        questionierDataDelete:{}
+        questionierDataDelete:{},
+        focusedStep:-1
     },
     reducers: {
         ToggleDirection: (state, action) => {
@@ -115,6 +116,20 @@ const questionierSlice = createSlice({
       
             state.questionieres[state.currentQuestioneir].steps[state.currentStep].questions.push({type:action.payload,title:'',required:'required',options:[]}) 
        
+        },
+        handleMoveQuestion: (state, action) => {
+          console.log('nnnnnnnnn',action);
+          const [movedQuestion] = state.questionieres[state.currentQuestioneir].steps[state.currentStep].questions.splice(action.payload.fromIndex, 1); // Remove the dragged question
+          state.questionieres[state.currentQuestioneir].steps[state.currentStep].questions.splice(action.payload.toIndex, 0, movedQuestion)
+        },
+        setFocusedStep: (state, action) => {
+          state.focusedStep = action.payload
+
+        },
+        handleMoveStep: (state, action) => {
+          console.log('nnnnnnnnn',action);
+          const [movedQuestion] = state.questionieres[state.currentQuestioneir].steps.splice(action.payload.fromIndex, 1); // Remove the dragged question
+          state.questionieres[state.currentQuestioneir].steps.splice(action.payload.toIndex, 0, movedQuestion)
         },
         handleDeleteQuestion: (state, action) => {
       
@@ -181,7 +196,10 @@ const questionierSlice = createSlice({
     handleReadyToSend,
     setQuestionDetails,
     setNewQuestioneirName,
+    handleMoveQuestion,
+    handleMoveStep,
     handleDeleteQuestion , 
+    setFocusedStep,
     setCurrentQuestioneirID
 } = questionierSlice.actions;
   export default questionierSlice.reducer;
