@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import plusSign from '../../../assets/icons/plusSign.svg'
 import {Colors} from "../../../Theme"
 import { Box, ListItemText, Popover } from '@mui/material';
@@ -9,9 +9,13 @@ import { FlexCenter } from '../../../components/FlexCenter';
 import QuestionsTypes from '../../questionnaires/QuestionsTypes';
 import QuestionComponent from '../../questionnaires/QuestionComponent';
 import { useDispatch, useSelector } from 'react-redux';
-import { getQuestionnaire, handleReadyToSend, handleReadyToSend2, sendQuestioneir, setCurrentQuestioneir, setCurrentStep, setNewQuestioneirName, setNewStep } from '../../../store/slices/questionierSlice';
+import { deleteStep, getQuestionnaire, handleMoveStep, handleReadyToSend, handleReadyToSend2, sendQuestioneir, setCurrentQuestioneir, setCurrentStep, setFocusedStep, setNewQuestioneirName, setNewStep, setNewStepName } from '../../../store/slices/questionierSlice';
 import Swal from 'sweetalert2';
 import { useTranslation } from 'react-i18next';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { useDrag, useDrop } from 'react-dnd';
+
 
 const Parent = styled(Box)(({ theme }) => ({
   width : "70%" ,
@@ -73,7 +77,25 @@ const Input = styled("input")(({ theme }) => ({
     backgroundColor: Colors.hoverMain, 
   },
 }));
-
+const StepInput = styled("input")(({ theme }) => ({
+  backgroundColor: "transparent",
+  width: "100%",
+  color: Colors.gray_l,
+  border: "1px solid transparent",
+  borderBottom: "1px solid #fff",
+  outline: "none",
+  fontSize: "20px",
+  "::placeholder": {
+    color: Colors.gray_l,
+  },
+  '::selection': {
+    backgroundColor: Colors.hoverMain,
+  },
+  "&.active": {
+    color: 'white',
+    backgroundColor: Colors.second,
+  },
+}));
 const ButtonsContainer = styled(Flex)(({ theme }) => ({
   [theme.breakpoints.down('1500')]: {
     flexWrap : "wrap" ,
@@ -142,29 +164,6 @@ const ActionButton = styled(FlexCenter)(({ theme }) => ({
     marginRight : theme.direction == "rtl" ? "0" : "10px" ,
   },
 }));
-const AddStepButton = styled(FlexCenter)(({ theme }) => ({
-  padding: '5px 20px',
-  borderRadius: '10px',
-  gap: '10px',
-  backgroundColor: Colors.bg,
-  margin : "10px 10px" , 
-  fontSize : "20px" ,
-  color : Colors.gray_l ,
-  cursor : "pointer" ,
-  transition : "all 0.3s ease" ,
-  "&:hover" : {
-    backgroundColor : Colors.grayDC ,
-  } , 
-"&.active" : {
-      color:'white' , 
-    backgroundColor : Colors.second ,
-  } , 
-
-}));
-const QuestionView = styled("div")(({ theme }) => ({
-  
-}));
-
 const AddButton = styled("div")(({ theme }) => ({
   backgroundColor : Colors.main ,
   display : "inline" ,
@@ -181,7 +180,59 @@ const AddButton = styled("div")(({ theme }) => ({
   textAlign : "center" ,
   width : "50px" , 
 }));
+const StepsContainer = styled(FlexCenter)(({ theme }) => ({
+  flexWrap : "wrap" , 
+}));
+const StepName = styled("span")(({ theme }) => ({
+  width : "fit-content" , 
 
+}));
+
+const DeleteStep = styled(FlexCenter)(({ theme }) => ({
+  position : "absolute" ,
+  fontSize : "12px" , 
+  fontWeight : "bold" , 
+  border : "2px solid #fff" ,
+  borderRadius : "50%" ,
+  width : "20px" , 
+  height : "20px" ,
+  right : "-10px" ,
+  top : "-7px" , 
+  backgroundColor : Colors.red ,
+  color : "#fff" , 
+  cursor : "pointer" , 
+  transition : "all 0.3s ease" ,
+  "&:hover" :{
+    backgroundColor : Colors.hoverRed ,
+  }
+
+}));
+const AddStepButton = styled(FlexSpaceBetween)(({ theme }) => ({
+  position : "relative" , 
+  padding: '5px 20px',
+  borderRadius: '10px',
+  gap: '10px',
+  width:'30%',
+  backgroundColor: Colors.bg,
+  margin : "10px 10px" , 
+  fontSize : "20px" ,
+  color : Colors.gray_l ,
+  cursor : "pointer" ,
+  transition : "all 0.3s ease" ,
+  "&:hover" : {
+    backgroundColor : Colors.grayDC ,
+  } , 
+  "&.active" : {
+    color:'white' , 
+  backgroundColor : Colors.second ,
+} , 
+[theme.breakpoints.down('350')]: {
+  width : "100%" , 
+  },
+}));
+const QuestionView = styled("div")(({ theme }) => ({
+  
+}));
 const AnswerInput = styled("input")(({ theme }) => ({
   backgroundColor : "transparent" ,
   width : "80%" ,
@@ -193,16 +244,6 @@ const AnswerInput = styled("input")(({ theme }) => ({
   },
   margin : "0 10px" ,
 }));
-const StepsDiv = styled(FlexCenter)(({ theme }) => ({
-    width : "100%" ,
-    flexWrap : "wrap" ,
-    justifyContent : "start" ,
-    margin : "20px 0" ,
-    [theme.breakpoints.down('800')]: {
-        justifyContent : "center" ,
-    },
-}));
-  
 
 
 const QuestionnaireData = ({setShowQuestionnaire}) => {
@@ -232,7 +273,9 @@ const QuestionnaireData = ({setShowQuestionnaire}) => {
   useEffect(() => {
     dispatch(getQuestionnaire())
   }, [])
- 
+  const handleStepTitle = (value) => {
+    dispatch(setNewStepName(value))
+  };
   const handleAddAnswerStep = () => {
     if (newAnswer.trim() !== '') {
       dispatch(setNewStep(newAnswer))
@@ -252,7 +295,13 @@ const QuestionnaireData = ({setShowQuestionnaire}) => {
 
   const handleClickStep = (index,questions) => {
     dispatch(setCurrentStep(index))
-    
+    dispatch(setFocusedStep(index))
+
+ 
+  };
+  const handleRemoveStep = (index,questions) => {
+    dispatch(deleteStep(index))
+    // console.log(questionieres[currentQuestioneir].steps);
  
   };
   const questionierDataSent = useSelector((state) => state.questioneirData.questionierDataSent);
@@ -286,6 +335,71 @@ const QuestionnaireData = ({setShowQuestionnaire}) => {
   };
   const [activeStep, setActiveStep] = useState(0);
   const {t} = useTranslation();
+  const moveStep = (fromIndex, toIndex) => {
+    console.log('llllllllllll',fromIndex,toIndex);
+    dispatch(handleMoveStep({fromIndex, toIndex}))
+  };
+  const focusedStep = useSelector((state) => state.questioneirData.focusedStep);
+
+  const StepComponent = ({ answer, index , focusedStep, setFocusedStep}) => {
+    const ref = useRef(null);
+    // useEffect(() => {
+    //   // Focus on the input element when the activeStep changes
+    //   if (activeStep === index && ref.current) {
+    //     ref.current.focus();
+    //   }
+    // }, [activeStep, index]);
+    useEffect(() => {
+      if (focusedStep === index && ref.current) {
+        ref.current.focus();
+      }
+    }, [focusedStep, index]);
+
+    const [, drop] = useDrop({
+      accept: 'STEP',
+      hover: (item) => {
+        const draggedIndex = item.index;
+        const targetIndex = index;
+
+        if (draggedIndex === targetIndex) {
+          return;
+        }
+
+        moveStep(draggedIndex, targetIndex);
+        item.index = targetIndex;
+      },
+    });
+
+    const [, drag] = useDrag({
+      type: 'STEP',
+      item: { type: 'STEP', index },
+    });
+
+    drag(drop(ref));
+
+    return (
+        <>
+        
+        <StepName  onClick={()=>{ handleClickStep(index,answer.questions); setActiveStep(index) ;  }} >
+          <StepInput
+            value={answer.name}
+            ref={ref}
+            placeholder="Step Title"
+            onChange={(e) =>{
+           
+              handleStepTitle(e.target.value)}
+            }
+            onMouseDown={(e) => e.stopPropagation()} // Prevent onClick from interfering
+            className={activeStep === index ? 'active' : ''}
+          />
+        </StepName>
+        <DeleteStep onClick={() => handleRemoveStep(index, answer.questions)} >
+          x
+        </DeleteStep>
+        </>
+   
+    );
+  };
   return (
     <>
     <QuestionsTypes  setAnchorEl= {setAnchorEl} anchorEl={anchorEl} setChosenType = {setChosenType}/>
@@ -312,25 +426,27 @@ const QuestionnaireData = ({setShowQuestionnaire}) => {
               </AddQuestionContainer>
             </ButtonsContainer>
           </InputAndButtons>
-          <StepsDiv style={{justifyContent:'start' , }}>
+          <DndProvider backend={HTML5Backend}>
 
-            {questionieres[currentQuestioneir] ? questionieres[currentQuestioneir].steps.map((answer ,index)=>
+            <StepsContainer style={{ justifyContent: 'start' }}>
+              {questionieres[currentQuestioneir] ? questionieres[currentQuestioneir].steps.map((answer, index) => (
+                <AddStepButton   className= {activeStep==index ? 'active' : ''}>
 
-               <AddStepButton 
-                    onClick={()=>{handleClickStep(index,answer.questions); setActiveStep(index) ;  }}
-
-                    className= {activeStep==index ? 'active' : ''}
-                    >
-                {answer.name}
+                  <StepComponent
+                    key={index}
+                    answer={answer}
+                    index={index}
+                    moveStep={moveStep}
+                    focusedStep={focusedStep}
+                   
+                  
+                  />
                 </AddStepButton>
-            ): ''}
-         
-          <AddStepButton onClick={handleAddStep}>+</AddStepButton>
-
-
-
-          </StepsDiv>
-          {showNewStep ?  
+              )) : ''}
+              <AddStepButton onClick={handleAddStep}>+</AddStepButton>
+            </StepsContainer>
+          </DndProvider>
+            {showNewStep ?  
           
           <FlexCenter style={{justifyContent:'start' ,flexWrap:'wrap'}}>
             {/* <AnswerInput></AnswerInput> */}
@@ -348,7 +464,10 @@ const QuestionnaireData = ({setShowQuestionnaire}) => {
           {
             questionieres[currentQuestioneir].steps.length>0 ?
             
-            <QuestionComponent questions ={questionieres[currentQuestioneir].steps[currentStep].questions}></QuestionComponent>
+            <DndProvider backend={HTML5Backend}>
+
+              <QuestionComponent questions ={questionieres[currentQuestioneir].steps[currentStep]?.questions} ></QuestionComponent>
+            </DndProvider>
             :''
 
           }

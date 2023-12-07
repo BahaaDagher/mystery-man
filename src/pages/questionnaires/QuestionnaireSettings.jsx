@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import plusSign from '../../assets/icons/plusSign.svg'
 import {Colors} from "../../Theme"
 import { Box, ListItemText, Popover } from '@mui/material';
@@ -10,13 +10,17 @@ import { FlexCenter } from '../../components/FlexCenter';
 import QuestionsTypes from './QuestionsTypes';
 import QuestionComponent from './QuestionComponent';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteQuestioneir, deleteStep, editQuestioneir, getQuestionnaire, handleReadyToSend, handleReadyToSend2, sendQuestioneir, setCurrentQuestioneir, setCurrentStep, setNewQuestioneirName, setNewStep, setNewStepName } from '../../store/slices/questionierSlice';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { deleteQuestioneir, deleteStep, editQuestioneir, getQuestionnaire, handleMoveStep, handleReadyToSend, handleReadyToSend2, sendQuestioneir, setCurrentQuestioneir, setCurrentStep, setFocusedStep, setNewQuestioneirName, setNewStep, setNewStepName } from '../../store/slices/questionierSlice';
 import Swal from 'sweetalert2';
 import { useTranslation } from 'react-i18next';
+import { useDrag, useDrop } from 'react-dnd';
 
 const Parent = styled(Box)(({ theme }) => ({
   width : "100%" ,
-  margin  : "0 10px" ,
+  margin  : "0 50px" ,
+
   [theme.breakpoints.down('800')]: {
     margin  : "0" ,
   },
@@ -65,23 +69,23 @@ const Input = styled("input")(({ theme }) => ({
   },
 }));
 const StepInput = styled("input")(({ theme }) => ({
-  backgroundColor : "transparent" ,
-  width : "100%" ,
-  color : Colors.gray_l ,
-  border: "1px solid transparent" , 
-  borderBottom: "1px solid #fff" , 
-  outline : "none" ,
-  fontSize : "20px" ,
+  backgroundColor: "transparent",
+  width: "100%",
+  color: Colors.gray_l,
+  border: "1px solid transparent",
+  borderBottom: "1px solid #fff",
+  outline: "none",
+  fontSize: "20px",
   "::placeholder": {
-    color: Colors.gray_l
+    color: Colors.gray_l,
   },
   '::selection': {
-    backgroundColor: Colors.hoverMain, 
+    backgroundColor: Colors.hoverMain,
   },
-  "&.active" : {
-    color:'white' , 
-  backgroundColor : Colors.second ,
-} , 
+  "&.active": {
+    color: 'white',
+    backgroundColor: Colors.second,
+  },
 }));
 
 const ButtonsContainer = styled(Flex)(({ theme }) => ({
@@ -144,7 +148,7 @@ const ActionButton = styled(FlexCenter)(({ theme }) => ({
     marginRight : theme.direction == "rtl" ? "0" : "10px" ,
   },
 }));
-const AddStepButton = styled(FlexCenter)(({ theme }) => ({
+const AddStepButton = styled(FlexSpaceBetween)(({ theme }) => ({
   position : "relative" , 
   padding: '5px 20px',
   borderRadius: '10px',
@@ -161,21 +165,40 @@ const AddStepButton = styled(FlexCenter)(({ theme }) => ({
   } , 
   "&.active" : {
     color:'white' , 
-    backgroundColor : Colors.second ,
-  } , 
-  "&.addButton" : {
-    width : "fit-content" ,
-  } , 
-  
-  [theme.breakpoints.down('350')]: {
-    width : "100%" , 
+  backgroundColor : Colors.second ,
+} , 
+[theme.breakpoints.down('350')]: {
+  width : "100%" , 
   },
 }));
+const QuestionView = styled("div")(({ theme }) => ({
+  
+}));
 
+const AddButton = styled("div")(({ theme }) => ({
+  backgroundColor : Colors.main ,
+  display : "inline" ,
+  padding : "5px 10px" ,
+  borderRadius : "10px" ,
+  color : "#fff" ,
+  cursor : "pointer" ,
+  marginRight : theme.direction == "ltr" ? "10px" : "0" ,
+  marginLeft : theme.direction == "rtl" ? "10px" : "0" ,
+  transition : "all .3s ease-in-out" ,
+  "&:hover" : {
+    backgroundColor : Colors.hoverMain ,
+  },
+  textAlign : "center" ,
+  width : "50px" , 
+}));
+const StepsContainer = styled(FlexCenter)(({ theme }) => ({
+  flexWrap : "wrap" , 
+}));
 const StepName = styled("span")(({ theme }) => ({
   width : "fit-content" , 
 
 }));
+
 const DeleteStep = styled(FlexCenter)(({ theme }) => ({
   position : "absolute" ,
   fontSize : "12px" , 
@@ -195,28 +218,6 @@ const DeleteStep = styled(FlexCenter)(({ theme }) => ({
     backgroundColor : Colors.hoverRed ,
   }
 
-}));
-const QuestionView = styled("div")(({ theme }) => ({
-  
-}));
-
-const AddButton = styled(FlexCenter)(({ theme }) => ({
-  backgroundColor : Colors.main ,
-  padding : "5px 10px" ,
-  borderRadius : "10px" ,
-  color : "#fff" ,
-  cursor : "pointer" ,
-  marginRight : theme.direction == "ltr" ? "10px" : "0" ,
-  marginLeft : theme.direction == "rtl" ? "10px" : "0" ,
-  transition : "all .3s ease-in-out" ,
-  "&:hover" : {
-    backgroundColor : Colors.hoverMain ,
-  },
-  textAlign : "center" ,
-  width : "50px" , 
-}));
-const StepsContainer = styled(FlexCenter)(({ theme }) => ({
-  flexWrap : "wrap" , 
 }));
 
 const AnswerInput = styled("input")(({ theme }) => ({
@@ -245,13 +246,7 @@ const QuestionnaireSettings = ({isAddNew}) => {
   const [showNewStep, setShowNewStep] = useState(false); 
 
   const showTypes = (event) => {
-    console.log ("questionieres", questionieres[currentQuestioneir].steps)
-    if (questionieres[currentQuestioneir].steps.length == 0 ){
-      Swal.fire(t("text.please_add_step_first"), '', 'info')
-    }
-    else {
-      setAnchorEl(event.currentTarget);
-    }
+    setAnchorEl(event.currentTarget);
   };
   
   useEffect(() => {
@@ -284,13 +279,18 @@ const QuestionnaireSettings = ({isAddNew}) => {
   const handleAddStep = () => {
     setShowNewStep(true)
   };
+
+
   const handleClickStep = (index,questions) => {
     dispatch(setCurrentStep(index))
+    dispatch(setFocusedStep(index))
     console.log(questionieres[currentQuestioneir].steps);
+ 
   };
   const handleRemoveStep = (index,questions) => {
     dispatch(deleteStep(index))
     // console.log(questionieres[currentQuestioneir].steps);
+ 
   };
   const [pressSave , setPressSave] = useState(false) ;
   useEffect(() => {
@@ -336,7 +336,7 @@ const QuestionnaireSettings = ({isAddNew}) => {
       }
     })
   };
-
+  const focusedStep = useSelector((state) => state.questioneirData.focusedStep);
   const handleDeleteQuestioneir = () => {
     console.log(questionieres[currentQuestioneir]);
     setPressSave(true)
@@ -356,6 +356,72 @@ const QuestionnaireSettings = ({isAddNew}) => {
   };
   const [activeStep, setActiveStep] = useState(0);
   const {t} = useTranslation() ; 
+  const moveStep = (fromIndex, toIndex) => {
+    console.log('llllllllllll',fromIndex,toIndex);
+    dispatch(handleMoveStep({fromIndex, toIndex}))
+  };
+
+  const StepComponent = ({ answer, index , focusedStep}) => {
+    const ref = useRef(null);
+    // useEffect(() => {
+    //   // Focus on the input element when the activeStep changes
+    //   if (activeStep === index && ref.current) {
+    //     ref.current.focus();
+    //   }
+    // }, [activeStep, index]);
+    useEffect(() => {
+      if (focusedStep === index && ref.current) {
+        console.log('mmmmmmmmmmm', ref.current);
+        ref.current.focus();
+      }
+    }, [focusedStep, index]);
+
+    const [, drop] = useDrop({
+      accept: 'STEP',
+      hover: (item) => {
+        const draggedIndex = item.index;
+        const targetIndex = index;
+
+        if (draggedIndex === targetIndex) {
+          return;
+        }
+
+        moveStep(draggedIndex, targetIndex);
+        item.index = targetIndex;
+      },
+    });
+
+    const [, drag] = useDrag({
+      type: 'STEP',
+      item: { type: 'STEP', index },
+    });
+
+    drag(drop(ref));
+
+    return (
+        <>
+        
+        <StepName  onClick={()=>{ handleClickStep(index,answer.questions); setActiveStep(index) ;  }} >
+          <StepInput
+            value={answer.name}
+            ref={ref}
+            placeholder="Step Title"
+            onChange={(e) =>{
+           
+              handleStepTitle(e.target.value)}
+            }
+            onMouseDown={(e) => e.stopPropagation()} // Prevent onClick from interfering
+            className={activeStep === index ? 'active' : ''}
+          />
+        </StepName>
+        <DeleteStep onClick={() => handleRemoveStep(index, answer.questions)} >
+          x
+        </DeleteStep>
+        </>
+   
+    );
+  };
+  
   return (
     <>
     <QuestionsTypes  setAnchorEl= {setAnchorEl} anchorEl={anchorEl} setChosenType = {setChosenType}/>
@@ -379,30 +445,31 @@ const QuestionnaireSettings = ({isAddNew}) => {
               <ActionButton onClick={()=>handleDeleteQuestioneir()} className = "cancel">{t("text.Delete")}</ActionButton>
             </ButtonsContainer>
           </InputAndButtons>
-          <StepsContainer style={{justifyContent:'start'}}>
+          <DndProvider backend={HTML5Backend}>
 
-            {questionieres[currentQuestioneir] ? questionieres[currentQuestioneir].steps.map((answer ,index)=>
-              <>
-               <AddStepButton  className= {activeStep==index ? 'active' : ''}>
-                  <StepName  onClick={()=>{handleClickStep(index,answer.questions); setActiveStep(index) ;  }}>
-                      <StepInput 
-                        value={answer.name} 
-                        placeholder= "Step Title"
-                        onChange={(e) => handleStepTitle(e.target.value)}
-                        className= {activeStep==index ? 'active' : ''}
-                      />
-                  </StepName>
-                  <DeleteStep  onClick={()=>{handleRemoveStep(index,answer.questions);  }}>×</DeleteStep>
-               </AddStepButton>
-              </>
-            ): ''}
-         
-          <AddStepButton onClick={handleAddStep} className = "addButton">+</AddStepButton>
-          </StepsContainer>
+            <StepsContainer style={{ justifyContent: 'start' }}>
+              {questionieres[currentQuestioneir] ? questionieres[currentQuestioneir].steps.map((answer, index) => (
+                <AddStepButton   className= {activeStep==index ? 'active' : ''}>
+
+                  <StepComponent
+                    key={index}
+                    answer={answer}
+                    index={index}
+                    moveStep={moveStep}
+                    focusedStep={focusedStep}
+                    
+                  
+                  />
+                </AddStepButton>
+              )) : ''}
+              <AddStepButton onClick={handleAddStep}>+</AddStepButton>
+            </StepsContainer>
+          </DndProvider>
           {showNewStep ?  
+          
           <FlexCenter style={{justifyContent:'start' ,flexWrap:'wrap'}}>
             {/* <AnswerInput></AnswerInput> */}
-            <AddButton onClick={handleAddAnswerStep}> {t("text.Save")}</AddButton>
+            <AddButton onClick={handleAddAnswerStep}>Save </AddButton>
               <AnswerInput
                 type="text"
                 placeholder="Write a new step"
@@ -415,8 +482,11 @@ const QuestionnaireSettings = ({isAddNew}) => {
         <QuestionView>
           {
             questionieres[currentQuestioneir].steps[currentStep]?.questions.length>0 ?
+            <DndProvider backend={HTML5Backend}>
+
+              <QuestionComponent questions ={questionieres[currentQuestioneir].steps[currentStep]?.questions} ></QuestionComponent>
+            </DndProvider>
             
-            <QuestionComponent questions ={questionieres[currentQuestioneir].steps[currentStep]?.questions}></QuestionComponent>
             :''
 
           }

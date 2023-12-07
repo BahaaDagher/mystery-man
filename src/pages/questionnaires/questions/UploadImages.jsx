@@ -76,7 +76,7 @@ const UploadImages = ({questionData,index}) => {
   const {t} = useTranslation() ; 
   return (
     <Parent>
-      <DeleteIcon />
+      <DeleteIcon index={index} />
       <RequiredOptional radio={questionData} setRadio= {setRadio} />
       <QuestionInput question= {questionData} setQuestion= {setQuestion}/>
       <input

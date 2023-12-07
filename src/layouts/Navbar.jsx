@@ -22,6 +22,7 @@ import Swal from 'sweetalert2';
 import { getProfile } from '../store/slices/profileSlice';
 import NotificationIcon from '../components/NotificationIcon';
 import Loading from '../components/Loading';
+import Pusher from 'pusher-js';
 
 const NavbarContainer = styled("div")(({ theme }) => ({
   height: '73px',
@@ -67,6 +68,18 @@ const SearchDiv = styled("div")(({ theme }) => ({
   display : "flex" ,
   justifyContent : "center" ,
   alignItems : "center" ,
+}));
+const NumChats = styled("span")(({ theme }) => ({
+  position : "absolute" ,
+  top : "-8px" ,
+  right:"-5px",
+  background:'red',
+  borderRadius:'50%',
+  width:'20px',
+  height:'20px',
+  textAlign:'center',
+  color:'white'
+
 }));
 
 const Input = styled("input")(({ theme }) => ({
@@ -172,12 +185,44 @@ const Navbar = ({phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
 
   const [newBranch , setNewBranch] = useState(false) ; 
   const [currentBranches , setCurrentBranches] = useState ([])
+  const [showNotification , setShowNotification] = useState(false) ; 
 
   const chatPage = () => {
     navigate("/chat")
   }
-  
-  
+
+  useEffect(() => { 
+   
+   
+    const pusher = new Pusher("8071a8e96650bf6eac15", {
+      secret: "74f3c62856110435f421",
+      cluster: "us3" , 
+      forceTLS: true,
+      encrypted: true,
+    });
+
+    const channel = pusher.subscribe('chat_api');
+    setTimeout(() => {
+        
+        channel.bind("VistorMessageSent", (data) => {
+            console.log(data);
+            setShowNotification(true)
+       
+        });
+        channel.bind("supportEvent", (data) => {
+            console.log(data);
+            setShowNotification(true)
+
+            
+        
+        });
+    }, 1000);
+
+    return () => {
+    pusher.unsubscribe('chat_api');
+    pusher.disconnect();
+    };
+    },[])
   return (
     <>
     {getProfileLoading && <Loading/>}
@@ -200,7 +245,11 @@ const Navbar = ({phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
           <NotificationIcon  />
         </Section>
         <Section onClick={chatPage}>
-          <img src = {chatImage} alt = "chat"/>
+          <div style={{position: 'relative'}}>
+
+             <img src = {chatImage} alt = "chat"/>
+             {showNotification ?<NumChats>1</NumChats>:'' }
+          </div>
         </Section>
         
       </InformationDiv>

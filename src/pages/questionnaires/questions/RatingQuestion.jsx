@@ -45,7 +45,7 @@ const RatingQuestion = ({questionData,index}) => {
   },[radio])
   return (
     <Parent>
-      <DeleteIcon />
+      <DeleteIcon  index={index}/>
       <RequiredOptional radio={questionData} setRadio= {setRadio} />
       <QuestionInput question= {questionData} setQuestion= {setQuestion}/>
       <FlexCenter>

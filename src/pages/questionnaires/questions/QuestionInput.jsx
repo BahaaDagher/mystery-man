@@ -3,6 +3,8 @@ import { Colors } from '../../../Theme';
 import styled from '@emotion/styled';
 import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import { setFocusedStep } from '../../../store/slices/questionierSlice';
 
 const Input = styled("input")(({ theme }) => ({
     backgroundColor : "transparent" ,
@@ -19,9 +21,18 @@ const Input = styled("input")(({ theme }) => ({
 
 const QuestionInput = ({question ,setQuestion }) => {
   const {t } = useTranslation();
+  const dispatch = useDispatch() ; 
+  const handleClickStep = () => {
+
+    dispatch(setFocusedStep(-1))
+    
+ 
+  };
+
   return (
     <Box margin = "20px 0">
         <Input
+         onClick={()=>{ handleClickStep()}}
           placeholder= {t("text.EnterYourQuestion")}
           type="text"
           value={question.title}
