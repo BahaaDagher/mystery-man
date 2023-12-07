@@ -3,7 +3,7 @@ import { Colors } from '../../../Theme';
 import styled from '@emotion/styled';
 import { FlexSpaceBetween } from '../../../components/FlexSpaceBetween';
 import { FlexCenter } from '../../../components/FlexCenter';
-import logo from "../../../assets/images/logo.svg"
+import logo from "../../../assets/images/BlueLogo.png"
 import logoPic from "../../../assets/icons/logoPic.svg"
 import { Flex } from '../../../components/Flex';
 import test from "../../../assets/images/test.png"
@@ -34,7 +34,7 @@ const MainInformation = styled("div")(({ theme }) => ({
 
 const LogoName = styled("img")(({ theme }) => ({
     marginBottom : "20px" ,
-    // width : "300px" ,
+    width : "250px" ,
 }));
 const BasicInfo = styled(FlexSpaceBetween)(({ theme }) => ({
     width : "100%" , 
@@ -237,8 +237,7 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
 
 
     useEffect  (()=>{
-        if (convert("11,5")<100) console.log ("convert(11,5)<100")
-        else console.log (convert("11,5"))
+        console.log("missionAnswer" , missionAnswer)
         if (one<2) {
             setOne(one+1)  
             missionAnswer?.steps.map ((step , index) => {
@@ -339,13 +338,11 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                 <PerformanceContainer>
                     <ScaleDiv>
                         {
-                            removeQum(missionAnswer?.rate)>=85 ? <img src = {excellentScale} style = {{ width  : "300px"}}/> :
-                            removeQum(missionAnswer?.rate)>=75 ? <img src = {goodScale} style = {{ width  : "300px"}}/> :
-                            removeQum(missionAnswer?.rate)>=50 ? <img src = {normalScale} style = {{ width  : "300px"}}/> :
+                            removeQum(missionAnswer?.rate)>=75 ? <img src = {excellentScale} style = {{ width  : "300px"}}/> :
+                            removeQum(missionAnswer?.rate)>=50 ? <img src = {goodScale} style = {{ width  : "300px"}}/> :
+                            removeQum(missionAnswer?.rate)>=25 ? <img src = {normalScale} style = {{ width  : "300px"}}/> :
                             <img src = {badScale} style = {{ width  : "300px"}}/> 
-                            
                         }
-                        
                     </ScaleDiv>
                     <PerformanceRate>
                         <YourPerformance> {t("text.YOUR_PERFORMANCE")} </YourPerformance>

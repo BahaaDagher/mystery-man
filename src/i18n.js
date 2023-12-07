@@ -178,6 +178,9 @@ const resources = {
         Please_enter_a_new_answer_rate : "Please enter a new answer rate" ,
         Rating_must_be_between_0_and_100 : "Rating must be between 0 and 100" ,
         please_add_step_first : "please add step first" ,
+        PrintingTime : "Printing Time", 
+        General_rate : "General rate" ,
+        Number_of_Missions : "Number of Missions" ,
       },
       content: {}
     }
@@ -356,6 +359,9 @@ const resources = {
         Please_enter_a_new_answer_rate : "الرجاء إدخال تقييم للإجابة جديدة" ,
         Rating_must_be_between_0_and_100 : "يجب أن يكون التقييم بين 0 و 100" ,
         please_add_step_first : "يرجى إضافة خطوة أولا" ,
+        PrintingTime : "وقت الطباعة" , 
+        General_rate : "التقييم العام" , 
+        Number_of_Missions : "عدد المهمات" ,
 
       },
       content: {}

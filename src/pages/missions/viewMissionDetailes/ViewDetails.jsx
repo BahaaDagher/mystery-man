@@ -140,11 +140,10 @@ const ViewDetails = ({missionDetails}) => {
                     }
                 })}
             </Parent>
+            
             {
                 !showPrint ? <SubmitButton onClick = {handleShowPrint}>{t("text.show_Report")}</SubmitButton> : null 
             }
-            
-            
             {showPrint ?
                 <>
                     <ReactToPrint 

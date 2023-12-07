@@ -15,6 +15,7 @@ import { Flex } from '../../components/Flex';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentMission } from '../../store/slices/missionSlice';
 import { useTranslation } from 'react-i18next';
+import { FlexSpaceBetween } from '../../components/FlexSpaceBetween';
 
 
 const Parent = styled(Flex)(({ theme }) => ({
@@ -52,12 +53,12 @@ const Button = styled("div")(({ theme }) => ({
     cursor : "pointer" ,
     backgroundColor : "#fff" , 
     color : Colors.gray_l ,
+    padding : "10px" , 
 
     "&.active" : {
         backgroundColor: Colors.main , 
         color  : "#fff" ,
     },
-    padding : "10px" , 
     [theme.breakpoints.down('800')]: {
         flex: "0 0 282px"
     },
@@ -69,24 +70,27 @@ const MissionName = styled("div")(({ theme }) => ({
     
 }));
 
+const Footer = styled(FlexSpaceBetween)(({ theme }) => ({
+    position: 'absolute',
+    bottom: '13px',
+    width: `calc(100% - 20px)`,
+    alignItems: 'center',
+    height : "20px" , 
+    marginTop : "10px" ,
+}));
+
+
 const ImgContainer = styled("div")(({ theme }) => ({
-    position : "absolute" , 
-    bottom : "5px" ,
-    left : "15px" ,
-    direction : "ltr" , 
+    // direction : "ltr" , 
 }));
 
 const Number = styled("div")(({ theme }) => ({
-    position : "absolute" , 
-    bottom : "0px" ,
-    right : "20px" ,
     fontSize: '30px',
     fontWeight: 500,
     lineHeight: '58px',
     letterSpacing: '0em',
     textAlign: 'right',
 }));
-
 
 const MissionsButtons = ({ setShowMissions , setSelectMissions , buttonsMissions }) => {
     const CurrentMission = useSelector(state => state.missionData.currentMission)
@@ -95,8 +99,9 @@ const MissionsButtons = ({ setShowMissions , setSelectMissions , buttonsMissions
     useEffect(() => {   
         console.log ("CurrentMission" , CurrentMission)
     },[CurrentMission])
-    useEffect(() => {   
-        dispatch(setCurrentMission()) ; 
+    useEffect(() => {
+        dispatch(setCurrentMission()) ;
+        
     },[])
 
     const {t} = useTranslation();
@@ -155,48 +160,54 @@ const MissionsButtons = ({ setShowMissions , setSelectMissions , buttonsMissions
 
     // number of every mission 
     const [numbers , setNumbers] = useState({
-        zero : 0 , 
-        one : 0 , 
-        two : 0 , 
-        three : 0 , 
-        five : 0 , 
-        six : 0 ,
-    }
+            zero : 0 , 
+            one : 0 , 
+            two : 0 , 
+            three : 0 , 
+            five : 0 , 
+            six : 0 ,
+        }
     )
-
+        
     useEffect(() => {
+        let get = true
+        for (let i = 0; i < buttonsArray.length; i++) {
+            if (buttonsArray[i].number != 0) get = false
+        }
         console.log("buttonsMissions", buttonsMissions)
-        buttonsMissions.map((mission , index) => {
-            console.log ("mission.status", mission.status )
-            let arr = numbers 
-            if (mission.status == 0) {
-                arr.zero = arr.zero + 1
-                setNumbers(arr)
-            }else if (mission.status == 1) {
-                arr.one = arr.one + 1
-                setNumbers(arr)
-            }else if (mission.status == 2) {
-                arr.two = arr.two + 1
-                setNumbers(arr)
-            }else if (mission.status == 3) {
-                arr.three = arr.three + 1
-                setNumbers(arr)
-            }else if (mission.status == 5) {
-                arr.five = arr.five + 1
-                setNumbers(arr)
-            }else if (mission.status == 6) {
-                arr.six = arr.six + 1
-                setNumbers(arr)
-            }
-        })
-        let arr = [...buttonsArray]
-        arr[0].number = numbers.zero
-        arr[1].number = numbers.one
-        arr[2].number = numbers.five
-        arr[3].number = numbers.two
-        arr[4].number = numbers.three
-        arr[5].number = numbers.six
-        setButtonsArray(arr)
+        if (get) {
+            buttonsMissions.map((mission , index) => {
+                console.log ("mission.status", mission.status )
+                let arr = numbers 
+                if (mission.status == 0) {
+                    arr.zero = arr.zero + 1
+                    setNumbers(arr)
+                }else if (mission.status == 1) {
+                    arr.one = arr.one + 1
+                    setNumbers(arr)
+                }else if (mission.status == 2) {
+                    arr.two = arr.two + 1
+                    setNumbers(arr)
+                }else if (mission.status == 3) {
+                    arr.three = arr.three + 1
+                    setNumbers(arr)
+                }else if (mission.status == 5) {
+                    arr.five = arr.five + 1
+                    setNumbers(arr)
+                }else if (mission.status == 6) {
+                    arr.six = arr.six + 1
+                    setNumbers(arr)
+                }
+            })
+            let arr = [...buttonsArray]
+            arr[0].number = numbers.zero
+            arr[1].number = numbers.one
+            arr[2].number = numbers.five
+            arr[3].number = numbers.two
+            arr[4].number = numbers.three
+            arr[5].number = numbers.six
+            setButtonsArray(arr)
+        }
 
     },[buttonsMissions])
     
@@ -209,14 +220,17 @@ const MissionsButtons = ({ setShowMissions , setSelectMissions , buttonsMissions
             return (
                 <Button onClick={(e)=>handleClick(button.id) } className = { activeButton === button.id ? "active" : "" }>
                     <MissionName>{t(`text.${button.name}`)}</MissionName>
-                    <ImgContainer>
-                        <img 
-                            src= {activeButton == button.id ? button.icon2 : button.icon1} 
-                            style = {{width : "60%"  }}
-                            alt = ""
-                        />
-                    </ImgContainer>
-                    <Number>{button.number}</Number>
+                    <Footer>
+                        <ImgContainer>
+                            <img 
+                                src= {activeButton == button.id ? button.icon2 : button.icon1} 
+                                style = {{width : "60%"  }}
+                                alt = ""
+                            />
+                        </ImgContainer>
+                        <Number>{button.number}</Number>
+                    </Footer>
+                   
                 </Button>
             )
             })}
