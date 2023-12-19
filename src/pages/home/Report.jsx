@@ -118,7 +118,7 @@ const Tab = styled("div")(({ theme }) => ({
 }));
 const BarParent = styled("div")(({ theme }) => ({
     marginTop : "20px" ,
-    minWidth : "700px" ,
+    minWidth : "1150px" ,
     overflow : "auto" ,
     direction : "ltr" , 
     display : "flex" ,
@@ -178,8 +178,16 @@ const Report = () => {
       let Missions = [] ;
       let Rates = [] ; 
       let mxMission = 0 ; 
+      const j = {} 
       for (let i = 0; i < getBranchesData.data.branches.length; i++) {
-        let branchMissions = getBranchesData.data.branches[i].missions.length 
+        if (j[getBranchesData.data.branches[i].name]) {
+          continue ; 
+        }
+        else {
+          j[getBranchesData.data.branches[i].name] = 1 ; 
+        }
+
+        let branchMissions = getBranchesData.data.branches[i].missions.length
         numOfMissions +=  branchMissions ;
         Missions.push({
           name : getBranchesData.data.branches[i].name ,
@@ -195,8 +203,6 @@ const Report = () => {
       setBranchesMissions(Missions)
       setNumberOfMissions(numOfMissions)
       setBranchesRates(Rates)
-      console.log("Rates", Rates)
-      console.log ("mxMission" , mxMission)
     }
   },[getBranchesData])
 
@@ -207,7 +213,7 @@ const Report = () => {
     if (active) {
       // Customize the tooltip content based on your data
       // `payload` is an array of objects representing the data for the hovered item
-      const text = payload[0].name  ; 
+      const text = payload[0]?.name  ; 
       return (
         <FlexCenter
          style = {{
@@ -219,11 +225,10 @@ const Report = () => {
         }}
         >
           <div>{label}</div>
-          <div> {t(`text.${text}`)} : {payload[0].value }</div>
+          <div> {t(`text.${text}`)} : {payload[0]?.value }</div>
         </FlexCenter>
       );
     }
-  
     return null;
   };
 
@@ -287,6 +292,21 @@ const Report = () => {
   const theme = useTheme() ; 
   const {t} = useTranslation()
 
+  const sayed = [
+    {
+      name : "bahaa "  , 
+      id : 6 , 
+    } , 
+    {
+      name : "bahaa "  , 
+      id : 7 , 
+    } , 
+    {
+      name : "mohamed "  , 
+      id : 8 , 
+    } , 
+
+  ]
 
   return (
     <>
@@ -310,57 +330,31 @@ const Report = () => {
               <Tab onClick={()=>{setShowRate(true)}} className = {showRate ? "active" : ""}>{t("text.rate")} </Tab>
               <Tab onClick={()=>{setShowRate(false)}} className = {!showRate ? "active" : ""}> {t("text.missions")} </Tab>
             </RateOrMissions>
-            <div >
-              {showRate ?
-                <BarParent >
-                  <BarChart
-                    width={700}
-                    height={350}
-                    data={branchesRates}
-                    margin={{
-                      top: 5,
-                      right: 30,
-                      left: 20,
-                      bottom: 5,
-                    }}
-                    barSize={20}
-                  >
-                    <XAxis dataKey="name" scale="point" padding= {theme.direction === 'ltr' ? { left: 50, right: 30 } : { left: 30, right: 50 } } />
-                    <YAxis 
-                      domain={[0, 5]} 
-                      tickCount={6}  
-                      orientation= {theme.direction=="rtl" ?  "right" : "left"}
-                    />
-                    <Tooltip content={<CustomTooltip />}  />
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <Bar dataKey="rate" fill={Colors.main} background={{ fill: Colors.lightMain }} rx={8} />
-                    {/* <Bar shape={<CustomBar />} dataKey="rate" /> */}
-                  </BarChart>
-                </BarParent>     
-                :
-                <BarParent >
-                  <BarChart
-                    width={700}
-                    height={350}
-                    data={branchesMissions}
-                    margin={{
-                      top: 5,
-                      right: 30,
-                      left: 20,
-                      bottom: 5,
-                    }}
-                    barSize={20}
-                  >
-                    <XAxis dataKey="name" scale="point" padding= {theme.direction === 'ltr' ? { left: 50, right: 30 } : { left: 30, right: 50 } } />
-                    <YAxis domain={[0, maxMission]} tickCount={6} orientation= {theme.direction=="rtl" ?  "right" : "left"}/>
-                    <Tooltip content={<CustomTooltip />} />
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <Bar dataKey="missions" fill={Colors.main} background={{ fill: Colors.lightMain }} />
-                  </BarChart>
-                </BarParent>
-              }
-            </div>
-            
+            <BarParent >
+              <BarChart
+                width={1150}
+                height={350}
+                data= {showRate ? branchesRates  : branchesMissions }
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+                barSize={20}
+              >
+                <XAxis dataKey="name" scale="point" padding= {theme.direction === 'ltr' ? { left: 50, right: 30 } : { left: 50, right: 50 } } />
+                <YAxis 
+                  domain= { showRate ? [0, 5] : [0, maxMission] }    
+                  tickCount={6} 
+                  orientation= {theme.direction=="rtl" ?  "right" : "left"}
+                />
+                <Tooltip content={<CustomTooltip />}  />
+                <CartesianGrid strokeDasharray="3 3" />
+                <Bar dataKey= { showRate ? "rate" : "missions" } fill={Colors.main} background={{ fill: Colors.lightMain }} rx={8} />
+                {/* <Bar shape={<CustomBar />} dataKey="rate" /> */}
+              </BarChart>
+            </BarParent> 
             <Dialog
               open={open}
               onClose={handleClose}
@@ -383,11 +377,10 @@ const Report = () => {
                           <TabAnswer>{getCurrentDate()}</TabAnswer>
                       </Info>
                   </InformationDiv>
-
                   <PrintTitle> {t("text.General_rate")}   </PrintTitle>
-                  <BarParent >
+                  <BarParent>
                     <BarChart
-                      width={700}
+                      width={1150}
                       height={350}
                       data={branchesRates}
                       margin={{
@@ -413,7 +406,7 @@ const Report = () => {
                   <PrintTitle> {t("text.Number_of_Missions")}  </PrintTitle>
                   <BarParent>
                     <BarChart
-                      width={700}
+                      width={1150}
                       height={350}
                       data={branchesMissions}
                       margin={{
@@ -432,7 +425,6 @@ const Report = () => {
                     </BarChart>
                   </BarParent>
                 </PrintContainer>
-                
               </DialogContent>
                 <ReactToPrint 
                     trigger={ () =>
@@ -444,7 +436,7 @@ const Report = () => {
                       </PrintDiv>
                     }
                     content={ () => document.getElementById('divToPrint') }
-                /> 
+                />
             </Dialog>
         </Parent>
         

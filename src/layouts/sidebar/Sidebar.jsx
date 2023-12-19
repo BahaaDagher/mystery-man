@@ -25,6 +25,7 @@ const SideBarDiv = styled("div")(({ theme }) => ({
     display: 'none',
   },
   direction: theme.direction,
+  overflowY  :"auto" , 
 }));
 
 const LogoContainer = styled("div")(({ theme }) => ({
