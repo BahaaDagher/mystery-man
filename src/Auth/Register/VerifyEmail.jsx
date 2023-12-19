@@ -154,7 +154,7 @@ const VerifyEmail = () => {
         sessionStorage.removeItem("company_email") ;
           Swal.fire({
             icon: 'success',
-            text:  verifyOtpData.message,
+            text:  t("text.The_data_has_been_registered_successfully_and_is_awaiting_admin_approval") , 
             showConfirmButton: false,
             timer: 2000
           })
@@ -172,6 +172,7 @@ const VerifyEmail = () => {
       }
     }
   } , [verifyOtpData])
+
   //////////////////////////////////end submit ///////////////////////////////////////
 
 const {t} = useTranslation () ; 

@@ -181,6 +181,7 @@ const resources = {
         PrintingTime : "Printing Time", 
         General_rate : "General rate" ,
         Number_of_Missions : "Number of Missions" ,
+        The_data_has_been_registered_successfully_and_is_awaiting_admin_approval : "The data has been registered successfully and is awaiting admin approval"
       },
       content: {}
     }
@@ -362,7 +363,7 @@ const resources = {
         PrintingTime : "وقت الطباعة" , 
         General_rate : "التقييم العام" , 
         Number_of_Missions : "عدد المهمات" ,
-
+        The_data_has_been_registered_successfully_and_is_awaiting_admin_approval : "تم تسجيل البيانات بنجاح وفي انتظار موافقه الادمن"
       },
       content: {}
     }

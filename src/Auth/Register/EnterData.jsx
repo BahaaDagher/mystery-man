@@ -135,13 +135,13 @@ const EnterData = () => {
       else {
         const formData = new FormData();
         formData.append("name", company_name);
-        formData.append("url", company_website);
+        if (company_website!="") formData.append("url", company_website);
         formData.append("email", company_email);
         formData.append("phone", Phone_Number);
         formData.append("password", password);
-        formData.append("CommercialRegistrationNo", commercial_registration_no);
-        formData.append("CommercialRegistrationImage", commercialRegisterFile);
-        formData.append("image", selectedPhoto);
+        if (commercial_registration_no!="") formData.append("CommercialRegistrationNo", commercial_registration_no);
+        if (commercialRegisterFile!=null) formData.append("CommercialRegistrationImage", commercialRegisterFile);
+        if (selectedPhoto!=null) formData.append("image", selectedPhoto);
         dispatch(userRegister(formData))
       }
       
