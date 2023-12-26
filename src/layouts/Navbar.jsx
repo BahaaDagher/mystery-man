@@ -175,11 +175,14 @@ const Navbar = ({phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
   // profile data 
   const getProfileData = useSelector(state => state.profileData.getProfileData) ;
   const getProfileLoading = useSelector(state => state.profileData.getProfileLoading) ;
+  const [ProfileID , setProfileID] = useState(-1);
   const [profileData , setProfileData] = useState ({})
   useEffect(()=>{
+    console.log('getProfileData' ,getProfileData);
     if (getProfileData.status) {
-      console.log("getProfileData" , getProfileData.data)
+   
       setProfileData(getProfileData.data.user)
+      setProfileID(getProfileData.data.user.id)
     }
   },[getProfileData])
 
@@ -194,8 +197,8 @@ const Navbar = ({phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
   useEffect(() => { 
    
    
-    const pusher = new Pusher("8071a8e96650bf6eac15", {
-      secret: "74f3c62856110435f421",
+    const pusher = new Pusher("83c251525fa6269fb166", {
+      secret: "0ef53bdedbcb98960e68",
       cluster: "us3" , 
       forceTLS: true,
       encrypted: true,
@@ -206,12 +209,19 @@ const Navbar = ({phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
         
         channel.bind("VistorMessageSent", (data) => {
             console.log(data);
-            setShowNotification(true)
+            if(! data.message.isMine){
+
+              setShowNotification(true)
+            }
        
         });
         channel.bind("supportEvent", (data) => {
-            console.log(data);
+          console.log(data.message.user_id ,ProfileID ,! data.message.isMine);
+          if( data.message.user_id==ProfileID && ! data.message.isMine){
+
+            console.log('lll',data);
             setShowNotification(true)
+          }
 
             
         
@@ -222,7 +232,7 @@ const Navbar = ({phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
     pusher.unsubscribe('chat_api');
     pusher.disconnect();
     };
-    },[])
+    },[ProfileID])
   return (
     <>
     {getProfileLoading && <Loading/>}

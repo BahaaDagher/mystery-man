@@ -102,9 +102,9 @@ const NotificationIcon = () => {
   const getNotificationsData = useSelector(state => state.profileData.getNotificationsData)
   const getNotificationsLoading = useSelector(state => state.profileData.getNotificationsLoading)
   useEffect(() => {
-    // if (getNotificationsData.data) {
-    //     setNotifications(getNotificationsData.data.notifications)
-    // }
+    if (getNotificationsData.data) {
+        setNotifications(getNotificationsData.data.notifications)
+    }
   }, [getNotificationsData])
 
 

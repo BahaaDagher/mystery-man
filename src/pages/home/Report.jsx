@@ -292,21 +292,7 @@ const Report = () => {
   const theme = useTheme() ; 
   const {t} = useTranslation()
 
-  const sayed = [
-    {
-      name : "bahaa "  , 
-      id : 6 , 
-    } , 
-    {
-      name : "bahaa "  , 
-      id : 7 , 
-    } , 
-    {
-      name : "mohamed "  , 
-      id : 8 , 
-    } , 
 
-  ]
 
   return (
     <>
