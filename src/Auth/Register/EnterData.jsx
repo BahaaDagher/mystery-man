@@ -37,6 +37,12 @@ const InputDiv = styled("div")(({ theme }) => ({
   width :  "100%" , 
   marginBottom : "20px" ,
 }));
+const Required = styled("span")(({ theme }) => ({
+color:'red',
+fontSize:'22px',
+margin : theme.direction == "ltr" ? "0 5px 0 0" : "0 0 0 5px" ,
+
+}));
 
 const CameraDiv = styled(FlexDiv)(({ theme }) => ({
   width : "100px" ,
@@ -104,12 +110,12 @@ const EnterData = () => {
           text: RegisterData.message,
           // text : "تم تسجيل البيانات بنجاح وفي انتظار موافقة الادمن "  , 
           showConfirmButton: false,
-          timer: 3000
+          timer: 4000
         })
         setTimeout(() => {
           navigate("/register/VerifyEmail")
         }
-        , 3000)
+        , 4000)
       }
       else {
         console.log("failed")
@@ -133,16 +139,29 @@ const EnterData = () => {
         })
       }
       else {
-        const formData = new FormData();
-        formData.append("name", company_name);
-        if (company_website!="") formData.append("url", company_website);
-        formData.append("email", company_email);
-        formData.append("phone", Phone_Number);
-        formData.append("password", password);
-        if (commercial_registration_no!="") formData.append("CommercialRegistrationNo", commercial_registration_no);
-        if (commercialRegisterFile!=null) formData.append("CommercialRegistrationImage", commercialRegisterFile);
-        if (selectedPhoto!=null) formData.append("image", selectedPhoto);
-        dispatch(userRegister(formData))
+        if(Phone_Number.length != 10){
+         
+            Swal.fire({
+              icon: 'error',
+              text:theme.direction == "ltr" ? 'Phone Number must be 10 digits!' : "! رقم الهاتف يجب ان يكون 10 ارقام",
+              
+            })
+          
+
+        }
+        else{
+
+          const formData = new FormData();
+          formData.append("name", company_name);
+          if (company_website!="") formData.append("url", company_website);
+          formData.append("email", company_email);
+          formData.append("phone", Phone_Number);
+          formData.append("password", password);
+          if (commercial_registration_no!="") formData.append("CommercialRegistrationNo", commercial_registration_no);
+          if (commercialRegisterFile!=null) formData.append("CommercialRegistrationImage", commercialRegisterFile);
+          if (selectedPhoto!=null) formData.append("image", selectedPhoto);
+          dispatch(userRegister(formData))
+        }
       }
       
   }
@@ -176,19 +195,19 @@ const EnterData = () => {
               </label>
             <InputInformation>
               <InputDiv >
-                  <H3>{t("text.Company_name")}</H3>
+                  <H3><Required>*</Required> {t("text.Company_name")}</H3>
                   <Input  placeholder={t("text.Company_name")} value ={company_name} onChange = {(e)=> setCompany_name(e.target.value)} />
               </InputDiv>
               <InputDiv>
-                  <H3> {t("text.Phone_Number")}</H3>
+                  <H3> <Required>*</Required> {t("text.Phone_Number")}</H3>
                   <Input  placeholder={t("text.Phone_Number")} value ={Phone_Number} onChange = {(e)=> setPhone_number(e.target.value)}/>
               </InputDiv>
               <InputDiv>
-                  <H3> {t("text.Company_Email")}</H3>
+                  <H3> <Required>*</Required> {t("text.Company_Email")}</H3>
                   <Input  placeholder={t("text.Company_Email")} value ={company_email} onChange = {(e)=> setCompany_email(e.target.value)}/>
               </InputDiv>
               <InputDiv>
-                  <H3>{t("text.Password")} </H3>
+                  <H3> <Required>*</Required>{t("text.Password")} </H3>
                   <Input type='password' placeholder={t("text.Password")} value ={password} onChange = {(e)=> setPassword(e.target.value)}/>
               </InputDiv>
               <InputDiv>

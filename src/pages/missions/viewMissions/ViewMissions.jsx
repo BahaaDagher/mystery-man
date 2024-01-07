@@ -373,14 +373,16 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions , setButt
         let employees = mission.employee
         let senderImage = ""
         let adsName = ""
+        let senderName = ""
         for (let i = 0; i < employees.length; i++) {
             if (employees[i].status!= 0 && employees[i].status!= 3 ) {
                 senderImage = employees[i].user.image
                 adsName = employees[i].user.name
+                senderName = employees[i].user.name
                 break;
             }
         }
-        dispatch(setCurrentChat({mission_id :  mission.id, senderImage: senderImage , adsName: adsName , newMission : true,id:1 ,can_sent:mission.can_sent }))
+        dispatch(setCurrentChat({mission_id :  mission.id, senderName,senderImage: senderImage , adsName: adsName , newMission : true,id:1 ,can_sent:mission.can_sent }))
         navigate("/chat")
     }
 
