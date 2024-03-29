@@ -210,7 +210,11 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
 
 
     const convert = (str)=>{
-        str = str.replace(",", ".") 
+        if(str != 0){
+            console.log('kkkkkkkkkkkkkkk' ,str);
+
+            str = str.replace(",", ".") 
+        }
         return str+"%" 
     }
     const removeQum = (str)=>{
@@ -311,14 +315,7 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                         <TabTitle>{t("text.VisitorGender")}:</TabTitle>
                         <TabAnswer>{employee.gender}</TabAnswer>
                     </Tab>
-                    <Tab>
-                        <TabTitle>{t("text.VisitorPhone")}:</TabTitle>
-                        <TabAnswer>{employee.phone}</TabAnswer>
-                    </Tab>
-                    <Tab>
-                        <TabTitle>{t("text.VisitorEmail")}:</TabTitle>
-                        <TabAnswer>{employee.email}</TabAnswer>
-                    </Tab>
+                  
                 </VisitorInfo>
             </BasicInfo>
 
@@ -327,12 +324,12 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
             <OverallPerformance>
                 <LogoContainer>
                     <RateContainer>
-                        <Rating name="half-rating" defaultValue={missionDetails.visitorGeneralRate}  readOnly style = {{direction : "ltr" , fontSize : "50px"}} precision={0.5}/>
-                        <Notes> {missionDetails.generalNote} </Notes>
+                        <Rating name="half-rating" defaultValue={missionDetails.generalRate}  readOnly style = {{direction : "ltr" , fontSize : "50px"}} precision={0.5}/>
+                        <Notes> {missionDetails.generalNote}  </Notes>
                     </RateContainer>
                     <PerformanceRate>
                         <YourPerformance> {t("text.visitor_Rating")} </YourPerformance>
-                        <Rate>{missionDetails.visitorGeneralRate * 20 } %</Rate>
+                        <Rate>{missionDetails.generalRate * 20 } %</Rate>
                     </PerformanceRate>
                 </LogoContainer>
                 <PerformanceContainer>

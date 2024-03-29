@@ -149,6 +149,14 @@ const EnterData = () => {
           
 
         }
+        else if(password.length<8){
+          Swal.fire({
+            icon: 'error',
+            text:theme.direction == "ltr" ? 'Password  must be 8 digits or more!' : "!  الرقم السري يجب ان يكون 8 ارقام او اكثر",
+            
+          })
+
+        }
         else{
 
           const formData = new FormData();
@@ -207,7 +215,7 @@ const EnterData = () => {
                   <Input  placeholder={t("text.Company_Email")} value ={company_email} onChange = {(e)=> setCompany_email(e.target.value)}/>
               </InputDiv>
               <InputDiv>
-                  <H3> <Required>*</Required>{t("text.Password")} </H3>
+                  <H3> <Required>*</Required>{t("text.Password")} {t("text.password_lengh")} </H3>
                   <Input type='password' placeholder={t("text.Password")} value ={password} onChange = {(e)=> setPassword(e.target.value)}/>
               </InputDiv>
               <InputDiv>
