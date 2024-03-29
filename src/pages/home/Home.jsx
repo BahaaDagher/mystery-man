@@ -93,10 +93,12 @@ const Home = () => {
         console.log("branchesData" ,branchesData ,branchesData.length>0);
         if (branchesData.length>0) {
             branchesData.forEach(element => {
-                console.log(element.generalRate);
-                const branchRating =element.generalRate.replace(",", ".")
-                if(branchRating >= highestBranch)
+                console.log(element.generalRate ,highestBranch ,lowestBranch);
+                const branchRating =JSON.parse(element.generalRate.replace(",", "."))
+                if(branchRating > highestBranch)
                 {
+                    console.log(typeof(branchRating));
+                    console.log('2222222222' , branchRating,highestBranch);
                     highestBranch=branchRating
                     setHighestBranch(element.name)
                 }

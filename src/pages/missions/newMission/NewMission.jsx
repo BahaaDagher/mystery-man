@@ -282,10 +282,27 @@ const NewMission = () => {
   }
 
   const [showQuestionnaire , setShowQuestionnaire] = useState(false)
+  const getProfileData = useSelector(state => state.profileData.getProfileData)
 
+  const [wallet , setWallet] = useState(0)
+
+  useEffect(() => {
+    if (getProfileData.status) {
+      setWallet(getProfileData.data.user.wallet)
+    }
+  } , [getProfileData])
   const handleNext = () => {
       if (title && focus && selectedBranch && date && time1  && selectedQuestioniere>-1) {
-        setShowQuestionnaire(true)
+        if(voucherValue <= wallet){
+
+          setShowQuestionnaire(true)
+        }
+        else{
+          Swal.fire({
+            icon: 'error',
+            text: t("text.You_dont_have_enough_money_to_create_a_new_mission"),
+          })
+        }
       }
       else {
         Swal.fire({

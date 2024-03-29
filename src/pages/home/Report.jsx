@@ -118,7 +118,7 @@ const Tab = styled("div")(({ theme }) => ({
 }));
 const BarParent = styled("div")(({ theme }) => ({
     marginTop : "20px" ,
-    minWidth : "1150px" ,
+    minWidth : "700px" ,
     overflow : "auto" ,
     direction : "ltr" , 
     display : "flex" ,
@@ -163,6 +163,7 @@ const PrintTitle = styled(Flex)(({ theme }) => ({
 
 const PrintContainer = styled("div")(({ theme }) => ({
   minWidth : "700px" ,
+  
 }));
 
 const Report = () => {
@@ -292,21 +293,7 @@ const Report = () => {
   const theme = useTheme() ; 
   const {t} = useTranslation()
 
-  const sayed = [
-    {
-      name : "bahaa "  , 
-      id : 6 , 
-    } , 
-    {
-      name : "bahaa "  , 
-      id : 7 , 
-    } , 
-    {
-      name : "mohamed "  , 
-      id : 8 , 
-    } , 
 
-  ]
 
   return (
     <>
@@ -362,7 +349,7 @@ const Report = () => {
               fullWidth
               aria-labelledby="popover-title"
             >
-              <DialogContent id = "divToPrint">
+              <DialogContent  id = "divToPrint">
                 <PrintContainer>
                   <LogoDiv>
                     <Logo src = {BlueLogo}/>
@@ -380,7 +367,7 @@ const Report = () => {
                   <PrintTitle> {t("text.General_rate")}   </PrintTitle>
                   <BarParent>
                     <BarChart
-                      width={1150}
+                      width={800}
                       height={350}
                       data={branchesRates}
                       margin={{
@@ -406,7 +393,7 @@ const Report = () => {
                   <PrintTitle> {t("text.Number_of_Missions")}  </PrintTitle>
                   <BarParent>
                     <BarChart
-                      width={1150}
+                      width={800}
                       height={350}
                       data={branchesMissions}
                       margin={{
