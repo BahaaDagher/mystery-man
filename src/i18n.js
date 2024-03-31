@@ -85,7 +85,7 @@ const resources = {
         Accept : "Accept" ,
         Mission_Details : "Mission Details" ,
         OVERALL_PERFORMANCE : "OVERALL PERFORMANCE" ,
-        YOUR_PERFORMANCE : "General Rating" ,
+        General_Rating : "General Rating" ,
         SECTION_SUMMARY : "SECTION SUMMARY" ,
         Comments : "Comments" ,
         Questions_Answers : "Questions Answers" ,
@@ -181,7 +181,13 @@ const resources = {
         PrintingTime : "Printing Time", 
         General_rate : "General rate" ,
         Number_of_Missions : "Number of Missions" ,
-        The_data_has_been_registered_successfully_and_is_awaiting_admin_approval : "The data has been registered successfully and is awaiting admin approval"
+        The_data_has_been_registered_successfully_and_is_awaiting_admin_approval : "The data has been registered successfully and is awaiting admin approval" , 
+        excellent : "Excellent" ,
+        good : "Good" ,
+        natural : "Natural" ,
+        bad : "Bad" ,
+        no : "No" ,
+        yes : "Yes" ,
       },
       content: {}
     }
@@ -267,7 +273,7 @@ const resources = {
         Accept : "قبول" ,
         Mission_Details : "تفاصيل المهمة" ,
         OVERALL_PERFORMANCE : "الأداء العام" ,
-        YOUR_PERFORMANCE : "التقييم العام " ,
+        General_Rating : "التقييم العام " ,
         SECTION_SUMMARY : "ملخص القسم" ,
         Comments : "التعليقات" ,
         Questions_Answers : "الأسئلة والأجوبة" ,
@@ -363,7 +369,13 @@ const resources = {
         PrintingTime : "وقت الطباعة" , 
         General_rate : "التقييم العام" , 
         Number_of_Missions : "عدد المهمات" ,
-        The_data_has_been_registered_successfully_and_is_awaiting_admin_approval : "تم تسجيل البيانات بنجاح وفي انتظار موافقه الادمن"
+        The_data_has_been_registered_successfully_and_is_awaiting_admin_approval : "تم تسجيل البيانات بنجاح وفي انتظار موافقه الادمن"  , 
+        excellent : "ممتاز" ,
+        good : "جيد" ,
+        natural : "طبيعي" ,
+        bad : "سيء" ,
+        no : "لا" ,
+        yes : "نعم" ,
       },
       content: {}
     }
