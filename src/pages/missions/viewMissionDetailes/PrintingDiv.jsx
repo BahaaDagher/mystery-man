@@ -21,6 +21,7 @@ const PrintDiv = styled("div")(({ theme }) => ({
     backgroundColor : "#fff", 
     minWidth : "800px" , 
     overflow : "auto" ,
+    direction : theme.direction , 
     // height : "100vh" , 
     // display : "flex" ,
     
@@ -251,7 +252,7 @@ const AllRating = styled(FlexSpaceBetween)(({ theme }) => ({
 }));
 const Graph = styled("div")(({ theme }) => ({
     position : "relative" ,
-    width :"400px" ,
+    width :"450px" ,
     height : "px" ,
     border : `1px solid ${Colors.main2}` ,
     borderTop : "none" ,
@@ -276,7 +277,7 @@ const BarParent = styled("div")(({ theme }) => ({
     position :"relative" , 
     margin : "0 50px" ,
     // border : "1px solid green" , 
-    // width : "50px" , 
+    width : "60px" , 
     left : "0" , 
     bottom : 0 , 
 }));
@@ -324,6 +325,7 @@ const BarTitleContainer = styled("div")(({ theme }) => ({
 const BarTitle = styled("div")(({ theme }) => ({
     position : "relative" , 
     fontWeight : "bold" , 
+    whiteSpace: "nowrap" , 
     '&::before': {
         content: "''",
         position: 'absolute',
@@ -540,7 +542,7 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
 
 
     useEffect(()=>{
-        console.log("bahaa employee" , employee)
+        console.log("missionDetails" , missionDetails)
     }
     ,[employee])
 
@@ -576,7 +578,7 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                 </DataDiv>
                 <PhotoDiv>
                 {/* {employee.image} */}
-                    <EmployeeImage src =  {employee.image} alt = "employee img"/>
+                    <EmployeeImage src = {missionDetails.companyimage} alt = "company img"/>
                 </PhotoDiv>
                 <DataDiv>
                     <Tab>
@@ -605,6 +607,7 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                                         </BarTitleContainer>
                                         {/* {step.name}  */}
                                     </BarParent>
+                                    
                                 </>
                                     
                             )
