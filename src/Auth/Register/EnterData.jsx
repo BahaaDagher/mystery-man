@@ -98,7 +98,7 @@ const EnterData = () => {
     if (clickSubmit) {
       console.log ("RegisterData" , RegisterData ) 
       if (RegisterData.status) {
-        sessionStorage.setItem("company_email" , company_email) ;
+        sessionStorage.setItem("company_email" , Phone_Number) ;
         Swal.fire({
           icon: 'success',
           text: RegisterData.message,

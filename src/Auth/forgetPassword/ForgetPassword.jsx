@@ -81,7 +81,7 @@ const ForgetPassword = () => {
   const handleSubmit = () => {
     if (email) {
       setClicked(true) ;
-      dispatch(forgetPassword({email : email}))
+      dispatch(forgetPassword({phone : email}))
     }
     else {
       Swal.fire({
