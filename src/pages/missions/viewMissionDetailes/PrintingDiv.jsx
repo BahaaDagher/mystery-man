@@ -150,7 +150,7 @@ const Percentage = styled("div")(({ theme }) => ({
 const StepsDetails = styled("div")(({ theme }) => ({
     minHeight : "1000px" ,      
     width : "100%" ,
-    margin : "20px auto" , 
+    margin : "40px auto" , 
 
 }));
 const HeaderTable = styled("table")(({ theme }) => ({
@@ -246,7 +246,7 @@ const EmployeeImage = styled("img")(({ theme }) => ({
 
 const AllRating = styled(FlexSpaceBetween)(({ theme }) => ({
     backgroundColor : Colors.lightGray ,
-    padding  :"50px" , 
+    padding  :"85px 50px" , 
     direction : "ltr" , 
     // 
 }));
@@ -275,7 +275,7 @@ const BarContainer = styled("div")(({ theme }) => ({
 }));
 const BarParent = styled("div")(({ theme }) => ({
     position :"relative" , 
-    margin : "0 50px" ,
+    margin : "0 20px" ,
     // border : "1px solid green" , 
     width : "60px" , 
     left : "0" , 
@@ -284,32 +284,32 @@ const BarParent = styled("div")(({ theme }) => ({
 
 const Bar = styled("div")(({ theme }) => ({
     position : "absolute" ,
-    width : "30px" , 
+    width : "16px" , 
     height : "50%" , 
     bottom : "0" , 
     background: "#F59C34" , 
     transform: 'skewY(-15deg)',
     '&::after': {
         content: "''",
-        width: '30px',
-        height: '18px',
+        width: '16px',
+        height: '6px',
         background: "rgb(253,199,12)" , 
         background: "linear-gradient(354deg, rgba(253,199,12,1) 22%, rgba(245,156,52,1) 65%)" , 
         position: 'absolute',
-        top: '-18px',
-        left: '-15px',
+        top: '-6px',
+        left: '-5px',
         transform: 'skewX(60deg)',
     },
     '&::before': {
         content: "''",
-        width: '30px',
+        width: '10px',
         height: '100%',
         // background : "red" , 
         background: "rgb(253,199,12)" , 
         background: "linear-gradient(354deg, rgba(253,199,12,1) 22%, rgba(245,156,52,1) 65%)" , 
         position: 'absolute',
-        left: "-30px" , 
-        top: "-9px" , 
+        left: "-10px" , 
+        top: "-3px" , 
         bottom: '5px',
         transform: 'skewY(30deg)',
     },
@@ -318,14 +318,14 @@ const Bar = styled("div")(({ theme }) => ({
 
 const BarTitleContainer = styled("div")(({ theme }) => ({
     position : "absolute" , 
-    bottom : "-48px" , 
+    top : "314px" , 
     left : "-24px" ,
     // border : `1px solid ${Colors.main}` , 
 }));
 const BarTitle = styled("div")(({ theme }) => ({
     position : "relative" , 
     fontWeight : "bold" , 
-    whiteSpace: "nowrap" , 
+    // whiteSpace: "nowrap" , 
     '&::before': {
         content: "''",
         position: 'absolute',
@@ -607,6 +607,7 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                                         </BarTitleContainer>
                                         {/* {step.name}  */}
                                     </BarParent>
+                                    
                                     
                                 </>
                                     

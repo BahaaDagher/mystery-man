@@ -135,16 +135,18 @@ const ShowMessageContainer = ({setLastMessage , setShowMessages }) => {
     useEffect(() => { 
    
    
-    const pusher = new Pusher("8071a8e96650bf6eac15", {
-      secret: "74f3c62856110435f421",
+    const pusher = new Pusher("83c251525fa6269fb166", {
+      secret: "0ef53bdedbcb98960e68",
       cluster: "us3" , 
       forceTLS: true,
       encrypted: true,
     });
 
     const channel = pusher.subscribe('chat_api');
+    console.log(channel);
+    
     setTimeout(() => {
-        
+       
         channel.bind("VistorMessageSent", (data) => {
             console.log(currentChat);
          if(currentChat.mission_id== data.message.mission_id) setMessages(current => [...[data.message], ...current])

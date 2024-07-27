@@ -194,8 +194,8 @@ const Navbar = ({phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
   useEffect(() => { 
    
    
-    const pusher = new Pusher("8071a8e96650bf6eac15", {
-      secret: "74f3c62856110435f421",
+    const pusher = new Pusher("83c251525fa6269fb166", {
+      secret: "0ef53bdedbcb98960e68",
       cluster: "us3" , 
       forceTLS: true,
       encrypted: true,

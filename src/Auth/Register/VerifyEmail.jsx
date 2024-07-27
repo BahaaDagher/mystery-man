@@ -142,7 +142,7 @@ const VerifyEmail = () => {
     let theOtp = otp.join("");
     
     console.log(theOtp)
-    dispatch(verifyOtp({otp :theOtp , email : companyEmail}))
+    dispatch(verifyOtp({otp :theOtp , phone : companyEmail}))
    
   }
   const verifyOtpData = useSelector((state) => state.authData.verifyOtpData);
