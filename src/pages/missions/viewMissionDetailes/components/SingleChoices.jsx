@@ -29,7 +29,11 @@ const SingleChoices = ({question, num}) => {
         <Title>{num} - {question.title}</Title>
         <InputDiv>
           <Input type="radio" name={question.id} value={question.answer} checked />
-          <Label >{question.answer}</Label>
+          {
+            question.answer?
+            <Label >{question.answer} </Label>
+            : <p>N/A</p>
+          }
         </InputDiv>
       </Box>
     </>

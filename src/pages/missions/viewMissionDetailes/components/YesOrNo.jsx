@@ -30,8 +30,11 @@ const YesOrNo = ({question, num}) => {
         <InputDiv>
         
           <Input type="radio"  value={question.title} checked />
-          
+          {
+          question.answer?
           <Label className='active' >{question.answer}</Label>
+          : <p>N/A</p>
+          }
         </InputDiv>
     </Box>
   )

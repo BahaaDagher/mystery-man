@@ -244,7 +244,7 @@ const EmployeeImage = styled("img")(({ theme }) => ({
     width : "100%" ,
 }));
 
-const AllRating = styled(FlexSpaceBetween)(({ theme }) => ({
+const AllRating = styled("div")(({ theme }) => ({
     backgroundColor : Colors.lightGray ,
     padding  :"85px 50px" , 
     direction : "ltr" , 
@@ -252,7 +252,7 @@ const AllRating = styled(FlexSpaceBetween)(({ theme }) => ({
 }));
 const Graph = styled("div")(({ theme }) => ({
     position : "relative" ,
-    width :"450px" ,
+    width :"100%" ,
     height : "px" ,
     border : `1px solid ${Colors.main2}` ,
     borderTop : "none" ,
@@ -363,10 +363,11 @@ const LI = styled("div")(({ theme }) => ({
 
 const GeneralRating = styled("div")(({ theme }) => ({
     display : "flex" ,
-    flexDirection : "column" ,
+    // flexDirection : "column" ,
     justifyContent : "space-between" ,
     alignItems : "center" ,
     fontSize :"20px" , 
+    marginBottom : "20px" ,
 
 }));
 const RatingTitle = styled("div")(({ theme }) => ({
@@ -594,6 +595,22 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
             </SecondLine>
 
             <AllRating>
+                
+                <GeneralRating>
+                    <RatingTitle>{t("text.General_Rating")} </RatingTitle>
+                    <RatingPercentage>
+                        <Percentage1>{convert(missionAnswer?.rate)}</Percentage1>
+                    </RatingPercentage>
+                    <RatingScore>
+                        {
+                            removeQum(missionAnswer?.rate)>=75 ? <div>{t("text.excellent")}</div> :
+                            removeQum(missionAnswer?.rate)>=50 ? <div>{t("text.good")}</div> :
+                            removeQum(missionAnswer?.rate)>=25 ? <div>{t("text.natural")}</div> :
+                            <div>{t("text.bad")}</div>
+                        }
+                    </RatingScore>
+                </GeneralRating>
+
                 <Graph>
                     <BarContainer>
                         {missionAnswer?.steps?.map((step , index) => {
@@ -623,20 +640,6 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                         ))}
                     </UL>
                 </Graph>
-                <GeneralRating>
-                    <RatingTitle>{t("text.General_Rating")} </RatingTitle>
-                    <RatingPercentage>
-                        <Percentage1>{convert(missionAnswer?.rate)}</Percentage1>
-                    </RatingPercentage>
-                    <RatingScore>
-                        {
-                            removeQum(missionAnswer?.rate)>=75 ? <div>{t("text.excellent")}</div> :
-                            removeQum(missionAnswer?.rate)>=50 ? <div>{t("text.good")}</div> :
-                            removeQum(missionAnswer?.rate)>=25 ? <div>{t("text.natural")}</div> :
-                            <div>{t("text.bad")}</div>
-                        }
-                    </RatingScore>
-                </GeneralRating>
 
             </AllRating>
 
@@ -660,9 +663,9 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                                     <StepQuestionAnswer >
                                         <StepQuestion>{question.title} </StepQuestion>
                                         {
-                                            question.type === "open" ?  <OpenAnswer>{question.answer}</OpenAnswer> : 
-                                            question.type === "uploadImages" ?   <ImageAnswer><img src = {question.answer} style = {{height : "50%" , width : "50%"}}/></ImageAnswer> : 
-                                            null
+                                            question.type === "open" ?  <OpenAnswer>{question.answer?question.answer : "N/A"}</OpenAnswer> : 
+                                            question.type === "uploadImages" ? question.answer ?  <ImageAnswer><img src = {question.answer} style = {{height : "50%" , width : "50%"}}/></ImageAnswer> : "N/A"
+                                            :null
                                             
                                         }
                                     </StepQuestionAnswer>
@@ -674,16 +677,20 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                                     <StepQuestionAnswer style = {{display :"flex"  , justifyContent :"space-between"  , alignItems :"center"}}>
                                         <StepQuestion>{question.title} </StepQuestion>
                                         {
-                                            question.type === "yesOrNo" ?  <YesOrNoAnswer> {t(`text.${question.answer}`)}</YesOrNoAnswer> : 
-                                            question.type === "rating" ?   <Rating name="half-rating" defaultValue={question.answer}  readOnly style = {{direction : "ltr" , fontSize : "20px"}} precision={0.5}/> : 
-                                            question.type === "SingleChoice" ?  <ChoiceAnswer>{question.answer}</ChoiceAnswer> :
+                                            question.type === "yesOrNo" ?  <YesOrNoAnswer>{question.answer? t(`text.${question.answer}`) : "N/A"}</YesOrNoAnswer> : 
+                                            question.type === "rating" ?   question.answer? <Rating name="half-rating" defaultValue={question.answer}  readOnly style = {{direction : "ltr" , fontSize : "20px"}} precision={0.5}/> : <p>N/A</p> :
+                                            question.type === "SingleChoice" ?  <ChoiceAnswer>{question.answer?question.answer:"N/A"}</ChoiceAnswer> :
                                             question.type === "multiChoice" ? 
                                             <ChoiceAnswer>
-                                                {question.answer.map((answer , index) => {
+
+                                                {   question.answer ?
+                                                    question.answer.map((answer , index) => {
                                                         return (
                                                             <div key = {index}> - {answer}</div>
                                                         )
-                                                })} 
+                                                })
+                                                :"N/A"
+                                                }
                                             </ChoiceAnswer> : null 
                                             
                                         }

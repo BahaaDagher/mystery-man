@@ -467,7 +467,6 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions , setButt
     {notCompleted ? <NotCompletedDetails missionDetails ={missionDetails} /> : null}
 
     {/* mystery profile  */}
-
     {mysteryProfile ? <MysteryProfile missionDetails ={missionDetails} /> : null}
 
     {showMissions ?

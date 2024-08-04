@@ -24,8 +24,8 @@ const UploadImages = ({question, num}) => {
   return (
     <Box>
         <Title>{num} - {question.title}</Title>
+        {question.answer ? 
         <ImgContainer>
-            
             {question.answer.map((img , index) => {
                 return (
                     <ImgDiv onClick={()=>window.open(img, '_blank')}>
@@ -34,6 +34,8 @@ const UploadImages = ({question, num}) => {
                 )
             } )}
         </ImgContainer>
+        : <p>N/A</p>
+        }
     </Box>
   )
 }
