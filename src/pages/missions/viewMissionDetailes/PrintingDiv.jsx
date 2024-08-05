@@ -449,6 +449,11 @@ const YesOrNoAnswer = styled("div")(({ theme }) => ({
     justifyContent :"center" , 
     alignItems : "center" , 
 }));
+const NotAnswer = styled(FlexCenter)(({ theme }) => ({
+    border : `1px solid ${Colors.gold}` ,
+    padding :"5px" , 
+    flexDirection : "column" ,
+}));
 const ChoiceAnswer = styled(FlexCenter)(({ theme }) => ({
     border : `1px solid ${Colors.gold}` ,
     padding :"5px" , 
@@ -664,7 +669,13 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                                         <StepQuestion>{question.title} </StepQuestion>
                                         {
                                             question.type === "open" ?  <OpenAnswer>{question.answer?question.answer : "N/A"}</OpenAnswer> : 
-                                            question.type === "uploadImages" ? question.answer ?  <ImageAnswer><img src = {question.answer} style = {{height : "50%" , width : "50%"}}/></ImageAnswer> : "N/A"
+                                            question.type === "uploadImages" ? 
+                                            <ImageAnswer>
+                                                {question.answer && question.answer.length >0 ?
+                                                    <img src = {question.answer} style = {{height : "50%" , width : "50%"}}/>
+                                                :"N/A" 
+                                                }
+                                            </ImageAnswer> 
                                             :null
                                             
                                         }
@@ -678,12 +689,12 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                                         <StepQuestion>{question.title} </StepQuestion>
                                         {
                                             question.type === "yesOrNo" ?  <YesOrNoAnswer>{question.answer? t(`text.${question.answer}`) : "N/A"}</YesOrNoAnswer> : 
-                                            question.type === "rating" ?   question.answer? <Rating name="half-rating" defaultValue={question.answer}  readOnly style = {{direction : "ltr" , fontSize : "20px"}} precision={0.5}/> : <p>N/A</p> :
+                                            question.type === "rating" ?   question.answer? <Rating name="half-rating" defaultValue={question.answer}  readOnly style = {{direction : "ltr" , fontSize : "20px"}} precision={0.5}/> : <NotAnswer>N/A</NotAnswer> :
                                             question.type === "SingleChoice" ?  <ChoiceAnswer>{question.answer?question.answer:"N/A"}</ChoiceAnswer> :
                                             question.type === "multiChoice" ? 
                                             <ChoiceAnswer>
 
-                                                {   question.answer ?
+                                                {   question.answer && question.answer.length >0 ?
                                                     question.answer.map((answer , index) => {
                                                         return (
                                                             <div key = {index}> - {answer}</div>

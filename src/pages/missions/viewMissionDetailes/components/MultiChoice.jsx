@@ -27,7 +27,7 @@ const MultiChoice = ({question, num}) => {
     <>
       <Box>
         <Title>{num} - {question.title}</Title>
-          {question.answer ? 
+          {question.answer && question.answer.length > 0 ? 
           question.answer.map((item , index) => {
              return (
                 <InputDiv key = {index} >

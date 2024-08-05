@@ -24,7 +24,7 @@ const UploadImages = ({question, num}) => {
   return (
     <Box>
         <Title>{num} - {question.title}</Title>
-        {question.answer ? 
+        {question.answer  && question.answer.length >0 ? 
         <ImgContainer>
             {question.answer.map((img , index) => {
                 return (
