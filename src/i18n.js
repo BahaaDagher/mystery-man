@@ -188,6 +188,8 @@ const resources = {
         bad : "Bad" ,
         no : "No" ,
         yes : "Yes" ,
+        categories : "Categories" ,
+        choose_category : "Choose Category" ,
       },
       content: {}
     }
@@ -376,6 +378,8 @@ const resources = {
         bad : "سيء" ,
         no : "لا" ,
         yes : "نعم" ,
+        categories : "الفئات" ,
+        choose_category : "اختر قسم" ,
       },
       content: {}
     }

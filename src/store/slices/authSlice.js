@@ -3,6 +3,8 @@ import axios from "axios";
 import i18n from "../../i18n";
 const currentLanguage = localStorage.getItem("language") || "en";
 
+
+
 export const userLogin = createAsyncThunk(
   "auth/userLogin", 
   async (values) => {
@@ -158,7 +160,23 @@ export const userRegister = createAsyncThunk(
         }
   });
 
-
+  export const getCategories = createAsyncThunk(
+    "branch/getCategories", 
+    async (values) => {
+        try {
+        const response = await axios.get(
+            "https://secretvisitor.co/dashboard/api/categories" ,{
+                headers: {
+                    "lang" : currentLanguage , 
+                },
+            }
+        );
+        return response.data ;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    );
   
 
 const authSlice = createSlice({
@@ -182,6 +200,9 @@ const authSlice = createSlice({
     
     changePasswordData: {},
     changePasswordDataLoading: false,
+
+    getCategoriesData : {},
+    categoriesLoading : false,
   },
   extraReducers: (builder) => {
     builder
@@ -261,6 +282,17 @@ const authSlice = createSlice({
       })
       .addCase(changePassword.rejected, (state, action) => {
         state.changePasswordDataLoading = false;
+      })
+      //get Categories
+      .addCase(getCategories.fulfilled, (state, action) => {
+        state.getCategoriesData = action.payload;
+        state.categoriesLoading = false;
+      })
+      .addCase(getCategories.pending, (state, action) => {
+        state.categoriesLoading = true;
+      })
+      .addCase(getCategories.rejected, (state, action) => {
+        state.categoriesLoading = false;
       })
 
   }
