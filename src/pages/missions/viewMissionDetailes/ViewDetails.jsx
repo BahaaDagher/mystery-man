@@ -31,12 +31,12 @@ const Continer = styled("div")(({ theme }) => ({
 
 
 const PrintButton = styled(SubmitButton)(({ theme }) => ({
-    backgroundColor : Colors.green ,
+    backgroundColor : Colors.gold ,
     borderRadius : "10px 0 10px 0 " , 
     width:"100%" , 
     margin : "0 auto" ,
     "&:hover" : {
-        backgroundColor : Colors.hoverGreen ,
+        backgroundColor : Colors.hoverGold ,
     }
 }));
 

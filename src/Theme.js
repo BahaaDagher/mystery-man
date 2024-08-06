@@ -26,6 +26,7 @@ export const Colors = {
     input_fill : "#F5F5F5" , 
     gold : "#F3B51A" , 
     hoverGold : "#f1ac00" ,
+    lightGray : "#F7F7F9" , 
 }
 export const Dimensions = {
     sidebarWidth : "257px" ,

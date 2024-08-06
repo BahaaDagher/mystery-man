@@ -12,12 +12,13 @@ import { SubmitButton } from '../../components/SubmitButton'
 import camera from "../../assets/icons/camera.svg"
 import file_text from "../../assets/icons/file-text.svg"
 import { useDispatch, useSelector } from 'react-redux'
-import  { userRegister } from '../../store/slices/authSlice'
+import  { getCategories, userRegister } from '../../store/slices/authSlice'
 import Swal from 'sweetalert2'
 import { useTheme } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import Loading from '../../components/Loading'
 import blueCamera from "../../assets/icons/blueCamera.svg"
+import upload from "../../assets/icons/upload.svg"
 import { FlexCenter } from '../../components/FlexCenter'
 
 const InsideContainer = styled("div")(({ theme }) => ({
@@ -71,6 +72,27 @@ const CircleImg = styled("img")(({ theme }) => ({
 const InputInformation = styled("div")(({ theme }) => ({
 }));
 
+const Select = styled("select")(({ theme }) => ({
+  width: '100%', 
+  height: 'fit-content', 
+  padding: '15px 16px', 
+  borderRadius: '10px',
+  border : `1px solid ${Colors.gold}` ,
+  fontSize: '16px',
+  color: theme.palette.text.primary,
+  '&:focus': {
+    borderColor: theme.palette.primary.dark,
+    outline: 'none',
+    boxShadow: `0 0 0 3px ${Colors.gold}`,
+  }
+}));
+
+const Option = styled("option")(({ theme }) => ({
+  fontSize: '16px',
+  color: theme.palette.text.primary,
+  backgroundColor: Colors.lightMain,
+}));
+
 const EnterData = () => {
   const [commercialRegisterFile, setCommercial_registration_file] = useState(null);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
@@ -81,6 +103,7 @@ const EnterData = () => {
   const [password , setPassword] = useState("")
   const [confirm_password , setConfirm_password] = useState("")
   const [commercial_registration_no , setCommercial_registration_no] = useState("")
+  const [categories , setCategories] = useState([])
   const [clickSubmit , setClickSubmit] = useState(false)
 
   const handleFileChange = (event) => {
@@ -99,16 +122,17 @@ const EnterData = () => {
 
   const RegisterData = useSelector((state) => state.authData.RegisterData);
   const RegisterDataLoading = useSelector(state => state.authData.RegisterDataLoading) ;
+
+
   const navigate = useNavigate();
   useEffect(() => {
     if (clickSubmit) {
       console.log ("RegisterData" , RegisterData ) 
       if (RegisterData.status) {
-        sessionStorage.setItem("company_email" , company_email) ;
+        sessionStorage.setItem("company_email" , Phone_Number) ;
         Swal.fire({
           icon: 'success',
           text: RegisterData.message,
-          // text : "تم تسجيل البيانات بنجاح وفي انتظار موافقة الادمن "  , 
           showConfirmButton: false,
           timer: 4000
         })
@@ -128,7 +152,8 @@ const EnterData = () => {
   }, [RegisterData]);
 
   const dispatch = useDispatch(); 
-  const theme = useTheme() ; 
+  const theme = useTheme() ;
+
   const handleSubmit = () => {
       setClickSubmit(true)
       if (password !== confirm_password)  {
@@ -139,6 +164,7 @@ const EnterData = () => {
         })
       }
       else {
+
         if(Phone_Number.length != 10){
          
             Swal.fire({
@@ -170,14 +196,34 @@ const EnterData = () => {
           if (selectedPhoto!=null) formData.append("image", selectedPhoto);
           dispatch(userRegister(formData))
         }
+
       }
       
   }
+
+  const getCategoriesData = useSelector((state) => state.authData.getCategoriesData);
+  const categoriesLoading = useSelector(state => state.authData.categoriesLoading) ;
+  useEffect(() => {
+    dispatch (getCategories())
+  }, [])
+
+  useEffect(() => {
+    if (Object.keys(getCategoriesData).length !== 0 ) {
+      setCategories(getCategoriesData.data.categories)
+    }
+  }, [getCategoriesData])
+ 
+  const [selectedCategoryId, setSelectedCategoryId] = useState('');
+
+  const handleCategoryChange = (event) => {
+    setSelectedCategoryId(event.target.value);
+  };
   
+
   const {t} = useTranslation()
   return (
     <>
-    {RegisterDataLoading ? <Loading/> : null}
+    {RegisterDataLoading || categoriesLoading ? <Loading/> : null}
       <LanguageIcon className= "notNavbar"/>
       <Container>
         <InsideContainer>
@@ -225,14 +271,28 @@ const EnterData = () => {
             </InputInformation>
         </InsideContainer>
         <InsideContainer>
-        <InputDiv>
-                  <H3> {t("text.Company_Website")}</H3>
-                  <Input  placeholder={t("text.Company_Website")} value ={company_website} onChange = {(e)=> setCompany_website(e.target.value)}/>
+          <InputDiv>
+              <H3> {t("text.Company_Website")}</H3>
+              <Input  placeholder={t("text.Company_Website")} value ={company_website} onChange = {(e)=> setCompany_website(e.target.value)}/>
               </InputDiv>
           <InputDiv>
               <H3>{t("text.Commercial_Registration_No")} </H3>
               <Input   placeholder={t("text.Commercial_Registration_No")} value ={commercial_registration_no} onChange = {(e)=> setCommercial_registration_no(e.target.value)}/>
           </InputDiv>
+
+          <InputDiv>
+              <H3>{t("text.categories")} </H3>
+              <Select onChange={handleCategoryChange}>
+                <Option value="">{t("text.choose_category")} </Option>
+                {categories.map(category => (
+                  <Option key={category.id} value={category.id}>
+                    {category.name_ar}
+                  </Option>
+                ))}
+              </Select>
+              {/* <Input   placeholder={t("text.categories")} value ={categories} onChange = {(e)=> setCommercial_registration_no(e.target.value)}/> */}
+          </InputDiv>
+
           <InputDiv>
               <H3>{t("text.Copy_of_the_commercial_register")} </H3>
               <FlexDiv style = {{border :` 1px dashed ${Colors.gold}` ,  borderRadius : "10px" , padding : "20px 0 "}}>
@@ -248,7 +308,7 @@ const EnterData = () => {
                   onChange={handleFileChange}
                 />
                 <LabelFile htmlFor="uploadFile">
-                  <img src = "./icons/upload.svg" alt =  "upload" style =  {{padding : "5px"}}/>
+                  <img src = {upload} alt =  "upload" style =  {{padding : "5px"}}/>
                   {t("text.Upload")}
                 </LabelFile>
               </FlexDiv>

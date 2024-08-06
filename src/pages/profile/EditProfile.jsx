@@ -12,6 +12,7 @@ import { SubmitButton } from '../../components/SubmitButton'
 import  Loading  from '../../components/Loading'
 import camera from "../../assets/icons/camera.svg"
 import file_text from "../../assets/icons/file-text.svg"
+import upload from "../../assets/icons/upload.svg"
 import { useDispatch, useSelector } from 'react-redux'
 import  { userRegister } from '../../store/slices/authSlice'
 import Swal from 'sweetalert2'
@@ -164,20 +165,28 @@ const EditProfile = () => {
               text:theme.direction == "ltr" ? 'Password and confirm password are not the same!' : "! كلمتا السر غير متطابقتين",
               
             })
-          }
+        }
+        else {
+          const formData = new FormData();
+          formData.append("name", company_name);
+          formData.append("url", company_website);
+          formData.append("email", company_email);
+          formData.append("phone", Phone_Number);
+          formData.append("CommercialRegistrationNo", commercial_registration_no);
+          if (password!="") formData.append("password", password);
+          if (typeof commercialRegisterFile !== 'string') formData.append("CommercialRegistrationImage", commercialRegisterFile);
+          if (typeof selectedPhoto !== 'string') formData.append("image", selectedPhoto);
+          dispatch(updateProfile(formData))
+        }
       }
       else {
-        const formData = new FormData();
-        formData.append("name", company_name);
-        formData.append("url", company_website);
-        formData.append("email", company_email);
-        formData.append("phone", Phone_Number);
-        formData.append("CommercialRegistrationNo", commercial_registration_no);
-        if (password!="") formData.append("password", password);
-        if (typeof commercialRegisterFile !== 'string') formData.append("CommercialRegistrationImage", commercialRegisterFile);
-        if (typeof selectedPhoto !== 'string') formData.append("image", selectedPhoto);
-        dispatch(updateProfile(formData))
+        Swal.fire({
+          icon: 'error',
+          text:theme.direction == "ltr" ? 'enter the password' : "أدخل كلمة السر",
+          
+        })
       }
+      
       
   }
   
@@ -257,7 +266,7 @@ const EditProfile = () => {
                   onChange={handleFileChange}
                 />
                 <LabelFile htmlFor="uploadFile">
-                  <img src = "./icons/upload.svg" alt =  "upload" style =  {{padding : "5px"}}/>
+                  <img src = {upload} alt =  "upload" style =  {{padding : "5px"}}/>
                   {t("text.Upload")}
                 </LabelFile>
               </FlexDiv>

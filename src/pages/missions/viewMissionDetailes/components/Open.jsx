@@ -14,7 +14,7 @@ const Open = ({question, num}) => {
     <>
       <Box>
         <Title>{num} - {question.title}</Title>
-        <Answer  >{question.answer}</Answer>
+        <Answer  >{question.answer ?question.answer : 'N/A'}</Answer>
       </Box>
     </>
   )

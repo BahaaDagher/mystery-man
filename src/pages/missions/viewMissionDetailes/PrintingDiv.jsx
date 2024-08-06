@@ -13,10 +13,15 @@ import badScale from "../../../assets/images/badScale.svg"
 import goodScale from "../../../assets/images/goodScale.svg"
 import normalScale from "../../../assets/images/normalScale.svg"
 import excellentScale from "../../../assets/images/excellentScale.svg"
+import four from "../../../assets/images/4.png" 
 
 
 const PrintDiv = styled("div")(({ theme }) => ({
-    padding : "20px" , 
+    padding : "30px 50px" , 
+    backgroundColor : "#fff", 
+    minWidth : "800px" , 
+    overflow : "auto" ,
+    direction : theme.direction , 
     // height : "100vh" , 
     // display : "flex" ,
     
@@ -145,7 +150,7 @@ const Percentage = styled("div")(({ theme }) => ({
 const StepsDetails = styled("div")(({ theme }) => ({
     minHeight : "1000px" ,      
     width : "100%" ,
-    margin : "20px auto" , 
+    margin : "40px auto" , 
 
 }));
 const HeaderTable = styled("table")(({ theme }) => ({
@@ -191,11 +196,9 @@ const PicsDiv = styled("div")(({ theme }) => ({
 
 const RateContainer = styled("div")(({ theme }) => ({
     borderRadius: "10px",
-    // padding : "20px" , 
     marginBottom  : "20px" ,
     width : "100%" , 
     textAlign : "center" ,
-    // height : "135px" ,
 }));
 
 const Notes = styled("div")(({ theme }) => ({
@@ -204,20 +207,290 @@ const Notes = styled("div")(({ theme }) => ({
     fontWeight : "600" 
 }));
 
+const Header = styled("div")(({ theme }) => ({
+
+}));
+const FirstLine = styled("div")(({ theme }) => ({
+
+}));
+const LogoDiv = styled("div")(({ theme }) => ({
+
+}));
+const Image = styled("img")(({ theme }) => ({
+    width :"100px" , 
+}));
+
+const SecondLine = styled(FlexSpaceBetween)(({ theme }) => ({
+    margin : "50px 0" ,
+    alignItems : "center" ,
+    direction : theme.direction
+}));
+const DataDiv = styled("div")(({ theme }) => ({
+
+}));
+const PhotoDiv = styled("div")(({ theme }) => ({
+    width : "150px" , 
+    height : "150px" , 
+    borderRadius : "50%" , 
+    overflow : "hidden" , 
+    border : `3px solid ${Colors.gold}` ,
+    display : "flex" , 
+    justifyContent : "center" , 
+    alignItems : "center" ,
+    backgroundColor : Colors.main , 
+    boxShadow : "0 0 10px 0px #00000042" , 
+}));
+const EmployeeImage = styled("img")(({ theme }) => ({
+    width : "100%" ,
+}));
+
+const AllRating = styled("div")(({ theme }) => ({
+    backgroundColor : Colors.lightGray ,
+    padding  :"85px 50px" , 
+    direction : "ltr" , 
+    // 
+}));
+const Graph = styled("div")(({ theme }) => ({
+    position : "relative" ,
+    width :"100%" ,
+    height : "px" ,
+    border : `1px solid ${Colors.main2}` ,
+    borderTop : "none" ,
+    borderRight : "none" ,
+    // padding : "30px" , 
+
+
+}));
+
+const BarContainer = styled("div")(({ theme }) => ({
+    // border : `1px solid red` ,
+    height : "91%" , 
+    position : "absolute" ,
+    width : "100%" , 
+    // left : "5%" , 
+    bottom :"12px" , 
+    display : "flex" ,
+    // justifyContent : "space-between" ,
+     
+}));
+const BarParent = styled("div")(({ theme }) => ({
+    position :"relative" , 
+    margin : "0 20px" ,
+    // border : "1px solid green" , 
+    width : "60px" , 
+    left : "0" , 
+    bottom : 0 , 
+}));
+
+const Bar = styled("div")(({ theme }) => ({
+    position : "absolute" ,
+    width : "16px" , 
+    height : "50%" , 
+    bottom : "0" , 
+    background: "#F59C34" , 
+    transform: 'skewY(-15deg)',
+    '&::after': {
+        content: "''",
+        width: '16px',
+        height: '6px',
+        background: "rgb(253,199,12)" , 
+        background: "linear-gradient(354deg, rgba(253,199,12,1) 22%, rgba(245,156,52,1) 65%)" , 
+        position: 'absolute',
+        top: '-6px',
+        left: '-5px',
+        transform: 'skewX(60deg)',
+    },
+    '&::before': {
+        content: "''",
+        width: '10px',
+        height: '100%',
+        // background : "red" , 
+        background: "rgb(253,199,12)" , 
+        background: "linear-gradient(354deg, rgba(253,199,12,1) 22%, rgba(245,156,52,1) 65%)" , 
+        position: 'absolute',
+        left: "-10px" , 
+        top: "-3px" , 
+        bottom: '5px',
+        transform: 'skewY(30deg)',
+    },
+    
+}));
+
+const BarTitleContainer = styled("div")(({ theme }) => ({
+    position : "absolute" , 
+    top : "314px" , 
+    left : "-24px" ,
+    // border : `1px solid ${Colors.main}` , 
+}));
+const BarTitle = styled("div")(({ theme }) => ({
+    position : "relative" , 
+    fontWeight : "bold" , 
+    // whiteSpace: "nowrap" , 
+    '&::before': {
+        content: "''",
+        position: 'absolute',
+        width: '10px',
+        height: '10px',
+        background: Colors.main,
+        top: '-16px',
+        left: '19px',
+        // transform : "translateX(-50%)" ,
+        borderRadius: '50%',
+    },
+
+
+}));
+const UL = styled("div")(({ theme }) => ({
+    // border : "1px solid red"  ,
+    display : "flex" ,
+    flexDirection : "column" ,
+    justifyContent : "space-between" ,
+    alignItems : "center" ,
+    width : "20px"  ,
+    position : "relative" , 
+    // top : "-10px" , 
+    left : "-30px"  , 
+    // width : "500px" , 
+    // height : "100%"  ,
+}));
+const LI = styled("div")(({ theme }) => ({
+    position : "relative" , 
+    height : "29px" , 
+    // borderBottom : `1px solid ${Colors.main}` ,
+    fontSize :"12px"  ,
+    fontWeight : "bold" ,
+}));
+
+const GeneralRating = styled("div")(({ theme }) => ({
+    display : "flex" ,
+    // flexDirection : "column" ,
+    justifyContent : "space-between" ,
+    alignItems : "center" ,
+    fontSize :"20px" , 
+    marginBottom : "20px" ,
+
+}));
+const RatingTitle = styled("div")(({ theme }) => ({
+    fontWeight : "bold" , 
+    fontSize : "18px" , 
+}));
+const RatingPercentage = styled("div")(({ theme }) => ({
+    position :"relative" , 
+    width : "150px" , 
+    height : "150px" , 
+    borderRadius : "50%" ,
+    display : "flex" ,
+    justifyContent : "center" ,
+    alignItems : "center" ,
+    background :"rgb(255,255,255)" , 
+    background :"linear-gradient(180deg, rgba(255,255,255,1) 60%, rgba(190,190,190,1) 100%)" , 
+    // boxShadow: "0px 0px 7px 8px rgba(0,0,0,.2)" , 
+   
+}));
+
+const Percentage1 = styled("div")(({ theme }) => ({
+    background: "rgb(80,72,156)" , 
+    background: "linear-gradient(180deg, rgba(80,72,156,1) 0%, rgba(159,72,246,1) 43%)", 
+    color : "#fff" , 
+    width : "60%" , 
+    height : "60%" , 
+    borderRadius : "50%" , 
+    display : "flex" , 
+    justifyContent : "center" , 
+    alignItems : "center" , 
+    zIndex :"2" , 
+    position :"relative" , 
+    boxShadow: "0px -2px 9px 6px rgba(0,0,0,.2)" , 
+    fontWeight : "bold" , 
+    
+}));
+
+const RatingScore = styled("div")(({ theme }) => ({
+    backgroundColor : "#50489C" , 
+    fontWeight : "bold" , 
+    color : "#fff" , 
+    width : "130px" , 
+    height : "40px" , 
+    display :"flex" , 
+    justifyContent : "center" , 
+    alignItems : "center" , 
+    borderRadius :"10px" , 
+}));
+const StepBar = styled("div")(({ theme }) => ({
+    background: "rgb(80,72,156)" , 
+    background: "linear-gradient(270deg, rgba(80,72,156,1) 21%, rgba(159,72,246,1) 100%) ", 
+    display :"flex" , 
+    color : "#fff" , 
+    justifyContent : "space-between" , 
+    padding : "5px 20px" , 
+}));
+const StepTitle = styled("div")(({ theme }) => ({
+}));
+const StepPercentage = styled("div")(({ theme }) => ({
+}));
+
+const StepQuestions = styled("div")(({ theme }) => ({
+    padding : "0 30px" , 
+}));
+const StepQuestionAnswer = styled("div")(({ theme }) => ({
+    margin : "20px 0"
+}));
+const StepQuestion = styled("div")(({ theme }) => ({
+    fontWeight :"bold" , 
+}));
+const StepAnswer = styled("div")(({ theme }) => ({
+}));
+const YesOrNoAnswer = styled("div")(({ theme }) => ({
+    width : "70px" , 
+    background: "rgb(253,199,12)" , 
+    background: "linear-gradient(270deg, rgba(253,199,12,1) 21%, rgba(245,156,52,1) 100%)" , 
+    fontWeight : "bold" , 
+    display : "flex" , 
+    justifyContent :"center" , 
+    alignItems : "center" , 
+}));
+const NotAnswer = styled(FlexCenter)(({ theme }) => ({
+    border : `1px solid ${Colors.gold}` ,
+    padding :"5px" , 
+    flexDirection : "column" ,
+}));
+const ChoiceAnswer = styled(FlexCenter)(({ theme }) => ({
+    border : `1px solid ${Colors.gold}` ,
+    padding :"5px" , 
+    flexDirection : "column" ,
+}));
+const OpenAnswer = styled("div")(({ theme }) => ({
+    width : "100%" , 
+    padding : "10px" , 
+    border : `1px solid ${Colors.gold}` ,
+    marginTop :"10px"  , 
+}));
+const ImageAnswer = styled(FlexCenter)(({ theme }) => ({
+    width : "45%" , 
+    height:'50%',
+    padding : "10px" , 
+    border : `1px solid ${Colors.gold}` ,
+    margin :"auto" , 
+    marginTop :"10px"  , 
+}));
+
 
 
 const PrintingDiv = ({missionDetails , missionAnswer}) => {
 
 
     const convert = (str)=>{
+
         if(str != 0){
             console.log('kkkkkkkkkkkkkkk' ,str);
 
             str = str.replace(",", ".") 
         }
+
         return str+"%" 
     }
     const removeQum = (str)=>{
+        str = String(str)
         str = str.replace(",", ".") 
         return str 
     }
@@ -279,20 +552,48 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
     ,[missionDetails])
 
 
+
+    useEffect(()=>{
+        console.log("missionDetails" , missionDetails)
+    }
+    ,[employee])
+
+
     
     const {t} = useTranslation() ;
-  return (
-
+    const numbers = [100,90,80,70,60,50,40,30,20,10,0];
+    return (
     <PrintDiv id="divToPrint">
-        <MainInformation>
-            <LogoName src = {logo}/>
-            <BasicInfo>
-                <CompanyInfo>
 
+        <Header>
+            <FirstLine>
+                <LogoDiv>
+                    <Image src = {logo}/>
+                </LogoDiv>
+            </FirstLine>
+            {/* image of employee is {employee.image} */}
+
+            <SecondLine>
+                <DataDiv>
+                    <Tab>
+                        <TabTitle>{t("text.VisitorName")}:</TabTitle>
+                        <TabAnswer>{employee.name} </TabAnswer>
+                    </Tab>
                     <Tab>
                         <TabTitle>{t("text.CompanyName")}:</TabTitle>
                         <TabAnswer>{missionDetails.companyName}</TabAnswer>
                     </Tab>
+                    <Tab>
+                        <TabTitle>{t("text.BranchAddress")}:</TabTitle>
+                        <TabAnswer>{missionDetails.branch}</TabAnswer>
+                    </Tab>
+
+                </DataDiv>
+                <PhotoDiv>
+                {/* {employee.image} */}
+                    <EmployeeImage src = {missionDetails.companyimage} alt = "company img"/>
+                </PhotoDiv>
+                <DataDiv>
                     <Tab>
                         <TabTitle>{t("text.MissionDate")}:</TabTitle>
                         <TabAnswer>{missionDetails.date}</TabAnswer>
@@ -301,146 +602,155 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                         <TabTitle>{t("text.MissionTime")}:</TabTitle>
                         <TabAnswer>  {missionDetails.from} - {missionDetails.to}</TabAnswer>
                     </Tab>
-                    <Tab>
-                        <TabTitle>{t("text.BranchAddress")}:</TabTitle>
-                        <TabAnswer>{missionDetails.branch}</TabAnswer>
-                    </Tab>
-                </CompanyInfo>
-                <VisitorInfo>
-                    <Tab>
-                        <TabTitle>{t("text.VisitorName")}:</TabTitle>
-                        <TabAnswer>{employee.name} </TabAnswer>
-                    </Tab>
-                    <Tab>
-                        <TabTitle>{t("text.VisitorGender")}:</TabTitle>
-                        <TabAnswer>{employee.gender}</TabAnswer>
-                    </Tab>
-                  
-                </VisitorInfo>
-            </BasicInfo>
+                </DataDiv>
 
-            <Section>{t("text.OVERALL_PERFORMANCE")}</Section>
+            </SecondLine>
 
-            <OverallPerformance>
-                <LogoContainer>
-                    <RateContainer>
-                        <Rating name="half-rating" defaultValue={missionDetails.generalRate}  readOnly style = {{direction : "ltr" , fontSize : "50px"}} precision={0.5}/>
-                        <Notes> {missionDetails.generalNote}  </Notes>
-                    </RateContainer>
-                    <PerformanceRate>
-                        <YourPerformance> {t("text.visitor_Rating")} </YourPerformance>
-                        <Rate>{missionDetails.generalRate * 20 } %</Rate>
-                    </PerformanceRate>
-                </LogoContainer>
-                <PerformanceContainer>
-                    <ScaleDiv>
+            <AllRating>
+                
+                <GeneralRating>
+                    <RatingTitle>{t("text.General_Rating")} </RatingTitle>
+                    <RatingPercentage>
+                        <Percentage1>{convert(missionAnswer?.rate)}</Percentage1>
+                    </RatingPercentage>
+                    <RatingScore>
+
                         {
-                            removeQum(missionAnswer?.rate)>=75 ? <img src = {excellentScale} style = {{ width  : "300px"}}/> :
-                            removeQum(missionAnswer?.rate)>=50 ? <img src = {goodScale} style = {{ width  : "300px"}}/> :
-                            removeQum(missionAnswer?.rate)>=25 ? <img src = {normalScale} style = {{ width  : "300px"}}/> :
-                            <img src = {badScale} style = {{ width  : "300px"}}/> 
+                            removeQum(missionAnswer?.rate)>=75 ? <div>{t("text.excellent")}</div> :
+                            removeQum(missionAnswer?.rate)>=50 ? <div>{t("text.good")}</div> :
+                            removeQum(missionAnswer?.rate)>=25 ? <div>{t("text.natural")}</div> :
+                            <div>{t("text.bad")}</div>
                         }
-                    </ScaleDiv>
-                    <PerformanceRate>
-                        <YourPerformance> {t("text.YOUR_PERFORMANCE")} </YourPerformance>
-                        <Rate>{convert(missionAnswer?.rate)} </Rate>
-                    </PerformanceRate>
-                </PerformanceContainer>
-            </OverallPerformance>
-            <Section>{t("text.SECTION_SUMMARY")} </Section>
-            <SummaryDiv>
-                {missionAnswer?.steps.map((step , index) => {
-                    return (
-                        <>
-                        <StepSummary key = {index}>
-                            <StepName>{step.name}</StepName>
-                            <StepRate>
-                                <PercentageDiv style = {{width : convert(step.rate)}}>
-                                    <Percentage>{convert(step.rate)}</Percentage>
-                                </PercentageDiv>
-                            </StepRate>
-                        </StepSummary>
-                        
-                        </>
-                    )
-                    } 
-                )}
-            </SummaryDiv>
-        </MainInformation>
+                    </RatingScore>
+                </GeneralRating>
 
+                <Graph>
+                    <BarContainer>
+                        {missionAnswer?.steps?.map((step , index) => {
+                            return (
+                                <>
+
+                                    <BarParent>
+                                        <Bar style = {{height : convert(step.rate) }}/>
+                                        <BarTitleContainer>
+                                            <BarTitle> {step.name}   </BarTitle> 
+                                        </BarTitleContainer>
+                                        {/* {step.name}  */}
+                                    </BarParent>
+                                    
+                                    
+                                </>
+                                    
+                            )
+                        }
+                        )}
+                    </BarContainer>
+                    <UL>
+                        {numbers.map((number, index) => (
+                            <LI key={index}>
+                                {number}
+                            </LI>
+                        ))}
+                    </UL>
+                </Graph>
+
+            </AllRating>
+
+        </Header>
         <StepsDetails>
-            {/* <HeaderTable>
-                <Tr style = {{backgroundColor :"#3734ca42"}}>
-                    <Td style = {{ fontWeight : "bold", fontSize : "20px" , }}>{t("text.OVERALL_PERFORMANCE")}</Td>
-                    <TdCenter style = {{ fontSize : "25px" , fontWeight : "bold" }}>{missionAnswer?.rate} %</TdCenter>
-                </Tr>
-            </HeaderTable> */}
             {missionAnswer?.steps?.map((step , index) => {
                 return (
                     <>
-                        
-                        <StepTable key = {index}>
-                            <Tr >
-                                <Td style = {{fontWeight : "bold" , backgroundColor : "#3734ca42" }} >{step.name}</Td>
-                                <TdCenter style = {{ fontWeight : "bold" ,backgroundColor : "#3734ca42" }}>{convert(step.rate)}</TdCenter>
-                            </Tr>
-                            {step.questions?.map((question , index) => {
-
-                                if (question.type !== "uploadImages" && question.type !== "headLine" && question.type !== "open") {
+                         {/* StepBar StepName  StepRate StepQuestions  StepQuestionAnswer */}
+                        <div key = {index}>
+                            <StepBar>
+                                <StepTitle >{step.name}</StepTitle>
+                                <StepPercentage >{convert(step.rate)}</StepPercentage>
+                            </StepBar>
+                            <StepQuestions>
+                            {step.questions?.map((question , index) => 
+                            {
+                                if (question.type === "open" || question.type === "headLine" || question.type === "uploadImages") {
                                     return (
-                                        <Tr key = {index}>
-                                        <Td >{question.title}</Td>
-                                        { question.type !== "multiChoice" ?
-                                            <TdCenter>{question.answer}</TdCenter> : 
-                                            <TdCenter>
-                                                {question.answer.map((answer , index) => {
-                                                    return (
-                                                        <div key = {index}>{answer}</div>
-                                                    )
-                                                })}
-                                            </TdCenter>
+                                    
+                                    <StepQuestionAnswer >
+                                        <StepQuestion>{question.title} </StepQuestion>
+                                        {
+                                            question.type === "open" ?  <OpenAnswer>{question.answer?question.answer : "N/A"}</OpenAnswer> : 
+                                            question.type === "uploadImages" ? 
+                                            <div style={{display:'flex' , flexWrap:'wrap'}}>
+                                                {question.answer && question.answer.length >0 ?
+                                                  (
+                                                    question.answer.map((answer, index) =>
+                                                    <>
+
+                                                    <ImageAnswer><img src={answer} style={{  width: "100%" }} /></ImageAnswer>
+                                                  
+                                                    </>
+                                                
+                                                )
+
+
+                                                ) 
+                                                      
+                                                :"N/A" 
+                                                }
+                                            </div> 
+                                            :null
+                                            
                                         }
-                                    </Tr>
-                                    )
+                                    </StepQuestionAnswer>
+                                    )  
                                 }
+                                else {
+                                    return (
+                                    
+                                    <StepQuestionAnswer style = {{display :"flex"  , justifyContent :"space-between"  , alignItems :"center"}}>
+                                        <StepQuestion>{question.title} </StepQuestion>
+                                        {
+                                            question.type === "yesOrNo" ?  <YesOrNoAnswer>{question.answer? t(`text.${question.answer}`) : "N/A"}</YesOrNoAnswer> : 
+                                            question.type === "rating" ?   question.answer? <Rating name="half-rating" defaultValue={question.answer}  readOnly style = {{direction : "ltr" , fontSize : "20px"}} precision={0.5}/> : <NotAnswer>N/A</NotAnswer> :
+                                            question.type === "SingleChoice" ?  <ChoiceAnswer>{question.answer?question.answer:"N/A"}</ChoiceAnswer> :
+                                            question.type === "multiChoice" ? 
+                                            <ChoiceAnswer>
+
+                                                {   question.answer && question.answer.length >0 ?
+                                                    question.answer.map((answer , index) => {
+                                                        return (
+                                                            <div key = {index}> - {answer}</div>
+                                                        )
+                                                })
+                                                :"N/A"
+                                                }
+                                            </ChoiceAnswer> : null 
+                                            
+                                        }
+                                        
+                                        
+                                        
+                                    </StepQuestionAnswer>
+                                    )  
+
+                                }
+                                
                                 
                             }
                             )}
-                            {/* {comments[index]?.length>0 ? 
-                                <>
-                                <div style = {{fontWeight : "bold" , paddingLeft : "10px"}}>{t("text.Comments")}</div>
-                                    {comments[index].map((comment , index) => {
-                                        return (
-                                            <>
-
-                                            <Box >
-                                                <PaddingDiv key = {index}>{comment.title}  </PaddingDiv>
-                                                <PaddingDiv key = {index}> {comment.answer}</PaddingDiv>
-                                                <Divider/>
-                                            </Box>
-                                            </>
-                                        )
-                                    })}
-                                </>
-                            : null} */}
-                        </StepTable>
+                            </StepQuestions>
+                           
+                        </div>
 
                     </>
                 )
                 }
             )}
         </StepsDetails>
-        <Box>
-            { pics.map((pic , index) => {
-                return (
-                    <PicsDiv key = {index}>
-                        {/* <div>{pic.title}</div> */}
-                        <img src = {pic.answer} style = {{height : "85%" , width : "70%"}}/>
-                    </PicsDiv>
-                )
-            })
-            }
-        </Box>
+
+
+        
+
+
+        
     </PrintDiv>
   )
 }

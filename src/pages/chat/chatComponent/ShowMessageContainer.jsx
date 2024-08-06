@@ -143,8 +143,10 @@ const ShowMessageContainer = ({setLastMessage , setShowMessages }) => {
     });
 
     const channel = pusher.subscribe('chat_api');
+    console.log(channel);
+    
     setTimeout(() => {
-        
+       
         channel.bind("VistorMessageSent", (data) => {
             console.log(currentChat);
          if(currentChat.mission_id== data.message.mission_id) setMessages(current => [...[data.message], ...current])

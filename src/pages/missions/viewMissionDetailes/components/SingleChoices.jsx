@@ -27,10 +27,14 @@ const SingleChoices = ({question, num}) => {
     <>
       <Box>
         <Title>{num} - {question.title}</Title>
-        <InputDiv>
-          <Input type="radio" name={question.id} value={question.answer} checked />
-          <Label >{question.answer}</Label>
-        </InputDiv>
+          {
+            question.answer?
+            <InputDiv>
+              <Input type="radio" name={question.id} value={question.answer} checked />
+              <Label >{question.answer} </Label>
+            </InputDiv>
+            : "N/A"
+          }
       </Box>
     </>
   )
