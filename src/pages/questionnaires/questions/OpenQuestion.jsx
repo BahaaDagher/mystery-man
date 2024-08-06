@@ -34,7 +34,7 @@ const HintContainer = styled("input")(({ theme }) => ({
 }));
 
 
-const OpenQuestion = ({questionData,index}) => {
+const OpenQuestion = ({questionData,index ,setIsApplyFocus}) => {
   const [radio,  setRadio] = useState(questionData.required);
   const [question, setQuestion] = useState(questionData.title);
   const isReadyToSend = useSelector((state) => state.questioneirData.isReadyToSend);
@@ -58,7 +58,7 @@ const OpenQuestion = ({questionData,index}) => {
   const {t} = useTranslation() ; 
   return (
     <Parent>
-      <DeleteIcon index={index} />
+      <DeleteIcon index={index} setIsApplyFocus={setIsApplyFocus}/>
       <RequiredOptional radio={questionData} setRadio= {setRadio} />
       <QuestionInput question= {questionData} setQuestion= {setQuestion}/>
         <HintContainer value = {t("text.hint")}/>

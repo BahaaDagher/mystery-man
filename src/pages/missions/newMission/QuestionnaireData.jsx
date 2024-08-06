@@ -334,6 +334,7 @@ const QuestionnaireData = ({setShowQuestionnaire}) => {
     dispatch(sendQuestioneir([questionieres[currentQuestioneir]]))
   };
   const [activeStep, setActiveStep] = useState(0);
+  const [applyFocus, setIsApplyFocus] = useState(false);
   const {t} = useTranslation();
   const moveStep = (fromIndex, toIndex) => {
     console.log('llllllllllll',fromIndex,toIndex);
@@ -350,10 +351,13 @@ const QuestionnaireData = ({setShowQuestionnaire}) => {
     //   }
     // }, [activeStep, index]);
     useEffect(() => {
-      if (focusedStep === index && ref.current) {
-        ref.current.focus();
+       if(applyFocus){
+
+        if (focusedStep === index && ref.current) {
+          ref.current.focus();
+        }
       }
-    }, [focusedStep, index]);
+    }, [focusedStep, index , applyFocus]);
 
     const [, drop] = useDrop({
       accept: 'STEP',
@@ -380,7 +384,7 @@ const QuestionnaireData = ({setShowQuestionnaire}) => {
     return (
         <>
         
-        <StepName  onClick={()=>{ handleClickStep(index,answer.questions); setActiveStep(index) ;  }} >
+        <StepName  onClick={()=>{ handleClickStep(index,answer.questions); setActiveStep(index) ;setIsApplyFocus(true)  }} >
           <StepInput
             value={answer.name}
             ref={ref}
@@ -466,7 +470,7 @@ const QuestionnaireData = ({setShowQuestionnaire}) => {
             
             <DndProvider backend={HTML5Backend}>
 
-              <QuestionComponent questions ={questionieres[currentQuestioneir].steps[currentStep]?.questions} ></QuestionComponent>
+              <QuestionComponent setIsApplyFocus={setIsApplyFocus} questions ={questionieres[currentQuestioneir].steps[currentStep]?.questions} ></QuestionComponent>
             </DndProvider>
             :''
 

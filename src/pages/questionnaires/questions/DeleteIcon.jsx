@@ -11,11 +11,12 @@ const DeleteImg = styled("img")(({ theme }) => ({
     right :theme.direction =="ltr"?  "10px" : "auto" , 
     left :theme.direction =="rtl"?  "10px" : "auto" , 
 }));
-const DeleteIcon = ({index}) => {
+const DeleteIcon = ({index ,setIsApplyFocus}) => {
   const dispatch = useDispatch() ; 
   const handledeleteQuestion = (index) => {
     console.log(index);
     dispatch(handleDeleteQuestion(index))
+    setIsApplyFocus(false)
   };
   return (
     <div onClick={()=>handledeleteQuestion(index)}>
