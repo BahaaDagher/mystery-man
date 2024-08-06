@@ -466,7 +466,8 @@ const OpenAnswer = styled("div")(({ theme }) => ({
     marginTop :"10px"  , 
 }));
 const ImageAnswer = styled(FlexCenter)(({ theme }) => ({
-    width : "60%" , 
+    width : "45%" , 
+    height:'50%',
     padding : "10px" , 
     border : `1px solid ${Colors.gold}` ,
     margin :"auto" , 
@@ -670,12 +671,24 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                                         {
                                             question.type === "open" ?  <OpenAnswer>{question.answer?question.answer : "N/A"}</OpenAnswer> : 
                                             question.type === "uploadImages" ? 
-                                            <ImageAnswer>
+                                            <div style={{display:'flex' , flexWrap:'wrap'}}>
                                                 {question.answer && question.answer.length >0 ?
-                                                    <img src = {question.answer} style = {{height : "50%" , width : "50%"}}/>
+                                                  (
+                                                    question.answer.map((answer, index) =>
+                                                    <>
+
+                                                    <ImageAnswer><img src={answer} style={{  width: "100%" }} /></ImageAnswer>
+                                                  
+                                                    </>
+                                                
+                                                )
+
+
+                                                ) 
+                                                      
                                                 :"N/A" 
                                                 }
-                                            </ImageAnswer> 
+                                            </div> 
                                             :null
                                             
                                         }
