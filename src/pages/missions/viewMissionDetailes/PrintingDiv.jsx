@@ -480,8 +480,13 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
 
 
     const convert = (str)=>{
-        str = String(str)
-        str = str.replace(",", ".") 
+
+        if(str != 0){
+            console.log('kkkkkkkkkkkkkkk' ,str);
+
+            str = str.replace(",", ".") 
+        }
+
         return str+"%" 
     }
     const removeQum = (str)=>{
@@ -582,6 +587,7 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                         <TabTitle>{t("text.BranchAddress")}:</TabTitle>
                         <TabAnswer>{missionDetails.branch}</TabAnswer>
                     </Tab>
+
                 </DataDiv>
                 <PhotoDiv>
                 {/* {employee.image} */}
@@ -608,6 +614,7 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                         <Percentage1>{convert(missionAnswer?.rate)}</Percentage1>
                     </RatingPercentage>
                     <RatingScore>
+
                         {
                             removeQum(missionAnswer?.rate)>=75 ? <div>{t("text.excellent")}</div> :
                             removeQum(missionAnswer?.rate)>=50 ? <div>{t("text.good")}</div> :

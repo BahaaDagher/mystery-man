@@ -28,11 +28,26 @@ const Parent = styled(Box)(({ theme }) => ({
 
 const Settings = styled("div")(({ theme }) => ({
   backgroundColor : "#fff" ,
+  position:'relative',
   padding : "20px" ,
   borderRadius : "10px" ,
   [theme.breakpoints.down('800')]: {
     width : "100%" ,
     margin : "0 auto" ,
+  },
+}));
+const SaveAdminButton = styled("div")(({ theme }) => ({
+  textAlign:'center',
+  backgroundColor: Colors.green,
+  color : "#fff" , 
+  cursor : "pointer" ,
+  transition : "all 0.3s ease" , 
+  padding : "10px" ,
+  borderRadius : "10px" ,
+  marginBottom:'20px',
+  [theme.breakpoints.down('800')]: {
+    width : "100%" ,
+    margin : "10 auto" ,
   },
 }));
 const InputAndButtons = styled(FlexSpaceBetween)(({ theme }) => ({
@@ -244,6 +259,7 @@ const QuestionnaireSettings = ({isAddNew}) => {
 
   const [answersStep, setAnswersStep] = useState([]); 
   const [showNewStep, setShowNewStep] = useState(false); 
+  const [isAdminQues, setIsAdminQues] = useState(false); 
 
   const showTypes = (event) => {
     setAnchorEl(event.currentTarget);
@@ -252,6 +268,13 @@ const QuestionnaireSettings = ({isAddNew}) => {
   useEffect(() => {
     if(!isAddNew)dispatch(getQuestionnaire())
   },[isAddNew])
+  useEffect(() => {
+    if(isAdminQues){
+
+      console.log('yyyy' ,isAdminQues);
+      handleSaveQuestioneir()
+    }
+  },[isAdminQues])
   const getQuestionnaireLoading = useSelector((state) => state.questioneirData.getQuestionnaireLoading);
 
   const [chosenType , setChosenType] = useState(null) ; 
@@ -327,10 +350,15 @@ const QuestionnaireSettings = ({isAddNew}) => {
     }).then((result) => {
       if (result.isConfirmed) {
         if(questionieres[currentQuestioneir].id){
-
-          dispatch(editQuestioneir([questionieres[currentQuestioneir]]))
+          console.log('mmmm' ,isAdminQues);
+          if(isAdminQues){
+            dispatch(sendQuestioneir([questionieres[currentQuestioneir]]))
+          }
+          else dispatch(editQuestioneir([questionieres[currentQuestioneir]]))
         }
         else dispatch(sendQuestioneir([questionieres[currentQuestioneir]]))
+
+        setIsAdminQues(false)
       } else if (result.isDenied) {
         Swal.fire(t("text.Changes_are_not_saved"), '', 'info')
       }
@@ -428,6 +456,18 @@ const QuestionnaireSettings = ({isAddNew}) => {
     {getQuestionnaireLoading ? <Loading/> : 
     <Parent>
         <Settings>
+          {
+            questionieres[currentQuestioneir].isAdmin ?  
+            
+            <SaveAdminButton onClick={()=>{
+              setIsAdminQues(true)
+            
+              }}
+             > 
+            {t("text.SaveAdmin")}
+            </SaveAdminButton>
+            :''
+          }
           <InputAndButtons>
             <InputContainer>
               <Input 

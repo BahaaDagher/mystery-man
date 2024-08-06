@@ -115,7 +115,11 @@ const MysteryProfile = ({missionDetails}) => {
                 {employee.gender}
               </Gender>
               <Rate>
-                <Rating name="half-rating" defaultValue={employee.rate}  readOnly style = {{direction : "ltr" , fontSize : "30px" ,}} precision={0.5}/>
+                {employee.rate ? 
+                
+                
+                <Rating name="half-rating" defaultValue={employee.rate}  readOnly style = {{direction : "ltr" , fontSize : "30px" ,}}  precision={0.5}/>
+                :''}
               </Rate>
             </Header>
             <NameImage>

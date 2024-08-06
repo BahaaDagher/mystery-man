@@ -164,6 +164,8 @@ const numberOFQuestioners = (item)=>{
               {
                 questionieres.map((item , index)=>{
                 return (
+                  !item.isAdmin ? 
+                  
                   <>
                     <PreviousQuestionnaire className = {active == index ? "active" : ""}
                     onClick={()=> {handleQuestionierChange(item.id ,index)  ; setActive(index) }} >
@@ -178,8 +180,40 @@ const numberOFQuestioners = (item)=>{
                     </PreviousQuestionnaire>
 
                   </>
+                  
+                  :''
                 )
-              })}
+                })
+              
+              }
+
+              <Divider/>
+              <FlexCenter style = {{fontSize : "20px"}}>{t("text.Saved_admin_Questioners")}</FlexCenter>
+              <Divider/>
+              {
+                questionieres.map((item , index)=>{
+                return (
+                  item.isAdmin ?
+                  <>
+                    <PreviousQuestionnaire className = {active == index ? "active" : ""}
+                    onClick={()=> {handleQuestionierChange(item.id ,index)  ; setActive(index) }} >
+
+                      <QuestionnaireName>{item.title}</QuestionnaireName>
+                      <QuestionnaireLengthDiv>
+                        <SpanQ>Q</SpanQ>
+                        <SpanNum>
+                          {numberOFQuestioners(item)}
+                        </SpanNum>
+                      </QuestionnaireLengthDiv>
+                    </PreviousQuestionnaire>
+
+                  </>
+                  :''
+                )
+                })
+              
+              }
+
               
             </PreviousQuestionnaires>
         </MainContent>

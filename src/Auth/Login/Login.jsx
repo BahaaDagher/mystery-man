@@ -159,17 +159,33 @@ const Login = () => {
         console.log(LoginData) 
         if (clickSubmit) {
             if (LoginData.status ) {
-                console.log("success")
-                localStorage.setItem("token" , LoginData.data.user.token) ;
-                Swal.fire({
-                    icon: 'success',
-                    text: LoginData.message,
-                    showConfirmButton: false,
-                    timer: 2000
-                })
-                setTimeout(() => {
-                    navigate("/userDashboard/home")
-                }, 2000);
+                if (LoginData.data.isActive) {
+                    console.log("success")
+                    localStorage.setItem("token" , LoginData.data.user.token) ;
+                    Swal.fire({
+                        icon: 'success',
+                        text: LoginData.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+                    setTimeout(() => {
+                        navigate("/userDashboard/home")
+                    }, 2000);
+                }
+                else{
+                    sessionStorage.setItem("company_email" ,LoginData.data.user.email ) ;
+                    Swal.fire({
+                      icon: 'success',
+                      text: LoginData.message,
+            
+                      showConfirmButton: false,
+                      timer: 3000
+                    })
+                    setTimeout(() => {
+                      navigate("/register/VerifyEmail")
+                    }
+                    , 3000)
+                }
             }
             else {
                 console.log("failed")

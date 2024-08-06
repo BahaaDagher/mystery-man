@@ -63,7 +63,7 @@ const Missions = () => {
 
   useEffect(() => {
     if (getProfileData.status) {
-      setWallet(getProfileData.data.user.wallet)
+      setWallet(getProfileData.data.user.newMission)
     }
   } , [getProfileData])
 
