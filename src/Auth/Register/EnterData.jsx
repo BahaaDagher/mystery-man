@@ -90,7 +90,7 @@ const Select = styled("select")(({ theme }) => ({
 const Option = styled("option")(({ theme }) => ({
   fontSize: '16px',
   color: theme.palette.text.primary,
-  backgroundColor: Colors.lightMain,
+  // backgroundColor: Colors.lightMain,
 }));
 
 const EnterData = () => {
@@ -103,7 +103,6 @@ const EnterData = () => {
   const [password , setPassword] = useState("")
   const [confirm_password , setConfirm_password] = useState("")
   const [commercial_registration_no , setCommercial_registration_no] = useState("")
-  const [categories , setCategories] = useState([])
   const [clickSubmit , setClickSubmit] = useState(false)
 
   const handleFileChange = (event) => {
@@ -194,6 +193,7 @@ const EnterData = () => {
           if (commercial_registration_no!="") formData.append("CommercialRegistrationNo", commercial_registration_no);
           if (commercialRegisterFile!=null) formData.append("CommercialRegistrationImage", commercialRegisterFile);
           if (selectedPhoto!=null) formData.append("image", selectedPhoto);
+          if (selectedCategoryId!="") formData.append("category_id", selectedCategoryId)
           dispatch(userRegister(formData))
         }
 
@@ -207,12 +207,7 @@ const EnterData = () => {
     dispatch (getCategories())
   }, [])
 
-  useEffect(() => {
-    if (Object.keys(getCategoriesData).length !== 0 ) {
-      setCategories(getCategoriesData.data.categories)
-    }
-  }, [getCategoriesData])
- 
+
   const [selectedCategoryId, setSelectedCategoryId] = useState('');
 
   const handleCategoryChange = (event) => {
@@ -284,13 +279,12 @@ const EnterData = () => {
               <H3>{t("text.categories")} </H3>
               <Select onChange={handleCategoryChange}>
                 <Option value="">{t("text.choose_category")} </Option>
-                {categories.map(category => (
+                 { getCategoriesData?.map(category => (
                   <Option key={category.id} value={category.id}>
                     {category.name_ar}
                   </Option>
                 ))}
               </Select>
-              {/* <Input   placeholder={t("text.categories")} value ={categories} onChange = {(e)=> setCommercial_registration_no(e.target.value)}/> */}
           </InputDiv>
 
           <InputDiv>

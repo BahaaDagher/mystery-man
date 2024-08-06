@@ -201,7 +201,7 @@ const authSlice = createSlice({
     changePasswordData: {},
     changePasswordDataLoading: false,
 
-    getCategoriesData : {},
+    getCategoriesData : [],
     categoriesLoading : false,
   },
   extraReducers: (builder) => {
@@ -285,7 +285,7 @@ const authSlice = createSlice({
       })
       //get Categories
       .addCase(getCategories.fulfilled, (state, action) => {
-        state.getCategoriesData = action.payload;
+        state.getCategoriesData = action.payload.data.categories;
         state.categoriesLoading = false;
       })
       .addCase(getCategories.pending, (state, action) => {

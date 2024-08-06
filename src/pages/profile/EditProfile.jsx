@@ -14,7 +14,7 @@ import camera from "../../assets/icons/camera.svg"
 import file_text from "../../assets/icons/file-text.svg"
 import upload from "../../assets/icons/upload.svg"
 import { useDispatch, useSelector } from 'react-redux'
-import  { userRegister } from '../../store/slices/authSlice'
+import  { getCategories, userRegister } from '../../store/slices/authSlice'
 import Swal from 'sweetalert2'
 import { useTheme } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
@@ -80,6 +80,27 @@ const UpdateButton = styled(SubmitButton)(({ theme }) => ({
   },
 
 }));
+const Select = styled("select")(({ theme }) => ({
+  width: '100%', 
+  height: 'fit-content', 
+  padding: '15px 16px', 
+  borderRadius: '10px',
+  border : `1px solid ${Colors.gold}` ,
+  fontSize: '16px',
+  color: theme.palette.text.primary,
+  '&:focus': {
+    borderColor: theme.palette.primary.dark,
+    outline: 'none',
+    boxShadow: `0 0 0 3px ${Colors.gold}`,
+  }
+}));
+
+const Option = styled("option")(({ theme }) => ({
+  fontSize: '16px',
+  color: theme.palette.text.primary,
+  // backgroundColor: Colors.lightMain,
+}));
+
 
 const EditProfile = () => {
   const [commercialRegisterFile, setCommercial_registration_file] = useState(null);
@@ -92,6 +113,7 @@ const EditProfile = () => {
   const [confirm_password , setConfirm_password] = useState("")
   const [commercial_registration_no , setCommercial_registration_no] = useState("")
   const [clickSubmit , setClickSubmit] = useState(false)
+  const [selectedCategoryID, setSelectedCategoryID] = useState('');
 
 
   // my work 
@@ -107,6 +129,7 @@ const EditProfile = () => {
             setCommercial_registration_no(getProfileData.data.user.CommercialRegistrationNo)
             setCommercial_registration_file(getProfileData.data.user.CommercialRegistrationImage)
             setSelectedPhoto(getProfileData.data.user.image)
+            setSelectedCategoryID(getProfileData.data.user.category_id)
         }
     }, [getProfileData]);
 
@@ -176,6 +199,7 @@ const EditProfile = () => {
           if (password!="") formData.append("password", password);
           if (typeof commercialRegisterFile !== 'string') formData.append("CommercialRegistrationImage", commercialRegisterFile);
           if (typeof selectedPhoto !== 'string') formData.append("image", selectedPhoto);
+          if (selectedCategoryId) formData.append("category_id", selectedCategoryId);
           dispatch(updateProfile(formData))
         }
       }
@@ -192,13 +216,26 @@ const EditProfile = () => {
   
 
 
+  const getCategoriesData = useSelector((state) => state.authData.getCategoriesData);
+  const categoriesLoading = useSelector(state => state.authData.categoriesLoading) ;
+  useEffect(() => {
+    dispatch (getCategories())
+
+  }, [])
+
+
+  const [selectedCategoryId, setSelectedCategoryId] = useState('');
+
+  const handleCategoryChange = (event) => {
+    setSelectedCategoryId(event.target.value);
+    setSelectedCategoryID(event.target.value);
+  };
   
 
   const {t} = useTranslation()
   return (
     <>
-        {getProfileLoading ? <Loading/> : null}
-        {updateProfileLoading ? <Loading/> : null}
+        {getProfileLoading || categoriesLoading || updateProfileLoading? <Loading/> : null}
       <Parent>
         <InsideContainer>
               <input
@@ -249,6 +286,17 @@ const EditProfile = () => {
           <InputDiv>
               <H3>{t("text.Commercial_Registration_No")} </H3>
               <ProfileInput  placeholder={t("text.Commercial_Registration_No")} value ={commercial_registration_no} onChange = {(e)=> setCommercial_registration_no(e.target.value)}/>
+          </InputDiv>
+          <InputDiv>
+              <H3>{t("text.categories")} </H3>
+              <Select onChange={handleCategoryChange} value={selectedCategoryID}>
+                {console.log(selectedCategoryID)}
+                 { getCategoriesData?.map(category => (
+                  <Option key={category.id} value={category.id}>
+                    {category.name_ar}
+                  </Option>
+                ))}
+              </Select>
           </InputDiv>
           <InputDiv>
               <H3>{t("text.Copy_of_the_commercial_register")} </H3>

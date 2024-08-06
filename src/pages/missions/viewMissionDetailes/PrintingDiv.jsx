@@ -682,17 +682,9 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                                                 {question.answer && question.answer.length >0 ?
                                                   (
                                                     question.answer.map((answer, index) =>
-                                                    <>
-
-                                                    <ImageAnswer><img src={answer} style={{  width: "100%" }} /></ImageAnswer>
-                                                  
-                                                    </>
-                                                
-                                                )
-
-
+                                                        <ImageAnswer><img src={answer} style={{  width: "100%" }} /></ImageAnswer>
+                                                    )
                                                 ) 
-                                                      
                                                 :"N/A" 
                                                 }
                                             </div> 
