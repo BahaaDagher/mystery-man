@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { Colors } from '../../../Theme';
 import styled from '@emotion/styled';
 import { Box } from '@mui/material';
@@ -19,27 +19,37 @@ const Input = styled("input")(({ theme }) => ({
     padding : "0 10px" ,
   }));
 
-const QuestionInput = ({question ,setQuestion }) => {
-  const {t } = useTranslation();
-  const dispatch = useDispatch() ; 
-  const handleClickStep = () => {
+const QuestionInput = ({ question, setQuestion }) => {
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const inputRef = useRef(null);
 
-    dispatch(setFocusedStep(-1))
-    
- 
+  const handleClickStep = () => {
+    dispatch(setFocusedStep(-1));
+  };
+
+  const handleChange = (e) => {
+    const { selectionStart, selectionEnd } = e.target;
+    setQuestion(e.target.value);
+    setTimeout(() => {
+      if (inputRef.current) {
+        inputRef.current.setSelectionRange(selectionStart, selectionEnd);
+      }
+    }, 0);
   };
 
   return (
-    <Box margin = "20px 0">
-        <Input
-         onClick={()=>{ handleClickStep()}}
-          placeholder= {t("text.EnterYourQuestion")}
-          type="text"
-          value={question.title}
-          onChange={(e) => setQuestion(e.target.value)}
-        />
+    <Box margin="20px 0">
+      <Input
+        ref={inputRef}
+        onClick={handleClickStep}
+        placeholder={t("text.EnterYourQuestion")}
+        type="text"
+        value={question.title}
+        onChange={handleChange}
+      />
     </Box>
-  )
+  );
 }
 
-export default QuestionInput
+export default QuestionInput;

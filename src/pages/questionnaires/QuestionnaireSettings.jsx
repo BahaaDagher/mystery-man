@@ -383,6 +383,7 @@ const QuestionnaireSettings = ({isAddNew}) => {
 
   };
   const [activeStep, setActiveStep] = useState(0);
+  const [applyFocus, setIsApplyFocus] = useState(false);
   const {t} = useTranslation() ; 
   const moveStep = (fromIndex, toIndex) => {
     console.log('llllllllllll',fromIndex,toIndex);
@@ -398,11 +399,13 @@ const QuestionnaireSettings = ({isAddNew}) => {
     //   }
     // }, [activeStep, index]);
     useEffect(() => {
-      if (focusedStep === index && ref.current) {
-        console.log('mmmmmmmmmmm', ref.current);
-        ref.current.focus();
+      if(applyFocus){
+
+        if (focusedStep === index && ref.current) {
+          ref.current.focus();
+        }
       }
-    }, [focusedStep, index]);
+    }, [focusedStep ,applyFocus]);
 
     const [, drop] = useDrop({
       accept: 'STEP',
@@ -425,19 +428,25 @@ const QuestionnaireSettings = ({isAddNew}) => {
     });
 
     drag(drop(ref));
+    const handleInputChange = (e) => {
+      const { selectionStart, selectionEnd } = e.target;
+      handleStepTitle(e.target.value);
+      setTimeout(() => {
+        if (ref.current) {
+          ref.current.setSelectionRange(selectionStart, selectionEnd);
+        }
+      }, 0);
+    };
 
     return (
         <>
         
-        <StepName  onClick={()=>{ handleClickStep(index,answer.questions); setActiveStep(index) ;  }} >
+        <StepName  onClick={()=>{ handleClickStep(index,answer.questions); setActiveStep(index) ;setIsApplyFocus(true)  }} >
           <StepInput
             value={answer.name}
             ref={ref}
             placeholder="Step Title"
-            onChange={(e) =>{
-           
-              handleStepTitle(e.target.value)}
-            }
+            onChange={handleInputChange}
             onMouseDown={(e) => e.stopPropagation()} // Prevent onClick from interfering
             className={activeStep === index ? 'active' : ''}
           />
@@ -524,7 +533,7 @@ const QuestionnaireSettings = ({isAddNew}) => {
             questionieres[currentQuestioneir].steps[currentStep]?.questions.length>0 ?
             <DndProvider backend={HTML5Backend}>
 
-              <QuestionComponent questions ={questionieres[currentQuestioneir].steps[currentStep]?.questions} ></QuestionComponent>
+              <QuestionComponent setIsApplyFocus={setIsApplyFocus} questions ={questionieres[currentQuestioneir].steps[currentStep]?.questions} ></QuestionComponent>
             </DndProvider>
             
             :''
