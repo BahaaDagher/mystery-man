@@ -44,7 +44,7 @@ const LabelFile = styled("label")(({ theme }) => ({
 
 
 
-const UploadImages = ({questionData,index}) => {
+const UploadImages = ({questionData,index ,setIsApplyFocus}) => {
   const [radio,  setRadio] = useState(questionData.required);
   const [question, setQuestion] = useState(questionData.title);
   const [photo, setPhoto] = useState(null);
@@ -76,7 +76,7 @@ const UploadImages = ({questionData,index}) => {
   const {t} = useTranslation() ; 
   return (
     <Parent>
-      <DeleteIcon index={index} />
+       <DeleteIcon index={index} setIsApplyFocus={setIsApplyFocus}/>
       <RequiredOptional radio={questionData} setRadio= {setRadio} />
       <QuestionInput question= {questionData} setQuestion= {setQuestion}/>
       <input

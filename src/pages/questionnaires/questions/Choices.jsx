@@ -75,7 +75,7 @@ const Answer = styled("div")(({ theme }) => ({
   },
 }));
 
-const Choices = ({questionData,index}) => {
+const Choices = ({questionData,index ,setIsApplyFocus}) => {
   const {t} = useTranslation();
   const [radio,  setRadio] = useState(questionData.required);
   const [question, setQuestion] = useState(questionData.title);
@@ -145,7 +145,7 @@ const Choices = ({questionData,index}) => {
   return (
     <>
       <Parent>
-        <DeleteIcon index={index} />
+      <DeleteIcon index={index} setIsApplyFocus={setIsApplyFocus}/>
         <RequiredOptional radio={questionData} setRadio= {setRadio} />
         <QuestionInput question= {questionData} setQuestion= {setQuestion}/>
           <div>

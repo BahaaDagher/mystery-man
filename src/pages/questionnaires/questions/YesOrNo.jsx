@@ -38,7 +38,7 @@ const P = styled("p")(({ theme }) => ({
   margin :"0" , 
 }));
 
-const YesOrNo = ({questionData,index}) => {
+const YesOrNo = ({questionData,index ,setIsApplyFocus}) => {
   const [radio,  setRadio] = useState (questionData.required);
   const [question, setQuestion] = useState(questionData.title);
   const isReadyToSend = useSelector((state) => state.questioneirData.isReadyToSend);
@@ -62,7 +62,7 @@ const YesOrNo = ({questionData,index}) => {
   const {t } = useTranslation();
   return (
     <Parent>
-      <DeleteIcon index={index}/>
+      <DeleteIcon index={index} setIsApplyFocus={setIsApplyFocus}/>
       <RequiredOptional radio={questionData} setRadio= {setRadio} />
       <QuestionInput question= {questionData} setQuestion= {setQuestion}/>
       <Flex>

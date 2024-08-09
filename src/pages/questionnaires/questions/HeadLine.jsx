@@ -33,7 +33,7 @@ const Input = styled("input")(({ theme }) => ({
 }));
 
 
-const HeadLine = ({questionData,index}) => {
+const HeadLine = ({questionData,index ,setIsApplyFocus}) => {
   const [radio,  setRadio] = useState (questionData.required);
   const [question, setQuestion] = useState(questionData.title);
   const isReadyToSend = useSelector((state) => state.questioneirData.isReadyToSend);
@@ -55,7 +55,7 @@ const HeadLine = ({questionData,index}) => {
   },[radio])
   return (
     <Parent>
-      <DeleteIcon index={index}/>
+       <DeleteIcon index={index} setIsApplyFocus={setIsApplyFocus}/>
       <RequiredOptional radio={questionData} setRadio= {setRadio} />
       <QuestionInput question= {questionData} setQuestion= {setQuestion}/>
       
