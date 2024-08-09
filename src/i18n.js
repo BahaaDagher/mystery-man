@@ -193,6 +193,8 @@ const resources = {
         yes : "Yes" ,
         categories : "Categories" ,
         choose_category : "Choose Category" ,
+        The_additional_amount_due_to_you : "The additional amount due to you" ,
+        Additional_amount_due_to_the_visitor : "Additional amount due to the visitor" ,
       },
       content: {}
     }
@@ -386,6 +388,8 @@ const resources = {
         yes : "نعم" ,
         categories : "الفئات" ,
         choose_category : "اختر قسم" ,
+        The_additional_amount_due_to_you : "المبلغ الإضافي المستحق لك" ,
+        Additional_amount_due_to_the_visitor : "المبلغ الإضافي المستحق للزائر" ,
       },
       content: {}
     }

@@ -106,6 +106,13 @@ const FocusThings = styled("div")(({ theme }) => ({
     padding : "10px" ,
     fontWeight : "400" ,
   }));
+  const Span = styled("span")(({ theme }) => ({
+    color : Colors.second ,
+    fontSize : "16px" ,
+    padding : "10px" ,
+    fontWeight : "400" ,
+  }));
+  
   // notes 
   const NotesText = styled("textarea")(({ theme }) => ({
     height : "124px" , 
@@ -233,9 +240,20 @@ const InformationDiv = ({missionDetails}) => {
             />
             <CheckLabel htmlFor='voucher'>{t("text.Purchase_voucher")}</CheckLabel>
             </CheckDiv>
-            {missionDetails.price >0 && <Voucher>{missionDetails.price} {t("text.SAR")}</Voucher> }
-            
+              {missionDetails.price >0 && <Voucher>{missionDetails.price} {t("text.SAR")}</Voucher> }
             </VoucherDiv>
+        <Divider/>
+        <TitleDiv>
+            {
+              missionDetails.additionValue * 1 > 0 ? 
+              <Title>{t("text.Additional_amount_due_to_the_visitor")}</Title>
+              : <Title>{t("text.The_additional_amount_due_to_you")}</Title>
+            }
+            
+            <Text>
+              <Span>{missionDetails.additionValue * 1 > 0 ?missionDetails.additionValue * 1 : missionDetails.additionValue * -1}  {t("text.SAR")}</Span>
+            </Text>
+        </TitleDiv>
         <Divider/>
         <TitleDiv>
             <Title>{t("text.Notes")}</Title>

@@ -199,7 +199,7 @@ const EditProfile = () => {
           if (password!="") formData.append("password", password);
           if (typeof commercialRegisterFile !== 'string') formData.append("CommercialRegistrationImage", commercialRegisterFile);
           if (typeof selectedPhoto !== 'string') formData.append("image", selectedPhoto);
-          if (selectedCategoryId) formData.append("category_id", selectedCategoryId);
+          if (selectedCategoryID) formData.append("category_id", selectedCategoryID);
           dispatch(updateProfile(formData))
         }
       }
