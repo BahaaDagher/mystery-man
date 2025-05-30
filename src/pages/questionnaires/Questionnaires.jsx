@@ -162,7 +162,7 @@ const numberOFQuestioners = (item)=>{
               <FlexCenter style = {{fontSize : "20px"}}>{t("text.Saved_Questioners")}</FlexCenter>
               <Divider/>
               {
-                questionieres.map((item , index)=>{
+                questionieres?.map((item , index)=>{
                 return (
                   !item.isAdmin ? 
                   
@@ -191,7 +191,7 @@ const numberOFQuestioners = (item)=>{
               <FlexCenter style = {{fontSize : "20px"}}>{t("text.Saved_admin_Questioners")}</FlexCenter>
               <Divider/>
               {
-                questionieres.map((item , index)=>{
+                questionieres?.map((item , index)=>{
                 return (
                   item.isAdmin ?
                   <>

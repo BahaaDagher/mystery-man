@@ -466,7 +466,7 @@ const QuestionnaireSettings = ({isAddNew}) => {
     <Parent>
         <Settings>
           {
-            questionieres[currentQuestioneir].isAdmin ?  
+            questionieres[currentQuestioneir]?.isAdmin ?  
             
             <SaveAdminButton onClick={()=>{
               setIsAdminQues(true)
@@ -480,7 +480,7 @@ const QuestionnaireSettings = ({isAddNew}) => {
           <InputAndButtons>
             <InputContainer>
               <Input 
-              value={questionieres[currentQuestioneir].title} 
+              value={questionieres[currentQuestioneir]?.title} 
               placeholder= "Title"
               onChange={(e) => handleQuestioneirTitle(e.target.value)}
               />
@@ -497,7 +497,7 @@ const QuestionnaireSettings = ({isAddNew}) => {
           <DndProvider backend={HTML5Backend}>
 
             <StepsContainer style={{ justifyContent: 'start' }}>
-              {questionieres[currentQuestioneir] ? questionieres[currentQuestioneir].steps.map((answer, index) => (
+              {questionieres[currentQuestioneir] ? questionieres[currentQuestioneir]?.steps.map((answer, index) => (
                 <AddStepButton   className= {activeStep==index ? 'active' : ''}>
 
                   <StepComponent
@@ -530,10 +530,10 @@ const QuestionnaireSettings = ({isAddNew}) => {
         </Settings>
         <QuestionView>
           {
-            questionieres[currentQuestioneir].steps[currentStep]?.questions.length>0 ?
+            questionieres[currentQuestioneir]?.steps[currentStep]?.questions.length>0 ?
             <DndProvider backend={HTML5Backend}>
 
-              <QuestionComponent setIsApplyFocus={setIsApplyFocus} questions ={questionieres[currentQuestioneir].steps[currentStep]?.questions} ></QuestionComponent>
+              <QuestionComponent setIsApplyFocus={setIsApplyFocus} questions ={questionieres[currentQuestioneir]?.steps[currentStep]?.questions} ></QuestionComponent>
             </DndProvider>
             
             :''
