@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { Drawer } from '@mui/material';
 import { useTheme } from '@emotion/react';
 import BlueLogo from '../../assets/images/BlueLogo.png' ;
+import SidebarProfile from './SidebarProfile';
 
 const SideBarDiv = styled("div")(({ theme }) => ({
   height : "calc(100% - 10px)",
@@ -47,6 +48,7 @@ const SidebarItems = styled("div")(({ theme }) => ({
 }));
 const Ul = styled("ul")(({ theme }) => ({
   padding : "0" , 
+  transition: 'all 0.3s ease',  
 }));
 const Li = styled("li")(({ theme , isActive}) => ({
   display : "flex",
@@ -61,10 +63,12 @@ const Li = styled("li")(({ theme , isActive}) => ({
   borderWidth: isActive ? theme.direction =="ltr" ?  '0px 0px 0px 3px' : '0px 3px 0px 0px' : '0px',
   borderStyle: 'solid',
   fontWeight :"600" , 
+  transition: 'all 0.3s ease',  
   "& div": {
     color: isActive ? Colors.main : Colors.gray_input,
   },
   "&:hover": {
+    transition: 'all 0.3s ease',  
     backgroundColor : Colors.light , 
     borderWidth: theme.direction =="ltr" ?  '0px 0px 0px 3px' : '0px 3px 0px 0px' ,
     borderStyle: 'solid',
@@ -158,6 +162,7 @@ const Sidebar = ( {phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
           })}
         </Ul>
       </SidebarItems>
+      <SidebarProfile />
     </SideBarDiv>
 
 {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////// */}

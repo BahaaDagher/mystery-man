@@ -1,6 +1,7 @@
 export const Colors = {
     main : "#50489C" , 
     main2 : "#736dae" , 
+    main3 : "#50489cab" , 
     light : "#dad8e9" , 
     lightMain : "#3734CA1A" , 
     hoverMain: "#453c9c" , 
@@ -27,6 +28,7 @@ export const Colors = {
     gold : "#F3B51A" , 
     hoverGold : "#f1ac00" ,
     lightGray : "#F7F7F9" , 
+    danger : "#C32B43" , 
 }
 export const Dimensions = {
     sidebarWidth : "257px" ,

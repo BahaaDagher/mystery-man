@@ -10,7 +10,7 @@ async (values) => {
     const token = localStorage.getItem('token');
     try {
     const response = await axios.get(
-        `https://secretvisitor.co/dashboard/api/getMissions` ,{
+        `https://test.secretvisitor.co/dashboard/api/getMissions` ,{
             headers: {
                 "Authorization" : token , 
                 "lang" : currentLanguage
@@ -30,7 +30,7 @@ async (values) => {
     const token = localStorage.getItem('token');
     try {
     const response = await axios.get(
-        `https://secretvisitor.co/dashboard/api/getQuestionsMissions?mission_id=${values}` ,{
+        `https://test.secretvisitor.co/dashboard/api/getQuestionsMissions?mission_id=${values}` ,{
             headers: {
                 "Authorization" : token , 
                 "lang" : currentLanguage
@@ -50,7 +50,7 @@ async (values) => {
     const token = localStorage.getItem('token');
     try {
     const response = await axios.get(
-        `https://secretvisitor.co/dashboard/api/getAnswers?mission_id=${values}` ,{
+        `https://test.secretvisitor.co/dashboard/api/getAnswers?mission_id=${values}` ,{
             headers: {
                 "Authorization" : token , 
                 "lang" : currentLanguage
@@ -70,7 +70,7 @@ async (values) => {
     const token = localStorage.getItem('token');
     try {
     const response = await axios.post(
-        `https://secretvisitor.co/dashboard/api/accepetRequest`,
+        `https://test.secretvisitor.co/dashboard/api/accepetRequest`,
         {
             mission_id: values.mission_id  ,
             order_id: values.order_id
@@ -94,7 +94,7 @@ export const addMissions = createAsyncThunk(
         const token = localStorage.getItem('token');
         try {
         const response = await axios.post(
-            `https://secretvisitor.co/dashboard/api/addMission` ,
+            `https://test.secretvisitor.co/dashboard/api/addMission` ,
             values , 
             {
                 headers: {
@@ -115,7 +115,7 @@ export const deleteMission = createAsyncThunk(
         const token = localStorage.getItem('token');
         try {
         const response = await axios.post(
-            `https://secretvisitor.co/dashboard/api/deleteMission` ,
+            `https://test.secretvisitor.co/dashboard/api/deleteMission` ,
             values , 
             {
                 headers: {
@@ -136,7 +136,7 @@ export const deleteMission = createAsyncThunk(
             const token = localStorage.getItem('token');
             try {
             const response = await axios.post(
-                `https://secretvisitor.co/dashboard/api/rate_vistors` ,
+                `https://test.secretvisitor.co/dashboard/api/rate_vistors` ,
                 values , 
                 {
                     headers: {

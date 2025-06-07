@@ -9,7 +9,7 @@ export const getProfile = createAsyncThunk(
         const token = localStorage.getItem('token');
         try {
         const response = await axios.get(
-            `https://secretvisitor.co/dashboard/api/getProfileDataMIssion` ,{
+            `https://test.secretvisitor.co/dashboard/api/getProfileDataMIssion` ,{
                 headers: {
                     "Authorization" : token , 
                     "lang" : currentLanguage
@@ -28,7 +28,7 @@ export const updateProfile = createAsyncThunk(
         const token = localStorage.getItem('token');
         try {
         const response = await axios.post(
-            `https://secretvisitor.co/dashboard/api/updateProfilemission` ,
+            `https://test.secretvisitor.co/dashboard/api/updateProfilemission` ,
             values ,
             {
                 headers: {
@@ -50,7 +50,7 @@ export const getNotifications = createAsyncThunk(
         const token = localStorage.getItem('token');
         try {
         const response = await axios.get(
-            `https://secretvisitor.co/dashboard/api/getNotifications` , {
+            `https://test.secretvisitor.co/dashboard/api/getNotifications` , {
                 headers: {
                     "Authorization" : token , 
                     "lang" : currentLanguage

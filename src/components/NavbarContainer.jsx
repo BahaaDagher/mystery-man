@@ -93,7 +93,26 @@ const Parent = styled("div")(({ theme }) => ({
       flexDirection : "column" ,
     },
   }));
-
+  const ProfileImage = styled('div')(({ theme }) => ({
+    padding: '1px',
+    borderRadius: '50%',
+    border: `1px solid ${Colors.main}`,
+    '&:hover': {
+      transition: 'all 0.3s ease',
+      border: `1px solid ${Colors.main3}`,
+      '& img': {
+        opacity: 0.8,
+        transition: 'all 0.3s ease',
+      }
+    },
+    width: "40px", 
+    height: "40px",  
+  }));
+  const ProfileImg = styled('img')(({ theme }) => ({
+    width:"100%" , 
+    height:"100%" , 
+    borderRadius: "50%",
+  }));
 const NavbarContainer = () => {
     const {t} = useTranslation() ; 
     const getProfileData = useSelector(state => state.profileData.getProfileData) ;
@@ -156,12 +175,14 @@ const NavbarContainer = () => {
             <Section onClick={chatPage}>
                 <img src = {chatImage} alt = "chat"/>
             </Section>
-            <Section onClick={()=>{window.location = "/profile"}}>
-                <img src = {profileData.image} style = {{width : "40px" , height : "40px" ,   borderRadius : "50%" }} alt = "admin"/>
-            </Section>
             <Section className = "company">
                 <div style = {{color: Colors.second , weight : "400"}}>{profileData.name}</div>
                 <div style = {{color: Colors.gray , weight : "400"}}>{profileData.phone}</div>
+            </Section>
+            <Section onClick={()=>{window.location = "/profile"}}>
+              <ProfileImage className='profile-image'>
+                <ProfileImg src={profileData.image} alt="admin" />
+              </ProfileImage>
             </Section>
             <Logout onClick={logout}/>
         </InformationDiv>

@@ -11,7 +11,7 @@ export const userLogin = createAsyncThunk(
     
     try {
       const response = await axios.post(
-        "https://secretvisitor.co/dashboard/api/loginMission" ,{
+        "https://test.secretvisitor.co/dashboard/api/loginMission" ,{
             phone:values.phone,
             password:values.password
         } , 
@@ -54,7 +54,7 @@ export const userRegister = createAsyncThunk(
       
       try {
         const response = await axios.post(
-          "https://secretvisitor.co/dashboard/api/registerMission" ,
+          "https://test.secretvisitor.co/dashboard/api/registerMission" ,
             values, 
             {
               headers: {
@@ -73,7 +73,7 @@ export const userRegister = createAsyncThunk(
     async (values) => {
         try {
           const response = await axios.post(
-            "https://secretvisitor.co/dashboard/api/verifyOtpMission" ,
+            "https://test.secretvisitor.co/dashboard/api/verifyOtpMission" ,
               values, 
               {
                 headers: {
@@ -91,7 +91,7 @@ export const userRegister = createAsyncThunk(
     async (values) => {
         try {
           const response = await axios.post(
-            "https://secretvisitor.co/dashboard/api/resendOtp" ,
+            "https://test.secretvisitor.co/dashboard/api/resendOtp" ,
               values, 
               {
                 headers: {
@@ -109,7 +109,7 @@ export const userRegister = createAsyncThunk(
     async (values) => {
         try {
           const response = await axios.post(
-            "https://secretvisitor.co/dashboard/api/forgetPasswordMission" ,
+            "https://test.secretvisitor.co/dashboard/api/forgetPasswordMission" ,
               values, 
               {
                 headers: {
@@ -128,7 +128,7 @@ export const userRegister = createAsyncThunk(
     async (values) => {
         try {
           const response = await axios.post(
-            "https://secretvisitor.co/dashboard/api/verifyOtpPasswordMIssion" ,
+            "https://test.secretvisitor.co/dashboard/api/verifyOtpPasswordMIssion" ,
               values, 
               {
                 headers: {
@@ -146,7 +146,7 @@ export const userRegister = createAsyncThunk(
     async (values) => {
         try {
           const response = await axios.post(
-            "https://secretvisitor.co/dashboard/api/changePasswordMission" ,
+            "https://test.secretvisitor.co/dashboard/api/changePasswordMission" ,
               values, 
               {
                 headers: {
@@ -165,7 +165,7 @@ export const userRegister = createAsyncThunk(
     async (values) => {
         try {
         const response = await axios.get(
-            "https://secretvisitor.co/dashboard/api/categories" ,{
+            "https://test.secretvisitor.co/dashboard/api/categories" ,{
                 headers: {
                     "lang" : currentLanguage , 
                 },

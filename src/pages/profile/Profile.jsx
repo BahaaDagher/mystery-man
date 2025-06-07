@@ -8,6 +8,7 @@ import LanguageIcon from '../../components/LanguageIcon';
 import profileLogo from "../../assets/images/profileLogo.svg"
 import Commercial_Registration from "../../assets/images/Commercial Registration.svg"
 import trash  from "../../assets/icons/trash.svg"
+import EditBranch  from "../../assets/icons/EditBranch.svg"
 import pinLocation from "../../assets/icons/pinLocation.svg"
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import { useTranslation } from 'react-i18next';
@@ -228,6 +229,9 @@ const Profile = () => {
                           <Flex>
                             <IconDiv>
                               <img src = {trash} onClick= {()=>{delBranch(index)}}/>
+                            </IconDiv>
+                            <IconDiv>
+                              <img src = {EditBranch} />
                             </IconDiv>
                           </Flex>
                         </FlexSpaceBetween>
