@@ -456,7 +456,7 @@ const WalletTable = () => {
     <div className="rounded-[10px] bg-white p-4  w-full overflow-x-auto">
       <table className="min-w-full text-sm text-gray-700">
         <thead>
-          <tr className="text-left text-[14px] text-gray4 uppercase">
+          <tr className="text-left text-[14px] text-gray4 ">
             <th className="p-3">ID</th>
             <th className="p-3">Details</th>
             <th className="p-3">Status</th>
