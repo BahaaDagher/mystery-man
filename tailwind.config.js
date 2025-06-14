@@ -1,3 +1,5 @@
+import { Colors } from './src/Theme';
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -6,7 +8,48 @@ module.exports = {
   ],
   important: true,
   theme: {
-    extend: {},
+    extend: {
+        colors: {
+            main: Colors.main,
+            main2: Colors.main2,
+            main3: Colors.main3,
+            light: Colors.light,
+            lightMain: Colors.lightMain,
+            hoverMain: Colors.hoverMain,
+            second: Colors.second,
+            input: Colors.input,
+            gray: Colors.gray,
+            gray2: Colors.gray2,
+            gray_l: Colors.gray_l,
+            gray_input: Colors.gray_input,
+            body: Colors.body,
+            olive: Colors.olive,
+            lightRed: Colors.lightRed,
+            grayDC: Colors.grayDC,
+            bgBL: Colors.bgBL,
+            red: Colors.red,
+            hoverRed: Colors.hoverRed,
+            green: Colors.green,
+            hoverGreen: Colors.hoverGreen,
+            bg: Colors.bg,
+            hoverGray: Colors.hoverGray,
+            Black60: Colors.Black60,
+            Gray1: Colors.Gray1,
+            Black3: Colors.Black3,
+            input_fill: Colors.input_fill,
+            gold: Colors.gold,
+            hoverGold: Colors.hoverGold,
+            lightGray: Colors.lightGray,
+            danger: Colors.danger,
+            success: Colors.success,
+            lightSuccess: Colors.lightSuccess,
+            failed: Colors.failed,
+            lightFailed: Colors.lightFailed,
+            gray3: Colors.gray3,
+            gray4: Colors.gray4,
+            black2: Colors.black2,
+        },
+    },
   },
   plugins: [],
   // Disable Tailwind's preflight to prevent conflicts with MUI

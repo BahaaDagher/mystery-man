@@ -1,19 +1,11 @@
 import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react'
 import { Colors } from '../../Theme';
-import notificationImage from "../../assets/images/notification.svg"
-import chatImage from "../../assets/images/chat.svg"
-import adminImage from "../../assets/images/admin.png"
-import LanguageIcon from '../../components/LanguageIcon';
-import profileLogo from "../../assets/images/profileLogo.svg"
-import Commercial_Registration from "../../assets/images/Commercial Registration.svg"
+
 import trash  from "../../assets/icons/trash.svg"
 import EditBranch  from "../../assets/icons/EditBranch.svg"
 import pinLocation from "../../assets/icons/pinLocation.svg"
-import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import { useTranslation } from 'react-i18next';
-import { LINK } from '../../components/LINK';
-import { FlexDiv } from '../../components/FlexDiv';
 import { Box, CircularProgress, Rating, useTheme } from '@mui/material';
 import { Flex } from '../../components/Flex';
 import { FlexSpaceBetween } from '../../components/FlexSpaceBetween';
@@ -26,6 +18,8 @@ import Swal from 'sweetalert2';
 import DataDiv from './DataDiv';
 import { useNavigate } from 'react-router-dom';
 import { getProfile } from '../../store/slices/profileSlice';
+import { FlexCenter } from '../../components/FlexCenter';
+import Wallet from './wallet/Wallet';
 
 const Container = styled("div")(({ theme }) => ({
   minHeight : "100vh" , 
@@ -34,8 +28,6 @@ const Container = styled("div")(({ theme }) => ({
   position : "relative" ,
   display: 'flex',
 }));
-
-
 
 const Content = styled("div")(({ theme }) => ({
   width : `calc(100% - 20px )` ,
@@ -51,36 +43,18 @@ const Content = styled("div")(({ theme }) => ({
   },
 }));
 
-
 const BranchesDiv = styled("div")(({ theme }) => ({
   width: `calc(100% - 364px - 10px)`,
+  // border : `1px solid ${Colors.gold}` , 
   [theme.breakpoints.down('800')]: {
     width: "100%",
   },
 }));
 
-const NewBranchButton = styled("div")(({ theme }) => ({
-  width: '200px',
-  height: '60px',
-  padding: '12px 43px',
-  borderRadius: '10px',
-  backgroundColor: Colors.main,
-  color: '#fff',
-  textAlign: 'center',
-  cursor : "pointer" , 
-  fontSize: '20px',
-  fontWeight: 500,
-  lineHeight: '37px',
-  letterSpacing: '0em',
-  transition: 'all 0.3s ease-in-out',
-  // marginTop : "20px" ,
-  "&:hover" : {
-    backgroundColor : Colors.hoverMain
-  }
-}));
+
 
 const BranchesContainer = styled("div")(({ theme }) => ({
-  margin : "10px 0 " , 
+  // margin : "10px 0 " , 
   display : "flex" ,
   flexWrap : "wrap" ,
 }));
@@ -113,9 +87,7 @@ const IconDiv = styled("div")(({ theme }) => ({
   "&:hover" : {
     backgroundColor : "#b9001d" 
   }
-
 }));
-
 
 const LocationDiv = styled("div")(({ theme }) => ({
   width: '100%',
@@ -127,12 +99,36 @@ const BranchRating = styled(Rating)(({ theme }) => ({
   direction : "ltr"
 }));
 
+const TabButton = styled("div")(({ theme, active }) => ({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  width: 'fit-content',
+  margin: theme.direction === 'rtl' ? '0 0 0 10px' : '0 10px 0 0',
+  padding: '10px 20px',
+  color: active ? '#fff' : '#000',
+  backgroundColor: active ? Colors.main : '#fff',
+  borderRadius: '10px',
+  cursor: 'pointer',
+  transition: 'all 0.3s ease',
+  '&:hover': {
+    backgroundColor: active ? Colors.main : '#f0f0f0'
+  }
+}));
 
+const NewBranchButton = styled(TabButton)(({ theme }) => ({
+  backgroundColor : "#000" ,
+  color : "#fff" , 
+  '&:hover': {
+    backgroundColor: "#000", 
+  }
+}));
 
 const Profile = () => {
+  const [activeTab, setActiveTab] = useState('wallet'); // 'branches' or 'wallet'
   
   const {t} = useTranslation();
-  const theme = useTheme() ; 
+  const theme = useTheme() ;
 
   const getBranchesData = useSelector(state => state.branchData.getBranchesData) ;
   const getBranchesDataLoading = useSelector(state => state.branchData.getBranchesDataLoading) ;
@@ -165,7 +161,6 @@ const Profile = () => {
   const [currentBranches , setCurrentBranches] = useState ([])
   const [profileData , setProfileData] = useState ({})
 
- 
   // delete branch 
   const deleteBranchData = useSelector(state => state.branchData.deleteBranchData) ;
   const deleteBranchLoading = useSelector(state => state.branchData.deleteBranchLoading) ;
@@ -197,16 +192,16 @@ const Profile = () => {
 
   const navigate = useNavigate() ; 
 
-
   const Percent  = (str)=> {
     str =  str.replace(',', '.');
     console.log ("strrrrrr" , str)
     str = str/20
     return str 
   }
+
   return (
     <>
-        {deleteBranchLoading ? <Loading/> : null}
+        {deleteBranchLoading || getBranchesDataLoading? <Loading/> : null}
         <Container>
           <NavbarContainer/>
           <Content>
@@ -214,39 +209,76 @@ const Profile = () => {
             <DataDiv profileData = {profileData}/>
 
             {/* second div branches part  */}
+
             <BranchesDiv>
-              <NewBranchButton onClick= {()=>{window.location.href = '/newBranch'}}>{t("text.NewBranch")}</NewBranchButton>
-              {getBranchesDataLoading ? <CircularProgress style = {{margin :"30px" , color : Colors.main}}/> : 
-                <BranchesContainer>
-                  {currentBranches.map((branch , index) => {
-                    return (
-                      <BranchDetails key= {index} >
-                        <FlexSpaceBetween>
-                          <Box>
-                            <p style = {{color : Colors.second , fontSize : "18px"}}>{branch.name}</p>
-                            <BranchRating name="half-rating" defaultValue={Percent(branch.generalRate)} precision={0.5} readOnly />
-                          </Box>
+
+              <div className='flex justify-between items-center mb-[20px]' > 
+                <div className='flex justify-between items-center' >
+                  <TabButton 
+                    active={activeTab === 'branches'}
+                    onClick={() => setActiveTab('branches')}
+                  >
+                    Branches
+                  </TabButton>
+                  <TabButton 
+                    active={activeTab === 'wallet'}
+                    onClick={() => setActiveTab('wallet')}
+                  >
+                    My Wallet
+                  </TabButton>
+                </div>
+                <div className='flex justify-between items-center' >
+                  {activeTab === 'branches' && (
+                    <NewBranchButton onClick= {()=>{window.location.href = '/newBranch'}}>
+                      + {t("text.NewBranch")}
+                    </NewBranchButton>
+                  )}
+                  {activeTab === 'wallet' && (
+                    <div className='datePicker border border-red-500 w-[200px]'>hello</div>
+                  )}
+                </div>
+              </div>
+
+              {activeTab === 'branches' && (
+                <>
+                  <BranchesContainer>
+                    {currentBranches.map((branch , index) => {
+                      return (
+                        <BranchDetails key= {index} >
+                          <FlexSpaceBetween>
+                            <Box>
+                              <p style = {{color : Colors.second , fontSize : "18px"}}>{branch.name}</p>
+                              <BranchRating name="half-rating" defaultValue={Percent(branch.generalRate)} precision={0.5} readOnly />
+                            </Box>
+                            <Flex>
+                              <IconDiv>
+                                <img src = {trash} onClick= {()=>{delBranch(index)}}/>
+                              </IconDiv>
+                              <IconDiv>
+                                <img src = {EditBranch} />
+                              </IconDiv>
+                            </Flex>
+                          </FlexSpaceBetween>
                           <Flex>
-                            <IconDiv>
-                              <img src = {trash} onClick= {()=>{delBranch(index)}}/>
-                            </IconDiv>
-                            <IconDiv>
-                              <img src = {EditBranch} />
-                            </IconDiv>
+                            <img src = {pinLocation}/>
+                            <p style = {{margin : "0 5px"}}>{branch.address}</p>
                           </Flex>
-                        </FlexSpaceBetween>
-                        <Flex>
-                          <img src = {pinLocation}/>
-                          <p style = {{margin : "0 5px"}}>{branch.address}</p>
-                        </Flex>
-                        <LocationDiv>
-                          <Map  latPos = {parseFloat(branch.lat)} lngPos = {parseFloat(branch.long)} mapWidth={"100%"} mapHeight={"100%"} showSearch = {false}/>
-                        </LocationDiv>
-                      </BranchDetails>
-                    )
-                  })}
-                </BranchesContainer>
-              }
+                          <LocationDiv>
+                            <Map  latPos = {parseFloat(branch.lat)} lngPos = {parseFloat(branch.long)} mapWidth={"100%"} mapHeight={"100%"} showSearch = {false}/>
+                          </LocationDiv>
+                        </BranchDetails>
+                      )
+                    })}
+                  </BranchesContainer>
+                </>
+              )}
+
+              {activeTab === 'wallet' && (
+                <div >
+                  <Wallet/>
+                </div>
+              )}
+              
             </BranchesDiv>
 
           </Content>
@@ -254,4 +286,5 @@ const Profile = () => {
     </>
   )
 }
+
 export default Profile

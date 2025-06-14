@@ -8,6 +8,7 @@ export const Colors = {
     second :"#455A64" , 
     input : "#C8C8C8" , 
     gray :"#8E8E93" , 
+    gray2 :"#9291A5" , 
     gray_l : "#A5A5A5" ,
     gray_input : "#DBDBDB" , 
     body :"#F3F5F8" ,  
@@ -29,6 +30,14 @@ export const Colors = {
     hoverGold : "#f1ac00" ,
     lightGray : "#F7F7F9" , 
     danger : "#C32B43" , 
+    success : "#12AB6C" , 
+    lightSuccess : "#27AE601A" ,
+    failed : "#B42318" ,
+    lightFailed : "#C32B431A" ,
+    gray3 : "#F5F5F8" ,
+    gray4 : "#5E5E6F" ,
+    black2 : "#1E1B39" ,
+
 }
 export const Dimensions = {
     sidebarWidth : "257px" ,

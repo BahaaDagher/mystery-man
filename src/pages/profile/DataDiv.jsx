@@ -98,8 +98,8 @@ const Section = styled("div")(({ theme }) => ({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  marginRight: theme.direction == "ltr" ? "20px" : "0px",
-  marginLeft: theme.direction == "rtl" ? "20px" : "0px",
+  marginRight: theme.direction === "ltr" ? "20px" : "0px",
+  marginLeft: theme.direction === "rtl" ? "20px" : "0px",
   "&.company": {
     flexDirection: "column",
     [theme.breakpoints.down('1200')]: {
@@ -109,8 +109,8 @@ const Section = styled("div")(({ theme }) => ({
 }));
 const EditIcon = styled("div")(({ theme }) => ({
   position: "absolute",
-  left: theme.direction == "rtl" ? "20px" : "auto",
-  right: theme.direction == "ltr" ? "20px" : "auto",
+  left: theme.direction === "rtl" ? "20px" : "auto",
+  right: theme.direction === "ltr" ? "20px" : "auto",
   top: "20px",
   cursor: "pointer",
 }));
