@@ -32,6 +32,7 @@ import ForgetPassword from "./Auth/forgetPassword/ForgetPassword";
 import VerifyEmail from "./Auth/Register/VerifyEmail";
 import OtpPassword from "./Auth/forgetPassword/OtpPassword";
 import ChangePassword from "./Auth/forgetPassword/ChangePassword";
+import Home2 from "./pages/home/Home2";
 
 function App() {
   const missionDetails = useSelector(state => state.missionData.missionDetails)
@@ -83,7 +84,8 @@ function App() {
         {/* layout */}
         <Route path='/userDashboard' element = <Layout /> >
           <Route path='editProfile' element = <EditProfile/>  />
-          <Route path='home' element = <Home/>  />
+          {/* <Route path='home' element = <Home/>  /> */}
+          <Route path='home' element = <Home2/>  />
           <Route path='questionnaires' element = <Questionnaires/>  />
           <Route path='missions' element = <Missions/>  />
           <Route path='missions/newMission' element = <NewMission/> />  
