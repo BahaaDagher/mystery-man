@@ -9,6 +9,10 @@ module.exports = {
   important: true,
   theme: {
     extend: {
+        borderWidth: {
+          2: '2px',
+          7: '7px',
+        },
         colors: {
             main: Colors.main,
             main2: Colors.main2,
@@ -45,9 +49,13 @@ module.exports = {
             lightSuccess: Colors.lightSuccess,
             failed: Colors.failed,
             lightFailed: Colors.lightFailed,
+            black2: Colors.black2, 
+            black3: Colors.black3,
+            black4: Colors.black4,
             gray3: Colors.gray3,
             gray4: Colors.gray4,
-            black2: Colors.black2,
+            gray5: Colors.gray5,
+            gray6: Colors.gray6,
         },
     },
   },

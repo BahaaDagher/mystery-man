@@ -34,10 +34,13 @@ export const Colors = {
     lightSuccess : "#27AE601A" ,
     failed : "#B42318" ,
     lightFailed : "#C32B431A" ,
+    black2 : "#1E1B39" ,
+    black3 : "#040404" ,
+    black4 : "#0A0B37" ,
     gray3 : "#F5F5F8" ,
     gray4 : "#5E5E6F" ,
-    black2 : "#1E1B39" ,
-
+    gray5 : "#EBEBEB" ,
+    gray6 : "#7E8280" ,
 }
 export const Dimensions = {
     sidebarWidth : "257px" ,

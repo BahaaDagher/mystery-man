@@ -1,19 +1,13 @@
-import { Rating, styled } from '@mui/material';
 import React from 'react'
-import DateRangePickerComponent from '../../components/DateRangePickerComponent';
-const BranchRating = styled(Rating)(({ theme }) => ({
-  direction : "ltr"
-}));
+import HomeHeader from './components/HomeHeader';
+import HomeStatistics from './components/home-statistics/HomeStatistics';
+
 const Home2 = () => {
   return (
     <>
-    <div className='w-full flex justify-between items-center'>
-      <div className='flex '>
-          <div>Overview</div>
-          <BranchRating name="half-rating" defaultValue={4} precision={0.5} readOnly />
-          <div className='text-green'>( Excellent )</div>
-      </div>
-      <DateRangePickerComponent />
+    <div className='w-full flex flex-col gap-3'>
+      <HomeHeader />
+      <HomeStatistics />
     </div>
     </>
   )
