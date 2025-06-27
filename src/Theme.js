@@ -41,6 +41,7 @@ export const Colors = {
     gray4 : "#5E5E6F" ,
     gray5 : "#EBEBEB" ,
     gray6 : "#7E8280" ,
+    gray7 : "#E5E5EF" ,
 }
 export const Dimensions = {
     sidebarWidth : "257px" ,

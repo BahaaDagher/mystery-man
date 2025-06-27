@@ -58,7 +58,7 @@ const DateRangePickerComponent = ({ onDateChange }) => {
   return (
     <div
       ref={wrapperRef}
-      className="relative inline-block z-20 w-full max-w-sm sm:max-w-md md:max-w-lg"
+      className="relative inline-block z-15 w-full max-w-sm sm:max-w-md md:max-w-lg"
     >
       {/* Trigger Button */}
       <div
