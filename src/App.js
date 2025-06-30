@@ -33,6 +33,7 @@ import VerifyEmail from "./Auth/Register/VerifyEmail";
 import OtpPassword from "./Auth/forgetPassword/OtpPassword";
 import ChangePassword from "./Auth/forgetPassword/ChangePassword";
 import Home2 from "./pages/home/Home2";
+import Reports from "./pages/reports/Reports";
 
 function App() {
   const missionDetails = useSelector(state => state.missionData.missionDetails)
@@ -93,6 +94,7 @@ function App() {
           <Route path='missions/viewMissions' element = <ReviewMissionRequest/> /> 
           <Route path='missions/viewDetails/:id' element = <ViewDetails missionDetails={missionDetails}/> /> 
           <Route path='subscription' element = <Subscription/> /> 
+          <Route path='reports' element = <Reports/> /> 
 
         </Route>
       </Routes>

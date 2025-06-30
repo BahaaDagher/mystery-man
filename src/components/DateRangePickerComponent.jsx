@@ -63,7 +63,7 @@ const DateRangePickerComponent = ({ onDateChange }) => {
       {/* Trigger Button */}
       <div
         onClick={() => setShowPicker(true)}
-        className="border border-gray-300 px-4 py-2 rounded-lg cursor-pointer flex items-center justify-between bg-white hover:shadow-sm transition w-full"
+        className="border border-gray_l px-4 py-2 rounded-lg cursor-pointer flex items-center justify-between  hover:shadow-sm transition w-full"
       >
         <span className="mr-2 text-sm text-gray-700 truncate">
           {format(range[0].startDate, "dd MMM yyyy")} -{" "}

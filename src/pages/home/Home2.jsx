@@ -5,6 +5,8 @@ import DoughnutReconnaissance from "./components/doughnut-reconnaissance/Doughnu
 import BranchRating from "./components/branch-rating/BranchRating";
 import BranchesReport from "./components/branches-report/BranchesReport";
 import BranchesLocation from "./components/branches-location/BranchesLocation";
+import HexMap from "./components/branches-location/HexMapSaudi";
+import HexMapSaudi from "./components/branches-location/HexMapSaudi";
 
 const Home2 = () => {
   return (
@@ -29,11 +31,13 @@ const Home2 = () => {
               <div className="">
                 <BranchRating />
               </div>
-              <div className="">
+              <div className="relative ">
                 <BranchesLocation />
+                {/* <HexMapSaudi /> */}
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </>

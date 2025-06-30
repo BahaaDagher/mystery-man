@@ -1,4 +1,5 @@
 import React from "react";
+import HexMapSaudi from "./HexMapSaudi";
 
 // Example data
 const data = {
@@ -75,42 +76,8 @@ const BranchesLocation = () => {
           </ul>
         </div>
         {/* Map */}
-        <div className="flex-1 flex justify-center">
-          <svg width={300} height={220}>
-            {/* Draw hex grid background */}
-            {Array.from({ length: 7 }).map((_, row) =>
-              Array.from({ length: 7 }).map((_, col) => {
-                const cx =
-                  40 + col * hexWidth * 0.85 + (row % 2) * (hexWidth * 0.43);
-                const cy = 40 + row * hexHeight * 0.5;
-                return (
-                  <polygon
-                    key={`${row}-${col}`}
-                    points={hexagonPoints(cx, cy, hexSize)}
-                    fill="#f3f4f6"
-                    stroke="#e5e7eb"
-                    strokeWidth={1}
-                  />
-                );
-              })
-            )}
-            {/* Draw colored city hexes */}
-            {data.cities.map((city, idx) => {
-              const [col, row] = hexPositions[idx];
-              const cx =
-                40 + col * hexWidth * 0.85 + (row % 2) * (hexWidth * 0.43);
-              const cy = 40 + row * hexHeight * 0.5;
-              return (
-                <polygon
-                  key={city.name}
-                  points={hexagonPoints(cx, cy, hexSize)}
-                  fill={cityColors[idx]}
-                  stroke="#fff"
-                  strokeWidth={4}
-                />
-              );
-            })}
-          </svg>
+        <div className="relative">
+          <HexMapSaudi />
         </div>
       </div>
     </div>

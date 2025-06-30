@@ -49,7 +49,7 @@ const DoughnutReconnaissance = () => {
     labels: apiData.labels,
     datasets: [
       {
-        label: "number",
+        // label: "number",
         data: apiData.data,
         backgroundColor: backgroundColor,
         borderWidth: 1,
@@ -71,7 +71,7 @@ const DoughnutReconnaissance = () => {
 };
 
   return (
-    <div className="bg-white rounded-[12px] p-[20px]  w-full border-[10px] ">
+    <div className="bg-white rounded-[12px] p-[20px] w-full ">
       <div className="text-[20px] font-semibold mb-5 ">Reconnaissance</div>
       <div className="flex items-center justify-center gap-10">
         <DoughnutComponent

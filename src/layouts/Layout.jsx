@@ -31,6 +31,7 @@ const Content = styled("div")(({ theme }) => ({
 
 const MainContent = styled("div")(({ theme }) => ({
   marginTop : "85px" ,
+  marginBottom : "20px" ,
   zIndex : "-1" ,
   borderRadius: '10px', 
   display : "flex" , 

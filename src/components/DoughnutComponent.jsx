@@ -1,18 +1,8 @@
 import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 
-const DoughnutComponent = ({ chartData, doughnutSize , content }) => {
-    const options = {
-        cutout: '75%',
-        plugins: {
-            legend: { display: false },
-            tooltip: {
-                enabled: true,
-                position: 'nearest',
-            },
-        },
-        maintainAspectRatio: false,
-    };
+const DoughnutComponent = ({ chartData, doughnutSize , content  , options}) => {
+    
   return (
     <div className="flex items-center justify-center relative" style={{ width: doughnutSize, height: doughnutSize }}>
       <div className="flex items-center justify-center" style={{ width: doughnutSize, height: doughnutSize }}>
