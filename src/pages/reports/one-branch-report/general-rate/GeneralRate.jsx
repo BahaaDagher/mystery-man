@@ -55,7 +55,7 @@ const legend = [
 
 const GeneralRate = () => {
   return (
-    <div className="bg-white rounded-[12px] p-6  ">
+    <div className="bg-white rounded-[12px] p-6 ">
       <div className="flex justify-between items-center mb-2">
         <span className="text-2xl font-bold text-black2 leading-[28px]">
           General Rate
@@ -69,7 +69,7 @@ const GeneralRate = () => {
                   className="flex items-center justify-center w-[8px] h-[8px] rounded-full"
                   style={{ background: legend[0].color }}
                 ></div>
-                <span className="text-black text-[12px] font-normal">
+                <span className="text-black text-[12px] font-semibold ">
                   {legend[0].label}
                 </span>
               </div>
@@ -78,7 +78,7 @@ const GeneralRate = () => {
                   className="flex items-center justify-center w-[8px] h-[8px] rounded-full"
                   style={{ background: legend[2].color }}
                 ></div>
-                <span className="text-black text-[12px] font-normal">
+                <span className="text-black text-[12px] font-semibold">
                   {legend[2].label}
                 </span>
               </div>
@@ -89,7 +89,7 @@ const GeneralRate = () => {
                   className="flex items-center justify-center w-[8px] h-[8px] rounded-full"
                   style={{ background: legend[1].color }}
                 ></div>
-                <span className="text-black text-[12px] font-normal">
+                <span className="text-black text-[12px] font-semibold">
                   {legend[1].label}
                 </span>
               </div>
@@ -98,7 +98,7 @@ const GeneralRate = () => {
                   className="flex items-center justify-center w-[8px] h-[8px] rounded-full"
                   style={{ background: legend[3].color }}
                 ></div>
-                <span className="text-black text-[12px] font-normal">
+                <span className="text-black text-[12px] font-semibold">
                   {legend[3].label}
                 </span>
               </div>

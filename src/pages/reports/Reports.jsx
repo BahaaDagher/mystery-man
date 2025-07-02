@@ -17,7 +17,7 @@ const qrCodes = [
 ];
 
 const Reports = () => {
-  const [selected, setSelected] = useState('qr');
+  const [selected, setSelected] = useState('one');
   const [selectedBranch, setSelectedBranch] = useState(branches[0]?.value || '');
   const [selectedBranches, setSelectedBranches] = useState([]);
   const [selectedQRCodes, setSelectedQRCodes] = useState([]);

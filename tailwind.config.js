@@ -53,6 +53,7 @@ module.exports = {
             black3: Colors.black3,
             black4: Colors.black4,
             black5: Colors.black5,
+            black6: Colors.black6,
             gray3: Colors.gray3,
             gray4: Colors.gray4,
             gray5: Colors.gray5,
