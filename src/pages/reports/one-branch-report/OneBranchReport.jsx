@@ -4,6 +4,8 @@ import ReviewsQualification from './reviews-qualification/ReviewsQualification'
 import Sections from './sections/Sections'
 import ImprovementPercentage from './improvement-percentage/ImprovementPercentage'
 import AverageSumOfSections from './average-sum-of-sections/AverageSumOfSections'
+import RateOfDevelopmentInEachSectionLine from './rate-of-development-in-each-section/RateOfDevelopmentInEachSectionLine'
+import DepartmentDevelopmentRate from './department-development-rate/DepartmentDevelopmentRate'
 
 const OneBranchReport = () => {
   return (
@@ -17,6 +19,8 @@ const OneBranchReport = () => {
         <div className='w-[50%] bg-white rounded-[12px] '> <AverageSumOfSections/></div>
         <div className='w-[50%] bg-white rounded-[12px] '> <ImprovementPercentage/></div>
       </div>
+      <div className='w-full bg-white rounded-[12px] p-6 '><RateOfDevelopmentInEachSectionLine/></div>
+      <div className='w-full bg-white rounded-[12px] p-6 '><DepartmentDevelopmentRate/></div>
     </div>
   )
 }
