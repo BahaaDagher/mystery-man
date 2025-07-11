@@ -155,7 +155,7 @@ const numberOFQuestioners = (item)=>{
             <PreviousQuestionnaires style = {{padding : "10px"}}>
               <CreateQuestionnaire>
                 <Box style = {{width : "100%"}}>
-                  <NewQuestionnaire  onClick = {()=>{handleAddNewQuestionnaire()}}>{t("text.Create_New_Questionnaire")} </NewQuestionnaire>
+                  <NewQuestionnaire  onClick = {()=>{handleAddNewQuestionnaire()}}>{t("text.Create_New_Questionnaire")}  </NewQuestionnaire>
                 </Box>
               </CreateQuestionnaire>
               <Divider/>
