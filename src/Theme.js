@@ -3,6 +3,7 @@ export const Colors = {
     main2 : "#736dae" , 
     main3 : "#50489cab" , 
     main4 : "#5654D4" , 
+    main5 : "#122E74" ,
     light : "#dad8e9" , 
     lightMain : "#3734CA1A" , 
     hoverMain: "#453c9c" , 
@@ -45,6 +46,7 @@ export const Colors = {
     gray5 : "#EBEBEB" ,
     gray6 : "#7E8280" ,
     gray7 : "#E5E5EF" ,
+    gray8 : "#615E83" ,
 }
 export const Dimensions = {
     sidebarWidth : "257px" ,
