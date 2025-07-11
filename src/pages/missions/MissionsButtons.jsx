@@ -156,6 +156,7 @@ const MissionsButtons = ({ setShowMissions , setSelectMissions , buttonsMissions
         setActiveButton(id)
         setSelectMissions(id)
         setShowMissions(true)
+        window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     // number of every mission 

@@ -106,6 +106,7 @@ const Sidebar = ( {phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
 
   const handleItemClick = (index) => {
     setActiveItem(index);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const [hoveredItem, setHoveredItem] = useState(null);
@@ -218,6 +219,7 @@ const Sidebar = ( {phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
           })}
         </Ul>
       </SidebarItems>
+      <SidebarProfile />
     </SideBarDivPhone>
     </>
   )
