@@ -34,6 +34,7 @@ import OtpPassword from "./Auth/forgetPassword/OtpPassword";
 import ChangePassword from "./Auth/forgetPassword/ChangePassword";
 import Home2 from "./pages/home/Home2";
 import Reports from "./pages/reports/Reports";
+import QrCodesParent   from "./pages/qr-codes/QrCodesParent";
 
 function App() {
   const missionDetails = useSelector(state => state.missionData.missionDetails)
@@ -95,6 +96,7 @@ function App() {
           <Route path='missions/viewDetails/:id' element = <ViewDetails missionDetails={missionDetails}/> /> 
           <Route path='subscription' element = <Subscription/> /> 
           <Route path='reports' element = <Reports/> /> 
+          <Route path='qr-codes' element = <QrCodesParent/> /> 
 
         </Route>
       </Routes>

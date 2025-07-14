@@ -196,6 +196,7 @@ const resources = {
         The_additional_amount_due_to_you : "The additional amount due to you" ,
         Additional_amount_due_to_the_visitor : "Additional amount due to the visitor" ,
         reports : "Reports" , 
+        qr_codes : "Qr Codes" , 
       },
       content: {}
     }
@@ -392,6 +393,7 @@ const resources = {
         The_additional_amount_due_to_you : "المبلغ الإضافي المستحق لك" ,
         Additional_amount_due_to_the_visitor : "المبلغ الإضافي المستحق للزائر" ,
         reports : "التقارير"  , 
+        qr_codes : "الكودات الثنائية" , 
       },
       content: {}
     }
