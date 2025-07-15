@@ -35,7 +35,7 @@ import ChangePassword from "./Auth/forgetPassword/ChangePassword";
 import Home2 from "./pages/home/Home2";
 import Reports from "./pages/reports/Reports";
 import QrCodesParent   from "./pages/qr-codes/QrCodesParent";
-import NewQrCode from "./pages/qr-codes/qr-codes/NewQrCode";
+import NewQrCode from "./pages/qr-codes/qr-codes/new-qr-code/NewQrCode";
 
 function App() {
   const missionDetails = useSelector(state => state.missionData.missionDetails)

@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import ReactPaginate from 'react-paginate'
-import editIcon2 from '../../../assets/icons/editIcon2.svg'
-import deleteIcon2 from '../../../assets/icons/deleteIcon2.svg'
+import viewIcon from '../../../assets/icons/ShowIcon.svg'
 
 const ApiData = [
   { id: 1, qrCodeName: 'QR Code 1', date: 'Oct. 18, 2024', rate: 4.5 },
@@ -58,7 +57,7 @@ const Responses = () => {
                 <td className="py-3 px-4 font-medium text-[16px]">{item.date}</td>
                 <td className="py-3 px-4 font-medium text-[16px]">{item.rate}</td>
                 <td className="py-3 px-4 flex items-center justify-center gap-4">
-                  <div className="cursor-pointer"><img src={editIcon2} alt="edit"  /></div>
+                  <div className="cursor-pointer"><img src={viewIcon} alt="view"  /></div>
                 </td>
               </tr>
             ))}
