@@ -3,7 +3,7 @@ import DateRangePickerComponent from "../../components/DateRangePickerComponent"
 import PrintIcon from '../../assets/icons/PrintIcon.svg';
 import CustomSelect from '../../components/CustomSelect';
 
-const ReportHeader = ({ selected, onSelect, branches, qrCodes, selectedBranch, setSelectedBranch, selectedBranches, setSelectedBranches, selectedQRCodes, setSelectedQRCodes }) => {
+const ReportHeader = ({ selected, onSelect, branches, qrCodes, selectedBranch, setSelectedBranch, selectedBranches, setSelectedBranches, selectedQRCodes, setSelectedQRCodes, dateRange, setDateRange }) => {
   return (
     <div className="flex justify-between items-center w-full mb-4">
       <div className="flex gap-4 ">
@@ -64,7 +64,7 @@ const ReportHeader = ({ selected, onSelect, branches, qrCodes, selectedBranch, s
             />
           )}
         </div>
-        <DateRangePickerComponent />
+        <DateRangePickerComponent onDateChange={setDateRange} />
         <div className='bg-main p-[8px] rounded-[5px] cursor-pointer flex items-center justify-center '> 
           <img src={PrintIcon} alt=""  />
         </div>

@@ -36,6 +36,7 @@ import Home2 from "./pages/home/Home2";
 import Reports from "./pages/reports/Reports";
 import QrCodesParent   from "./pages/qr-codes/QrCodesParent";
 import NewQrCode from "./pages/qr-codes/qr-codes/new-qr-code/NewQrCode";
+import QrCodeQuestionnaires from "./pages/qr-codes/qr-codes/questionnaires/QrCodeQuestionnaires";
 
 function App() {
   const missionDetails = useSelector(state => state.missionData.missionDetails)
@@ -98,7 +99,7 @@ function App() {
           <Route path='subscription' element = <Subscription/> /> 
           <Route path='reports' element = <Reports/> /> 
           <Route path='qr-codes' element = <QrCodesParent/> /> 
-          <Route path='qr-codes/new-qr-code' element = <NewQrCode/> /> 
+          <Route path='qr-codes/new-qr-code' element = <QrCodeQuestionnaires/> /> 
 
         </Route>
       </Routes>

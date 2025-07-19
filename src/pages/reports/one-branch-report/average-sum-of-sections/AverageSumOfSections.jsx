@@ -1,18 +1,21 @@
 import React from 'react'
 import SectionProgressBars from '../../../../components/SectionProgressBars'
 
-// Example API data (replace with real API data as needed)
-const ApiData = [
-  { name: 'Section Name', value: 93 },
-  { name: 'Section Name', value: 80 },
-  { name: 'Section Name', value: 78 },
-  { name: 'Section Name', value: 62 },
-  { name: 'Section Name', value: 55 },
-  { name: 'Section Name', value: 44 },
-  { name: 'Section Name', value: 70 },
-]
+const AverageSumOfSections = ({apiData}) => {
+  // Transform API data to match SectionProgressBars expected format
+  const transformApiData = (apiData) => {
+    if (!apiData || !apiData.chart) {
+      return [];
+    }
+    
+    return apiData.chart.map(item => ({
+      name: item.label,
+      value: item.value
+    }));
+  };
 
-const AverageSumOfSections = () => {
+  const transformedData = transformApiData(apiData);
+
   return (
     <div className="bg-white  rounded-[12px] p-6">
       <div className="flex items-center justify-between mb-2">
@@ -22,7 +25,7 @@ const AverageSumOfSections = () => {
       </div>
       <hr className="my-4 border-gray-200 bg-main mb-8" />
       <div>
-        <SectionProgressBars sections={ApiData} />
+        <SectionProgressBars sections={transformedData} />
       </div>
     </div>
   )

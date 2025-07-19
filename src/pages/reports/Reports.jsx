@@ -1,15 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ReportHeader from './ReportHeader'
 import OneBranchReport from './one-branch-report/OneBranchReport'
 import MoreThanBranchReport from './more-than-branch-report/MoreThanBranchReport'
 import QrCodesReport from './qr-codes-report/QrCodesReport'
+import { useDispatch, useSelector } from 'react-redux'
+import { getBranches } from '../../store/slices/branchSlice'
+import Loading from '../../components/Loading'
+import { format, startOfMonth } from 'date-fns'
+import { oneBranchReport } from '../../store/slices/reportSlice'
 
-// Mock data simulating API response
-const branches = [
-  { value: 'branch1', label: 'Branch 1' },
-  { value: 'branch2', label: 'Branch 2' },
-  { value: 'branch3', label: 'Branch 3' },
-];
 const qrCodes = [
   { value: 'qr1', label: 'QR Code 1' },
   { value: 'qr2', label: 'QR Code 2' },
@@ -18,10 +17,70 @@ const qrCodes = [
 
 const Reports = () => {
   const [selected, setSelected] = useState('one');
-  const [selectedBranch, setSelectedBranch] = useState(branches[0]?.value || '');
+  const dispatch = useDispatch() ;
+
+  const [branches , setBranches] = useState ([])
+
+  const [selectedBranch, setSelectedBranch] = useState('');
   const [selectedBranches, setSelectedBranches] = useState([]);
   const [selectedQRCodes, setSelectedQRCodes] = useState([]);
+  const [dateRange, setDateRange] = useState({
+    startDate: startOfMonth(new Date()),
+      endDate: new Date(),
+  });
+  // branches data
+  const getBranchesData = useSelector(state => state.branchData.getBranchesData) ;
+  const getBranchesDataLoading = useSelector(state => state.branchData.getBranchesDataLoading) ;
+
+  // onBranchReport data
+  const oneBranchReportData = useSelector(state => state.reportData.oneBranchReportData) ;
+  const oneBranchReportLoading = useSelector(state => state.reportData.oneBranchReportLoading) ;
+  const [oneBranchData , setOneBranchData] = useState({})
+
+  useEffect(()=>{
+    if (getBranchesData?.status) {
+      setBranches(getBranchesData.data.branches)
+      
+      // Set the first branch as default for selectedBranches and selectedBranch
+      if (getBranchesData.data.branches && getBranchesData.data.branches.length > 0) {
+        const firstBranchId = getBranchesData.data.branches[0].id;
+        setSelectedBranches([firstBranchId]);
+        setSelectedBranch(firstBranchId);
+      }
+    }
+  },[getBranchesData])
+
+  useEffect(()=>{
+    if (oneBranchReportData?.status) {
+      console.log("oneBranchReportData",oneBranchReportData)
+      setOneBranchData(oneBranchReportData.data)
+    }
+  },[oneBranchReportData])
+
+  useEffect(()=>{
+    if (selected === 'one') {
+      dispatch(oneBranchReport({
+        branch_id: selectedBranch,
+        from_date: format(dateRange.startDate, 'yyyy-MM-dd'),
+        to_date: format(dateRange.endDate, 'yyyy-MM-dd'),
+        step_ids: [1],
+      }))
+    }
+    dispatch(getBranches())
+  },[ , selectedBranch])
+  
+  // useEffect(()=>{
+  //   console.log("selectedBranch",selectedBranch)
+  // },[selectedBranch])
+  // useEffect(()=>{
+  //   console.log("selectedBranches",selectedBranches)
+  // },[selectedBranches])
+  // useEffect(()=>{
+  //   console.log("dateRange",dateRange)
+  // },[dateRange])
   return (
+    <>
+    {getBranchesDataLoading || oneBranchReportLoading? <Loading/> : null}
     <div className='w-full'>
       <ReportHeader
         selected={selected}
@@ -34,11 +93,14 @@ const Reports = () => {
         setSelectedBranches={setSelectedBranches}
         selectedQRCodes={selectedQRCodes}
         setSelectedQRCodes={setSelectedQRCodes}
+        dateRange={dateRange}
+        setDateRange={setDateRange}
       />
-      {selected === 'one' && <OneBranchReport />}
+      {selected === 'one' && <OneBranchReport oneBranchData={oneBranchData} />}
       {selected === 'more' && <MoreThanBranchReport />}
       {selected === 'qr' && <QrCodesReport />}
     </div>
+    </>
   )
 }
 

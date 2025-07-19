@@ -19,26 +19,28 @@ ChartJS.register(
   Filler
 );
 
-const sectionsData = [
-  ["قسم التطوير التقني", 42],
-  ["قسم الشؤون الإدارية", 35],
-  ["قسم العلاقات العامة", 28],
-  ["قسم الرقابة الداخلية", 19],
-  ["قسم التخطيط الاستراتيجي", 31],
-  ["قسم الموارد البشرية", 27],
-  ["قسم الشؤون المالية", 45],
-  ["قسم خدمة العملاء", 38],
-  ["قسم الجودة والتميز", 22],
-  ["قسم الأمن السيبراني", 50],
-  ["قسم التدريب والتطوير", 29],
-];
-
-const Sections = () => {
+const Sections = ({apiData}) => {
   const lang = localStorage.getItem("language");
   const isArabic = lang === "ar";
 
-  const labels = sectionsData.map((item) => item[0]);
-  const dataValues = sectionsData.map((item) => item[1]);
+  // Transform API data to chart format
+  const transformApiData = (apiData) => {
+    if (!apiData || !apiData.chart) {
+      return {
+        labels: [],
+        data: []
+      };
+    }
+    
+    return {
+      labels: apiData.chart.map(item => item.label),
+      data: apiData.chart.map(item => item.value)
+    };
+  };
+
+  const transformedData = transformApiData(apiData);
+  const labels = transformedData.labels;
+  const dataValues = transformedData.data;
 
   const data = {
     labels,

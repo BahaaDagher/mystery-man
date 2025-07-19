@@ -19,27 +19,28 @@ ChartJS.register(
   Filler
 );
 
-const monthsData = [
-    ["يناير", 0],
-    ["فبراير", 10],
-    ["مارس", 22],
-    ["أبريل", 27],
-    ["مايو", 10],
-    ["يونيو", 40],
-    ["يوليو", 33],
-    ["أغسطس", 29],
-    ["سبتمبر", 31],
-    ["أكتوبر", 26],
-    ["نوفمبر", 38],
-    ["ديسمبر", 60]
-  ];
-
-const ImprovementPercentage = () => {
+const ImprovementPercentage = ({apiData}) => {
     const lang = localStorage.getItem("language");
     const isArabic = lang === "ar";
   
-    const labels = monthsData.map((item) => item[0]);
-    const dataValues = monthsData.map((item) => item[1]);
+    // Transform API data to chart format
+    const transformApiData = (apiData) => {
+      if (!apiData || !apiData.chart) {
+        return {
+          labels: [],
+          data: []
+        };
+      }
+      
+      return {
+        labels: apiData.chart.map(item => item.month),
+        data: apiData.chart.map(item => item.value)
+      };
+    };
+
+    const transformedData = transformApiData(apiData);
+    const labels = transformedData.labels;
+    const dataValues = transformedData.data;
   
     const data = {
       labels,

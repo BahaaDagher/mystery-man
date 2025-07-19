@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CustomSelect from '../../../../components/CustomSelect'
 import DepartmentLineChart from './DepartmentLineChart'
 import cancelIcon from '../../../../assets/icons/cancel-icon.svg'
@@ -12,6 +12,8 @@ import {
   Tooltip,
   Filler,
 } from 'chart.js'
+import { getSteps } from '../../../../store/slices/stepSlice'
+import { useDispatch, useSelector } from 'react-redux'
 
 ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, Tooltip, Filler)
 
@@ -79,17 +81,33 @@ const apiData = [
   },
 ]
 
-const DepartmentDevelopmentRate = () => {
+const DepartmentDevelopmentRate = ( {apiData} ) => {
+  const dispatch = useDispatch()
+  const [allSteps , setAllSteps] = useState([])
   // Select the first section by default if available
   const [selectedSections, setSelectedSections] = useState(
-    allSections.length > 0 ? [allSections[0].id] : []
+    apiData?.charts?.length > 0 ? [apiData.charts[0].id] : []
   )
 
   // For CustomSelect, map to {value, label} (value is number)
-  const selectOptions = allSections.map(s => ({ value: s.id, label: s.nameEn }))
+  const selectOptions = allSteps.map(step => ({ value: step.id, label: step.name }))
 
   // Filter API data for selected sections
-  const selectedData = apiData.filter(section => selectedSections.includes(section.sectionId))
+  const selectedData = apiData?.charts?.filter(chart => selectedSections.includes(chart.id)) || []
+
+  const getStepsData = useSelector(state => state.stepData.getStepsData) ;
+  const getStepsDataLoading = useSelector(state => state.stepData.getStepsLoading) ;
+
+
+  useEffect(()=>{
+    if (getStepsData?.status) {
+      setAllSteps(getStepsData?.data?.steps)
+    }
+  },[getStepsData])
+
+  useEffect(()=>{
+    dispatch(getSteps())
+  },[])
 
   return (
     <div className="bg-white rounded-3xl ">
@@ -110,7 +128,7 @@ const DepartmentDevelopmentRate = () => {
         {/* Render selected sections as chips with cancel icon */}
         <div className="flex flex-wrap gap-2">
           {selectedSections.map(val => {
-            const label = allSections.find(s => s.id === val)?.nameEn || val
+            const label = apiData?.charts?.find(chart => chart.id === val)?.label || val
             return (
               <span key={val} className="flex items-center bg-gray-100 rounded-full px-3 py-1 text-sm font-medium">
                 {label}
@@ -130,11 +148,11 @@ const DepartmentDevelopmentRate = () => {
       <hr className="my-4 border-gray-200 bg-main mb-8" />
       {/* Render a line chart for each selected section */}
       <div className="grid gap-8">
-        {selectedData.map(section => (
+        {selectedData.map(chart => (
           <DepartmentLineChart
-            key={section.sectionId}
-            section={section}
-            label={section.sectionName}
+            key={chart.id}
+            section={chart}
+            label={chart.label}
           />
         ))}
       </div>

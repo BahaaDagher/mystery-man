@@ -8,32 +8,8 @@ const backgroundColor = [
   "#27AE60", // Excellent (green)
 ];
 
-const content = {
-  value: "Excellent",
-  contentDimensions: 80,
-  contentFontSize: 28,
-};
-
-const apiData = {
-  data: [11, 24, 26, 39],
-  labels: ["Good", "Bad", "Normal", "Excellent"],
-};
-
 const doughnutSize = 200;
 
-const chartData = {
-  labels: apiData.labels,
-  datasets: [
-    {
-    //   label: "percent",
-      data: apiData.data,
-      backgroundColor: backgroundColor,
-      borderWidth: 1,
-      spacing: -1,
-      borderRadius: 10,
-    },
-  ],
-};
 const options = {
   cutout: "65%",
   plugins: {
@@ -53,7 +29,48 @@ const legend = [
   { color: "#27AE60", label: "Excellent" },
 ];
 
-const GeneralRate = () => {
+const GeneralRate = ({apiData}) => {
+  // Transform API data to chart format
+  const transformApiData = (apiData) => {
+    if (!apiData || !apiData.percentages) {
+      return {
+        labels: ["Bad", "Normal", "Good", "Excellent"],
+        data: [0, 0, 0, 0]
+      };
+    }
+    
+    return {
+      labels: ["Bad", "Normal", "Good", "Excellent"],
+      data: [
+        apiData.percentages.bad || 0,
+        apiData.percentages.normal || 0,
+        apiData.percentages.good || 0,
+        apiData.percentages.excellent || 0
+      ]
+    };
+  };
+
+  const transformedData = transformApiData(apiData);
+
+  const content = {
+    value: apiData?.center_label || "Excellent",
+    contentDimensions: 80,
+    contentFontSize: 20,
+  };
+
+  const chartData = {
+    labels: transformedData.labels,
+    datasets: [
+      {
+        data: transformedData.data,
+        backgroundColor: backgroundColor,
+        borderWidth: 1,
+        spacing: -1,
+        borderRadius: 10,
+      },
+    ],
+  };
+
   return (
     <div className="bg-white rounded-[12px] p-6 ">
       <div className="flex justify-between items-center mb-2">

@@ -6,6 +6,8 @@ import questionerSlice from './slices/questionierSlice'
 import missionSlice from './slices/missionSlice'
 import profileSlice from './slices/profileSlice'
 import chatSlice from './slices/chatSlice'
+import reportSlice from './slices/reportSlice'
+import stepSlice from './slices/stepSlice'
 
 
 
@@ -17,7 +19,9 @@ export const store = configureStore({
     questioneirData : questionerSlice , 
     missionData : missionSlice, 
     profileData : profileSlice ,
-    chatData:chatSlice
+    chatData:chatSlice ,
+    reportData : reportSlice ,
+    stepData : stepSlice
 
   },
 })
