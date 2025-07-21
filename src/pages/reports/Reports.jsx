@@ -28,6 +28,8 @@ const Reports = () => {
     startDate: startOfMonth(new Date()),
       endDate: new Date(),
   });
+  const [stepsIds, setStepsIds] = useState([]);
+  
   // branches data
   const getBranchesData = useSelector(state => state.branchData.getBranchesData) ;
   const getBranchesDataLoading = useSelector(state => state.branchData.getBranchesDataLoading) ;
@@ -36,6 +38,10 @@ const Reports = () => {
   const oneBranchReportData = useSelector(state => state.reportData.oneBranchReportData) ;
   const oneBranchReportLoading = useSelector(state => state.reportData.oneBranchReportLoading) ;
   const [oneBranchData , setOneBranchData] = useState({})
+
+  const handleStepsIdsChange = (newStepsIds) => {
+    setStepsIds(newStepsIds)
+  }
 
   useEffect(()=>{
     if (getBranchesData?.status) {
@@ -63,11 +69,11 @@ const Reports = () => {
         branch_id: selectedBranch,
         from_date: format(dateRange.startDate, 'yyyy-MM-dd'),
         to_date: format(dateRange.endDate, 'yyyy-MM-dd'),
-        step_ids: [1],
+        step_ids: stepsIds.length > 0 ? stepsIds : [1], // Use stepsIds if available, otherwise default to [1]
       }))
     }
     dispatch(getBranches())
-  },[ , selectedBranch])
+  },[ , selectedBranch, stepsIds])
   
   // useEffect(()=>{
   //   console.log("selectedBranch",selectedBranch)
@@ -96,7 +102,7 @@ const Reports = () => {
         dateRange={dateRange}
         setDateRange={setDateRange}
       />
-      {selected === 'one' && <OneBranchReport oneBranchData={oneBranchData} />}
+      {selected === 'one' && <OneBranchReport oneBranchData={oneBranchData} onStepsIdsChange={handleStepsIdsChange} />}
       {selected === 'more' && <MoreThanBranchReport />}
       {selected === 'qr' && <QrCodesReport />}
     </div>
