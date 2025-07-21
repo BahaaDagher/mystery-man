@@ -45,20 +45,25 @@ const Reports = () => {
 
   useEffect(()=>{
     if (getBranchesData?.status) {
-      setBranches(getBranchesData.data.branches)
-      
-      // Set the first branch as default for selectedBranches and selectedBranch
-      if (getBranchesData.data.branches && getBranchesData.data.branches.length > 0) {
+      setBranches(getBranchesData?.data?.branches)
+      setSelectedBranches([getBranchesData?.data?.branches[0]?.id])
+      // Set the first branch as default  and selectedBranch
+      if (getBranchesData.data.branches && getBranchesData.data.branches.length > 0 && branches.length === 0) {
         const firstBranchId = getBranchesData.data.branches[0].id;
-        setSelectedBranches([firstBranchId]);
         setSelectedBranch(firstBranchId);
+        setSelectedBranches([firstBranchId])
+      }
+      if (selectedBranch === '') {
+        setSelectedBranch(getBranchesData?.data?.branches[0]?.id)
+      }
+      if (selectedBranches.length === 0) {
+        setSelectedBranches([getBranchesData?.data?.branches[0]?.id])
       }
     }
   },[getBranchesData])
 
   useEffect(()=>{
     if (oneBranchReportData?.status) {
-      console.log("oneBranchReportData",oneBranchReportData)
       setOneBranchData(oneBranchReportData.data)
     }
   },[oneBranchReportData])
@@ -73,7 +78,7 @@ const Reports = () => {
       }))
     }
     dispatch(getBranches())
-  },[ , selectedBranch, stepsIds])
+  },[ , selectedBranch, stepsIds  , dateRange ])
   
   // useEffect(()=>{
   //   console.log("selectedBranch",selectedBranch)
