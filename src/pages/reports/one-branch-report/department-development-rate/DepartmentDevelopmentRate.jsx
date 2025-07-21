@@ -54,17 +54,24 @@ const DepartmentDevelopmentRate = ( {apiData, onStepsIdsChange} ) => {
       }
     }
   }
-
-  useEffect(()=>{
-    if (getStepsData?.status) {
-      setAllSteps(getStepsData?.data?.steps)
-      console.log(getStepsData?.data?.steps , "getStepsData?.data?.steps")
-    }
-  },[getStepsData])
-
+  // get the steps data
   useEffect(()=>{
     dispatch(getSteps())
   },[])
+  // set the steps data
+  useEffect(()=>{
+    if (getStepsData?.status) {
+      setAllSteps(getStepsData?.data?.steps)
+    }
+  },[getStepsData])
+  // set the first step as default
+  useEffect(()=>{
+    if (allSteps?.length > 0) {
+      setSelectedSteps([allSteps[0].id])
+    }
+  },[allSteps])
+
+
 
   return (
     <>
