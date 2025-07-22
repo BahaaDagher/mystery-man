@@ -18,7 +18,6 @@ import Loading from '../../components/Loading';
 import Swal from 'sweetalert2';
 
 const MainContent = styled(FlexSpaceBetween)(({ theme }) => ({
-  border : "1px solid red" ,
   gap : "20px" ,
   [theme.breakpoints.down('800')]: {
     flexDirection : "column-reverse" ,

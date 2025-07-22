@@ -19,8 +19,8 @@ import { useDrag, useDrop } from 'react-dnd';
 
 const Parent = styled(Box)(({ theme }) => ({
   width : "100%" ,
-  margin  : "0 50px" ,
-
+  // margin  : "0 50px" ,
+// 
   [theme.breakpoints.down('800')]: {
     margin  : "0" ,
   },
