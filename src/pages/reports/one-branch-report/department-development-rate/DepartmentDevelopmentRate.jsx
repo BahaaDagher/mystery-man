@@ -19,9 +19,8 @@ ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, Tooltip,
 
 
 
-const DepartmentDevelopmentRate = ( {apiData, onStepsIdsChange} ) => {
+const DepartmentDevelopmentRate = ( {apiData, onStepsIdsChangeFromOneBranch , allSteps} ) => {
   const dispatch = useDispatch()
-  const [allSteps , setAllSteps] = useState([])
   const [stepsIds , setStepsIds] = useState([])
   
 
@@ -49,21 +48,12 @@ const DepartmentDevelopmentRate = ( {apiData, onStepsIdsChange} ) => {
       const updatedStepsIds = [...stepsIds, ...newStepIds]
       setStepsIds(updatedStepsIds)
       // Pass stepsIds to parent component
-      if (onStepsIdsChange) {
-        onStepsIdsChange(updatedStepsIds)
+      if (onStepsIdsChangeFromOneBranch) {
+        onStepsIdsChangeFromOneBranch(updatedStepsIds)
       }
     }
   }
-  // get the steps data
-  useEffect(()=>{
-    dispatch(getSteps())
-  },[])
-  // set the steps data
-  useEffect(()=>{
-    if (getStepsData?.status) {
-      setAllSteps(getStepsData?.data?.steps)
-    }
-  },[getStepsData])
+
   // set the first step as default
   useEffect(()=>{
     if (allSteps?.length > 0) {

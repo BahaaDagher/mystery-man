@@ -5,35 +5,36 @@ import NegativeIcon from "../../../../assets/icons/NegativeIcon.svg";
 import Star from "../../../../assets/icons/Star.svg";
 
 const iconMap = {
-  Negative: (
+  negative: (
     <span className="inline-block  rounded-full border-2 border-red flex items-center justify-center">
       <img src={NegativeIcon} alt="Negative" className="w-9" />
     </span>
   ),
-  Neutral: (
+  neutral: (
     <span className="inline-block  rounded-full border-2 border-grayDC flex items-center justify-center">
       <img src={NeutralIcon} alt="Neutral" className="w-9" />
     </span>
   ),
-  Positive: (
+  positive: (
     <span className="inline-block  rounded-full border-2 border-green flex items-center justify-center">
       <img src={PositiveIcon} alt="Positive" className="w-9" />
     </span>
   ),
 };
 
-const ReviewTypeCard = ({ name, count, numberOfStars }) => (
+const ReviewTypeCard = ({ name, count }) => (
+  console.log("count::" , count) ,
   <div className="flex flex-col gap-2">
     <div className="text-gray8 text-[18px] font-semibold mb-2">{name}</div>
     <div className="flex items-center gap-2 mb-2">
       {iconMap[name]}
       <span className="text-[#18192B] font-bold text-2xl">{count}</span>
     </div>
-    <div className="flex flex-wrap  gap-1">
+    {/* <div className="flex flex-wrap  gap-1">
       {Array.from({ length: numberOfStars }).map((_, i) => (
         <img key={i} src={Star} alt="star" className="w-5 h-5" />
       ))}
-    </div>
+    </div> */}
   </div>
 );
 

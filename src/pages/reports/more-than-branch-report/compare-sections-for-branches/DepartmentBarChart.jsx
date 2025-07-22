@@ -3,11 +3,11 @@ import { Bar } from 'react-chartjs-2'
 
 const DepartmentBarChart = ({ section, label ,height}) => {
   const data = {
-    labels: section.data.map(d => d.month),
+    labels: section.branches.map(d => d.name),
     datasets: [
       {
         label: section.name,
-        data: section.data.map(d => d.value),
+        data: section.branches.map(d => d.value),
         backgroundColor: '#5654D4',
         hoverBackgroundColor: '#5654D4',
         borderRadius: 5,

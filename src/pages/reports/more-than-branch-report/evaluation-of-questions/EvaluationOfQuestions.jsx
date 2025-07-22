@@ -3,41 +3,41 @@ import Star from '../../../../assets/icons/Star.svg'
 import BranchReviewCard from './BranchReviewCard';
 import ReviewTypeCard from './ReviewTypeCard';
 
-const EvaluationOfQuestions = () => {
-  const ApiBranchesData = [
-    {
-      branchName: "Branch 1",
-      reviews: { total: 1649, negative: 1120, neutral: 514, positive: 211 }
-    },
-    {
-      branchName: "Branch 2",
-      reviews: { total: 256, negative: 2, neutral: 120, positive: 124 }
-    },
-    {
-      branchName: "Branch 3",
-      reviews: { total: 845, negative: 0, neutral: 340, positive: 504 }
+
+const EvaluationOfQuestions = ({apiData}) => {
+
+  // Transform apiData to match the expected format for BranchReviewCard
+  const transformedBranchesData = apiData?.branches?.map(branch => ({
+    branchName: branch.branch_name,
+    reviews: { 
+      total_questions: branch.total_questions, 
+      negative: branch.negative, 
+      neutral: branch.neutral, 
+      positive: branch.positive ,
+      positive_percentage: branch.positive_percentage,
+      neutral_percentage: branch.neutral_percentage,
+      negative_percentage: branch.negative_percentage
     }
-  ];
+  })) || []
+
+
   const ApiReviewTypeData = [
     {
-      name: 'Negative',
-      count: 900,
-      numberOfStars: 2,
+      name: 'negative',
+      count: apiData?.summary?.negative,
     },
     {
-      name: 'Neutral',
-      count: 431,
-      numberOfStars: 3,
+      name: 'neutral',
+      count: apiData?.summary?.neutral,
     },
     {
-      name: 'Positive',
-      count: 874,
-      numberOfStars: 7,
+      name: 'positive',
+      count: apiData?.summary?.positive,
     },
   ];
 
   return (
-    <div className='bg-white rounded-[12px] p-6 '>
+    <div className='bg-white rounded-[12px] p-6 w-full'>
         <div className='flex justify-between items-center'>
             <div className=' font-bold text-[22px] leading-[28px] '> Evaluation of questions for each branch</div>
             <div className='text-black font-bold text-[14px] flex items-center gap-2'>
@@ -46,8 +46,8 @@ const EvaluationOfQuestions = () => {
             </div>
         </div>
         <hr className='border-gray_l'/>
-        <div className='flex justify-center items-center  w-full border border-grayDC rounded-[8px] '>
-        {ApiBranchesData.map((branch, idx) => (
+        <div className='flex  w-full  rounded-[8px] overflow-x-auto w-full'>
+        {transformedBranchesData.map((branch, idx) => (
         <BranchReviewCard
             key={idx}
             branchName={branch.branchName}

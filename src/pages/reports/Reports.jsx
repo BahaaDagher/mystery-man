@@ -7,7 +7,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getBranches } from '../../store/slices/branchSlice'
 import Loading from '../../components/Loading'
 import { format, startOfMonth } from 'date-fns'
-import { oneBranchReport } from '../../store/slices/reportSlice'
+import { moreThanBranchReport, oneBranchReport } from '../../store/slices/reportSlice'
+import Swal from 'sweetalert2'
+import { getSteps } from '../../store/slices/stepSlice'
 
 const qrCodes = [
   { value: 'qr1', label: 'QR Code 1' },
@@ -22,45 +24,65 @@ const Reports = () => {
   const [branches , setBranches] = useState ([])
 
   const [selectedBranch, setSelectedBranch] = useState('');
+  const [allSteps , setAllSteps] = useState([])
   const [selectedBranches, setSelectedBranches] = useState([]);
   const [selectedQRCodes, setSelectedQRCodes] = useState([]);
   const [dateRange, setDateRange] = useState({
     startDate: startOfMonth(new Date()),
       endDate: new Date(),
   });
-  const [stepsIds, setStepsIds] = useState([]);
+  const [stepsIdsFromOneBranch, setStepsIdsFromOneBranch] = useState([]);
+  const [stepsIdsFromMoreThanBranch, setStepsIdsFromMoreThanBranch] = useState([]);
   
   // branches data
   const getBranchesData = useSelector(state => state.branchData.getBranchesData) ;
   const getBranchesDataLoading = useSelector(state => state.branchData.getBranchesDataLoading) ;
 
+  // steps data
+  const getStepsData = useSelector(state => state.stepData.getStepsData) ;
+  const getStepsDataLoading = useSelector(state => state.stepData.getStepsLoading) ;
+
+
   // onBranchReport data
   const oneBranchReportData = useSelector(state => state.reportData.oneBranchReportData) ;
   const oneBranchReportLoading = useSelector(state => state.reportData.oneBranchReportLoading) ;
+
+  // moreThanBranchReport data
+  const moreThanBranchReportData = useSelector(state => state.reportData.moreThanBranchReportData) ;
+  const moreThanBranchReportLoading = useSelector(state => state.reportData.moreThanBranchReportLoading) ;
+
+
   const [oneBranchData , setOneBranchData] = useState({})
+  const [moreThanBranchData , setMoreThanBranchData] = useState({})
 
-  const handleStepsIdsChange = (newStepsIds) => {
-    setStepsIds(newStepsIds)
+  const handleStepsIdsChangeFromOneBranch = (newStepsIds) => {
+    setStepsIdsFromOneBranch(newStepsIds)
   }
-
+  const handleStepsIdsChangeFromMoreThanBranch = (newStepsIds) => {
+    setStepsIdsFromMoreThanBranch(newStepsIds)
+  }
+  useEffect(()=>{
+    dispatch(getBranches())
+    dispatch(getSteps())
+  },[])
+  
   useEffect(()=>{
     if (getBranchesData?.status) {
       setBranches(getBranchesData?.data?.branches)
-      setSelectedBranches([getBranchesData?.data?.branches[0]?.id])
       // Set the first branch as default  and selectedBranch
-      if (getBranchesData.data.branches && getBranchesData.data.branches.length > 0 && branches.length === 0) {
-        const firstBranchId = getBranchesData.data.branches[0].id;
+      if (getBranchesData?.data?.branches && getBranchesData?.data?.branches?.length > 0 && branches.length === 0) {
+        const firstBranchId = getBranchesData?.data?.branches[0]?.id;
         setSelectedBranch(firstBranchId);
         setSelectedBranches([firstBranchId])
       }
-      if (selectedBranch === '') {
-        setSelectedBranch(getBranchesData?.data?.branches[0]?.id)
-      }
-      if (selectedBranches.length === 0) {
-        setSelectedBranches([getBranchesData?.data?.branches[0]?.id])
-      }
     }
   },[getBranchesData])
+
+  useEffect(()=>{
+    if (getStepsData?.status) {
+      setAllSteps(getStepsData?.data?.steps)
+    }
+  },[getStepsData])
 
   useEffect(()=>{
     if (oneBranchReportData?.status) {
@@ -69,16 +91,37 @@ const Reports = () => {
   },[oneBranchReportData])
 
   useEffect(()=>{
-    if (selected === 'one') {
-      dispatch(oneBranchReport({
-        branch_id: selectedBranch,
-        from_date: format(dateRange.startDate, 'yyyy-MM-dd'),
-        to_date: format(dateRange.endDate, 'yyyy-MM-dd'),
-        step_ids: stepsIds.length > 0 ? stepsIds : [1], // Use stepsIds if available, otherwise default to [1]
-      }))
+    if (moreThanBranchReportData?.status) {
+      setMoreThanBranchData(moreThanBranchReportData.data)
     }
-    dispatch(getBranches())
-  },[ , selectedBranch, stepsIds  , dateRange ])
+  },[moreThanBranchReportData])
+
+  useEffect(()=>{
+    if (selectedBranch === '') {
+      setSelectedBranch(getBranchesData?.data?.branches[0]?.id)
+    }
+    if (selectedBranches.length === 0) {
+      setSelectedBranches([getBranchesData?.data?.branches[0]?.id])
+    }
+    // oneBranchReport
+    dispatch(oneBranchReport({
+      branch_id: selectedBranch,
+      from_date: format(dateRange.startDate, 'yyyy-MM-dd'),
+      to_date: format(dateRange.endDate, 'yyyy-MM-dd'),
+      step_ids: stepsIdsFromOneBranch.length > 0 ? stepsIdsFromOneBranch : [1], // Use stepsIds if available, otherwise default to [1]
+    }))
+    // moreThanBranchReport
+    dispatch(moreThanBranchReport({
+      branch_ids: [1,3],
+      from_date: format(dateRange.startDate, 'yyyy-MM-dd'),
+      to_date: format(dateRange.endDate, 'yyyy-MM-dd'),
+      step_ids: stepsIdsFromMoreThanBranch.length > 0 ? stepsIdsFromMoreThanBranch : [1], // Use stepsIds if available, otherwise default to [1]
+    }))
+    
+    
+  },[ selectedBranch, selectedBranches, stepsIdsFromOneBranch , stepsIdsFromMoreThanBranch , dateRange   ])
+
+  
   
   // useEffect(()=>{
   //   console.log("selectedBranch",selectedBranch)
@@ -91,7 +134,7 @@ const Reports = () => {
   // },[dateRange])
   return (
     <>
-    {getBranchesDataLoading || oneBranchReportLoading? <Loading/> : null}
+    {getBranchesDataLoading || oneBranchReportLoading || moreThanBranchReportLoading? <Loading/> : null}
     <div className='w-full'>
       <ReportHeader
         selected={selected}
@@ -107,8 +150,8 @@ const Reports = () => {
         dateRange={dateRange}
         setDateRange={setDateRange}
       />
-      {selected === 'one' && <OneBranchReport oneBranchData={oneBranchData} onStepsIdsChange={handleStepsIdsChange} />}
-      {selected === 'more' && <MoreThanBranchReport />}
+      {selected === 'one' && <OneBranchReport oneBranchData={oneBranchData} onStepsIdsChangeFromOneBranch={handleStepsIdsChangeFromOneBranch} allSteps={allSteps} />}
+      {selected === 'more' && <MoreThanBranchReport moreThanBranchData={moreThanBranchData} onStepsIdsChangeFromMoreThanBranch={handleStepsIdsChangeFromMoreThanBranch} allSteps={allSteps} />}
       {selected === 'qr' && <QrCodesReport />}
     </div>
     </>

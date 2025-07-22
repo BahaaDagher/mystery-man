@@ -1,32 +1,7 @@
 import React from 'react'
 import BarComponent from '../../../../components/BarComponent';
-const apiData = [
-    { name: 'January', value: 70 },
-    { name: 'February', value: 55 },
-    { name: 'March', value: 35 },
-    { name: 'April', value: 20 },
-    { name: 'May', value: 150 },
-    { name: 'June', value: 45 },
-    { name: 'July', value: 50 }, 
-    { name: 'August', value: 70 },
-    { name: 'September', value: 60 },
-    { name: 'October', value: 70 },
-];
 
-  
-  const chartData = {
-    labels: apiData.map(item => item.name),
-    datasets: [
-      {
-        label: 'Rating',
-        data: apiData.map(item => item.value),
-        backgroundColor: '#5654D4',
-        borderRadius: 5,
-        barPercentage: 0.6,
-        categoryPercentage: 0.7,
-      },
-    ],
-  };
+const TheRateOfDevelopmentInEachBranch = ({apiData}) => {
   const lang = localStorage.getItem('language');
   const isArabic = lang === 'ar';
   
@@ -49,14 +24,51 @@ const apiData = [
       },
     },
   };
-const TheRateOfDevelopmentInEachBranch = () => {
+
   return (
-    <BarComponent
-        title={"The rate of development in each branch for all branches"}
-        chartData={chartData}
-        chartOptions={options}
-        height={100}
-    />
+    <div className="bg-[#fff] rounded-[20px] p-6 w-full ">
+      <div className=" mb-2 text-2xl font-bold text-black2 leading-[28px]">
+        The development rate in each step for all branches
+      </div>
+      <hr className="my-4 border-gray-200" />
+      <div className="space-y-6">
+        {apiData?.map((branch, branchIndex) => {
+          // Transform branch steps data for the chart
+          const chartData = {
+            labels: branch.steps.map(step => step.step_name),
+            datasets: [
+              {
+                label: 'Old Average',
+                data: branch.steps.map(step => step.old_avg),
+                backgroundColor: '#5654D4',
+                borderRadius: 5,
+                barPercentage: 0.6,
+                categoryPercentage: 0.7,
+              },
+              {
+                label: 'New Average',
+                data: branch.steps.map(step => step.new_avg),
+                backgroundColor: '#FF718B',
+                borderRadius: 5,
+                barPercentage: 0.6,
+                categoryPercentage: 0.7,
+              }
+            ],
+          };
+
+          return (
+            <div key={branch.branch_id} className="bg-white rounded-[12px]">
+              <BarComponent
+                title={branch.branch_name} 
+                chartData={chartData}
+                chartOptions={options}
+                height={100}
+              />
+            </div>
+          );
+        })}
+      </div>
+    </div>
   )
 }
 

@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import i18n from "../../i18n";
 const currentLanguage = localStorage.getItem("language") || "en";
+
 export const oneBranchReport = createAsyncThunk(
 "report/oneBranchReport", 
 async (values) => {
@@ -32,43 +33,33 @@ async (values) => {
 }
 );
 
-
-export const deleteBranch = createAsyncThunk(
-    "branch/deleteBranch", 
+export const moreThanBranchReport = createAsyncThunk(
+    "report/moreThanBranchReport", 
     async (values) => {
-        const token = localStorage.getItem('token');
         try {
-        const response = await axios.get(
-            `https://test.secretvisitor.co/dashboard/api/deleteBranch?branch_id=${values.id}` ,{
+            const token = localStorage.getItem('token');
+            
+            // Build query parameters
+            const params = new URLSearchParams();
+            console.log("values::::" , values)
+            if (values.branch_ids) params.append('branch_ids', JSON.stringify(values.branch_ids));
+            if (values.from_date) params.append('from_date', values.from_date);
+            if (values.to_date) params.append('to_date', values.to_date);
+            if (values.step_ids && values.step_ids.length > 0) {
+                params.append('step_ids', JSON.stringify(values.step_ids));
+            }
+            
+            const url = `https://test.secretvisitor.co/dashboard/api/report/moreThanBranch?${params.toString()}`;
+            
+            const response = await axios.get(url, {
                 headers: {
                     "Authorization" : token , 
                     "lang" : currentLanguage ,
                 },
-            }
-        );
-        return response.data ;
+            });
+            return response.data ;
         } catch (error) {
-        console.error(error);
-        }
-    }
-    );
-
-export const getBranches = createAsyncThunk(
-    "branch/getBranches", 
-    async (values) => {
-        const token = localStorage.getItem('token');
-        try {
-        const response = await axios.get(
-            "https://test.secretvisitor.co/dashboard/api/getBranches" ,{
-                headers: {
-                    "Authorization" : token , 
-                    "lang" : currentLanguage , 
-                },
-            }
-        );
-        return response.data ;
-        } catch (error) {
-            console.error(error);
+            console.error("moreThanBranchReport::" , error);
         }
     }
     );
@@ -80,11 +71,9 @@ initialState: {
     oneBranchReportData: {},
     oneBranchReportLoading : false ,
 
-    
-    getBranchesData : {} ,
-    getBranchesDataLoading : false ,
-    deleteBranchData : {} ,
-    deleteBranchLoading : false , 
+    moreThanBranchReportData: {},
+    moreThanBranchReportLoading : false ,
+
     
 },
 extraReducers: (builder) => {
@@ -100,28 +89,18 @@ extraReducers: (builder) => {
     .addCase(oneBranchReport.rejected , (state, action) => {
         state.oneBranchReportLoading = false;
     })
-
-    .addCase(getBranches.fulfilled, (state, action) => {
-        state.getBranchesData = action.payload;
-        state.getBranchesDataLoading = false;
+    // moreThanBranchReport
+    .addCase(moreThanBranchReport.fulfilled, (state, action) => {
+        state.moreThanBranchReportData = action.payload;
+        state.moreThanBranchReportLoading = false;
     }) 
-    .addCase(getBranches.pending, (state, action) => {
-        state.getBranchesDataLoading = true;
+    .addCase(moreThanBranchReport.pending, (state, action) => {
+        state.moreThanBranchReportLoading = true;
     }) 
-    .addCase(getBranches.rejected , (state, action) => {
-        state.getBranchesDataLoading = false;
+    .addCase(moreThanBranchReport.rejected , (state, action) => {
+        state.moreThanBranchReportLoading = false;
     })
-
-    .addCase(deleteBranch.fulfilled , (state, action) => {
-        state.deleteBranchData = action.payload;
-        state.deleteBranchLoading = false;
-    }) 
-    .addCase(deleteBranch.pending, (state, action) => {
-        state.deleteBranchLoading = true;
-    }) 
-    .addCase(deleteBranch.rejected , (state, action) => {
-        state.deleteBranchLoading = false;
-    })
+    
 
 }
 });

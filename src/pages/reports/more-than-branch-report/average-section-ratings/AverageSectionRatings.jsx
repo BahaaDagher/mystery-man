@@ -1,22 +1,19 @@
 import React from 'react'
 import BarComponent from '../../../../components/BarComponent';
-const apiData = [
-    { name: 'January', value: 70 },
-    { name: 'February', value: 55 },
-    { name: 'March', value: 35 },
-    { name: 'April', value: 20 },
-    { name: 'May', value: 150 },
-    { name: 'June', value: 45 },
-    { name: 'July', value: 50 },
-];
 
-  
+const AverageSectionRatings = ({apiData}) => {
+  // Transform apiData to match the expected format for the chart
+  const transformedData = apiData?.map(step => ({
+    name: step.step_name,
+    value: step.average_rating
+  })) || []
+
   const chartData = {
-    labels: apiData.map(item => item.name),
+    labels: transformedData.map(item => item.name),
     datasets: [
       {
         label: 'Rating',
-        data: apiData.map(item => item.value),
+        data: transformedData.map(item => item.value),
         backgroundColor: '#122E74',
         borderRadius: 5,
         barPercentage: 0.6,
@@ -24,6 +21,7 @@ const apiData = [
       },
     ],
   };
+  
   const lang = localStorage.getItem('language');
   const isArabic = lang === 'ar';
   
@@ -46,10 +44,10 @@ const apiData = [
       },
     },
   };
-const AverageSectionRatings = () => {
+
   return (
     <BarComponent
-      title={"Average section ratings over a specific period of time"}
+      title={"Average step ratings over a specific period of time"}
       chartData={chartData}
       chartOptions={options}
       height={200}
