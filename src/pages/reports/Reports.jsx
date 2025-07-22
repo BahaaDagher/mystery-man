@@ -134,7 +134,7 @@ const Reports = () => {
   // },[dateRange])
   return (
     <>
-    {getBranchesDataLoading || oneBranchReportLoading || moreThanBranchReportLoading? <Loading/> : null}
+    {getBranchesDataLoading || oneBranchReportLoading || moreThanBranchReportLoading || getStepsDataLoading ? <Loading/> : null}
     <div className='w-full'>
       <ReportHeader
         selected={selected}

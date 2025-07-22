@@ -24,19 +24,45 @@ async (values) => {
 }
 );
 
+export const addStep = createAsyncThunk(
+    "step/addStep", 
+    async (values) => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios.post(
+            "https://test.secretvisitor.co/dashboard/api/steps/store" ,{
+                name:values.name,
+            },{
+                headers: {
+                    "Authorization" : token , 
+                    "lang" : currentLanguage ,
+                },
+            }
+        );
+        return response.data ;
+        } catch (error) {
+        console.error(error);
+        }
+    }
+    );
+
 
 
 
 
 const stepSlice = createSlice({
-name: "branch",
+name: "step",
 initialState: {
     getStepsData: {},
-    getStepsLoading : false ,    
+    getStepsLoading : false , 
+
+    addStepData: {},
+    addStepLoading : false ,
+    
 },
 extraReducers: (builder) => {
     builder
-    // onBranchReport
+    // getSteps
     .addCase(getSteps.fulfilled, (state, action) => {
         state.getStepsData = action.payload;
         state.getStepsLoading = false;
@@ -47,7 +73,17 @@ extraReducers: (builder) => {
     .addCase(getSteps.rejected , (state, action) => {
         state.getStepsLoading = false;
     })
-
+    // addStep
+    .addCase(addStep.fulfilled, (state, action) => {
+        state.addStepData = action.payload;
+        state.addStepLoading = false;
+    })
+    .addCase(addStep.pending, (state, action) => {
+        state.addStepLoading = true;
+    })
+    .addCase(addStep.rejected, (state, action) => {
+        state.addStepLoading = false;
+    })
 
         
 
