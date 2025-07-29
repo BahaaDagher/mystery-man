@@ -19,7 +19,6 @@ import { FlexSpaceBetween } from '../../components/FlexSpaceBetween';
 
 
 const Parent = styled(Flex)(({ theme }) => ({
-    border : "1px solid red" , 
     width: '300px',
     position :"fixed" , 
     right : theme.direction  == "ltr" ? "0" : "auto" , 

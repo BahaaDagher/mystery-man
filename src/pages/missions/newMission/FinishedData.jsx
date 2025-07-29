@@ -99,17 +99,18 @@ const FinishedData = (
     missionVoucherChecked ,
     missionVoucherValue ,
     missionSelectedQuestioniere,
-    missionNotes , 
+    missionNotes ,
+    quizData = [],
   } ) => {
     const [activePost , setActivePost] = useState(false)
     useEffect(() => {
-      if(missionTitle && missionFocus && missionSelectedBranch && missionDate && missionTime1  && missionSelectedQuestioniere>-1){
+      if(missionTitle && missionFocus && missionSelectedBranch && missionDate && missionTime1  && missionSelectedQuestioniere>-1 && quizData.length > 0){
         setActivePost(true)
       }
       else {
         setActivePost(false)
       }
-    },[ missionTitle , missionFocus , missionSelectedBranch , missionDate , missionTime1  , missionVoucherChecked , missionVoucherValue , missionSelectedQuestioniere])
+    },[ missionTitle , missionFocus , missionSelectedBranch , missionDate , missionTime1  , missionVoucherChecked , missionVoucherValue , missionSelectedQuestioniere, quizData])
   
     const questionieresData = useSelector((state) => state.questioneirData.questionieres);
     const currentQuestioneir = useSelector((state) => state.questioneirData.currentQuestioneir);
@@ -122,6 +123,7 @@ const FinishedData = (
       price : missionVoucherValue , 
       notes : missionNotes  ,
       questions: [questionieresData[currentQuestioneir]] , 
+      quiz_questions: quizData,
     }
     const [click , setClick] = useState(false)
 
@@ -232,6 +234,16 @@ const FinishedData = (
               </FocusChangeTitle>
               <FocusChangeImg>
                 <img src = {missionSelectedQuestioniere >-1 ?checked :unchecked}/>
+              </FocusChangeImg>
+            </FocusChangeLine>
+
+            <FocusChangeLine>
+              <FocusChangeTitle>
+              <img src = {Questionnaire}/>
+                <Title>{t("Quiz")}</Title>
+              </FocusChangeTitle>
+              <FocusChangeImg>
+                <img src = {quizData.length > 0 ?checked :unchecked}/>
               </FocusChangeImg>
             </FocusChangeLine>
 

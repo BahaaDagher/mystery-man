@@ -12,6 +12,7 @@ import { FlexSpaceBetween } from '../../../components/FlexSpaceBetween';
 import FinishedData from './FinishedData';
 import { getQuestionnaire, setCurrentQuestioneir, setCurrentQuestioneirID } from '../../../store/slices/questionierSlice';
 import QuestionnaireData from './QuestionnaireData';
+import Quiz from './Quiz';
 import Swal from 'sweetalert2';
 import { useTranslation } from 'react-i18next';
 
@@ -281,7 +282,8 @@ const NewMission = () => {
     if (!isNaN(voucher)) setVoucherValue(voucher)
   }
 
-  const [showQuestionnaire , setShowQuestionnaire] = useState(false)
+  const [currentStep, setCurrentStep] = useState('form'); // 'form', 'quiz', 'questionnaire'
+  const [quizData, setQuizData] = useState([]);
   const getProfileData = useSelector(state => state.profileData.getProfileData)
 
   const [wallet , setWallet] = useState(0)
@@ -294,8 +296,7 @@ const NewMission = () => {
   const handleNext = () => {
       if (title && focus && selectedBranch && date && time1  && selectedQuestioniere>-1) {
         if(voucherValue <= wallet){
-
-          setShowQuestionnaire(true)
+          setCurrentStep('quiz')
         }
         else{
           Swal.fire({
@@ -312,6 +313,22 @@ const NewMission = () => {
     }
   }
 
+  const handleQuizDataChange = (data) => {
+    setQuizData(data);
+  }
+
+  const handleQuizNext = () => {
+    setCurrentStep('questionnaire')
+  }
+
+  const handleQuizPrev = () => {
+    setCurrentStep('form')
+  }
+
+  const handleQuestionnairePrev = () => {
+    setCurrentStep('quiz')
+  }
+
   
 
   
@@ -322,106 +339,121 @@ const NewMission = () => {
         <span> {t("text.missions")} / </span>
         <span style = {{color : Colors.main}}>{t("text.New_Mission")} </span>
       </Place>
-      <Parent>
-      {!showQuestionnaire ? 
-        <MainData>
-          <TitleDiv>
-              <Title>{t("text.Title")}</Title>
-              <Input 
-                placeholder={t("text.type_here")} 
-                value={title}
-                onChange={handleTitle}
-              />
-          </TitleDiv>
-          <Divider/>
-          <TitleDiv>
-              <Title>{t("text.type_what_you_want_him_her_to_focus_on")}</Title>
-              <Input 
-                placeholder={t("text.type_here")} 
-                className='small'
-                value={focus}
-                onChange={handleFocus}
-              />
-          </TitleDiv>
-          <Divider/>
-          <TitleDiv>
-              <Title>{t("text.Branch")}</Title>
-              <Selectt
-                value={selectedBranch}
-                onChange={handleSelectedBranch}
-              >
-                {currentBranches.map((branch, index) => (
-                  <StyledMenuItem key={index} value={branch.id}>
-                    {branch.name}
-                  </StyledMenuItem>
-                ))}
-            </Selectt>
-          </TitleDiv>
-          <Divider/>
-          {/* date time section  */}
-          <DateTime>
-            <DateDiv>
-            <Title>{t("text.Date")}</Title>   
-              <DateInput type="date" value={date} onChange={(e)=>setDate(e.target.value)} />
-            </DateDiv>
-            <TimeDiv>
-              <FromToTimeDiv>
-                <Title>{t("text.from")}</Title>   
-                <TimeInput type="time" value={time1} onChange={(e)=>setTime1(e.target.value)} />
-              </FromToTimeDiv>   
-              {/* <FromToTimeDiv>
-                <Title>{t("text.to")}</Title>  
-                <TimeInput type="time" value={time2} onChange={(e)=>setTime2(e.target.value)} />
-              </FromToTimeDiv>     */}
-            </TimeDiv>
-          </DateTime>
-          <Divider/>
-            <VoucherDiv>
-              <CheckDiv>
-                <CheckInput
-                    id='voucher'
-                    type="checkbox"
-                    checked={voucherChecked}
-                    onChange={(e)=>setVoucherChecked(e.target.checked)}
+            <Parent>
+        {currentStep === 'form' && (
+          <MainData>
+            <TitleDiv>
+                <Title>{t("text.Title")}</Title>
+                <Input 
+                  placeholder={t("text.type_here")} 
+                  value={title}
+                  onChange={handleTitle}
                 />
-                <CheckLabel htmlFor='voucher'>{t("text.Include_Purchase_voucher")}</CheckLabel>
-              </CheckDiv>
-              {voucherChecked &&
-                <VoucherInput 
-                  placeholder= {"00 " + t("text.SAR")} 
-                  type = "text"
-                  value={voucherValue}
-                  onChange={handleVoucher}
+            </TitleDiv>
+            <Divider/>
+            <TitleDiv>
+                <Title>{t("text.type_what_you_want_him_her_to_focus_on")}</Title>
+                <Input 
+                  placeholder={t("text.type_here")} 
+                  className='small'
+                  value={focus}
+                  onChange={handleFocus}
+                />
+            </TitleDiv>
+            <Divider/>
+            <TitleDiv>
+                <Title>{t("text.Branch")}</Title>
+                <Selectt
+                  value={selectedBranch}
+                  onChange={handleSelectedBranch}
+                >
+                  {currentBranches.map((branch, index) => (
+                    <StyledMenuItem key={index} value={branch.id}>
+                      {branch.name}
+                    </StyledMenuItem>
+                  ))}
+              </Selectt>
+            </TitleDiv>
+            <Divider/>
+            {/* date time section  */}
+            <DateTime>
+              <DateDiv>
+              <Title>{t("text.Date")}</Title>   
+                <DateInput type="date" value={date} onChange={(e)=>setDate(e.target.value)} />
+              </DateDiv>
+              <TimeDiv>
+                <FromToTimeDiv>
+                  <Title>{t("text.from")}</Title>   
+                  <TimeInput type="time" value={time1} onChange={(e)=>setTime1(e.target.value)} />
+                </FromToTimeDiv>   
+                {/* <FromToTimeDiv>
+                  <Title>{t("text.to")}</Title>  
+                  <TimeInput type="time" value={time2} onChange={(e)=>setTime2(e.target.value)} />
+                </FromToTimeDiv>     */}
+              </TimeDiv>
+            </DateTime>
+            <Divider/>
+              <VoucherDiv>
+                <CheckDiv>
+                  <CheckInput
+                      id='voucher'
+                      type="checkbox"
+                      checked={voucherChecked}
+                      onChange={(e)=>setVoucherChecked(e.target.checked)}
+                  />
+                  <CheckLabel htmlFor='voucher'>{t("text.Include_Purchase_voucher")}</CheckLabel>
+                </CheckDiv>
+                {voucherChecked &&
+                  <VoucherInput 
+                    placeholder= {"00 " + t("text.SAR")} 
+                    type = "text"
+                    value={voucherValue}
+                    onChange={handleVoucher}
 
+                  />
+                }
+              </VoucherDiv>
+            <Divider/>
+            <TitleDiv>
+                <Title>{t("text.Notes")}</Title>
+                <NotesText 
+                  placeholder={t("text.type_here")} 
+                  value={notes}
+                  onChange={(e)=>setNotes(e.target.value)}
                 />
-              }
-            </VoucherDiv>
-          <Divider/>
-          <TitleDiv>
-              <Title>{t("text.Notes")}</Title>
-              <NotesText 
-                placeholder={t("text.type_here")} 
-                value={notes}
-                onChange={(e)=>setNotes(e.target.value)}
-              />
-          </TitleDiv>
-          <TitleDiv>
-              <Title>{t("text.questionnaires")}</Title>
-              <Selectt
-                value={selectedQuestioniere}
-                onChange={handleSelectedQuestionnaire}
-              >
-                {questionieres.map((questioniere, index) => (
-                  <StyledMenuItem key={index} value={index}>
-                    {questioniere.title}
-                  </StyledMenuItem>
-                ))}
-            </Selectt>
-          </TitleDiv>
-          <SubmitButton2 onClick={handleNext}>{t("text.Next")}</SubmitButton2>
-        </MainData>
-       : <QuestionnaireData  setShowQuestionnaire = {setShowQuestionnaire}/>
-       }
+            </TitleDiv>
+            <TitleDiv>
+                <Title>{t("text.questionnaires")}</Title>
+                <Selectt
+                  value={selectedQuestioniere}
+                  onChange={handleSelectedQuestionnaire}
+                >
+                  {questionieres.map((questioniere, index) => (
+                    <StyledMenuItem key={index} value={index}>
+                      {questioniere.title}
+                    </StyledMenuItem>
+                  ))}
+              </Selectt>
+            </TitleDiv>
+            <SubmitButton2 onClick={handleNext}>{t("text.Next")}</SubmitButton2>
+          </MainData>
+        )}
+
+        {currentStep === 'quiz' && (
+          <Quiz 
+            onNext={handleQuizNext}
+            onPrev={handleQuizPrev}
+            initialData={quizData}
+            onQuizDataChange={handleQuizDataChange}
+          />
+        )}
+
+        {currentStep === 'questionnaire' && (
+          <QuestionnaireData 
+            onPrev={handleQuestionnairePrev}
+          />
+        )}
+
         <FinishedData
           missionTitle={title}
           missionFocus={focus}
@@ -431,7 +463,8 @@ const NewMission = () => {
           missionVoucherChecked={voucherChecked}
           missionVoucherValue={voucherValue}
           missionNotes={notes}
-          missionSelectedQuestioniere = {selectedQuestioniere}
+          missionSelectedQuestioniere={selectedQuestioniere}
+          quizData={quizData}
         />
       </Parent>
     </SmallContainer>

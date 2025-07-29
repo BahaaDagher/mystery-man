@@ -246,7 +246,7 @@ const AnswerInput = styled("input")(({ theme }) => ({
 }));
 
 
-const QuestionnaireData = ({setShowQuestionnaire}) => {
+const QuestionnaireData = ({onPrev}) => {
 
   
 
@@ -412,7 +412,7 @@ const QuestionnaireData = ({setShowQuestionnaire}) => {
         <Settings>
           <InputAndButtons>
           <ButtonsContainer>
-              <AddQuestionContainer className = "previous" onClick={()=>setShowQuestionnaire(false)} >
+              <AddQuestionContainer className = "previous" onClick={onPrev} >
                 <AddQuestionButton > {t("text.previous")}</AddQuestionButton>
               </AddQuestionContainer>
             </ButtonsContainer>
