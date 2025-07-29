@@ -13,9 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getQuestionnaire, setCurrentQuestioneir, setCurrentQuestioneirID, setNewQuestioneir } from '../../store/slices/questionierSlice';
 import { use } from 'i18next';
 import { useTranslation } from 'react-i18next';
-import { addStep, getSteps } from '../../store/slices/stepSlice';
-import Loading from '../../components/Loading';
-import Swal from 'sweetalert2';
+import Steps from './Steps';
 
 const MainContent = styled(FlexSpaceBetween)(({ theme }) => ({
   gap : "20px" ,
@@ -106,7 +104,6 @@ const NewQuestionnaire = styled(SubmitButton)(({ theme }) => ({
 const Questionnaires = () => {
   const [pressCreateQuestionnaire , setPressCreateQuestionnaire] = useState(true)
   const [ isAddNew , setIsAddNew ] = useState(false)
-  const [allSteps , setAllSteps] = useState([])
 
   const dispatch = useDispatch() ; 
 
@@ -131,71 +128,6 @@ const Questionnaires = () => {
     setPressCreateQuestionnaire(false)
   }, [])
 
-  const getStepsData = useSelector(state => state.stepData.getStepsData) ;
-  const getStepsDataLoading = useSelector(state => state.stepData.getStepsLoading) ;
-
-
-useEffect(()=>{
-    dispatch(getSteps())
-  },[])
-  useEffect(()=>{
-    if (getStepsData?.status) {
-      setAllSteps(getStepsData?.data?.steps)
-    }
-  },[getStepsData])
-
-  const addStepData = useSelector(state => state.stepData.addStepData) ;
-  const addStepLoading = useSelector(state => state.stepData.addStepLoading) ;
-  
-  const handleAddStep = () => {
-    Swal.fire({
-      title: 'Add New Step',
-      input: 'text',
-      inputLabel: 'Step Name',
-      inputPlaceholder: 'Enter step name...',
-      showCancelButton: true,
-      confirmButtonText: 'Add Step',
-      cancelButtonText: 'Cancel',
-      inputValidator: (value) => {
-        if (!value) {
-          return 'You need to write a step name!'
-        }
-      },
-      showLoaderOnConfirm: true,
-      preConfirm: (stepName) => {
-        setFirstTime(false)
-        return dispatch(addStep({name: stepName}))
-        .then((result) => {
-          if (result.error) {
-            Swal.showValidationMessage(`Request failed: ${result.error.message}`)
-          }
-          return result
-        })
-        .catch((error) => {
-          Swal.showValidationMessage(`Request failed: ${error}`)
-        })
-      },
-      allowOutsideClick: () => !Swal.isLoading()
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // The API call is handled in the preConfirm function
-      }
-    })
-  }
-  const [firstTime , setFirstTime] = useState(true)
-  useEffect(()=>{
-    if (addStepData?.status && !firstTime) {
-      Swal.fire({
-        title: 'Success',
-        text: 'Step added successfully',
-        icon: 'success',
-        confirmButtonText: 'OK'
-      })
-      // Refresh the steps list after adding
-      dispatch(getSteps())
-    }
-  },[addStepData])
-
 const numberOFQuestioners = (item)=>{ 
   let count = 0 ;
   item.steps.map((step)=>{
@@ -208,11 +140,8 @@ const numberOFQuestioners = (item)=>{
   const {t} = useTranslation() ; 
   return (
     <>
-     {addStepLoading || getStepsDataLoading ? <Loading/> : null}
-
       <SmallContainer >
         <div style = {{color : Colors.gray_l , marginBottom : "20px"}}>{t("text.questionnaires")} </div>
-        <div className='w-fit  bg-secondary rounded-[12px] p-4 text-white mb-2 cursor-pointer' onClick={()=>{handleAddStep()}}>Add Step</div>
         <MainContent>
           {pressCreateQuestionnaire == true 
             ? 
@@ -220,7 +149,7 @@ const numberOFQuestioners = (item)=>{
           
             </div>
             :
-            <QuestionnaireSettings isAddNew = {isAddNew} allSteps = {allSteps} >
+            <QuestionnaireSettings isAddNew = {isAddNew} >
               
             </QuestionnaireSettings>
           }
@@ -291,21 +220,7 @@ const numberOFQuestioners = (item)=>{
 
               
             </PreviousQuestionnaires>
-            <div className=' max-h-[500px] bg-white rounded-[12px] overflow-y-auto'>
-              <div className='text-[30px] font-bold text-black2 tracking-wider bg-main rounded-[12px] text-white m-2 text-center mb-4'>Steps</div>
-              <div className='p-4'>
-                {allSteps?.map((step, index) => (
-                  <PreviousQuestionnaire key={step.id}>
-                    <QuestionnaireName>{step.name}</QuestionnaireName>
-                  </PreviousQuestionnaire>
-                ))}
-                {!allSteps || allSteps.length === 0 ? (
-                  <div className='text-center text-gray-500 py-8'>
-                    No steps available
-                  </div>
-                ) : null}
-              </div>
-            </div>
+            <Steps />
           </div>
 
         </MainContent>

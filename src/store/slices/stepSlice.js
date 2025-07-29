@@ -46,6 +46,48 @@ export const addStep = createAsyncThunk(
     }
     );
 
+export const updateStep = createAsyncThunk(
+    "step/updateStep", 
+    async (values) => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios.post(
+            `https://test.secretvisitor.co/dashboard/api/steps/${values.id}/update` ,{
+                name:values.name,
+            },{
+                headers: {
+                    "Authorization" : token , 
+                    "lang" : currentLanguage ,
+                },
+            }
+        );
+        return response.data ;
+        } catch (error) {
+        console.error(error);
+        }
+    }
+    );
+
+export const deleteStep = createAsyncThunk(
+    "step/deleteStep", 
+    async (values) => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios.delete(
+            `https://test.secretvisitor.co/dashboard/api/steps/${values.id}/delete` ,{
+                headers: {
+                    "Authorization" : token , 
+                    "lang" : currentLanguage ,
+                },
+            }
+        );
+        return response.data ;
+        } catch (error) {
+        console.error(error);
+        }
+    }
+    );
+
 
 
 
@@ -58,6 +100,12 @@ initialState: {
 
     addStepData: {},
     addStepLoading : false ,
+
+    updateStepData: {},
+    updateStepLoading : false ,
+
+    deleteStepData: {},
+    deleteStepLoading : false ,
     
 },
 extraReducers: (builder) => {
@@ -83,6 +131,28 @@ extraReducers: (builder) => {
     })
     .addCase(addStep.rejected, (state, action) => {
         state.addStepLoading = false;
+    })
+    // updateStep
+    .addCase(updateStep.fulfilled, (state, action) => {
+        state.updateStepData = action.payload;
+        state.updateStepLoading = false;
+    })
+    .addCase(updateStep.pending, (state, action) => {
+        state.updateStepLoading = true;
+    })
+    .addCase(updateStep.rejected, (state, action) => {
+        state.updateStepLoading = false;
+    })
+    // deleteStep
+    .addCase(deleteStep.fulfilled, (state, action) => {
+        state.deleteStepData = action.payload;
+        state.deleteStepLoading = false;
+    })
+    .addCase(deleteStep.pending, (state, action) => {
+        state.deleteStepLoading = true;
+    })
+    .addCase(deleteStep.rejected, (state, action) => {
+        state.deleteStepLoading = false;
     })
 
         

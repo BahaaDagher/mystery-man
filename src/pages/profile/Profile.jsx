@@ -20,6 +20,7 @@ import { useNavigate } from 'react-router-dom';
 import { getProfile } from '../../store/slices/profileSlice';
 import { FlexCenter } from '../../components/FlexCenter';
 import Wallet from './wallet/Wallet';
+import DateRangePickerComponent from '../../components/DateRangePickerComponent';
 
 const Container = styled("div")(({ theme }) => ({
   minHeight : "100vh" , 
@@ -125,7 +126,8 @@ const NewBranchButton = styled(TabButton)(({ theme }) => ({
 }));
 
 const Profile = () => {
-  const [activeTab, setActiveTab] = useState('wallet'); // 'branches' or 'wallet'
+  const [activeTab, setActiveTab] = useState('branches'); // 'branches' or 'wallet'
+  const [dateRange, setDateRange] = useState(null);
   
   const {t} = useTranslation();
   const theme = useTheme() ;
@@ -199,6 +201,12 @@ const Profile = () => {
     return str 
   }
 
+  const handleDateRangeChange = (range) => {
+    setDateRange(range);
+    console.log('Selected date range:', range);
+    // You can add your logic here to handle the date range change
+  }
+
   return (
     <>
         {deleteBranchLoading || getBranchesDataLoading? <Loading/> : null}
@@ -234,7 +242,7 @@ const Profile = () => {
                     </NewBranchButton>
                   )}
                   {activeTab === 'wallet' && (
-                    <div className='datePicker border border-red-500 w-[200px]'>hello</div>
+                    <DateRangePickerComponent onDateChange={handleDateRangeChange} />
                   )}
                 </div>
               </div>
