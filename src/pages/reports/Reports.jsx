@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getBranches } from '../../store/slices/branchSlice'
 import Loading from '../../components/Loading'
 import { format, startOfMonth } from 'date-fns'
-import { moreThanBranchReport, oneBranchReport } from '../../store/slices/reportSlice'
+import { moreThanBranchReport, oneBranchReport, qrCodeReport } from '../../store/slices/reportSlice'
 import Swal from 'sweetalert2'
 import { getSteps } from '../../store/slices/stepSlice'
 
@@ -18,7 +18,7 @@ const qrCodes = [
 ];
 
 const Reports = () => {
-  const [selected, setSelected] = useState('one');
+  const [selected, setSelected] = useState('qr'); // one , more , qr
   const dispatch = useDispatch() ;
 
   const [branches , setBranches] = useState ([])
@@ -51,9 +51,14 @@ const Reports = () => {
   const moreThanBranchReportData = useSelector(state => state.reportData.moreThanBranchReportData) ;
   const moreThanBranchReportLoading = useSelector(state => state.reportData.moreThanBranchReportLoading) ;
 
+  // qrCodeReport data
+  const qrCodeReportData = useSelector(state => state.reportData.qrCodeReportData) ;
+  const qrCodeReportLoading = useSelector(state => state.reportData.qrCodeReportLoading) ;
+
 
   const [oneBranchData , setOneBranchData] = useState({})
   const [moreThanBranchData , setMoreThanBranchData] = useState({})
+  const [qrCodeData , setQrCodeData] = useState({})
 
   const handleStepsIdsChangeFromOneBranch = (newStepsIds) => {
     setStepsIdsFromOneBranch(newStepsIds)
@@ -97,6 +102,12 @@ const Reports = () => {
   },[moreThanBranchReportData])
 
   useEffect(()=>{
+    if (qrCodeReportData?.status) {
+      setQrCodeData(qrCodeReportData.data)
+    }
+  },[qrCodeReportData])
+
+  useEffect(()=>{
     if (selectedBranch === '') {
       setSelectedBranch(getBranchesData?.data?.branches[0]?.id)
     }
@@ -117,9 +128,15 @@ const Reports = () => {
       to_date: format(dateRange.endDate, 'yyyy-MM-dd'),
       step_ids: stepsIdsFromMoreThanBranch.length > 0 ? stepsIdsFromMoreThanBranch : [1], // Use stepsIds if available, otherwise default to [1]
     }))
+    // qrCodeReport
+    dispatch(qrCodeReport({
+      from_date: format(dateRange.startDate, 'yyyy-MM-dd'),
+      to_date: format(dateRange.endDate, 'yyyy-MM-dd'),
+      qr_code_id: selectedQRCodes.length > 0 ? selectedQRCodes[0] : 1, // Use first selected QR code or default to 1
+    }))
     
     
-  },[ selectedBranch, selectedBranches, stepsIdsFromOneBranch , stepsIdsFromMoreThanBranch , dateRange   ])
+  },[ selectedBranch, selectedBranches, selectedQRCodes, stepsIdsFromOneBranch , stepsIdsFromMoreThanBranch , dateRange   ])
 
   
   
@@ -134,7 +151,7 @@ const Reports = () => {
   // },[dateRange])
   return (
     <>
-    {getBranchesDataLoading || oneBranchReportLoading || moreThanBranchReportLoading || getStepsDataLoading ? <Loading/> : null}
+    {getBranchesDataLoading || oneBranchReportLoading || moreThanBranchReportLoading || qrCodeReportLoading || getStepsDataLoading ? <Loading/> : null}
     <div className='w-full'>
       <ReportHeader
         selected={selected}
@@ -152,7 +169,7 @@ const Reports = () => {
       />
       {selected === 'one' && <OneBranchReport oneBranchData={oneBranchData} onStepsIdsChangeFromOneBranch={handleStepsIdsChangeFromOneBranch} allSteps={allSteps} />}
       {selected === 'more' && <MoreThanBranchReport moreThanBranchData={moreThanBranchData} onStepsIdsChangeFromMoreThanBranch={handleStepsIdsChangeFromMoreThanBranch} allSteps={allSteps} />}
-      {selected === 'qr' && <QrCodesReport />}
+      {selected === 'qr' && <QrCodesReport qrCodeData={qrCodeData} />}
     </div>
     </>
   )

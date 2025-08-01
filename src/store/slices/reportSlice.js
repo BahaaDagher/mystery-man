@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import i18n from "../../i18n";
+import { API_BASE_URL } from "../../config/api";
+
 const currentLanguage = localStorage.getItem("language") || "en";
 
 export const oneBranchReport = createAsyncThunk(
@@ -18,7 +20,7 @@ async (values) => {
             params.append('step_ids', JSON.stringify(values.step_ids));
         }
         
-        const url = `https://test.secretvisitor.co/dashboard/api/report/oneBranch?${params.toString()}`;
+        const url = `${API_BASE_URL}/report/oneBranch?${params.toString()}`;
         
         const response = await axios.get(url, {
             headers: {
@@ -49,7 +51,7 @@ export const moreThanBranchReport = createAsyncThunk(
                 params.append('step_ids', JSON.stringify(values.step_ids));
             }
             
-            const url = `https://test.secretvisitor.co/dashboard/api/report/moreThanBranch?${params.toString()}`;
+            const url = `${API_BASE_URL}/report/moreThanBranch?${params.toString()}`;
             
             const response = await axios.get(url, {
                 headers: {
@@ -64,6 +66,33 @@ export const moreThanBranchReport = createAsyncThunk(
     }
     );
 
+export const qrCodeReport = createAsyncThunk(
+    "report/qrCodeReport", 
+    async (values) => {
+        try {
+            const token = localStorage.getItem('token');
+            
+            // Build query parameters
+            const params = new URLSearchParams();
+            if (values.from_date) params.append('from_date', values.from_date);
+            if (values.to_date) params.append('to_date', values.to_date);
+            if (values.qr_code_id) params.append('qr_code_id', values.qr_code_id);
+            
+            const url = `${API_BASE_URL}/report/qrCode?${params.toString()}`;
+            
+            const response = await axios.get(url, {
+                headers: {
+                    "Authorization" : token , 
+                    "lang" : currentLanguage ,
+                },
+            });
+            return response.data ;
+        } catch (error) {
+            console.error("qrCodeReport::" , error);
+        }
+    }
+    );
+
 
 const reportSlice = createSlice({
 name: "branch",
@@ -73,6 +102,9 @@ initialState: {
 
     moreThanBranchReportData: {},
     moreThanBranchReportLoading : false ,
+
+    qrCodeReportData: {},
+    qrCodeReportLoading : false ,
 
     
 },
@@ -99,6 +131,17 @@ extraReducers: (builder) => {
     }) 
     .addCase(moreThanBranchReport.rejected , (state, action) => {
         state.moreThanBranchReportLoading = false;
+    })
+    // qrCodeReport
+    .addCase(qrCodeReport.fulfilled, (state, action) => {
+        state.qrCodeReportData = action.payload;
+        state.qrCodeReportLoading = false;
+    }) 
+    .addCase(qrCodeReport.pending, (state, action) => {
+        state.qrCodeReportLoading = true;
+    }) 
+    .addCase(qrCodeReport.rejected , (state, action) => {
+        state.qrCodeReportLoading = false;
     })
     
 

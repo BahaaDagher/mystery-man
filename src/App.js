@@ -35,7 +35,6 @@ import ChangePassword from "./Auth/forgetPassword/ChangePassword";
 import Home2 from "./pages/home/Home2";
 import Reports from "./pages/reports/Reports";
 import QrCodesParent   from "./pages/qr-codes/QrCodesParent";
-import NewQrCode from "./pages/qr-codes/qr-codes/new-qr-code/NewQrCode";
 import QrCodeQuestionnaires from "./pages/qr-codes/qr-codes/questionnaires/QrCodeQuestionnaires";
 
 function App() {

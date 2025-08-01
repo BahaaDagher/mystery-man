@@ -6,7 +6,8 @@ import HighLowSections from './high-low-sections/HighLowSections'
 import AverageRating from './average-rating/AverageRating'
 import OverAllRating from './over-all-rating/OverAllRating'
 
-const QrCodesReport = () => {
+const QrCodesReport = ({qrCodeData}) => {
+    console.log("qrCodeData",qrCodeData)
   return (
     <div className='w-full flex flex-col gap-3'>
         <div className='w-full flex flex-col gap-3'>
