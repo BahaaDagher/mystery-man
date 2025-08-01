@@ -64,8 +64,7 @@ async (values) => {
     } catch (error) {
     console.error(error);
     }
-}
-);
+});
 
 const questionierSlice = createSlice({
     name: "questionier",
@@ -107,10 +106,22 @@ const questionierSlice = createSlice({
         },
         setNewStep: (state, action) => {
             console.log(state.questionieres[state.currentQuestioneir]);
-            state.questionieres[state.currentQuestioneir].steps.push({name:action.payload ,questions:[]}) 
+            // Handle both string (old format) and object (new format with id)
+            const stepData = typeof action.payload === 'string' 
+                ? { name: action.payload, id: null }
+                : { name: action.payload.name, id: action.payload.id };
+            
+            state.questionieres[state.currentQuestioneir].steps.push({...stepData, questions:[]}) 
         },
         setNewStepName: (state ,action) => {
-          state.questionieres[state.currentQuestioneir].steps[state.currentStep].name =action.payload
+          // Handle both string (old format) and object (new format with index and id)
+          if (typeof action.payload === 'string') {
+            state.questionieres[state.currentQuestioneir].steps[state.currentStep].name = action.payload
+          } else {
+            // New format: { index, name, id }
+            state.questionieres[state.currentQuestioneir].steps[action.payload.index].name = action.payload.name
+            state.questionieres[state.currentQuestioneir].steps[action.payload.index].id = action.payload.id
+          }
         },
         setQuestionsInStep: (state, action) => {
       

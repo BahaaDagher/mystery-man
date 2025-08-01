@@ -247,7 +247,7 @@ const AnswerInput = styled("input")(({ theme }) => ({
   margin : "0 10px" ,
 }));
 
-const QuestionnaireSettings = ({isAddNew}) => {
+const QuestionnaireSettings = ({isAddNew, onStoreQrCodeQuestionnaire, qrCodeQuestionnaireStoreLoading}) => {
   // pop over when click on the button the list of questions type will appear
   const questionierDataSent = useSelector((state) => state.questioneirData.questionierDataSent);
   const questionierDataDelete = useSelector((state) => state.questioneirData.questionierDataDelete);
@@ -490,7 +490,14 @@ const QuestionnaireSettings = ({isAddNew}) => {
                 <img src = {plusSign} style = {{margin : "10px" }} />
                 <AddQuestionButton > {t("text.Add_Question")}</AddQuestionButton>
               </AddQuestionContainer>
-              <ActionButton onClick={()=>handleSaveQuestioneir()} > {t("text.Save")}</ActionButton>
+              {/* <ActionButton onClick={()=>handleSaveQuestioneir()} > {t("text.Save")}</ActionButton> */}
+              <ActionButton 
+                onClick={onStoreQrCodeQuestionnaire} 
+                disabled={qrCodeQuestionnaireStoreLoading}
+                style={{opacity: qrCodeQuestionnaireStoreLoading ? 0.6 : 1}}
+              > 
+                {qrCodeQuestionnaireStoreLoading ? 'Saving...' : 'Save '}
+              </ActionButton>
               <ActionButton onClick={()=>handleDeleteQuestioneir()} className = "cancel">{t("text.Delete")}</ActionButton>
             </ButtonsContainer>
           </InputAndButtons>

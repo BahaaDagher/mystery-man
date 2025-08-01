@@ -72,10 +72,10 @@ export const deleteStep = createAsyncThunk(
     "step/deleteStep", 
     async (values) => {
         try {
-            // debugger;
+            debugger;
             const token = localStorage.getItem('token');
             const response = await axios.post(
-            `https://test.secretvisitor.co/dashboard/api/steps/${values.id}/delete` ,{
+            `https://test.secretvisitor.co/dashboard/api/steps/${values.id}/delete` ,{},{
                 headers: {
                     "Authorization" : token , 
                     "lang" : currentLanguage ,

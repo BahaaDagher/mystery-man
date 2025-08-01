@@ -8,6 +8,7 @@ import profileSlice from './slices/profileSlice'
 import chatSlice from './slices/chatSlice'
 import reportSlice from './slices/reportSlice'
 import stepSlice from './slices/stepSlice'
+import qrCodeSlice from './slices/QrCode'
 
 
 
@@ -21,7 +22,8 @@ export const store = configureStore({
     profileData : profileSlice ,
     chatData:chatSlice ,
     reportData : reportSlice ,
-    stepData : stepSlice
+    stepData : stepSlice,
+    qrCodeData : qrCodeSlice
 
   },
 })

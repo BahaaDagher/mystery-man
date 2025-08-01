@@ -11,8 +11,11 @@ import { Box } from '@mui/material';
 import QuestionnaireSettings from './QuestionnaireSettings';
 import { useDispatch, useSelector } from 'react-redux';
 import { getQuestionnaire, setCurrentQuestioneir, setCurrentQuestioneirID, setNewQuestioneir } from '../../../../store/slices/questionierSlice';
+import { storeQrCodeQuestionnaire } from '../../../../store/slices/QrCode';
+import { getBranches } from '../../../../store/slices/branchSlice';
 import { use } from 'i18next';
 import { useTranslation } from 'react-i18next';
+import Swal from 'sweetalert2';
 
 const MainContent = styled(FlexSpaceBetween)(({ theme }) => ({
   [theme.breakpoints.down('800')]: {
@@ -100,40 +103,83 @@ const NewQuestionnaire = styled(SubmitButton)(({ theme }) => ({
 
 
 const QrCodeQuestionnaires = () => {
-  const [pressCreateQuestionnaire , setPressCreateQuestionnaire] = useState(true)
-  const [ isAddNew , setIsAddNew ] = useState(false)
+  const [pressCreateQuestionnaire , setPressCreateQuestionnaire] = useState(false)
+  const [ isAddNew , setIsAddNew ] = useState(true)
+  const [selectedBranch, setSelectedBranch] = useState('')
+  const [branches, setBranches] = useState([])
+  const [count, setCount] = useState('')
 
   const dispatch = useDispatch() ; 
 
-  const handleAddNewQuestionnaire =()=>{
-    setIsAddNew(true)
-    dispatch(setNewQuestioneir())
-    setPressCreateQuestionnaire(false)
+  // Get branches data
+  const getBranchesData = useSelector(state => state.branchData.getBranchesData);
+  const getBranchesDataLoading = useSelector(state => state.branchData.getBranchesDataLoading);
+
+  // Get QR code questionnaire store data
+  const qrCodeQuestionnaireStoreData = useSelector(state => state.qrCodeData.qrCodeQuestionnaireStoreData);
+  const qrCodeQuestionnaireStoreLoading = useSelector(state => state.qrCodeData.qrCodeQuestionnaireStoreLoading);
+
+  const handleStoreQrCodeQuestionnaire = () => {
+    if (!selectedBranch) {
+      Swal.fire('Error', 'Please select a branch', 'error');
+      return;
+    }
+
+    if (!count || count <= 0) {
+      Swal.fire('Error', 'Please enter a valid count', 'error');
+      return;
+    }
+
+    const currentQuestionnaire = questionieres[currentQuestioneir];
+    if (!currentQuestionnaire || !currentQuestionnaire.title) {
+      Swal.fire('Error', 'Please enter a questionnaire title', 'error');
+      return;
+    }
+
+    const data = {
+      name: currentQuestionnaire.title,
+      branch_id: selectedBranch,
+      count: parseInt(count),
+      questions: currentQuestionnaire.steps
+    };
+
+    dispatch(storeQrCodeQuestionnaire(data));
   }
-  const handleQuestionierChange =(id ,index)=>{
-    setIsAddNew(false)
-    dispatch(setCurrentQuestioneir(index))
-    dispatch(setCurrentQuestioneirID(id))
-    setPressCreateQuestionnaire(false)
-    
-  }
+
   const questionieres = useSelector((state) => state.questioneirData.questionieres);
+  const currentQuestioneir = useSelector((state) => state.questioneirData.currentQuestioneir);
+  
+  const numberOFQuestioners = (item)=>{ 
+    let count = 0 ;
+    item.steps.map((step)=>{
+      count += step.questions.length
+    })
+    return count
+  }
+  
   useEffect(() => {
-    dispatch(getQuestionnaire())
-  }, [])
-  useEffect(() => {
-    dispatch(setCurrentQuestioneir(0))
-    setPressCreateQuestionnaire(false)
+    dispatch(setNewQuestioneir())
+    dispatch(getBranches())
   }, [])
 
+  useEffect(() => {
+    if (getBranchesData?.status) {
+      setBranches(getBranchesData?.data?.branches || []);
+      if (getBranchesData?.data?.branches?.length > 0 && !selectedBranch) {
+        setSelectedBranch(getBranchesData?.data?.branches[0]?.id);
+      }
+    }
+  }, [getBranchesData])
 
-const numberOFQuestioners = (item)=>{ 
-  let count = 0 ;
-  item.steps.map((step)=>{
-    count += step.questions.length
-  })
-  return count
-}
+  useEffect(() => {
+    if (qrCodeQuestionnaireStoreData?.status) {
+      Swal.fire('Success', qrCodeQuestionnaireStoreData.message || 'QR Code Questionnaire saved successfully', 'success');
+    }
+  }, [qrCodeQuestionnaireStoreData])
+
+
+
+
 
   const [active , setActive] = useState(0)
   const {t} = useTranslation() ; 
@@ -152,6 +198,44 @@ const numberOFQuestioners = (item)=>{
           </div>
         </div>
 
+        {/* Branch and Count Selection */}
+        <div className="mb-4 flex gap-4">
+          {/* Branch Selection */}
+          <div className="flex-1">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Select Branch
+            </label>
+            <select
+              value={selectedBranch}
+              onChange={(e) => setSelectedBranch(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              disabled={getBranchesDataLoading}
+            >
+              <option value="">Select a branch</option>
+              {branches.map((branch) => (
+                <option key={branch.id} value={branch.id}>
+                  {branch.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Count Input */}
+          <div className="flex-1">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Count
+            </label>
+            <input
+              type="number"
+              value={count}
+              onChange={(e) => setCount(e.target.value)}
+              placeholder="Enter count"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              min="1"
+            />
+          </div>
+        </div>
+
         <MainContent>
           {pressCreateQuestionnaire == true 
             ? 
@@ -159,9 +243,12 @@ const numberOFQuestioners = (item)=>{
           
             </div>
             :
-            <QuestionnaireSettings isAddNew = {isAddNew}>
-              
-            </QuestionnaireSettings>
+            <QuestionnaireSettings 
+              isAddNew={isAddNew}
+              onStoreQrCodeQuestionnaire={handleStoreQrCodeQuestionnaire}
+              qrCodeQuestionnaireStoreLoading={qrCodeQuestionnaireStoreLoading}
+            />           
+          
           }
 
            {/* doesn't need it  */}

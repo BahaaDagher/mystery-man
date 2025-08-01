@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { deleteQuestioneir, deleteStep, editQuestioneir, getQuestionnaire, handleMoveStep, handleReadyToSend, handleReadyToSend2, sendQuestioneir, setCurrentQuestioneir, setCurrentStep, setFocusedStep, setNewQuestioneirName, setNewStep, setNewStepName } from '../../store/slices/questionierSlice';
+import { getSteps } from '../../store/slices/stepSlice';
 import Swal from 'sweetalert2';
 import { useTranslation } from 'react-i18next';
 import { useDrag, useDrop } from 'react-dnd';
@@ -259,6 +260,8 @@ const QuestionnaireSettings = ({isAddNew}) => {
 
   const [answersStep, setAnswersStep] = useState([]); 
   const [showNewStep, setShowNewStep] = useState(false); 
+  const [showStepsDropdown, setShowStepsDropdown] = useState(false);
+  const [editingStepIndex, setEditingStepIndex] = useState(null);
   const [isAdminQues, setIsAdminQues] = useState(false); 
 
   const showTypes = (event) => {
@@ -267,6 +270,7 @@ const QuestionnaireSettings = ({isAddNew}) => {
   
   useEffect(() => {
     if(!isAddNew)dispatch(getQuestionnaire())
+    dispatch(getSteps())
   },[isAddNew])
   useEffect(() => {
     if(isAdminQues){
@@ -276,6 +280,8 @@ const QuestionnaireSettings = ({isAddNew}) => {
     }
   },[isAdminQues])
   const getQuestionnaireLoading = useSelector((state) => state.questioneirData.getQuestionnaireLoading);
+  const getStepsData = useSelector((state) => state.stepData.getStepsData);
+  const getStepsLoading = useSelector((state) => state.stepData.getStepsLoading);
 
   const [chosenType , setChosenType] = useState(null) ; 
   const [newAnswer, setNewAnswer] = useState('');
@@ -300,7 +306,25 @@ const QuestionnaireSettings = ({isAddNew}) => {
   };
 
   const handleAddStep = () => {
-    setShowNewStep(true)
+    setShowStepsDropdown(!showStepsDropdown)
+    setEditingStepIndex(null)
+  };
+
+  const handleSelectStep = (step) => {
+    if (editingStepIndex !== null) {
+      // Editing existing step
+      dispatch(setNewStepName({ index: editingStepIndex, name: step.name, id: step.id }))
+      setEditingStepIndex(null)
+    } else {
+      // Adding new step
+      dispatch(setNewStep({ name: step.name, id: step.id }))
+    }
+    setShowStepsDropdown(false)
+  };
+
+  const handleEditStep = (index) => {
+    setEditingStepIndex(index)
+    setShowStepsDropdown(true)
   };
 
 
@@ -338,6 +362,21 @@ const QuestionnaireSettings = ({isAddNew}) => {
       
     }
   },[questionierDataDelete])
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (showStepsDropdown && !event.target.closest('.steps-dropdown')) {
+        setShowStepsDropdown(false);
+        setEditingStepIndex(null);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showStepsDropdown]);
 
   const handleSaveQuestioneir = () => {
     console.log(questionieres[currentQuestioneir]);
@@ -392,15 +431,9 @@ const QuestionnaireSettings = ({isAddNew}) => {
 
   const StepComponent = ({ answer, index , focusedStep}) => {
     const ref = useRef(null);
-    // useEffect(() => {
-    //   // Focus on the input element when the activeStep changes
-    //   if (activeStep === index && ref.current) {
-    //     ref.current.focus();
-    //   }
-    // }, [activeStep, index]);
+    
     useEffect(() => {
       if(applyFocus){
-
         if (focusedStep === index && ref.current) {
           ref.current.focus();
         }
@@ -428,34 +461,32 @@ const QuestionnaireSettings = ({isAddNew}) => {
     });
 
     drag(drop(ref));
-    const handleInputChange = (e) => {
-      const { selectionStart, selectionEnd } = e.target;
-      handleStepTitle(e.target.value);
-      setTimeout(() => {
-        if (ref.current) {
-          ref.current.setSelectionRange(selectionStart, selectionEnd);
-        }
-      }, 0);
-    };
 
     return (
         <>
-        
-        <StepName  onClick={()=>{ handleClickStep(index,answer.questions); setActiveStep(index) ;setIsApplyFocus(true)  }} >
-          <StepInput
-            value={answer.name}
-            ref={ref}
-            placeholder="Step Title"
-            onChange={handleInputChange}
-            onMouseDown={(e) => e.stopPropagation()} // Prevent onClick from interfering
-            className={activeStep === index ? 'active' : ''}
-          />
+        <StepName onClick={()=>{ handleClickStep(index,answer.questions); setActiveStep(index) ;setIsApplyFocus(true)  }}ref={ref} >
+          <div 
+            style={{
+              padding: '5px 10px',
+              cursor: 'pointer',
+              borderRadius: '5px',
+              backgroundColor: activeStep === index ? Colors.second : 'transparent',
+              color: activeStep === index ? 'white' : Colors.gray_l,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              width: '100%'
+            }}
+            onClick={() => handleEditStep(index)}
+          >
+            <span>{answer.name}</span>
+            <span style={{fontSize: '12px', opacity: 0.7}}>✏️</span>
+          </div>
         </StepName>
         <DeleteStep onClick={() => handleRemoveStep(index, answer.questions)} >
           x
         </DeleteStep>
         </>
-   
     );
   };
   
@@ -511,7 +542,45 @@ const QuestionnaireSettings = ({isAddNew}) => {
                   />
                 </AddStepButton>
               )) : ''}
-              <AddStepButton onClick={handleAddStep}>+</AddStepButton>
+              <AddStepButton onClick={handleAddStep} style={{position: 'relative'}} className="steps-dropdown">
+                +
+                {showStepsDropdown && (
+                  <div style={{
+                    position: 'absolute',
+                    top: '100%',
+                    left: 0,
+                    right: 0,
+                    backgroundColor: '#fff',
+                    border: '1px solid #ccc',
+                    borderRadius: '8px',
+                    boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+                    zIndex: 1000,
+                    maxHeight: '200px',
+                    overflowY: 'auto'
+                  }}>
+                    {getStepsLoading ? (
+                      <div style={{padding: '10px', textAlign: 'center'}}>Loading...</div>
+                    ) : getStepsData?.data?.steps?.map((step, index) => (
+                      <div
+                        key={step.id}
+                        onClick={() => handleSelectStep(step)}
+                        style={{
+                          padding: '10px',
+                          cursor: 'pointer',
+                          borderBottom: '1px solid #eee',
+                          ':hover': {
+                            backgroundColor: '#f5f5f5'
+                          }
+                        }}
+                        onMouseEnter={(e) => e.target.style.backgroundColor = '#f5f5f5'}
+                        onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+                      >
+                        {step.name}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </AddStepButton>
             </StepsContainer>
           </DndProvider>
           {showNewStep ?  
