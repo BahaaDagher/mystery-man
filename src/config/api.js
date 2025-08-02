@@ -7,6 +7,7 @@ export const API_ENDPOINTS = {
   MORE_THAN_BRANCH_REPORT: "/report/moreThanBranch",
   QR_CODE_REPORT: "/report/qrCode",
   QR_CODE_QUESTIONNAIRE_STORE: "/qrCodeQuestion/store",
+  QR_CODE_BRANCH_ALL: "/qrCodeBranch/all",
 };
 
 // Helper function to build full API URL
