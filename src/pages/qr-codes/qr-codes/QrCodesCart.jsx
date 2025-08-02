@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next';
 import location from '../../../assets/icons/location2.svg'
 import deleteIcon from '../../../assets/icons/deleteIcon.svg'
 import editIcon from '../../../assets/icons/editIcon.svg'
@@ -6,6 +7,7 @@ import showIcon from '../../../assets/icons/ShowIcon.svg'
 import printIcon from '../../../assets/icons/PrintIcon.svg'
 
 const QrCodesCart = ({branchName , responseCount , address, qrCodeId, qrCodeName, qrCodeImage, totalCount }) => {
+  const { t } = useTranslation();
   const [showModal, setShowModal] = useState(false);
   
   const handleDownloadImage = () => {
@@ -244,7 +246,7 @@ const QrCodesCart = ({branchName , responseCount , address, qrCodeId, qrCodeName
                   <div className='cursor-pointer' onClick={handleShowModal}> <img src={showIcon} alt="" /></div>
               </div>
           </div>
-          <div className='font-bold text-[14px] leading-[21.28px] tracking-[2%]'>{responseCount} / {totalCount} responses</div>
+          <div className='font-bold text-[14px] leading-[21.28px] tracking-[2%]'>{responseCount} / {totalCount} {t("text.responses")}</div>
           <div className='flex items-center gap-2'>
               <div className=''>
                   <img src={location} alt="" />
@@ -258,7 +260,7 @@ const QrCodesCart = ({branchName , responseCount , address, qrCodeId, qrCodeName
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">QR Code Options</h3>
+              <h3 className="text-lg font-semibold text-gray-900">{t("text.QR_Code_Options")}</h3>
               <div
                 onClick={handleCloseModal}
                 className="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center cursor-pointer transition-all duration-200 text-gray-500 hover:text-gray-700"
@@ -278,8 +280,8 @@ const QrCodesCart = ({branchName , responseCount , address, qrCodeId, qrCodeName
                 />
                 <div className="text-sm text-gray-600 mb-4">
                   <div className="font-medium">{qrCodeName}</div>
-                  <div>Branch: {branchName}</div>
-                  <div>Responses: {responseCount} / {totalCount}</div>
+                  <div>{t("text.Branch")}: {branchName}</div>
+                  <div>{t("text.responses")}: {responseCount} / {totalCount}</div>
                 </div>
               </div>
               
@@ -289,7 +291,7 @@ const QrCodesCart = ({branchName , responseCount , address, qrCodeId, qrCodeName
                   className=" cursor-pointer bg-green hover:bg-hoverGreen text-white py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2 font-medium"
                 >
                   <img src={printIcon} alt="Print" className="w-5 h-5" />
-                  Print PDF
+                  {t("text.Print_PDF")}
                 </div>
               </div>
             </div>

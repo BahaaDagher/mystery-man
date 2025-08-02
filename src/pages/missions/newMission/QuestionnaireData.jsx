@@ -10,6 +10,7 @@ import QuestionsTypes from '../../questionnaires/QuestionsTypes';
 import QuestionComponent from '../../questionnaires/QuestionComponent';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteStep, getQuestionnaire, handleMoveStep, handleReadyToSend, handleReadyToSend2, sendQuestioneir, setCurrentQuestioneir, setCurrentStep, setFocusedStep, setNewQuestioneirName, setNewStep, setNewStepName } from '../../../store/slices/questionierSlice';
+import { getSteps } from '../../../store/slices/stepSlice';
 import Swal from 'sweetalert2';
 import { useTranslation } from 'react-i18next';
 import { DndProvider } from 'react-dnd';
@@ -184,7 +185,8 @@ const StepsContainer = styled(FlexCenter)(({ theme }) => ({
   flexWrap : "wrap" , 
 }));
 const StepName = styled("span")(({ theme }) => ({
-  width : "fit-content" , 
+  width : "100%" , 
+  // border : "1px solid red" ,
 
 }));
 
@@ -212,7 +214,7 @@ const AddStepButton = styled(FlexSpaceBetween)(({ theme }) => ({
   padding: '5px 20px',
   borderRadius: '10px',
   gap: '10px',
-  width:'30%',
+  minWidth:'30%',
   backgroundColor: Colors.bg,
   margin : "10px 10px" , 
   fontSize : "20px" ,
@@ -259,6 +261,9 @@ const QuestionnaireData = ({onPrev}) => {
 
   const [answersStep, setAnswersStep] = useState([]); 
   const [showNewStep, setShowNewStep] = useState(false); 
+  const [showStepsDropdown, setShowStepsDropdown] = useState(false);
+  const [editingStepIndex, setEditingStepIndex] = useState(null);
+  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
 
   const showTypes = (event) => {
     setAnchorEl(event.currentTarget);
@@ -269,9 +274,12 @@ const QuestionnaireData = ({onPrev}) => {
   const [newAnswer, setNewAnswer] = useState('');
 
   const dispatch = useDispatch() ; 
+  const getStepsData = useSelector((state) => state.stepData.getStepsData);
+  const getStepsLoading = useSelector((state) => state.stepData.getStepsLoading);
 
   useEffect(() => {
     dispatch(getQuestionnaire())
+    dispatch(getSteps())
   }, [])
   const handleStepTitle = (value) => {
     dispatch(setNewStepName(value))
@@ -289,7 +297,31 @@ const QuestionnaireData = ({onPrev}) => {
   };
 
   const handleAddStep = () => {
-    setShowNewStep(true)
+    setShowStepsDropdown(!showStepsDropdown)
+    setEditingStepIndex(null)
+  };
+
+  const handleSelectStep = (step) => {
+    if (editingStepIndex !== null) {
+      // Editing existing step
+      dispatch(setNewStepName({ index: editingStepIndex, name: step.name, id: step.id }))
+      setEditingStepIndex(null)
+    } else {
+      // Adding new step
+      dispatch(setNewStep({ name: step.name, id: step.id }))
+    }
+    setShowStepsDropdown(false)
+  };
+
+  const handleEditStep = (index, event) => {
+    event.stopPropagation();
+    const rect = event.currentTarget.getBoundingClientRect();
+    setDropdownPosition({
+      top: rect.bottom + window.scrollY,
+      left: rect.left + window.scrollX
+    });
+    setEditingStepIndex(index)
+    setShowStepsDropdown(true)
   };
 
 
@@ -342,17 +374,26 @@ const QuestionnaireData = ({onPrev}) => {
   };
   const focusedStep = useSelector((state) => state.questioneirData.focusedStep);
 
-  const StepComponent = ({ answer, index , focusedStep, setFocusedStep}) => {
-    const ref = useRef(null);
-    // useEffect(() => {
-    //   // Focus on the input element when the activeStep changes
-    //   if (activeStep === index && ref.current) {
-    //     ref.current.focus();
-    //   }
-    // }, [activeStep, index]);
-    useEffect(() => {
-       if(applyFocus){
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (showStepsDropdown && !event.target.closest('.steps-dropdown')) {
+        setShowStepsDropdown(false);
+        setEditingStepIndex(null);
+      }
+    };
 
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showStepsDropdown]);
+
+  const StepComponent = ({ answer, index , focusedStep}) => {
+    const ref = useRef(null);
+    
+    useEffect(() => {
+      if(applyFocus){
         if (focusedStep === index && ref.current) {
           ref.current.focus();
         }
@@ -383,25 +424,34 @@ const QuestionnaireData = ({onPrev}) => {
 
     return (
         <>
-        
-        <StepName  onClick={()=>{ handleClickStep(index,answer.questions); setActiveStep(index) ;setIsApplyFocus(true)  }} >
-          <StepInput
-            value={answer.name}
-            ref={ref}
-            placeholder="Step Title"
-            onChange={(e) =>{
-           
-              handleStepTitle(e.target.value)}
-            }
-            onMouseDown={(e) => e.stopPropagation()} // Prevent onClick from interfering
-            className={activeStep === index ? 'active' : ''}
-          />
+        <StepName  ref={ref} >
+          <div 
+            style={{
+              padding: '5px 10px',
+              cursor: 'pointer',
+              borderRadius: '5px',
+              backgroundColor: activeStep === index ? Colors.second : 'transparent',
+              color: activeStep === index ? 'white' : Colors.gray_l,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              width: '100%',
+              gap : "10px"
+            }}
+            
+          >
+            <span onClick={()=>{ handleClickStep(index,answer.questions); setActiveStep(index) ;setIsApplyFocus(true)  }}
+            
+            >
+              {answer.name}
+            </span>
+            <span style={{fontSize: '12px', opacity: 0.7}} onClick={(e) => handleEditStep(index, e)}>✏️</span>
+          </div>
         </StepName>
         <DeleteStep onClick={() => handleRemoveStep(index, answer.questions)} >
           x
         </DeleteStep>
         </>
-   
     );
   };
   return (
@@ -447,23 +497,90 @@ const QuestionnaireData = ({onPrev}) => {
                   />
                 </AddStepButton>
               )) : ''}
-              <AddStepButton onClick={handleAddStep}>+</AddStepButton>
+              <AddStepButton onClick={handleAddStep} style={{position: 'relative'}} className="steps-dropdown">
+                +
+                {showStepsDropdown && editingStepIndex === null && (
+                  <div style={{
+                    position: 'absolute',
+                    top: '100%',
+                    left: 0,
+                    right: 0,
+                    backgroundColor: '#fff',
+                    border: '1px solid #ccc',
+                    borderRadius: '8px',
+                    boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+                    zIndex: 1000,
+                    maxHeight: '200px',
+                    overflowY: 'auto'
+                  }}>
+                    {getStepsLoading ? (
+                      <div style={{padding: '10px', textAlign: 'center'}}>Loading...</div>
+                    ) : getStepsData?.data?.steps?.map((step, index) => (
+                      <div
+                        key={step.id}
+                        onClick={() => handleSelectStep(step)}
+                        style={{
+                          padding: '10px',
+                          cursor: 'pointer',
+                          borderBottom: '1px solid #eee',
+                          ':hover': {
+                            backgroundColor: '#f5f5f5'
+                          }
+                        }}
+                        onMouseEnter={(e) => e.target.style.backgroundColor = '#f5f5f5'}
+                        onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+                      >
+                        {step.name}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </AddStepButton>
             </StepsContainer>
-          </DndProvider>
-            {showNewStep ?  
-          
-          <FlexCenter style={{justifyContent:'start' ,flexWrap:'wrap'}}>
-            {/* <AnswerInput></AnswerInput> */}
-            <AddButton onClick={handleAddAnswerStep}>{t("text.Save")} </AddButton>
-              <AnswerInput
-                type="text"
-                placeholder="Write a new step"
-                value={newAnswer}
-                onChange={(e) => setNewAnswer(e.target.value)}
-              />
-          </FlexCenter>
-          : ''}
-        </Settings>
+                      </DndProvider>
+            {/* Remove the manual step input section since we're using dropdown now */}
+          </Settings>
+
+          {/* Floating dropdown for editing steps */}
+          {showStepsDropdown && editingStepIndex !== null && (
+            <div 
+              style={{
+                position: 'fixed',
+                top: dropdownPosition.top,
+                left: dropdownPosition.left,
+                backgroundColor: '#fff',
+                border: '1px solid #ccc',
+                borderRadius: '8px',
+                boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+                zIndex: 1000,
+                maxHeight: '200px',
+                overflowY: 'auto',
+                minWidth: '200px'
+              }}
+              className="steps-dropdown"
+            >
+              {getStepsLoading ? (
+                <div style={{padding: '10px', textAlign: 'center'}}>Loading...</div>
+              ) : getStepsData?.data?.steps?.map((step, index) => (
+                <div
+                  key={step.id}
+                  onClick={() => handleSelectStep(step)}
+                  style={{
+                    padding: '10px',
+                    cursor: 'pointer',
+                    borderBottom: '1px solid #eee',
+                    ':hover': {
+                      backgroundColor: '#f5f5f5'
+                    }
+                  }}
+                  onMouseEnter={(e) => e.target.style.backgroundColor = '#f5f5f5'}
+                  onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+                >
+                  {step.name}
+                </div>
+              ))}
+            </div>
+          )}
         <QuestionView>
           {
             questionieres[currentQuestioneir].steps.length>0 ?

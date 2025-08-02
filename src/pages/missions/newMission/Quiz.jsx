@@ -40,10 +40,10 @@ const Quiz = ({ onPrev, onNext, initialData = [], onQuizDataChange }) => {
     if (!newQuestion.question.trim()) {
       Swal.fire({
         icon: 'error',
-        title: 'Question Required',
-        text: 'Please enter a question before saving.',
+        title: t("text.Question_Required"),
+        text: t("text.Please_enter_a_question_before_saving"),
         confirmButtonColor: '#3085d6',
-        confirmButtonText: 'OK'
+        confirmButtonText: t("text.OK")
       });
       return;
     }
@@ -60,10 +60,10 @@ const Quiz = ({ onPrev, onNext, initialData = [], onQuizDataChange }) => {
     if (hasEmptyOption) {
       Swal.fire({
         icon: 'error',
-        title: 'Options Required',
-        text: 'Please fill in all options before saving.',
+        title: t("text.Options_Required"),
+        text: t("text.Please_fill_in_all_options_before_saving"),
         confirmButtonColor: '#3085d6',
-        confirmButtonText: 'OK'
+        confirmButtonText: t("text.OK")
       });
       return;
     }
@@ -78,10 +78,10 @@ const Quiz = ({ onPrev, onNext, initialData = [], onQuizDataChange }) => {
       
       Swal.fire({
         icon: 'success',
-        title: 'Question Updated',
-        text: 'Question has been updated successfully.',
+        title: t("text.Question_Updated"),
+        text: t("text.Question_has_been_updated_successfully"),
         confirmButtonColor: '#3085d6',
-        confirmButtonText: 'OK'
+        confirmButtonText: t("text.OK")
       });
     } else {
       // Adding new question
@@ -89,10 +89,10 @@ const Quiz = ({ onPrev, onNext, initialData = [], onQuizDataChange }) => {
       
       Swal.fire({
         icon: 'success',
-        title: 'Question Added',
-        text: 'Question has been added successfully.',
+        title: t("text.Question_Added"),
+        text: t("text.Question_has_been_added_successfully"),
         confirmButtonColor: '#3085d6',
-        confirmButtonText: 'OK'
+        confirmButtonText: t("text.OK")
       });
     }
     
@@ -115,21 +115,21 @@ const Quiz = ({ onPrev, onNext, initialData = [], onQuizDataChange }) => {
 
   const handleDeleteQuestion = (index) => {
     Swal.fire({
-      title: 'Are you sure?',
-      text: `Do you want to delete question "${questions[index].question}"?`,
+      title: t("text.Are_you_sure"),
+      text: t("text.Do_you_want_to_delete_question") + ` "${questions[index].question}"?`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#d33',
       cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Yes, delete it!',
-      cancelButtonText: 'Cancel'
+      confirmButtonText: t("text.Yes_delete_it"),
+      cancelButtonText: t("text.Cancel")
     }).then((result) => {
       if (result.isConfirmed) {
         const updatedQuestions = questions.filter((_, i) => i !== index);
         setQuestions(updatedQuestions);
         Swal.fire(
-          'Deleted!',
-          'Question has been deleted.',
+          t("text.Deleted"),
+          t("text.Question_has_been_deleted"),
           'success'
         );
       }
@@ -156,10 +156,10 @@ const Quiz = ({ onPrev, onNext, initialData = [], onQuizDataChange }) => {
     } else {
       Swal.fire({
         icon: 'warning',
-        title: 'No Questions Added',
-        text: 'Please add at least one question to continue.',
+        title: t("text.No_Questions_Added"),
+        text: t("text.Please_add_at_least_one_question_to_continue"),
         confirmButtonColor: '#3085d6',
-        confirmButtonText: 'OK'
+        confirmButtonText: t("text.OK")
       });
     }
   };
@@ -169,7 +169,7 @@ const Quiz = ({ onPrev, onNext, initialData = [], onQuizDataChange }) => {
   };
 
   return (
-    <div className="w-full p-4 rounded-[10px] bg-white mr-2.5 lg:w-[70%]">
+    <div className="w-full p-4 rounded-[10px] bg-white me-2.5 lg:w-[70%]">
         <div className="flex justify-between items-center mb-5">
             <div 
             onClick={handlePrev}
@@ -199,8 +199,8 @@ const Quiz = ({ onPrev, onNext, initialData = [], onQuizDataChange }) => {
         {questions.map((q, index) => (
           <div key={index} className="mb-4 p-4 border border-gray-200 rounded-lg">
             <div className="flex justify-between items-center mb-2">
-              <div className="font-semibold">Question {index + 1}: {q.question}</div>
-              <div className="flex space-x-2 ">
+              <div className="font-semibold">{t("text.Question")} {index + 1}: {q.question}</div>
+              <div className="flex gap-2 ">
                 <div 
                   onClick={() => handleEditQuestion(index)}
                   className="cursor-pointer"
@@ -218,7 +218,7 @@ const Quiz = ({ onPrev, onNext, initialData = [], onQuizDataChange }) => {
             <div className="space-y-2">
               {[1, 2, 3, 4].map((optionNum) => (
                 <div key={optionNum} className="flex items-center">
-                  <div className={`w-4 h-4 rounded-full border-2 mr-3 ${
+                  <div className={`w-4 h-4 rounded-full border-2 me-3 ${
                     q.answer === optionNum ? 'bg-main border-main' : 'border-gray-300'
                   }`}></div>
                   <span className={q.answer === optionNum ? 'font-semibold text-main' : ''}>
@@ -235,10 +235,10 @@ const Quiz = ({ onPrev, onNext, initialData = [], onQuizDataChange }) => {
       <div className="flex items-center mb-5">
         <div 
           onClick={() => setShowAddQuestion(true)}
-          className="flex items-center cursor-pointer px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200"
+          className="flex items-center cursor-pointer gap-2 px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200"
         >
           <img src={plusSign} alt="Add" className="w-5 h-5 mr-2" />
-          <span>Add Question</span>
+          <span>{t("text.Add_Question")}</span>
         </div>
       </div>
 
@@ -248,7 +248,7 @@ const Quiz = ({ onPrev, onNext, initialData = [], onQuizDataChange }) => {
           <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold">
-                {editingIndex !== null ? 'Edit Question' : 'Add New Question'}
+                {editingIndex !== null ? t("text.Edit_Question") : t("text.Add_New_Question")}
               </h3>
               <div
                 onClick={handleCancelEdit}
@@ -259,23 +259,23 @@ const Quiz = ({ onPrev, onNext, initialData = [], onQuizDataChange }) => {
             </div>
             
             <div className="mb-4">
-              <label className="block text-sm font-medium mb-2">Question:</label>
+              <label className="block text-sm font-medium mb-2">{t("text.Question")}:</label>
               <input
                 type="text"
                 value={newQuestion.question}
                 onChange={(e) => setNewQuestion({...newQuestion, question: e.target.value})}
                 className="w-full p-2 border border-gray-300 rounded-lg"
-                placeholder="Enter your question"
+                placeholder={t("text.Enter_your_question")}
               />
             </div>
             
             <div className="space-y-3">
-              <label className="block text-sm font-medium mb-2">Options:</label>
+              <label className="block text-sm font-medium mb-2">{t("text.Options")}:</label>
               {[1, 2, 3, 4].map((optionNum) => (
                 <div key={optionNum} className="flex items-center">
                   <div 
                     onClick={() => handleOptionChange(optionNum)}
-                    className={`w-4 h-4 rounded-full border mr-3 cursor-pointer ${
+                    className={`w-4 h-4 rounded-full border me-3 cursor-pointer ${
                       newQuestion.answer === optionNum ? 'bg-main border-main' : 'border-grayDC'
                     }`}
                   ></div>
@@ -284,24 +284,24 @@ const Quiz = ({ onPrev, onNext, initialData = [], onQuizDataChange }) => {
                     value={newQuestion[`option_${optionNum}`]}
                     onChange={(e) => setNewQuestion({...newQuestion, [`option_${optionNum}`]: e.target.value})}
                     className="flex-1 p-2 border border-gray-300 rounded-lg"
-                    placeholder={`Option ${optionNum}`}
+                    placeholder={`${t("text.Option")} ${optionNum}`}
                   />
                 </div>
               ))}
             </div>
             
-            <div className="flex justify-end space-x-2 mt-6">
+            <div className="flex justify-end gap-2 mt-6">
               <button
                 onClick={handleCancelEdit}
                 className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
               >
-                Cancel
+                {t("text.Cancel")}
               </button>
               <button
                 onClick={handleAddQuestion}
                 className="px-4 py-2 bg-main text-white rounded-lg hover:bg-blue-700"
               >
-                {editingIndex !== null ? 'Update Question' : 'Add Question'}
+                {editingIndex !== null ? t("text.Update_Question") : t("text.Add_Question")}
               </button>
             </div>
           </div>

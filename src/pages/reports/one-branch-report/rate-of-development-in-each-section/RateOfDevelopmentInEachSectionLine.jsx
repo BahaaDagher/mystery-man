@@ -1,7 +1,9 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next';
 import BarChartComponent from '../../../../components/BarChartComponent'
 
 const RateOfDevelopmentInEachSectionLine = ({apiData}) => {
+  const { t } = useTranslation();
   const lang = localStorage.getItem('language');
   const isArabic = lang === 'ar';
 
@@ -11,17 +13,17 @@ const RateOfDevelopmentInEachSectionLine = ({apiData}) => {
       return {
         labels: [],
         datasets: [
-          {
-            label: 'Previous Month',
-            data: [],
+                  {
+          label: t("text.Previous_Month"),
+          data: [],
             backgroundColor: '#5654D4', // blue
             borderRadius: 5,
             barPercentage: 0.6,
             categoryPercentage: 0.7,
           },
-          {
-            label: 'Current Month',
-            data: [],
+                  {
+          label: t("text.Current_Month"),
+          data: [],
             backgroundColor: '#FF9F0A', // orange
             borderRadius: 5,
             barPercentage: 0.6,
@@ -35,7 +37,7 @@ const RateOfDevelopmentInEachSectionLine = ({apiData}) => {
       labels: apiData.chart.map(item => item.label),
       datasets: [
         {
-          label: 'first',
+          label: t("text.first"),
           data: apiData.chart.map(item => item.first),
           backgroundColor: '#5654D4', // blue
           borderRadius: 5,
@@ -43,7 +45,7 @@ const RateOfDevelopmentInEachSectionLine = ({apiData}) => {
           categoryPercentage: 0.7,
         },
         {
-          label: 'second',
+          label: t("text.second"),
           data: apiData.chart.map(item => item.second),
           backgroundColor: '#FF9F0A', // orange
           borderRadius: 5,
@@ -79,7 +81,7 @@ const RateOfDevelopmentInEachSectionLine = ({apiData}) => {
     <div className="bg-white rounded-3xl ">
       <div className="flex items-center justify-between mb-2">
         <span className="text-2xl font-bold text-black2 leading-[28px]">
-          Rate of development in each section
+          {t("text.Rate_of_development_in_each_section")}
         </span>
       </div>
       <hr className="my-4 border-gray-200 bg-main mb-8" />

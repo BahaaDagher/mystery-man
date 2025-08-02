@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from 'react-i18next';
 import PieChartComponent from "../../../../components/PieChartComponent";
 import Star from "../../../../assets/icons/Star.svg";
 import PositiveIcon from "../../../../assets/icons/PositiveIcon.svg";
@@ -6,11 +7,13 @@ import NeutralIcon from "../../../../assets/icons/NeutralIcon.svg";
 import NegativeIcon from "../../../../assets/icons/NegativeIcon.svg";
 
 const ReviewsQualification = ({apiData}) => {
+  const { t } = useTranslation();
+  
   // Transform API data to chart format
   const transformApiData = (apiData) => {
     if (!apiData || !apiData.chart) {
       return {
-        labels: ["Positive", "Neutral", "Negative"],
+        labels: [t("text.Positive"), t("text.Neutral"), t("text.Negative")],
         data: [0, 0, 0]
       };
     }
@@ -46,7 +49,7 @@ const pieOptions = {
     <div className="bg-[#fff] rounded-[20px] p-6 w-full max-w-[1200px] mx-auto">
       <div className="flex justify-between items-center mb-2">
         <span className="text-[22px] font-bold text-black2 leading-[28px]">
-          Reviews Qualification
+          {t("text.Reviews_Qualification")}
         </span>
         <span className="flex items-center gap-2 text-[24px] font-bold text-black2">
           {apiData?.total_reviews || 0}  <img src={Star} alt="star" className="w-7 h-7" />

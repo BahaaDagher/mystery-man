@@ -1,9 +1,11 @@
 import React from "react";
+import { useTranslation } from 'react-i18next';
 import DateRangePickerComponent from "../../components/DateRangePickerComponent";
 import PrintIcon from '../../assets/icons/PrintIcon.svg';
 import CustomSelect from '../../components/CustomSelect';
 
 const ReportHeader = ({ selected, onSelect, branches, qrCodes, selectedBranch, setSelectedBranch, selectedBranches, setSelectedBranches, selectedQRCodes, setSelectedQRCodes, dateRange, setDateRange }) => {
+  const { t } = useTranslation();
   return (
     <div className="flex justify-between items-center w-full mb-4">
       <div className="flex gap-4 ">
@@ -13,7 +15,7 @@ const ReportHeader = ({ selected, onSelect, branches, qrCodes, selectedBranch, s
           }`}
           onClick={() => onSelect("one")}
         >
-          One Branch
+          {t("text.One_Branch")}
         </div>
         <div
           className={`flex justify-center items-center cursor-pointer px-8 py-4 rounded-[10px] text-[16px] font-medium leading-[21.28px] tracking-[0.02em] ${
@@ -23,7 +25,7 @@ const ReportHeader = ({ selected, onSelect, branches, qrCodes, selectedBranch, s
           }`}
           onClick={() => onSelect("more")}
         >
-          More than Branch
+          {t("text.More_than_Branch")}
         </div>
         <div
           className={`flex justify-center items-center cursor-pointer px-8 py-4 rounded-[10px] text-[16px] font-medium leading-[21.28px] tracking-[0.02em] ${
@@ -31,7 +33,7 @@ const ReportHeader = ({ selected, onSelect, branches, qrCodes, selectedBranch, s
           }`}
           onClick={() => onSelect("qr")}
         >
-          QR codes
+          {t("text.QR_codes")}
         </div>
       </div>
       <div className="flex justify-center items-center gap-2">
@@ -42,7 +44,7 @@ const ReportHeader = ({ selected, onSelect, branches, qrCodes, selectedBranch, s
               value={selectedBranch}
               onChange={setSelectedBranch}
               multiple={false}
-              placeholder="Select branch"
+              placeholder={t("text.Select_branch")}
             />
           )}
           {selected === 'more' && (
@@ -51,7 +53,7 @@ const ReportHeader = ({ selected, onSelect, branches, qrCodes, selectedBranch, s
               value={selectedBranches}
               onChange={setSelectedBranches}
               multiple={true}
-              placeholder="Select branches"
+              placeholder={t("text.Select_branches")}
             />
           )}
           {selected === 'qr' && (
@@ -60,7 +62,7 @@ const ReportHeader = ({ selected, onSelect, branches, qrCodes, selectedBranch, s
               value={selectedQRCodes}
               onChange={setSelectedQRCodes}
               multiple={true}
-              placeholder="Select QR codes"
+              placeholder={t("text.Select_QR_codes")}
             />
           )}
         </div>

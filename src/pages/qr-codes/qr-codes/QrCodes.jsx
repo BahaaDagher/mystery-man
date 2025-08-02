@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next';
 import { getQrCodeBranches } from '../../../store/slices/QrCode'
 import QrCodesCart from './QrCodesCart'
 import Loading from '../../../components/Loading'
@@ -43,6 +44,7 @@ const ApiData = [
 ]
 
 const QrCodes = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   
   // Get QR code branches data

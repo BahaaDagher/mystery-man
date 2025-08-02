@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from 'react-i18next';
 import DoughnutComponent from "../../../../components/DoughnutComponent";
 
 const backgroundColor = [
@@ -22,25 +23,27 @@ const options = {
   maintainAspectRatio: false,
 };
 
-const legend = [
-  { color: "#C32B43", label: "Bad" },
-  { color: "#2F49A9", label: "Good" },
-  { color: "#45464E", label: "Normal" },
-  { color: "#27AE60", label: "Excellent" },
-];
-
 const GeneralRate = ({apiData}) => {
+  const { t } = useTranslation();
+  
+  const legend = [
+    { color: "#C32B43", label: t("text.bad") },
+    { color: "#2F49A9", label: t("text.good") },
+    { color: "#45464E", label: t("text.natural") },
+    { color: "#27AE60", label: t("text.excellent") },
+  ];
+
   // Transform API data to chart format
   const transformApiData = (apiData) => {
     if (!apiData || !apiData.percentages) {
       return {
-        labels: ["Bad", "Normal", "Good", "Excellent"],
+        labels: [t("text.bad"), t("text.natural"), t("text.good"), t("text.excellent")],
         data: [0, 0, 0, 0]
       };
     }
     
     return {
-      labels: ["Bad", "Normal", "Good", "Excellent"],
+      labels: [t("text.bad"), t("text.natural"), t("text.good"), t("text.excellent")],
       data: [
         apiData.percentages.bad || 0,
         apiData.percentages.normal || 0,
@@ -75,7 +78,7 @@ const GeneralRate = ({apiData}) => {
     <div className="bg-white rounded-[12px] p-6 ">
       <div className="flex justify-between items-center mb-2">
         <span className="text-2xl font-bold text-black2 leading-[28px]">
-          General Rate
+          {t("text.General_rate")}
         </span>
         <div className="flex gap-8 items-center">
           {/* Legend in two columns, all flex */}

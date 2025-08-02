@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next';
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -20,6 +21,7 @@ ChartJS.register(
 );
 
 const ImprovementPercentage = ({apiData}) => {
+    const { t } = useTranslation();
     const lang = localStorage.getItem("language");
     const isArabic = lang === "ar";
   
@@ -46,7 +48,7 @@ const ImprovementPercentage = ({apiData}) => {
       labels,
       datasets: [
         {
-          label: "Sections",
+          label: t("text.Sections"),
           data: dataValues,
           fill: true,
           borderColor: "#5654D4",
@@ -92,7 +94,7 @@ const ImprovementPercentage = ({apiData}) => {
     <div className="bg-white  rounded-[12px] p-6">
       <div className="flex items-center justify-between mb-2">
         <span className="text-[22px] font-bold text-black6 leading-[21.55px] tracking-[-0.16px]">
-            The percentage of improvement of the branch during the specified period of time
+            {t("text.The_percentage_of_improvement_of_the_branch_during_the_specified_period_of_time")}
         </span>
       </div>
       <hr className="my-4 border-gray-200 bg-main mb-8" />

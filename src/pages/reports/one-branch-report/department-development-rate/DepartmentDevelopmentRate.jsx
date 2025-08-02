@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next';
 import CustomSelect from '../../../../components/CustomSelect'
 import DepartmentLineChart from './DepartmentLineChart'
 import cancelIcon from '../../../../assets/icons/cancel-icon.svg'
@@ -20,6 +21,7 @@ ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, Tooltip,
 
 
 const DepartmentDevelopmentRate = ( {apiData, onStepsIdsChangeFromOneBranch , allSteps} ) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch()
   const [stepsIds , setStepsIds] = useState([])
   
@@ -69,7 +71,7 @@ const DepartmentDevelopmentRate = ( {apiData, onStepsIdsChangeFromOneBranch , al
       <div className="bg-white rounded-3xl ">
         <div className="flex items-center justify-between mb-2">
           <span className="text-2xl font-bold text-black2 leading-[28px]">
-            Department development rate
+            {t("text.Department_development_rate")}
           </span>
         </div>
         <div className="flex items-center gap-2 mb-4">
@@ -78,7 +80,7 @@ const DepartmentDevelopmentRate = ( {apiData, onStepsIdsChangeFromOneBranch , al
             value={selectedSteps}
             onChange={handleStepSelection}
             multiple
-            placeholder="choose step"
+            placeholder={t("text.choose_step")}
             className="min-w-[200px]"
           />
           {/* Render selected steps as chips with cancel icon */}

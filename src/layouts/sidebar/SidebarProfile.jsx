@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import adminImage from '../../assets/images/admin.png';
 import LogoutIcon from '../../assets/icons/LogoutIcon.svg';
 import Swal from 'sweetalert2';
-import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 const ProfileContainer = styled("div")(({ theme }) => ({
@@ -77,6 +77,7 @@ const SignOutButton = styled("div")(({ theme }) => ({
 }));
 
 const SidebarProfile = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const logout = () => {
@@ -115,15 +116,15 @@ const SidebarProfile = () => {
       <ProfileInfo onClick={() => navigate("/profile")}>
         <ProfileImage src={profileData?.image } alt="profile" />
         <ProfileNameLink>
-          <ProfileName>{profileData?.name || "Company Name"}</ProfileName>
+          <ProfileName>{profileData?.name || t("text.Company_Name")}</ProfileName>
           <ProfileLink onClick={() => navigate("/profile")}>
-            view profile
+            {t("text.view_profile")}
           </ProfileLink>
         </ProfileNameLink>
       </ProfileInfo>
       <SignOutButton onClick={logout}>
         <img src={LogoutIcon} alt="logout" />
-        <span>Sign out</span>
+        <span>{t("text.Sign_out")}</span>
       </SignOutButton>
     </ProfileContainer>
   );

@@ -165,11 +165,12 @@ const ActionButton = styled(FlexCenter)(({ theme }) => ({
   },
 }));
 const AddStepButton = styled(FlexSpaceBetween)(({ theme }) => ({
+  // border : "1px solid red" ,
   position : "relative" , 
   padding: '5px 20px',
   borderRadius: '10px',
   gap: '10px',
-  width:'30%',
+  minWidth:'30%',
   backgroundColor: Colors.bg,
   margin : "10px 10px" , 
   fontSize : "20px" ,
@@ -211,7 +212,8 @@ const StepsContainer = styled(FlexCenter)(({ theme }) => ({
   flexWrap : "wrap" , 
 }));
 const StepName = styled("span")(({ theme }) => ({
-  width : "fit-content" , 
+  width : "100%" , 
+  // border : "1px solid red" ,
 
 }));
 
@@ -262,6 +264,7 @@ const QuestionnaireSettings = ({isAddNew}) => {
   const [showNewStep, setShowNewStep] = useState(false); 
   const [showStepsDropdown, setShowStepsDropdown] = useState(false);
   const [editingStepIndex, setEditingStepIndex] = useState(null);
+  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const [isAdminQues, setIsAdminQues] = useState(false); 
 
   const showTypes = (event) => {
@@ -322,7 +325,13 @@ const QuestionnaireSettings = ({isAddNew}) => {
     setShowStepsDropdown(false)
   };
 
-  const handleEditStep = (index) => {
+  const handleEditStep = (index, event) => {
+    event.stopPropagation();
+    const rect = event.currentTarget.getBoundingClientRect();
+    setDropdownPosition({
+      top: rect.bottom + window.scrollY,
+      left: rect.left + window.scrollX
+    });
     setEditingStepIndex(index)
     setShowStepsDropdown(true)
   };
@@ -464,7 +473,7 @@ const QuestionnaireSettings = ({isAddNew}) => {
 
     return (
         <>
-        <StepName onClick={()=>{ handleClickStep(index,answer.questions); setActiveStep(index) ;setIsApplyFocus(true)  }}ref={ref} >
+        <StepName  ref={ref} >
           <div 
             style={{
               padding: '5px 10px',
@@ -475,12 +484,16 @@ const QuestionnaireSettings = ({isAddNew}) => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              width: '100%'
+              width: '100%',
+              gap : "10px"
             }}
-            onClick={() => handleEditStep(index)}
+            
           >
-            <span>{answer.name}</span>
-            <span style={{fontSize: '12px', opacity: 0.7}}>✏️</span>
+            <span onClick={()=>{ handleClickStep(index,answer.questions); setActiveStep(index) ;setIsApplyFocus(true)  }}
+            >
+              {answer.name}
+            </span>
+            <span style={{fontSize: '12px', opacity: 0.7}} onClick={(e) => handleEditStep(index, e)}>✏️</span>
           </div>
         </StepName>
         <DeleteStep onClick={() => handleRemoveStep(index, answer.questions)} >
@@ -544,7 +557,7 @@ const QuestionnaireSettings = ({isAddNew}) => {
               )) : ''}
               <AddStepButton onClick={handleAddStep} style={{position: 'relative'}} className="steps-dropdown">
                 +
-                {showStepsDropdown && (
+                {showStepsDropdown && editingStepIndex === null && (
                   <div style={{
                     position: 'absolute',
                     top: '100%',
@@ -597,6 +610,48 @@ const QuestionnaireSettings = ({isAddNew}) => {
           </FlexCenter>
           : ''}
         </Settings>
+
+        {/* Floating dropdown for editing steps */}
+        {showStepsDropdown && editingStepIndex !== null && (
+          <div 
+            style={{
+              position: 'fixed',
+              top: dropdownPosition.top,
+              left: dropdownPosition.left,
+              backgroundColor: '#fff',
+              border: '1px solid #ccc',
+              borderRadius: '8px',
+              boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+              zIndex: 1000,
+              maxHeight: '200px',
+              overflowY: 'auto',
+              minWidth: '200px'
+            }}
+            className="steps-dropdown"
+          >
+            {getStepsLoading ? (
+              <div style={{padding: '10px', textAlign: 'center'}}>Loading...</div>
+            ) : getStepsData?.data?.steps?.map((step, index) => (
+              <div
+                key={step.id}
+                onClick={() => handleSelectStep(step)}
+                style={{
+                  padding: '10px',
+                  cursor: 'pointer',
+                  borderBottom: '1px solid #eee',
+                  ':hover': {
+                    backgroundColor: '#f5f5f5'
+                  }
+                }}
+                onMouseEnter={(e) => e.target.style.backgroundColor = '#f5f5f5'}
+                onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+              >
+                {step.name}
+              </div>
+            ))}
+          </div>
+        )}
+
         <QuestionView>
           {
             questionieres[currentQuestioneir]?.steps[currentStep]?.questions.length>0 ?

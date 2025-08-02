@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useTranslation } from 'react-i18next';
 import { DateRange } from "react-date-range";
 import { format, startOfDay, endOfDay, subDays, startOfWeek, endOfWeek, startOfMonth, endOfMonth, startOfYear, endOfYear } from "date-fns";
 import "react-date-range/dist/styles.css";
@@ -6,6 +7,9 @@ import "react-date-range/dist/theme/default.css";
 import calendarIcon from "../assets/icons/calenderIcon.svg";
 
 const DateRangePickerComponent = ({ onDateChange }) => {
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.dir() === 'rtl';
+  
   const [range, setRange] = useState([
     {
       startDate: startOfMonth(new Date()),
@@ -111,7 +115,7 @@ const DateRangePickerComponent = ({ onDateChange }) => {
         onClick={() => setShowPicker(true)}
         className="border border-gray_l px-4 py-2 rounded-lg cursor-pointer flex items-center justify-between  hover:shadow-sm transition w-full"
       >
-        <span className="mr-2 text-sm text-gray-700 truncate">
+        <span className="me-2 text-sm text-gray-700 truncate">
           {format(range[0].startDate, "dd MMM yyyy")} -{" "}
           {format(range[0].endDate, "dd MMM yyyy")}
         </span>
@@ -120,28 +124,28 @@ const DateRangePickerComponent = ({ onDateChange }) => {
 
       {/* Date Picker */}
       {showPicker && (
-        <div
-          className={`${
-            isMobile
-              ? "fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-30 p-4"
-              : "absolute top-full right-0 mt-2 z-50"
-          }`}
-        >
-          <div className={`bg-white rounded-lg shadow-lg border border-gray-200 ${isMobile ? 'w-full max-w-md max-h-[90vh] overflow-y-auto' : ''}`} onClick={(e) => e.stopPropagation()}>
-            <div className={`${isMobile ? 'flex-col' : 'flex'}`}>
-              {/* Left Sidebar - Preset Options */}
-              <div className={`${isMobile ? 'w-full' : 'w-48'} bg-gray-50 p-4 ${isMobile ? 'border-b border-gray-200' : 'border-r border-gray-200'}`}>
+                  <div
+            className={`${
+              isMobile
+                ? "fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-30 p-4"
+                : `absolute top-full mt-2 z-50 ${isRTL ? 'left-0' : 'right-0'}`
+            }`}
+          >
+                      <div className={`bg-white rounded-lg shadow-lg border border-gray-200 ${isMobile ? 'w-full max-w-md max-h-[90vh] overflow-y-auto' : ''}`} onClick={(e) => e.stopPropagation()}>
+              <div className={`${isMobile ? 'flex-col' : 'flex'} ${isRTL ? 'flex-row-reverse' : ''}`}>
+                {/* Sidebar - Preset Options */}
+                <div className={`${isMobile ? 'w-full' : 'w-48'} bg-gray-50 p-4 ${isMobile ? 'border-b border-gray-200' : isRTL ? 'border-l border-gray-200' : 'border-r border-gray-200'}`}>
                 <div className={`${isMobile ? 'grid grid-cols-2 gap-2' : 'space-y-2'}`}>
                   {[
-                    { key: "today", label: "Today" },
-                    { key: "yesterday", label: "Yesterday" },
-                    { key: "thisWeek", label: "this week" },
-                    { key: "lastWeek", label: "last week" },
-                    { key: "thisMonth", label: "this month" },
-                    { key: "lastMonth", label: "last month" },
-                    { key: "thisYear", label: "this year" },
-                    { key: "lastYear", label: "last year" },
-                    { key: "allTimes", label: "all times" },
+                    { key: "today", label: t("text.Today") },
+                    { key: "yesterday", label: t("text.Yesterday") },
+                    { key: "thisWeek", label: t("text.this_week") },
+                    { key: "lastWeek", label: t("text.last_week") },
+                    { key: "thisMonth", label: t("text.this_month") },
+                    { key: "lastMonth", label: t("text.last_month") },
+                    { key: "thisYear", label: t("text.this_year") },
+                    { key: "lastYear", label: t("text.last_year") },
+                    { key: "allTimes", label: t("text.all_times") },
                   ].map((preset) => (
                     <div
                       key={preset.key}
@@ -177,31 +181,31 @@ const DateRangePickerComponent = ({ onDateChange }) => {
 
             {/* Bottom Bar */}
             <div className="border-t border-gray-200 p-4 bg-gray-50">
-              <div className={`${isMobile ? 'flex-col space-y-3' : 'flex items-center justify-between'}`}>
-                <div className={`${isMobile ? 'flex-col space-y-2' : 'flex items-center space-x-2'}`}>
-                  <span className="text-sm text-gray-600">Selected Range:</span>
-                  <div className={`${isMobile ? 'flex-col space-y-1' : 'flex items-center space-x-2'}`}>
-                    <div className="px-3 py-1 bg-white border border-gray-300 rounded text-sm">
-                      {format(tempRange[0].startDate, "dd MMM yyyy")}
-                    </div>
-                    <span className="text-gray-400">-</span>
-                    <div className="px-3 py-1 bg-white border border-gray-300 rounded text-sm">
-                      {format(tempRange[0].endDate, "dd MMM yyyy")}
+                              <div className={`${isMobile ? 'flex-col space-y-3' : 'flex items-center justify-between'} ${isRTL ? 'flex-row-reverse' : ''}`}>
+                  <div className={`${isMobile ? 'flex-col space-y-2' : 'flex items-center space-x-2'} ${isRTL ? 'flex-row-reverse' : ''}`}>
+                    <span className="text-sm text-gray-600">{t("text.Selected_Range")}:</span>
+                    <div className={`${isMobile ? 'flex-col space-y-1' : 'flex items-center space-x-2'} ${isRTL ? 'flex-row-reverse' : ''}`}>
+                      <div className="px-3 py-1 bg-white border border-gray-300 rounded text-sm">
+                        {format(tempRange[0].startDate, "dd MMM yyyy")}
+                      </div>
+                      <span className="text-gray-400">-</span>
+                      <div className="px-3 py-1 bg-white border border-gray-300 rounded text-sm">
+                        {format(tempRange[0].endDate, "dd MMM yyyy")}
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className={`${isMobile ? 'flex space-x-2' : 'flex space-x-2'}`}>
+                  <div className={`${isMobile ? 'flex space-x-2' : 'flex space-x-2'} ${isRTL ? 'flex-row-reverse' : ''}`}>
                   <button
                     onClick={handleCancel}
                     className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 transition-colors"
                   >
-                    Cancel
+                    {t("text.Cancel")}
                   </button>
                   <button
                     onClick={handleApply}
                     className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors"
                   >
-                    Apply
+                    {t("text.Apply")}
                   </button>
                 </div>
               </div>

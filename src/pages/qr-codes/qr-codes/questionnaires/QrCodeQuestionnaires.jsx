@@ -121,18 +121,18 @@ const QrCodeQuestionnaires = () => {
 
   const handleStoreQrCodeQuestionnaire = () => {
     if (!selectedBranch) {
-      Swal.fire('Error', 'Please select a branch', 'error');
+      Swal.fire('Error', t("text.Please_select_a_branch"), 'error');
       return;
     }
 
     if (!count || count <= 0) {
-      Swal.fire('Error', 'Please enter a valid count', 'error');
+      Swal.fire('Error', t("text.Please_enter_a_valid_count"), 'error');
       return;
     }
 
     const currentQuestionnaire = questionieres[currentQuestioneir];
     if (!currentQuestionnaire || !currentQuestionnaire.title) {
-      Swal.fire('Error', 'Please enter a questionnaire title', 'error');
+      Swal.fire('Error', t("text.Please_enter_a_questionnaire_title"), 'error');
       return;
     }
 
@@ -173,7 +173,7 @@ const QrCodeQuestionnaires = () => {
 
   useEffect(() => {
     if (qrCodeQuestionnaireStoreData?.status) {
-      Swal.fire('Success', qrCodeQuestionnaireStoreData.message || 'QR Code Questionnaire saved successfully', 'success');
+      Swal.fire('Success', qrCodeQuestionnaireStoreData.message || t("text.QR_Code_Questionnaire_saved_successfully"), 'success');
     }
   }, [qrCodeQuestionnaireStoreData])
 
@@ -190,11 +190,11 @@ const QrCodeQuestionnaires = () => {
         <div className="flex items-center gap-2 mb-4">
           <div className="font-normal text-[14px] leading-[14px] tracking-[0.28px] text-gray_l">
             {" "}
-            Qr Codes /
+            {t("text.Qr_Codes")} /
           </div>
           <div className="font-normal text-[14px] leading-[14px] tracking-[0.28px] text-main">
             {" "}
-            New Qr Code
+            {t("text.New_Qr_Code")}
           </div>
         </div>
 
@@ -203,7 +203,7 @@ const QrCodeQuestionnaires = () => {
           {/* Branch Selection */}
           <div className="flex-1">
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Select Branch
+              {t("text.Select_Branch")}
             </label>
             <select
               value={selectedBranch}
@@ -211,7 +211,7 @@ const QrCodeQuestionnaires = () => {
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               disabled={getBranchesDataLoading}
             >
-              <option value="">Select a branch</option>
+              <option value="">{t("text.Select_a_branch")}</option>
               {branches.map((branch) => (
                 <option key={branch.id} value={branch.id}>
                   {branch.name}
@@ -223,13 +223,13 @@ const QrCodeQuestionnaires = () => {
           {/* Count Input */}
           <div className="flex-1">
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Count
+              {t("text.Count")}
             </label>
             <input
               type="number"
               value={count}
               onChange={(e) => setCount(e.target.value)}
-              placeholder="Enter count"
+              placeholder={t("text.Enter_count")}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               min="1"
             />

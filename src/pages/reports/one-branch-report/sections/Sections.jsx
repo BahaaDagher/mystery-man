@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from 'react-i18next';
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -20,6 +21,7 @@ ChartJS.register(
 );
 
 const Sections = ({apiData}) => {
+  const { t } = useTranslation();
   const lang = localStorage.getItem("language");
   const isArabic = lang === "ar";
 
@@ -46,7 +48,7 @@ const Sections = ({apiData}) => {
     labels,
     datasets: [
       {
-        label: "Sections",
+        label: t("text.Sections"),
         data: dataValues,
         fill: true,
         borderColor: "#FF718B",
@@ -93,7 +95,7 @@ const Sections = ({apiData}) => {
     <div className="bg-white rounded-3xl ">
       <div className="flex items-center justify-between mb-2">
         <span className="text-2xl font-bold text-black2 leading-[28px]">
-          Sections
+          {t("text.Sections")}
         </span>
       </div>
       <hr className="my-4 border-gray-200 bg-main mb-8" />

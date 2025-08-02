@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next';
 import ReportHeader from './ReportHeader'
 import OneBranchReport from './one-branch-report/OneBranchReport'
 import MoreThanBranchReport from './more-than-branch-report/MoreThanBranchReport'
@@ -11,15 +12,16 @@ import { moreThanBranchReport, oneBranchReport, qrCodeReport } from '../../store
 import Swal from 'sweetalert2'
 import { getSteps } from '../../store/slices/stepSlice'
 
-const qrCodes = [
-  { value: 'qr1', label: 'QR Code 1' },
-  { value: 'qr2', label: 'QR Code 2' },
-  { value: 'qr3', label: 'QR Code 3' },
-];
-
 const Reports = () => {
+  const { t } = useTranslation();
   const [selected, setSelected] = useState('qr'); // one , more , qr
   const dispatch = useDispatch() ;
+
+  const qrCodes = [
+    { value: 'qr1', label: t("text.QR_Code_1") },
+    { value: 'qr2', label: t("text.QR_Code_2") },
+    { value: 'qr3', label: t("text.QR_Code_3") },
+  ];
 
   const [branches , setBranches] = useState ([])
 
