@@ -12,19 +12,19 @@ const QrCodesReport = ({qrCodeData}) => {
     <div className='w-full flex flex-col gap-3'>
         <div className='w-full flex flex-col gap-3'>
             <div className='w-full flex justify-between gap-3'>
-                <div className='w-[65%] bg-white rounded-[12px] '> <DoughnutReconnaissance /></div>
-                <div className='w-[35%] bg-white rounded-[12px] '> <GeneralRate /></div>
+                <div className='w-[65%] bg-white rounded-[12px] '> <DoughnutReconnaissance apiData={qrCodeData?.getReconnaissanceData}/></div>
+                <div className='w-[35%] bg-white rounded-[12px] '> <GeneralRate apiData={qrCodeData?.generalRate?.chart}/></div>
             </div>
             <div className='w-full flex justify-between gap-3'>
-                <div className='w-[65%] bg-white rounded-[12px] '> <ReviewsQualification /></div>
-                <div className='w-[35%] bg-white rounded-[12px] '> <HighLowSections /></div>
+                <div className='w-[65%] bg-white rounded-[12px] '> <ReviewsQualification apiData={qrCodeData?.reviewQualification}/></div>
+                <div className='w-[35%] bg-white rounded-[12px] '> <HighLowSections apiData={qrCodeData?.topAndBottomSections}/></div>
             </div>
         </div>
         <div className='w-full flex justify-between gap-3'>
-            <AverageRating />
+            <AverageRating apiData={qrCodeData?.averagePerSection} />
         </div>
         <div className='w-full flex justify-between gap-3'>
-            <OverAllRating />
+            <OverAllRating apiData={qrCodeData?.qrCodesOverallRating} />
         </div>
     </div>
   )

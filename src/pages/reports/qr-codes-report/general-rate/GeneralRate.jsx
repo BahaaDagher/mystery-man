@@ -8,32 +8,8 @@ const backgroundColor = [
   "#27AE60", // Excellent (green)
 ];
 
-const content = {
-  value: "Excellent",
-  contentDimensions: 80,
-  contentFontSize: 28,
-};
-
-const apiData = {
-  data: [11, 24, 26, 39],
-  labels: ["Good", "Bad", "Normal", "Excellent"],
-};
-
 const doughnutSize = 200;
 
-const chartData = {
-  labels: apiData.labels,
-  datasets: [
-    {
-    //   label: "percent",
-      data: apiData.data,
-      backgroundColor: backgroundColor,
-      borderWidth: 1,
-      spacing: -1,
-      borderRadius: 10,
-    },
-  ],
-};
 const options = {
   cutout: "65%",
   plugins: {
@@ -53,7 +29,29 @@ const legend = [
   { color: "#27AE60", label: "Excellent" },
 ];
 
-const GeneralRate = () => {
+const GeneralRate = ({apiData}) => {
+  // Transform API data to chart format
+  const chartData = {
+    labels: apiData?.map(item => item.label) || [],
+    datasets: [
+      {
+        data: apiData?.map(item => item.value) || [],
+        backgroundColor: backgroundColor,
+        borderWidth: 1,
+        spacing: -1,
+        borderRadius: 10,
+      },
+    ],
+  };
+
+  // Calculate total for center content
+  const total = apiData?.reduce((sum, item) => sum + item.value, 0) || 0;
+  const content = {
+    value: total,
+    contentDimensions: 80,
+    contentFontSize: 28,
+  };
+
   return (
     <div className="bg-white rounded-[12px] p-6  ">
       <div className="flex justify-between items-center mb-2">

@@ -4,7 +4,7 @@ import DateRangePickerComponent from "../../components/DateRangePickerComponent"
 import PrintIcon from '../../assets/icons/PrintIcon.svg';
 import CustomSelect from '../../components/CustomSelect';
 
-const ReportHeader = ({ selected, onSelect, branches, qrCodes, selectedBranch, setSelectedBranch, selectedBranches, setSelectedBranches, selectedQRCodes, setSelectedQRCodes, dateRange, setDateRange }) => {
+const ReportHeader = ({ selected, onSelect, branches, qrCodes, selectedBranch, setSelectedBranch, selectedBranches, setSelectedBranches, selectedQRCode, setSelectedQRCode, dateRange, setDateRange }) => {
   const { t } = useTranslation();
   return (
     <div className="flex justify-between items-center w-full mb-4">
@@ -59,9 +59,9 @@ const ReportHeader = ({ selected, onSelect, branches, qrCodes, selectedBranch, s
           {selected === 'qr' && (
             <CustomSelect
               options={qrCodes}
-              value={selectedQRCodes}
-              onChange={setSelectedQRCodes}
-              multiple={true}
+              value={selectedQRCode}
+              onChange={setSelectedQRCode}
+              multiple={false}
               placeholder={t("text.Select_QR_codes")}
             />
           )}
