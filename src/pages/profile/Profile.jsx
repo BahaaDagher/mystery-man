@@ -241,9 +241,9 @@ const Profile = () => {
                       + {t("text.NewBranch")}
                     </NewBranchButton>
                   )}
-                  {activeTab === 'wallet' && (
+                  {/* {activeTab === 'wallet' && (
                     <DateRangePickerComponent onDateChange={handleDateRangeChange} />
-                  )}
+                  )} */}
                 </div>
               </div>
 

@@ -15,7 +15,7 @@ const Wallet = () => {
   // Fetch wallet transactions on component mount
   useEffect(() => {
     dispatch(getWalletTransactions())
-  }, [dispatch])
+  }, [])
 
   // Extract data from API response
   const walletBalance = walletTransactionsData?.data?.wallet_balance || 0
