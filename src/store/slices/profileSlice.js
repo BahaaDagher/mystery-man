@@ -63,6 +63,26 @@ export const getNotifications = createAsyncThunk(
         }
     }
 );
+
+export const getWalletTransactions = createAsyncThunk(
+    "profile/getWalletTransactions", 
+    async () => {
+        const token = localStorage.getItem('token');
+        try {
+        const response = await axios.get(
+            `https://test.secretvisitor.co/dashboard/api/walletTransactions` , {
+                headers: {
+                    "Authorization" : token , 
+                    "lang" : currentLanguage
+                },
+            }
+        );
+        return response.data ;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+);
 const profileSlice = createSlice({
     name: "profile",
     initialState: {
@@ -75,6 +95,9 @@ const profileSlice = createSlice({
 
         getNotificationsData : {} ,
         getNotificationsLoading : false ,
+
+        getWalletTransactionsData : {} ,
+        getWalletTransactionsLoading : false ,
     },
     reducers: {
         ProfileData: (state, action) => {
@@ -114,6 +137,17 @@ const profileSlice = createSlice({
         }) 
         .addCase(getNotifications.rejected , (state, action) => {
             state.getNotificationsLoading = false;
+        }) 
+        // get wallet transactions
+        .addCase(getWalletTransactions.fulfilled , (state, action) => {
+            state.getWalletTransactionsData = action.payload;
+            state.getWalletTransactionsLoading = false;
+        }) 
+        .addCase(getWalletTransactions.pending , (state, action) => {
+            state.getWalletTransactionsLoading = true;
+        }) 
+        .addCase(getWalletTransactions.rejected , (state, action) => {
+            state.getWalletTransactionsLoading = false;
         }) 
 
     
