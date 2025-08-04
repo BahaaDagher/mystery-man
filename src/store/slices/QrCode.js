@@ -35,6 +35,25 @@ export const getQrCodeBranches = createAsyncThunk(
       }
 });
 
+export const getQrCodeBranchResponses = createAsyncThunk(
+    "qrCode/getQrCodeBranchResponses", 
+    async (branchId = null) => {
+      const token = localStorage.getItem('token');
+      try {
+        const url = branchId 
+          ? `${API_BASE_URL}/qrCodeBranch/responses?branch_id=${branchId}`
+          : `${API_BASE_URL}/qrCodeBranch/responses`;
+        
+        const response = await axios.get(
+          url, 
+          { headers: {"Authorization" : token , "lang" : currentLanguage ,}}
+        );
+        return response.data ;
+      } catch (error) {
+        console.error("getQrCodeBranchResponses::", error);
+      }
+});
+
 const qrCodeSlice = createSlice({
     name: "qrCode",
     initialState: {
@@ -42,6 +61,8 @@ const qrCodeSlice = createSlice({
         qrCodeQuestionnaireStoreLoading: false,
         qrCodeBranchesData: {},
         qrCodeBranchesLoading: false,
+        qrCodeBranchResponsesData: {},
+        qrCodeBranchResponsesLoading: false,
     },
     reducers: {
         // Add any additional reducers here if needed
@@ -67,6 +88,16 @@ const qrCodeSlice = createSlice({
             })
             .addCase(getQrCodeBranches.rejected, (state, action) => {
                 state.qrCodeBranchesLoading = false;
+            })
+            .addCase(getQrCodeBranchResponses.fulfilled, (state, action) => {
+                state.qrCodeBranchResponsesData = action.payload;
+                state.qrCodeBranchResponsesLoading = false;
+            })
+            .addCase(getQrCodeBranchResponses.pending, (state, action) => {
+                state.qrCodeBranchResponsesLoading = true;
+            })
+            .addCase(getQrCodeBranchResponses.rejected, (state, action) => {
+                state.qrCodeBranchResponsesLoading = false;
             });
     }
 });

@@ -1,87 +1,148 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ReactPaginate from 'react-paginate'
+import { useDispatch, useSelector } from 'react-redux'
+import { getBranches } from '../../../store/slices/branchSlice'
+import { getQrCodeBranchResponses } from '../../../store/slices/QrCode'
+import CustomSelect from '../../../components/CustomSelect'
+import { useTranslation } from 'react-i18next'
 import viewIcon from '../../../assets/icons/ShowIcon.svg'
-
-const ApiData = [
-  { id: 1, qrCodeName: 'QR Code 1', date: 'Oct. 18, 2024', rate: 4.5 },
-  { id: 2, qrCodeName: 'QR Code 2', date: 'Oct. 18, 2024', rate: 3.8 },
-  { id: 3, qrCodeName: 'QR Code 3', date: 'Oct. 18, 2024', rate: 4.2 },
-  { id: 4, qrCodeName: 'QR Code 4', date: 'Oct. 18, 2024', rate: 4.0 },
-  { id: 5, qrCodeName: 'QR Code 5', date: 'Oct. 18, 2024', rate: 3.5 },
-  { id: 6, qrCodeName: 'QR Code 6', date: 'Oct. 18, 2024', rate: 4.7 },
-  { id: 7, qrCodeName: 'QR Code 7', date: 'Oct. 18, 2024', rate: 4.1 },
-  { id: 8, qrCodeName: 'QR Code 8', date: 'Oct. 18, 2024', rate: 3.9 },
-  { id: 9, qrCodeName: 'QR Code 9', date: 'Oct. 18, 2024', rate: 4.3 },
-  { id: 10, qrCodeName: 'QR Code 10', date: 'Oct. 18, 2024', rate: 4.6 },
-  { id: 11, qrCodeName: 'QR Code 11', date: 'Oct. 18, 2024', rate: 3.7 },
-  { id: 12, qrCodeName: 'QR Code 12', date: 'Oct. 18, 2024', rate: 4.4 },
-  { id: 13, qrCodeName: 'QR Code 13', date: 'Oct. 18, 2024', rate: 4.8 },
-  { id: 14, qrCodeName: 'QR Code 14', date: 'Oct. 18, 2024', rate: 3.6 },
-  { id: 15, qrCodeName: 'QR Code 15', date: 'Oct. 18, 2024', rate: 4.9 },
-  { id: 16, qrCodeName: 'QR Code 16', date: 'Oct. 18, 2024', rate: 4.0 },
-  { id: 17, qrCodeName: 'QR Code 17', date: 'Oct. 18, 2024', rate: 3.4 },
-  { id: 18, qrCodeName: 'QR Code 18', date: 'Oct. 18, 2024', rate: 4.2 },
-]
+import Loading from '../../../components/Loading'
+import { Colors } from '../../../Theme'
 
 const ITEMS_PER_PAGE = 5
 
 const Responses = () => {
+  const { t } = useTranslation()
+  const dispatch = useDispatch()
   const [currentPage, setCurrentPage] = useState(0)
+  const [selectedBranch, setSelectedBranch] = useState('')
+  const [branches, setBranches] = useState([])
+  const [responses, setResponses] = useState([])
 
-  const pageCount = Math.ceil(ApiData.length / ITEMS_PER_PAGE)
+  // Redux selectors
+  const getBranchesData = useSelector(state => state.branchData.getBranchesData)
+  const getBranchesDataLoading = useSelector(state => state.branchData.getBranchesDataLoading)
+  const qrCodeBranchResponsesData = useSelector(state => state.qrCodeData.qrCodeBranchResponsesData)
+  const qrCodeBranchResponsesLoading = useSelector(state => state.qrCodeData.qrCodeBranchResponsesLoading)
+
+  // Fetch branches on component mount
+  useEffect(() => {
+    dispatch(getBranches())
+  }, [dispatch])
+
+  // Transform branches data when loaded
+  useEffect(() => {
+    if (getBranchesData?.status) {
+      const transformedBranches = getBranchesData?.data?.branches?.map(branch => ({
+        value: branch.id,
+        label: branch.name
+      })) || []
+      setBranches(transformedBranches)
+    }
+  }, [getBranchesData])
+
+  // Fetch responses when branch selection changes
+  useEffect(() => {
+    if (selectedBranch) {
+      dispatch(getQrCodeBranchResponses(selectedBranch))
+    } else {
+      dispatch(getQrCodeBranchResponses()) // Get all responses
+    }
+  }, [selectedBranch, dispatch])
+
+  // Transform responses data when loaded
+  useEffect(() => {
+    if (qrCodeBranchResponsesData?.status) {
+      setResponses(qrCodeBranchResponsesData?.data?.responces || [])
+    }
+  }, [qrCodeBranchResponsesData])
+
+  // Reset function to clear branch selection
+  const handleReset = () => {
+    setSelectedBranch('')
+  }
+
+  const pageCount = Math.ceil(responses.length / ITEMS_PER_PAGE)
   const handlePageClick = (data) => {
     setCurrentPage(data.selected)
   }
 
   const offset = currentPage * ITEMS_PER_PAGE
-  const currentItems = ApiData.slice(offset, offset + ITEMS_PER_PAGE)
+  const currentItems = responses.slice(offset, offset + ITEMS_PER_PAGE)
 
   return (
     <div className="bg-[#f5f7fa] rounded-xl p-5 w-full">
+      {/* Branch Selection */}
+      <div className="mb-6 flex items-center gap-4">
+        <div className="min-w-[220px]">
+          <CustomSelect
+            options={branches}
+            value={selectedBranch}
+            onChange={setSelectedBranch}
+            multiple={false}
+            placeholder={t("text.Select_branch")}
+          />
+        </div>
+      </div>
+
+      {/* Loading State */}
+      {(getBranchesDataLoading || qrCodeBranchResponsesLoading) && (
+        <Loading />
+      )}
+
+      {/* Table */}
       <div className="overflow-x-auto bg-white rounded-xl p-4">
         <table className="min-w-full">
           <thead>
             <tr className="text-[#7D8592] text-[16px] font-medium">
               <th className="py-3 px-4">Id</th>
               <th className="py-3 px-4">QR Code Name</th>
+              <th className="py-3 px-4">Branch Name</th>
               <th className="py-3 px-4">Date</th>
-              <th className="py-3 px-4">Rate</th>
-              <th className="py-3 px-4 text-center"></th>
+              <th className="py-3 px-4">Percentage Score</th>
+              {/* <th className="py-3 px-4 text-center"></th> */}
             </tr>
           </thead>
           <tbody>
             {currentItems.map((item, idx) => (
               <tr key={idx} className={`rounded-[10px] ${idx % 2 === 0 ? 'bg-white' : 'bg-gray3'} `}>
                 <td className="py-3 px-4 font-medium text-[16px]">{item.id}</td>
-                <td className="py-3 px-4 font-medium text-[16px]">{item.qrCodeName}</td>
-                <td className="py-3 px-4 font-medium text-[16px]">{item.date}</td>
-                <td className="py-3 px-4 font-medium text-[16px]">{item.rate}</td>
-                <td className="py-3 px-4 flex items-center justify-center gap-4">
+                <td className="py-3 px-4 font-medium text-[16px]">{item.name}</td>
+                <td className="py-3 px-4 font-medium text-[16px]">{item.branch_name}</td>
+                <td className="py-3 px-4 font-medium text-[16px]">1-8-2025</td>
+                <td className="py-3 px-4 font-medium text-[16px]">{item.percentage_score}</td>
+                {/* <td className="py-3 px-4 flex items-center justify-center gap-4">
                   <div className="cursor-pointer"><img src={viewIcon} alt="view"  /></div>
-                </td>
+                </td> */}
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      <div className="flex justify-center mt-6">
-        <ReactPaginate
-          previousLabel={"<"}
-          nextLabel={">"}
-          breakLabel={"..."}
-          pageCount={pageCount}
-          marginPagesDisplayed={1}
-          pageRangeDisplayed={10}
-          onPageChange={handlePageClick}
-          containerClassName={"flex items-center space-x-2"}
-          pageClassName={"rounded-full bg-white px-3 py-1 text-[#222] cursor-pointer"}
-          activeClassName={"bg-main text-white"}
-          previousClassName={"rounded-full bg-white px-3 py-1 text-[#222] cursor-pointer"}
-          nextClassName={"rounded-full bg-white px-3 py-1 text-[#222] cursor-pointer"}
-          breakClassName={"px-2"}
-          forcePage={currentPage}
-        />
-      </div>
+
+      {/* Pagination */}
+      {responses.length > 0 && (
+        <div className="flex justify-center mt-6">
+          <ReactPaginate
+            previousLabel={"<"}
+            nextLabel={">"}
+            breakLabel={"..."}
+            pageCount={pageCount}
+            marginPagesDisplayed={1}
+            pageRangeDisplayed={10}
+            onPageChange={handlePageClick}
+            containerClassName={"flex items-center space-x-2"}
+            pageClassName={"rounded-full bg-white w-8 h-8 text-[#222] cursor-pointer flex items-center justify-center"}
+            activeClassName={"text-white"}
+            activeLinkClassName={`rounded-full  w-full h-full bg-main text-white flex items-center justify-center`}
+            previousClassName={"rounded-full bg-white px-3 py-1 text-[#222] cursor-pointer"}
+            nextClassName={"rounded-full bg-white px-3 py-1 text-[#222] cursor-pointer"}
+            breakClassName={"px-2"}
+            forcePage={currentPage}
+            activeLinkStyle={{ backgroundColor: Colors.main }}
+          />
+        </div>
+      )}
     </div>
   )
 }
