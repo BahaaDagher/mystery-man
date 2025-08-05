@@ -9,10 +9,13 @@ import adminImage from "../../../assets/images/admin.png"
 import { Rating } from '@mui/material';
 import { Flex } from '../../../components/Flex';
 import { FlexCenter } from '../../../components/FlexCenter';
-import { accepetRequest } from '../../../store/slices/missionSlice';
+import { accepetRequest, sendMissionPdf } from '../../../store/slices/missionSlice';
 import Swal from 'sweetalert2';
 import { useTranslation } from 'react-i18next';
 import { FlexSpaceBetween } from '../../../components/FlexSpaceBetween';
+import jsPDF from 'jspdf';
+import 'jspdf-font';
+import html2canvas from 'html2canvas';
 const Place = styled("div")(({ theme }) => ({
   marginBottom : "10px" ,
 }));
@@ -95,9 +98,14 @@ const Category = styled(FlexCenter)(({ theme }) => ({
 
 const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
   const accepetRequestData = useSelector(state => state.missionData.accepetRequestData) 
+  const sendMissionPdfData = useSelector(state => state.missionData.sendMissionPdfData)
   const CurrentMissionEmployees = reviewRequestData.employee
   const [showQuizModal, setShowQuizModal] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [showPdfModal, setShowPdfModal] = useState(false);
+  const [pdfPreviewUrl, setPdfPreviewUrl] = useState('');
+  const [pdfBlob, setPdfBlob] = useState(null);
+  const [selectedEmployeeForPdf, setSelectedEmployeeForPdf] = useState(null);
 
   const dispatch = useDispatch()
   useEffect(()=>{
@@ -107,12 +115,153 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
           console.log(accepetRequestData);
           Swal.fire(accepetRequestData.message, '', 'success').then((result) => {
             if (result.isConfirmed) {
-              window.location.href ="/userDashboard/missions"
+              // window.location.href ="/userDashboard/missions"
             }
           })
     }
   },[accepetRequestData])
 
+  useEffect(() => {
+    if (sendMissionPdfData.status) {
+      console.log('PDF sent successfully:', sendMissionPdfData);
+      Swal.fire('PDF Generated and Sent Successfully', '', 'success');
+    } else if (sendMissionPdfData.error) {
+      console.log('PDF sending failed:', sendMissionPdfData.error);
+      Swal.fire('Failed to send PDF', sendMissionPdfData.error, 'error');
+    }
+  }, [sendMissionPdfData])
+
+  // Cleanup PDF URL when component unmounts
+  useEffect(() => {
+    return () => {
+      if (pdfPreviewUrl) {
+        URL.revokeObjectURL(pdfPreviewUrl);
+      }
+    };
+  }, [pdfPreviewUrl]);
+
+  const generatePdfPreview = async (employee, companyName) => {
+    // Create HTML content for the certificate
+    const certificateHTML = `
+      <div style="
+        width: 800px; 
+        height: 600px; 
+        padding: 40px; 
+        background: white; 
+        font-family: Arial, sans-serif;
+        direction: ltr;
+      ">
+        <div style="text-align: center; margin-bottom: 30px;">
+          <h1 style="font-size: 24px; margin-bottom: 10px; color: #333;">Mission Assignment Certificate</h1>
+          <h1 style="font-size: 24px; margin-bottom: 10px; color: #333; direction: rtl;">شهادة تعيين المهمة</h1>
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+          <p style="font-size: 16px; margin: 10px 0;"><strong>Employee Name / اسم الموظف:</strong> ${employee.user.name}</p>
+          <p style="font-size: 16px; margin: 10px 0;"><strong>Company Name / اسم الشركة:</strong> ${companyName}</p>
+          <p style="font-size: 16px; margin: 10px 0;"><strong>Date / التاريخ:</strong> ${new Date().toLocaleDateString('ar-SA')}</p>
+          ${reviewRequestData.name ? `<p style="font-size: 16px; margin: 10px 0;"><strong>Mission / المهمة:</strong> ${reviewRequestData.name}</p>` : ''}
+          ${reviewRequestData.address ? `<p style="font-size: 16px; margin: 10px 0;"><strong>Location / الموقع:</strong> ${reviewRequestData.address}</p>` : ''}
+        </div>
+        
+        <div style="margin-top: 30px; padding: 20px; border-top: 2px solid #333;">
+          <p style="font-size: 14px; margin: 10px 0; line-height: 1.5;">
+            This document certifies that the above employee has been assigned to this mission.
+          </p>
+          <p style="font-size: 14px; margin: 10px 0; line-height: 1.5; direction: rtl;">
+            هذا المستند يؤكد أن الموظف المذكور أعلاه تم تعيينه لهذه المهمة.
+          </p>
+        </div>
+      </div>
+    `;
+
+    // Create a temporary div to render the HTML
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = certificateHTML;
+    tempDiv.style.position = 'absolute';
+    tempDiv.style.left = '-9999px';
+    tempDiv.style.top = '-9999px';
+    document.body.appendChild(tempDiv);
+
+    try {
+      // Convert HTML to canvas
+      const canvas = await html2canvas(tempDiv.firstElementChild, {
+        width: 800,
+        height: 600,
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#ffffff'
+      });
+
+      // Remove temporary div
+      document.body.removeChild(tempDiv);
+
+      // Create PDF
+      const doc = new jsPDF('p', 'mm', 'a4');
+      const imgData = canvas.toDataURL('image/png');
+      
+      // Calculate dimensions to fit the image properly
+      const imgWidth = 190;
+      const pageHeight = 297;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      
+      doc.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
+
+      // Create blob for preview and sending
+      const pdfBlob = doc.output('blob');
+      const pdfUrl = URL.createObjectURL(pdfBlob);
+      
+      setPdfBlob(pdfBlob);
+      setPdfPreviewUrl(pdfUrl);
+      setSelectedEmployeeForPdf(employee);
+      setShowPdfModal(true);
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      // Fallback to simple PDF if html2canvas fails
+      const doc = new jsPDF();
+      doc.setFontSize(20);
+      doc.text('Mission Assignment Certificate', 105, 30, { align: 'center' });
+      doc.setFontSize(12);
+      doc.text(`Employee Name: ${employee.user.name}`, 20, 60);
+      doc.text(`Company Name: ${companyName}`, 20, 80);
+      doc.text(`Date: ${new Date().toLocaleDateString()}`, 20, 100);
+      
+      const pdfBlob = doc.output('blob');
+      const pdfUrl = URL.createObjectURL(pdfBlob);
+      
+      setPdfBlob(pdfBlob);
+      setPdfPreviewUrl(pdfUrl);
+      setSelectedEmployeeForPdf(employee);
+      setShowPdfModal(true);
+    }
+  }
+
+  const handleSendPdf = () => {
+    if (pdfBlob && selectedEmployeeForPdf) {
+      dispatch(sendMissionPdf({
+        missionId: missionId,
+        pdfBlob: pdfBlob
+      }));
+      setShowPdfModal(false);
+      if (pdfPreviewUrl) {
+        URL.revokeObjectURL(pdfPreviewUrl);
+      }
+      setPdfPreviewUrl('');
+      setPdfBlob(null);
+      setSelectedEmployeeForPdf(null);
+    }
+  }
+
+  const handleClosePdfModal = () => {
+    setShowPdfModal(false);
+    if (pdfPreviewUrl) {
+      URL.revokeObjectURL(pdfPreviewUrl);
+    }
+    setPdfPreviewUrl('');
+    setPdfBlob(null);
+    setSelectedEmployeeForPdf(null);
+  }
   
   const handleAccept = (CurrentMissionEmployee)=>{
     console.log(CurrentMissionEmployee.id);
@@ -123,7 +272,22 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
       denyButtonText: t("text.No"),
     }).then((result) => {
       if (result.isConfirmed) {
-        dispatch(accepetRequest({order_id:CurrentMissionEmployee.id , mission_id:missionId}))
+        dispatch(accepetRequest({order_id:CurrentMissionEmployee.id , mission_id:missionId})).then((result) => {
+          if (result.payload && result.payload.status) {
+            // Check if reconnaissance is true before generating PDF
+            if (reviewRequestData.reconnaissance) {
+              // Generate PDF preview after successful acceptance
+              const companyName = reviewRequestData.companyName || 'Unknown Company';
+              generatePdfPreview(CurrentMissionEmployee, companyName).catch(error => {
+                console.error('Error generating PDF:', error);
+                Swal.fire('Error', 'Failed to generate PDF preview', 'error');
+              });
+            } else {
+              // If reconnaissance is false, just show success message without PDF
+              console.log('Reconnaissance is false, skipping PDF generation');
+            }
+          }
+        })
       } else if (result.isDenied) {
         Swal.fire(t("text.Changes_are_not_saved"), '', 'info')
       }
@@ -294,6 +458,56 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
                 <p className="text-gray-500">{t("text.No_Quiz_Data_Available")}</p>
               </div>
             )}
+          </div>
+        </div>
+      </div>
+    )}
+
+    {/* PDF Preview Modal */}
+    {showPdfModal && pdfPreviewUrl && (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+          <div className="flex justify-between items-center p-6 border-b border-gray-200">
+            <h3 className="text-lg font-semibold text-gray-900">
+              PDF Preview - Mission Certificate
+            </h3>
+            <div
+              onClick={handleClosePdfModal}
+              className="text-gray-400 hover:text-gray-600 text-xl font-bold cursor-pointer"
+            >
+              ×
+            </div>
+          </div>
+          
+          <div className="p-6">
+            <div className="mb-4">
+              <p className="text-gray-600 mb-4">
+                Review the PDF certificate for {selectedEmployeeForPdf?.user.name} before sending.
+              </p>
+            </div>
+            
+            <div className="border border-gray-200 rounded-lg overflow-hidden">
+              <iframe
+                src={pdfPreviewUrl}
+                className="w-full h-96"
+                title="PDF Preview"
+              />
+            </div>
+            
+            <div className="flex justify-end space-x-3 mt-6">
+              <button
+                onClick={handleClosePdfModal}
+                className="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSendPdf}
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                Send PDF
+              </button>
+            </div>
           </div>
         </div>
       </div>

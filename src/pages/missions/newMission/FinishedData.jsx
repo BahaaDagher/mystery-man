@@ -100,6 +100,7 @@ const FinishedData = (
     missionVoucherValue ,
     missionSelectedQuestioniere,
     missionNotes ,
+    missionReconnaissance,
     quizData = [],
   } ) => {
     const [activePost , setActivePost] = useState(false)
@@ -122,6 +123,7 @@ const FinishedData = (
       from : missionTime1 , 
       price : missionVoucherValue , 
       notes : missionNotes  ,
+      reconnaissance: missionReconnaissance ? 1 : 0,
       questions: [questionieresData[currentQuestioneir]] , 
       quiz_questions: quizData,
     }

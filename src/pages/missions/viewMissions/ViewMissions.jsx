@@ -477,6 +477,11 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions , setButt
             if (!findData) setFindData(true)
             return (
             <Parent key={index} className = {PaddingBottom? "PaddingBottom" : PaddingTop && mission.can_sent ? "PaddingTop" :""}>
+                {mission.reconnaissance == 1 && (
+                    <div className="absolute top-0 left-[40%] bg-main text-white text-xs font-bold px-2 py-1 rounded-full z-10">
+                        {t("text.Reconnaissance")}
+                    </div>
+                )}
                 <Header>
                     <Published>
                         <PublishedTitle> {t("text.published")}</PublishedTitle>

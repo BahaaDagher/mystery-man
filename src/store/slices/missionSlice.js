@@ -152,6 +152,33 @@ export const deleteMission = createAsyncThunk(
         }
         );
 
+export const sendMissionPdf = createAsyncThunk(
+    "mission/sendMissionPdf", 
+    async (values) => {
+        const token = localStorage.getItem('token');
+        try {
+        const formData = new FormData();
+        formData.append('pdf', values.pdfBlob, 'mission_certificate.pdf');
+        
+        const response = await axios.post(
+            `https://test.secretvisitor.co/dashboard/api/missionPdf/${values.missionId}` ,
+            formData , 
+            {
+                headers: {
+                    "Authorization" : token ,
+                    "lang" : currentLanguage ,
+                    "Content-Type": "multipart/form-data",
+                },
+            }
+        );
+        return response.data ;
+        } catch (error) {
+        console.error(error);
+        return { error: error.message };
+        }
+    }
+    );
+
 const missionSlice = createSlice({
     name: "mission",
     initialState: {
@@ -170,6 +197,8 @@ const missionSlice = createSlice({
 
         rateVisitorData:{},
         rateVisitorLoading:false ,
+        sendMissionPdfData:{},
+        sendMissionPdfLoading:false ,
     },
     reducers: {
         setCurrentMission: (state, action) => {
@@ -239,6 +268,17 @@ const missionSlice = createSlice({
         }) 
         .addCase(RateVisitor.rejected , (state, action) => {
             state.rateVisitorLoading = false;
+        })
+        // send mission pdf
+        .addCase(sendMissionPdf.fulfilled , (state, action) => {
+            state.sendMissionPdfData = action.payload;
+            state.sendMissionPdfLoading = false;
+        }) 
+        .addCase(sendMissionPdf.pending, (state, action) => {
+            state.sendMissionPdfLoading = true;
+        }) 
+        .addCase(sendMissionPdf.rejected , (state, action) => {
+            state.sendMissionPdfLoading = false;
         })
     }
     });

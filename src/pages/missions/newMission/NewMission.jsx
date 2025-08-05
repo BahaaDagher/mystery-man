@@ -257,6 +257,9 @@ const NewMission = () => {
   // notes 
   const [notes ,  setNotes] = useState('');
 
+  // reconnaissance toggle
+  const [reconnaissance, setReconnaissance] = useState(false);
+
   const {t} = useTranslation() ; 
 
   
@@ -414,6 +417,18 @@ const NewMission = () => {
                 }
               </VoucherDiv>
             <Divider/>
+            <VoucherDiv>
+                <CheckDiv>
+                  <CheckInput
+                      id='reconnaissance'
+                      type="checkbox"
+                      checked={reconnaissance}
+                      onChange={(e)=>setReconnaissance(e.target.checked)}
+                  />
+                  <CheckLabel htmlFor='reconnaissance'>{t("text.Enable_Reconnaissance")}</CheckLabel>
+                </CheckDiv>
+            </VoucherDiv>
+            <Divider/>
             <TitleDiv>
                 <Title>{t("text.Notes")}</Title>
                 <NotesText 
@@ -422,6 +437,7 @@ const NewMission = () => {
                   onChange={(e)=>setNotes(e.target.value)}
                 />
             </TitleDiv>
+            <Divider/>
             <TitleDiv>
                 <Title>{t("text.questionnaires")}</Title>
                 <Selectt
@@ -464,6 +480,7 @@ const NewMission = () => {
           missionVoucherValue={voucherValue}
           missionNotes={notes}
           missionSelectedQuestioniere={selectedQuestioniere}
+          missionReconnaissance={reconnaissance}
           quizData={quizData}
         />
       </Parent>
