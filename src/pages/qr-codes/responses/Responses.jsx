@@ -95,11 +95,11 @@ const Responses = () => {
         <table className="min-w-full">
           <thead>
             <tr className="text-[#7D8592] text-[16px] font-medium">
-              <th className="py-3 px-4">Id</th>
-              <th className="py-3 px-4">QR Code Name</th>
-              <th className="py-3 px-4">Branch Name</th>
-              <th className="py-3 px-4">Date</th>
-              <th className="py-3 px-4">Percentage Score</th>
+              <th className="py-3 px-4">{t('text.id')}</th>
+              <th className="py-3 px-4">{t('text.qr_code_name')}</th>
+              <th className="py-3 px-4">{t('text.branch_name')}</th>
+              <th className="py-3 px-4">{t('text.date')}</th>
+              <th className="py-3 px-4">{t('text.percentage_score')}</th>
               {/* <th className="py-3 px-4 text-center"></th> */}
             </tr>
           </thead>

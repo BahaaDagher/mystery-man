@@ -349,6 +349,13 @@ const resources = {
         branch : "Branch" ,
         section : "Section" ,
         branches_saudi_arabia : "Branches in Saudi Arabia" ,
+        // Responses translations
+        responses : "Responses" ,
+        qr_code_name : "QR Code Name" ,
+        branch_name : "Branch Name" ,
+        date : "Date" ,
+        percentage_score : "Percentage Score" ,
+        id : "Id" ,
       },
       content: {}
     }
@@ -698,6 +705,13 @@ const resources = {
         branch : "الفرع" ,
         section : "القسم" ,
         branches_saudi_arabia : "الفروع في المملكة العربية السعودية" ,
+        // Responses translations
+        responses : "الردود" ,
+        qr_code_name : "اسم رمز QR" ,
+        branch_name : "اسم الفرع" ,
+        date : "التاريخ" ,
+        percentage_score : "النسبة المئوية للدرجة" ,
+        id : "المعرف" ,
       },
       content: {}
     }
