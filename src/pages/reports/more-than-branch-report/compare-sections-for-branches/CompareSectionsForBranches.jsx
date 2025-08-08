@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next';
 import DepartmentBarChart from './DepartmentBarChart'
 import cancelIcon from '../../../../assets/icons/cancel-icon.svg'
 import CustomSelect from '../../../../components/CustomSelect'
@@ -17,6 +18,7 @@ import {
 
 
 const CompareSectionsForBranches = ({apiData, allSteps, onStepsIdsChangeFromMoreThanBranch}) => {
+  const { t } = useTranslation();
   const [stepsIds, setStepsIds] = useState([])
 
   // Select the first step by default if available
@@ -58,7 +60,7 @@ const CompareSectionsForBranches = ({apiData, allSteps, onStepsIdsChangeFromMore
       <div className="bg-white rounded-3xl p-6 ">
         <div className="flex items-center justify-between mb-2">
           <span className="text-2xl font-bold text-black2 leading-[28px]">
-            Compare sections for branches
+            {t('text.compare_sections_branches')}
           </span>
         </div>
         <div className="flex items-center gap-2 mb-4">
@@ -67,7 +69,7 @@ const CompareSectionsForBranches = ({apiData, allSteps, onStepsIdsChangeFromMore
             value={selectedSteps}
             onChange={handleStepSelection}
             multiple
-            placeholder="choose step"
+            placeholder={t('text.choose_step')}
             className="min-w-[200px]"
           />
           {/* Render selected steps as chips with cancel icon */}

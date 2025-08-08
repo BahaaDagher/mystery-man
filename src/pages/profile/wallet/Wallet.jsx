@@ -22,9 +22,24 @@ const Wallet = () => {
   const transactions = walletTransactionsData?.data?.transactions || []
 
   // Calculate statistics
-  const totalBalance = 0
-  const pending = 0
+  const totalBalance = transactions.reduce((sum, transaction) => sum + transaction.amount, 0)
+  const pending = 0 // Since API doesn't provide pending status, defaulting to 0
   const currentBalance = walletBalance
+
+  // Map transactions to expected format for WalletTable
+
+  
+  
+  
+  const mappedTransactions = transactions.map(transaction => ({
+    id: transaction.id,
+    status: 'SUCCESS', // Default to SUCCESS since API doesn't provide status
+    amount: transaction.amount,
+    balanceBefore: transaction.balance_before,
+    balanceAfter: transaction.balance_after,
+    currency: 'SAR',
+    date: transaction.created_at
+  }))
 
   return (
     <div>
@@ -37,7 +52,7 @@ const Wallet = () => {
             totalBalance={totalBalance} 
             pending={pending}
           />
-          <WalletTable transactions={transactions} />
+          <WalletTable transactions={mappedTransactions} />
         </>
       )}
     </div>

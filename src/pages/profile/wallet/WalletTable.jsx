@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from 'react-i18next';
 
 const statusClass = {
   SUCCESS: "bg-lightSuccess text-success",
@@ -7,6 +8,7 @@ const statusClass = {
 };
 
 const WalletTable = ({ transactions = [] }) => {
+  const { t } = useTranslation();
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 5;
   const totalPages = Math.ceil(transactions.length / rowsPerPage);
@@ -35,21 +37,20 @@ const WalletTable = ({ transactions = [] }) => {
     <div className="rounded-[10px] bg-white p-4  w-full overflow-x-auto">
       {transactions.length === 0 ? (
         <div className="text-center py-8">
-          <div className="text-gray-500 text-lg font-medium mb-2">No Transactions Found</div>
-          <div className="text-gray-400 text-sm">You don't have any transactions yet.</div>
+          <div className="text-gray-500 text-lg font-medium mb-2">{t('text.no_transactions_found')}</div>
+          <div className="text-gray-400 text-sm">{t('text.no_transactions_message')}</div>
         </div>
       ) : (
         <>
           <table className="min-w-full text-sm text-gray-700">
             <thead>
-              <tr className="text-left text-[14px] text-gray4 ">
-                <th className="p-3">ID</th>
-                <th className="p-3">Details</th>
-                <th className="p-3">Status</th>
-                <th className="p-3">Payment Method</th>
-                <th className="p-3">Amount Before</th>
-                <th className="p-3">Amount</th>
-                <th className="p-3">Date</th>
+              <tr className=" text-[14px] text-gray4 ">
+                <th className="p-3">{t('text.transaction_id')}</th>
+                <th className="p-3">{t('text.transaction_status')}</th>
+                <th className="p-3">{t('text.transaction_amount')}</th>
+                <th className="p-3">{t('text.balance_before')}</th>
+                <th className="p-3">{t('text.balance_after')}</th>
+                <th className="p-3">{t('text.transaction_date')}</th>
               </tr>
             </thead>
             <tbody>
@@ -59,23 +60,18 @@ const WalletTable = ({ transactions = [] }) => {
                  className={`odd:bg-lightGray ${row.status === 'FAILED' ? 'opacity-50' : ''}`}
                 >
                   <td className="p-3 font-bold">{row.id}</td>
-                  <td className="p-3">{row.details}</td>
                   <td className="p-3" >
                     <span
                       className={`px-2 py-1 rounded-md text-xs font-semibold ${statusClass[row.status]}`}
                     >
-                      {row.status}
+                      {row.status === 'SUCCESS' ? t('text.success') : 
+                       row.status === 'FAILED' ? t('text.failed') : 
+                       row.status === 'PENDING' ? t('text.pending_status') : row.status}
                     </span>
                   </td>
-                  <td className="p-3 flex items-center gap-1">
-                    <img
-                      src={row.paymentMethod === "MasterCard" ? "https://img.icons8.com/color/24/mastercard-logo.png" : "https://img.icons8.com/color/24/visa.png"}
-                      alt="Payment Method"
-                    />
-                    <span className="text-xs text-gray-600">{row.paymentMethod}</span>
-                  </td>
-                  <td className="p-3 text-gray text-[16px] font-[700]">{formatAmount(row.amountBefore, row.currency)}</td>
                   <td className={`p-3  text-[16px] font-[700] ${row.status === 'FAILED' ? 'text-gray2' : 'text-success'}`} >{formatAmount(row.amount, row.currency)}</td>
+                  <td className="p-3 text-gray text-[16px] font-[700]">{formatAmount(row.balanceBefore, row.currency)}</td>
+                  <td className="p-3 text-gray text-[16px] font-[700]">{formatAmount(row.balanceAfter, row.currency)}</td>
                   <td className="p-3">{formatDate(row.date)}</td>
                 </tr>
               ))}

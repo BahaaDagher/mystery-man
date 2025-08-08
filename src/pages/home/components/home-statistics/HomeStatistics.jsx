@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next';
 import StatisticsContainer from './StatisticsContainer'
 import monyIcon from '../../../../assets/icons/monyIcon.svg'
 import monyIcon2 from '../../../../assets/icons/monyIcon2.svg'
@@ -11,14 +12,15 @@ const BranchRating = styled(Rating)(({ theme }) => ({
   },
 }));
 const HomeStatistics = () => {
+  const { t } = useTranslation();
 
   return (
     <div className='w-full flex gap-2'>
       <StatisticsContainer className=''>
-        <div className='font-[600] text-[20px] text-black3'>AvailableMissions</div>
+        <div className='font-[600] text-[20px] text-black3'>{t('text.available_missions')}</div>
         <div className="font-extrabold text-[96px] tracking-[1.92px] text-black4">10</div>
         <Link to="/userDashboard/missions/newMission" className="text-green  m-2">
-          + addMore
+          + {t('text.add_more')}
         </Link>
         <div className="w-full flex justify-center ">
           <div className="flex w-[90%]  rounded-full border border-gray5 p-[3px]">
@@ -29,18 +31,18 @@ const HomeStatistics = () => {
           </div>
         </div>
         <div className="font-medium text-[10px] tracking-[1.92px] text-gray6 ">
-          LastPurchase 25 Missions
+          {t('text.last_purchase')}
         </div>
       </StatisticsContainer>
 
       <StatisticsContainer className=''>
-        <div className='font-[600] text-[20px] '>CurrentBalance</div>
+        <div className='font-[600] text-[20px] '>{t('text.current_balance')}</div>
         <div className='flex items-center justify-center gap-1'>
           <img src={monyIcon} alt="" />
         <div className="font-extrabold text-[64px] tracking-[1.92px] text-black4">230</div>
         </div>
         <div className='w-full'>
-          <div className='text-gray6 tracking-[1.92px] text-[10px] font-medium'> lastTransaction</div>
+          <div className='text-gray6 tracking-[1.92px] text-[10px] font-medium'> {t('text.last_transaction')}</div>
           <div className='flex items-center gap-3 text-[20px] text-green'>
             <div className='flex items-center gap-1'>
               <img src={monyIcon2} alt="" />
@@ -52,15 +54,15 @@ const HomeStatistics = () => {
       </StatisticsContainer>
 
       <StatisticsContainer className=''>
-        <div className='font-[600] text-[20px] '>AvgReview</div>
+        <div className='font-[600] text-[20px] '>{t('text.avg_review')}</div>
         <div className="font-extrabold text-[70px] tracking-[1.92px] text-black4">4.7</div>
         <BranchRating name="half-rating" defaultValue={4.7} precision={0.5} readOnly />
         <div className="font-bold text-green text-[20px] leading-[140%] ">
-          ( Excellent )
+          ( {t('text.excellent')} )
         </div>
       </StatisticsContainer>
       <StatisticsContainer className=''>
-        <div className='font-[600] text-[20px] text-black3'>Reconnaissance</div>
+        <div className='font-[600] text-[20px] text-black3'>{t('text.reconnaissance')}</div>
         <div className="font-extrabold text-[130px] tracking-[1.92px] text-black4">210</div>
        
       </StatisticsContainer>

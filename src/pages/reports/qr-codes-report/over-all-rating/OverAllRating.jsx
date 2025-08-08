@@ -1,7 +1,10 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next';
 import BarChartComponent from '../../../../components/BarChartComponent'
 
 const OverAllRating = ({apiData}) => {
+  const { t } = useTranslation();
+  
   // Transform API data to chart format
   const chartData = {
     labels: apiData?.map(item => item.qr_code) || [],
@@ -43,7 +46,7 @@ const OverAllRating = ({apiData}) => {
   return (
     <div className="bg-[#fff] rounded-[20px] p-6 w-full ">
       <div className=" mb-2 text-2xl font-bold text-black2 leading-[28px]">
-        Overall rating for each QR code 
+        {t('text.overall_rating_qr_codes')}
       </div>
       <hr className="my-4 border-gray-200" />
       <BarChartComponent chartData={chartData} options={options} height={100} />

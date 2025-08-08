@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import Rating from '@mui/material/Rating';
 import { styled } from '@mui/material/styles';
 import Stars from '../../../../assets/icons/Stars.svg';
@@ -6,6 +7,8 @@ import SectionRating from './SectionRating';
 
 
 const BranchRating = () => {
+  const { t } = useTranslation();
+  
   const branchData = [
     { name: 'Jeddah', rating: 4, count: 51 },
     { name: 'Riyadh', rating: 1, count: 44 },
@@ -18,7 +21,7 @@ const BranchRating = () => {
   return (
     <div className="bg-white rounded-[12px] p-[20px] border-[10px]  max-w-xl mx-auto">
       <div className="flex items-center justify-between mb-4">
-        <span className="text-2xl font-semibold">Rating</span>
+        <span className="text-2xl font-semibold">{t('text.rating')}</span>
         {/* Star icon group */}
         <span >
           <img src={Stars} alt="star" />
@@ -26,9 +29,9 @@ const BranchRating = () => {
       </div>
       <hr className="my-4 h-[1px] bg-gray7" />
       {/* Branch Section */}
-      <SectionRating title="Branch" data={branchData} />
+      <SectionRating title={t('text.branch')} data={branchData} />
       {/* Section Section */}
-      <SectionRating title="Section" data={sectionData} />
+      <SectionRating title={t('text.section')} data={sectionData} />
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -61,6 +62,7 @@ const missionsData = [
   
 
 const BranchesReport = () => {
+  const { t } = useTranslation();
   const [selected, setSelected] = useState('missions');
 
   const lang = localStorage.getItem('language');
@@ -75,7 +77,7 @@ const BranchesReport = () => {
     labels,
     datasets: [
       {
-        label: selected === 'missions' ? 'Missions' : 'Rate',
+        label: selected === 'missions' ? t('text.missions') : t('text.rate'),
         data: dataValues,
         fill: true,
         borderColor: '#2563eb',
@@ -124,14 +126,14 @@ const BranchesReport = () => {
   return (
     <div className="bg-white rounded-3xl p-8 border-[10px] border-[#F22E2E] max-w-4xl mx-auto">
       <div className="flex items-center justify-between mb-2">
-        <span className="text-2xl font-semibold">Branches Report</span>
+        <span className="text-2xl font-semibold">{t('text.branches_report')}</span>
         <select
           className="border rounded-lg px-3 py-1 text-gray-700"
           value={selected}
           onChange={e => setSelected(e.target.value)}
         >
-          <option value="missions">missions</option>
-          <option value="rate">rate</option>
+          <option value="missions">{t('text.missions')}</option>
+          <option value="rate">{t('text.rate')}</option>
         </select>
       </div>
       <Line data={data} options={options} height={170} />

@@ -15,7 +15,7 @@ import { getSteps } from '../../store/slices/stepSlice'
 
 const Reports = () => {
   const { t } = useTranslation();
-  const [selected, setSelected] = useState('one'); // one , more , qr
+  const [selected, setSelected] = useState('qr'); // one , more , qr
   const dispatch = useDispatch() ;
 
   // Remove the hardcoded qrCodes array

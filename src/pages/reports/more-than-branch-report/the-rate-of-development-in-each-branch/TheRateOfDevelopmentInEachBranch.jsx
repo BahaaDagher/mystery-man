@@ -1,7 +1,9 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next';
 import BarComponent from '../../../../components/BarComponent';
 
 const TheRateOfDevelopmentInEachBranch = ({apiData}) => {
+  const { t } = useTranslation();
   const lang = localStorage.getItem('language');
   const isArabic = lang === 'ar';
   
@@ -28,7 +30,7 @@ const TheRateOfDevelopmentInEachBranch = ({apiData}) => {
   return (
     <div className="bg-[#fff] rounded-[20px] p-6 w-full ">
       <div className=" mb-2 text-2xl font-bold text-black2 leading-[28px]">
-        The development rate in each step for all branches
+        {t('text.development_rate_branch')}
       </div>
       <hr className="my-4 border-gray-200" />
       <div className="space-y-6">
@@ -38,7 +40,7 @@ const TheRateOfDevelopmentInEachBranch = ({apiData}) => {
             labels: branch.steps.map(step => step.step_name),
             datasets: [
               {
-                label: 'Old Average',
+                label: t('text.old_average'),
                 data: branch.steps.map(step => step.old_avg),
                 backgroundColor: '#5654D4',
                 borderRadius: 5,
@@ -46,7 +48,7 @@ const TheRateOfDevelopmentInEachBranch = ({apiData}) => {
                 categoryPercentage: 0.7,
               },
               {
-                label: 'New Average',
+                label: t('text.new_average'),
                 data: branch.steps.map(step => step.new_avg),
                 backgroundColor: '#FF718B',
                 borderRadius: 5,

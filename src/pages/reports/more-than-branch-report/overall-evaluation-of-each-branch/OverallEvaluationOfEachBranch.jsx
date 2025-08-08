@@ -1,7 +1,10 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next';
 import LineChartComponent from '../../../../components/LineChartComponent'
 
 const OverallEvaluationOfEachBranch = ({apiData}) => {
+  const { t } = useTranslation();
+  
   // Transform apiData to match the expected format for the chart
   const transformedData = apiData?.map(branch => [
     branch.branch_name, 
@@ -15,7 +18,7 @@ const OverallEvaluationOfEachBranch = ({apiData}) => {
     labels,
     datasets: [
       {
-        label: "Sections",
+        label: t('text.sections'),
         data: dataValues,
         fill: true,
         borderColor: "#FF718B", 
@@ -62,7 +65,7 @@ const OverallEvaluationOfEachBranch = ({apiData}) => {
 
   return (
     <LineChartComponent
-      title={"Overall evaluation of each branch"}
+      title={t('text.overall_evaluation_branch')}
       chartData={chartData}
       chartOptions={chartOptions} 
       height={100}

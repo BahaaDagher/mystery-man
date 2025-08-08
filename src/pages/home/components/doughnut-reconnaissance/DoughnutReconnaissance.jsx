@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from 'react-i18next';
 import { Chart, ArcElement, Tooltip, Legend } from "chart.js";
 import DoughnutComponent from "../../../../components/DoughnutComponent";
 
@@ -27,10 +28,12 @@ function generateColors(count) {
 }
 
 const DoughnutReconnaissance = () => {
+  const { t } = useTranslation();
+  
   // Simulate API data
   const apiData = {
     data: [16, 3],
-    labels: ["Done Qr codes", "Running Qr Codes"],
+    labels: [t('text.done_qr_codes'), t('text.running_qr_codes')],
   };
 
   // Generate colors based on label count
@@ -72,7 +75,7 @@ const DoughnutReconnaissance = () => {
 
   return (
     <div className="bg-white rounded-[12px] p-[20px]  w-full border-[10px] ">
-      <div className="text-[20px] font-semibold mb-5 ">Reconnaissance</div>
+      <div className="text-[20px] font-semibold mb-5 ">{t('text.reconnaissance')}</div>
       <div className="flex items-center justify-center gap-10">
         <DoughnutComponent
           chartData={chartData}

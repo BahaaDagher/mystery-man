@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from 'react-i18next';
 import HexMapSaudi from "./HexMapSaudi";
 
 // Example data
@@ -45,11 +46,13 @@ function hexagonPoints(cx, cy, size) {
 }
 
 const BranchesLocation = () => {
+  const { t } = useTranslation();
+  
   return (
     <div className="bg-white rounded-[12px] p-[20px] border-[10px] border-[#F22E2E] max-w-3xl mx-auto ">
       {/* Legend */}
       <div className="text-2xl font-semibold mb-4 flex justify-between items-center">
-        <div>Branches in Saudi Arabia</div>
+        <div>{t('text.branches_saudi_arabia')}</div>
         {/* Branches count */}
         <div className="text-3xl font-bold">
           {data.branches}

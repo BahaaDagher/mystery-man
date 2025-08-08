@@ -1,7 +1,10 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next';
 import LineChartComponent from '../../../../components/LineChartComponent';
 
 const AverageBranchRatings = ({apiData}) => {
+  const { t } = useTranslation();
+  
   // Transform apiData to match the expected format for the chart
   const transformedData = apiData?.map(item => [
     `${item.month} ${item.year}`, 
@@ -15,7 +18,7 @@ const AverageBranchRatings = ({apiData}) => {
     labels,
     datasets: [
       {
-        label: "Sections",
+        label: t('text.sections'),
         data: dataValues,
         fill: true,
         borderColor: "#5654D4", 
@@ -62,7 +65,7 @@ const AverageBranchRatings = ({apiData}) => {
 
   return (
     <LineChartComponent
-      title={"Average ratings of all branches over a specific period of time"}
+      title={t('text.average_branch_ratings')}
       chartData={chartData}
       chartOptions={chartOptions} 
       height={200}

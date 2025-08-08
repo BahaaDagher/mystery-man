@@ -1,12 +1,15 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next';
 
 const Top3Branches = ({apiData}) => {
+  const { t } = useTranslation();
+  
   // Take only the first 3 items from apiData, or all if less than 3
   const top3Branches = apiData?.slice(0, 3) || []
 
   return (
     <div className='bg-white rounded-[12px] p-6 '>
-        <div className=' font-bold text-[22px] leading-[28px] '> Top 3 branches in terms of rating</div>
+        <div className=' font-bold text-[22px] leading-[28px] '> {t('text.top_3_branches_rating')}</div>
         <hr className='border-gray_l'/>
         <div className="flex flex-col gap-4 mt-8">
           {top3Branches.map((branch, idx) => (

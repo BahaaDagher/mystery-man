@@ -1,7 +1,10 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next';
 import BarComponent from '../../../../components/BarComponent';
 
 const AverageSectionRatings = ({apiData}) => {
+  const { t } = useTranslation();
+  
   // Transform apiData to match the expected format for the chart
   const transformedData = apiData?.map(step => ({
     name: step.step_name,
@@ -47,7 +50,7 @@ const AverageSectionRatings = ({apiData}) => {
 
   return (
     <BarComponent
-      title={"Average step ratings over a specific period of time"}
+      title={t('text.average_step_ratings')}
       chartData={chartData}
       chartOptions={options}
       height={200}
