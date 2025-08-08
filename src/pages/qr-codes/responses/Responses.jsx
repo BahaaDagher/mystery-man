@@ -132,14 +132,17 @@ const Responses = () => {
             pageRangeDisplayed={10}
             onPageChange={handlePageClick}
             containerClassName={"flex items-center space-x-2"}
-            pageClassName={"rounded-full bg-white w-8 h-8 text-[#222] cursor-pointer flex items-center justify-center"}
+            pageClassName={"rounded-full bg-white w-8 h-8 text-[#222] cursor-pointer flex items-center justify-center hover:bg-gray-100"}
             activeClassName={"text-white"}
-            activeLinkClassName={`rounded-full  w-full h-full bg-main text-white flex items-center justify-center`}
-            previousClassName={"rounded-full bg-white px-3 py-1 text-[#222] cursor-pointer"}
-            nextClassName={"rounded-full bg-white px-3 py-1 text-[#222] cursor-pointer"}
+            activeLinkClassName={`rounded-full w-full h-full bg-main text-white flex items-center justify-center`}
+            previousClassName={"rounded-full bg-white px-3 py-1 text-[#222] cursor-pointer hover:bg-gray-100"}
+            nextClassName={"rounded-full bg-white px-3 py-1 text-[#222] cursor-pointer hover:bg-gray-100"}
             breakClassName={"px-2"}
             forcePage={currentPage}
             activeLinkStyle={{ backgroundColor: Colors.main }}
+            pageLinkClassName={"w-full h-full flex items-center justify-center"}
+            previousLinkClassName={"w-full h-full flex items-center justify-center"}
+            nextLinkClassName={"w-full h-full flex items-center justify-center"}
           />
         </div>
       )}
