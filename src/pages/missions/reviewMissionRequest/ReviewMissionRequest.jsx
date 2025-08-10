@@ -64,7 +64,7 @@ const Section = styled("div")(({ theme }) => ({
   },
 }));
 const ButtonDiv = styled("div")(({ theme }) => ({
-
+  gap : "10px" ,
   display : "flex"  , 
   justifyContent : "center" ,
   alignItems : "center" ,
@@ -75,7 +75,13 @@ const AcceptButton = styled(SubmitButton)(({ theme }) => ({
   margin : "0" , 
   "&:hover" : {
     backgroundColor : Colors.hoverGreen ,
-  
+    
+  },
+  "&.details-button" : {
+    backgroundColor : Colors.main ,
+    "&:hover" : {
+      backgroundColor : Colors.hoverMain ,
+    }
   }
 
 }));
@@ -305,6 +311,21 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
     setSelectedEmployee(null);
   }
 
+  // Function to get Arabic letters
+  const getArabicLetter = (index) => {
+    const currentLanguage = localStorage.getItem("language") || "en";
+    if (currentLanguage === "ar") {
+      const arabicLetters = ['أ', 'ب', 'ج', 'د'];
+      return arabicLetters[index] || String.fromCharCode(65 + index);
+    } else {
+      // English letters
+      return String.fromCharCode(65 + index); // A, B, C, D
+    }
+  }
+
+  // Get text direction based on language
+  const textDirection = localStorage.getItem("language") === "ar" ? 'rtl' : 'ltr';
+
   const {t} = useTranslation() ; 
   return (
     <>
@@ -335,12 +356,8 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
             </CategoryDiv>
           <ButtonDiv>
             <AcceptButton onClick={()=>handleAccept(item)}>{t("text.Accept")}</AcceptButton>
-            <div 
-              onClick={() => handleShowQuiz(item)}
-              className="ms-2 cursor-pointer px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
-            >
-              {t("text.Show_Quiz")}
-            </div>
+            <AcceptButton className='details-button' onClick={()=>handleShowQuiz(item)}>{t("text.Details")}</AcceptButton>
+            
           </ButtonDiv>
       </Line> 
       ) 
@@ -356,7 +373,7 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
         <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
           <div className="flex justify-between items-center p-6 border-b border-gray-200">
             <h3 className="text-lg font-semibold text-gray-900">
-              {t("text.Quiz_Results")} - {selectedEmployee.user.name}
+              {t("text.Details")} - {selectedEmployee.user.name}
             </h3>
             <div
               onClick={handleCloseQuizModal}
@@ -367,6 +384,19 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
           </div>
           
           <div className="p-6">
+            {/* Employee Info Section */}
+            {selectedEmployee.user.info && (
+              <div className="mb-6 p-4 bg-gray-50 rounded-lg">
+                <h4 className="font-medium text-gray-900 mb-3">{t("text.Bio")}</h4>
+                <p className="text-gray-700 leading-relaxed">{selectedEmployee.user.info}</p>
+              </div>
+            )}
+            
+            {/* Quiz Results Section */}
+            <div className="mb-4">
+              <h4 className="font-medium text-gray-900 mb-3">{t("text.Quiz_Results")}</h4>
+            </div>
+            
             {selectedEmployee.quiz_request && selectedEmployee.quiz_request.length > 0 ? (
               <div className="space-y-4">
                 {selectedEmployee.quiz_request.map((quiz, index) => (
@@ -391,28 +421,36 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
                         // quiz.answer === 1 ? 'bg-lightSuccess border border-success' : 
                         'bg-gray-50'
                       }`}>
-                        <span className="font-medium">A:</span> {quiz.option_1}
+                        <span className="font-medium">{getArabicLetter(0)}</span> 
+                        <span className="font-medium mx-2">-</span> 
+                        <span style={{direction: textDirection}}>{quiz.option_1}</span>
                         {/* {quiz.answer === 1 && <span className="ml-2 text-success">✓ {t("text.Correct_Answer")}</span>} */}
                       </div>
                       <div className={`p-2 rounded ${
                         // quiz.answer === 2 ? 'bg-lightSuccess border border-success' : 
                         'bg-gray-50'
                       }`}>
-                        <span className="font-medium">B:</span> {quiz.option_2}
+                        <span className="font-medium">{getArabicLetter(1)}</span> 
+                        <span className="font-medium mx-2">-</span> 
+                        <span style={{direction: textDirection}}>{quiz.option_2}</span>
                         {/* {quiz.answer === 2 && <span className="ml-2 text-success">✓ {t("text.Correct_Answer")}</span>} */}
                       </div>
                       <div className={`p-2 rounded ${
                         // quiz.answer === 3 ? 'bg-lightSuccess border border-success' : 
                         'bg-gray-50'
                       }`}>
-                        <span className="font-medium">C:</span> {quiz.option_3}
+                        <span className="font-medium">{getArabicLetter(2)}</span> 
+                        <span className="font-medium mx-2">-</span> 
+                        <span style={{direction: textDirection}}>{quiz.option_3}</span>
                         {/* {quiz.answer === 3 && <span className="ml-2 text-success">✓ {t("text.Correct_Answer")}</span>} */}
                       </div>
                       <div className={`p-2 rounded ${
                         // quiz.answer === 4 ? 'bg-lightSuccess border border-success' : 
                         'bg-gray-50'
                       }`}>
-                        <span className="font-medium">D:</span> {quiz.option_4}
+                        <span className="font-medium">{getArabicLetter(3)}</span> 
+                        <span className="font-medium mx-2">-</span> 
+                        <span style={{direction: textDirection}}>{quiz.option_4}</span>
                         {/* {quiz.answer === 4 && <span className="ml-2 text-success">✓ {t("text.Correct_Answer")}</span>} */}
                       </div>
                     </div>
@@ -426,9 +464,7 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
                       <span className={`${
                         quiz.is_correct ? 'text-success' : 'text-failed'
                       }`}>
-                        {quiz.user_answer === 1 ? 'A' : 
-                         quiz.user_answer === 2 ? 'B' : 
-                         quiz.user_answer === 3 ? 'C' : 'D'}
+                        {getArabicLetter(quiz.user_answer - 1)}
                       </span>
                     </div>
                   </div>

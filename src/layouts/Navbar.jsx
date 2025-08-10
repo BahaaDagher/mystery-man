@@ -199,10 +199,10 @@ const Navbar = ({phoneOpen , setPhoneOpen ,  handlePhoneToggle }) => {
   const [profileData , setProfileData] = useState ({})
   useEffect(()=>{
     console.log('getProfileData' ,getProfileData);
-    if (getProfileData.status) {
+    if (getProfileData?.status) {
    
-      setProfileData(getProfileData.data.user)
-      setProfileID(getProfileData.data.user.id)
+      setProfileData(getProfileData?.data?.user)
+      setProfileID(getProfileData?.data?.user?.id)
     }
   },[getProfileData])
 

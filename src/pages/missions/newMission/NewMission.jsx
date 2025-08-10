@@ -15,6 +15,7 @@ import QuestionnaireData from './QuestionnaireData';
 import Quiz from './Quiz';
 import Swal from 'sweetalert2';
 import { useTranslation } from 'react-i18next';
+import CustomSelect from '../../../components/CustomSelect';
 
 const Container = styled(SmallContainer)(({ theme }) => ({
   
@@ -230,6 +231,18 @@ const NewMission = () => {
   const handleSelectedBranch = (event) => {
     setSelectedBranch(event.target.value);
   };
+  
+  // gender selection
+  const [selectedGender, setSelectedGender] = useState('');
+  const handleSelectedGender = (event) => {
+    setSelectedGender(event.target.value);
+  };
+  
+  // branches multi-select
+  const [selectedBranches, setSelectedBranches] = useState([]);
+  const handleSelectedBranches = (branches) => {
+    setSelectedBranches(branches);
+  };
   // date and time 
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedTime, setSelectedTime] = useState(new Date());
@@ -297,7 +310,7 @@ const NewMission = () => {
     }
   } , [getProfileData])
   const handleNext = () => {
-      if (title && focus && selectedBranch && date && time1  && selectedQuestioniere>-1) {
+      if (title && focus && selectedBranches.length > 0 && selectedGender !== '' && date && time1  && selectedQuestioniere>-1) {
         if(voucherValue <= wallet){
           setCurrentStep('quiz')
         }
@@ -366,15 +379,24 @@ const NewMission = () => {
             <Divider/>
             <TitleDiv>
                 <Title>{t("text.Branch")}</Title>
+                <CustomSelect
+                  options={currentBranches.map(branch => ({ value: branch.id, label: branch.name }))}
+                  value={selectedBranches}
+                  onChange={handleSelectedBranches}
+                  multiple={true}
+                  placeholder={t("text.Select_branches")}
+                />
+            </TitleDiv>
+            <Divider/>
+            <TitleDiv>
+                <Title>{t("text.Gender")}</Title>
                 <Selectt
-                  value={selectedBranch}
-                  onChange={handleSelectedBranch}
+                  value={selectedGender}
+                  onChange={handleSelectedGender}
                 >
-                  {currentBranches.map((branch, index) => (
-                    <StyledMenuItem key={index} value={branch.id}>
-                      {branch.name}
-                    </StyledMenuItem>
-                  ))}
+                  <StyledMenuItem value={0}>{t("text.Male")}</StyledMenuItem>
+                  <StyledMenuItem value={1}>{t("text.Female")}</StyledMenuItem>
+                  <StyledMenuItem value={2}>{t("text.All")}</StyledMenuItem>
               </Selectt>
             </TitleDiv>
             <Divider/>
@@ -473,7 +495,8 @@ const NewMission = () => {
         <FinishedData
           missionTitle={title}
           missionFocus={focus}
-          missionSelectedBranch={selectedBranch}
+          missionSelectedBranches={selectedBranches}
+          missionSelectedGender={selectedGender}
           missionDate={date}
           missionTime1={time1}
           missionVoucherChecked={voucherChecked}

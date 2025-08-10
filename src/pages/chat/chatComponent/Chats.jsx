@@ -139,8 +139,8 @@ const Chats = ({LastMessage , setShowMessages }) => {
   const getProfileData = useSelector((state) => state.profileData.getProfileData);
 
   useEffect(() => {
-      if (getProfileData.status) {
-          setProfileID(getProfileData.data.user.id)
+      if (getProfileData?.status) {
+          setProfileID(getProfileData?.data?.user?.id)
       }
   }, [getProfileData])
   const [showNotification , setShowNotification] = useState(false)

@@ -92,7 +92,8 @@ const FinishedData = (
    {
     missionTitle ,
     missionFocus ,
-    missionSelectedBranch ,
+    missionSelectedBranches ,
+    missionSelectedGender ,
     missionDate ,
     missionTime1 , 
     
@@ -105,20 +106,21 @@ const FinishedData = (
   } ) => {
     const [activePost , setActivePost] = useState(false)
     useEffect(() => {
-      if(missionTitle && missionFocus && missionSelectedBranch && missionDate && missionTime1  && missionSelectedQuestioniere>-1 && quizData.length > 0){
+      if(missionTitle && missionFocus && missionSelectedBranches.length > 0 && missionSelectedGender !== '' && missionDate && missionTime1  && missionSelectedQuestioniere>-1 && quizData.length > 0){
         setActivePost(true)
       }
       else {
         setActivePost(false)
       }
-    },[ missionTitle , missionFocus , missionSelectedBranch , missionDate , missionTime1  , missionVoucherChecked , missionVoucherValue , missionSelectedQuestioniere, quizData])
+    },[ missionTitle , missionFocus , missionSelectedBranches , missionSelectedGender , missionDate , missionTime1  , missionVoucherChecked , missionVoucherValue , missionSelectedQuestioniere, quizData])
   
     const questionieresData = useSelector((state) => state.questioneirData.questionieres);
     const currentQuestioneir = useSelector((state) => state.questioneirData.currentQuestioneir);
     const missionData = {
       title : missionTitle , 
       foucs : missionFocus , 
-      branch_id : missionSelectedBranch , 
+      branchIds : missionSelectedBranches , 
+      gender : missionSelectedGender ,
       date : missionDate , 
       from : missionTime1 , 
       price : missionVoucherValue , 
@@ -138,6 +140,11 @@ const FinishedData = (
       if (addMissionsData.status) {
         Swal.fire(t("text.mission_added_successfully"), '', 'success')
         window.location.href ="/userDashboard/missions"
+      } else if (click) {
+        Swal.fire({
+          icon: 'error',
+          text: addMissionsData.message,
+        })
       }
     }, [addMissionsData])
 
@@ -148,6 +155,7 @@ const FinishedData = (
         confirmButtonText: t("text.Yes"),
         denyButtonText: t("text.No"),
       }).then((result) => {
+        setClick(true)
         if (result.isConfirmed) {
           dispatch(addMissions(missionData))
         } else if (result.isDenied) {
@@ -195,7 +203,17 @@ const FinishedData = (
                 <Title>{t("text.Branch")}</Title>
               </FocusChangeTitle>
               <FocusChangeImg>
-                <img src = {missionSelectedBranch ? checked :unchecked}/>
+                <img src = {missionSelectedBranches.length > 0 ? checked :unchecked}/>
+              </FocusChangeImg>
+            </FocusChangeLine>
+
+            <FocusChangeLine>
+              <FocusChangeTitle>
+                <img src = {branch}/>
+                <Title>{t("text.Gender")}</Title>
+              </FocusChangeTitle>
+              <FocusChangeImg>
+                <img src = {missionSelectedGender !== '' ? checked :unchecked}/>
               </FocusChangeImg>
             </FocusChangeLine>
 

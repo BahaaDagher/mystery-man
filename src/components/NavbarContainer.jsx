@@ -120,10 +120,10 @@ const NavbarContainer = () => {
 
   const dispatch = useDispatch()
     useEffect(()=>{
-      if (getProfileData.status) {
-        console.log("getProfileData" , getProfileData.data)
-        setProfileData(getProfileData.data.user)
-        dispatch(ProfileData(getProfileData.data.user))
+      if (getProfileData?.status) {
+        console.log("getProfileData" , getProfileData?.data)
+        setProfileData(getProfileData?.data?.user)
+        dispatch(ProfileData(getProfileData?.data?.user))
       }
     },[getProfileData])
 

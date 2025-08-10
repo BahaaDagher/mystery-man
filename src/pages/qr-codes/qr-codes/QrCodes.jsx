@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next';
 import { getQrCodeBranches } from '../../../store/slices/QrCode'
@@ -51,9 +51,22 @@ const QrCodes = () => {
   const qrCodeBranchesData = useSelector(state => state.qrCodeData.qrCodeBranchesData);
   const qrCodeBranchesLoading = useSelector(state => state.qrCodeData.qrCodeBranchesLoading);
 
+  // Local state with status-checked data
+  const [qrCodes, setQrCodes] = useState([]);
+
   useEffect(() => {
     dispatch(getQrCodeBranches());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (qrCodeBranchesData && typeof qrCodeBranchesData === 'object') {
+      if (qrCodeBranchesData.status === true) {
+        setQrCodes(qrCodeBranchesData?.data?.QrCodes || []);
+      } else {
+        setQrCodes([]);
+      }
+    }
+  }, [qrCodeBranchesData]);
 
   if (qrCodeBranchesLoading) {
     return <Loading />;
@@ -61,7 +74,7 @@ const QrCodes = () => {
 
   return (
     <div className="flex flex-wrap gap-4 w-full">
-      {qrCodeBranchesData?.data?.QrCodes?.map((item, idx) => (
+      {qrCodes.map((item) => (
         <div key={item.id} className="w-full lg:w-[49%]">
           <QrCodesCart
             branchName={item.branch_name}
@@ -71,6 +84,7 @@ const QrCodes = () => {
             qrCodeName={item.name}
             qrCodeImage={item.image}
             totalCount={item.count}
+            qrCodeUrl={item.url}
           />
         </div>
       ))}

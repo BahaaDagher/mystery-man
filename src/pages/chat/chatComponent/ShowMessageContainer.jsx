@@ -97,8 +97,8 @@ const ShowMessageContainer = ({setLastMessage , setShowMessages }) => {
     const getProfileData = useSelector((state) => state.profileData.getProfileData);
 
     useEffect(() => {
-        if (getProfileData.status) {
-            setProfileID(getProfileData.data.user.id)
+        if (getProfileData?.status) {
+            setProfileID(getProfileData?.data?.user?.id)
         }
     }, [getProfileData])
 

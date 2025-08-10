@@ -356,6 +356,19 @@ const resources = {
         date : "Date" ,
         percentage_score : "Percentage Score" ,
         id : "Id" ,
+        // QR Code Cart translations
+        URL : "URL" ,
+        Copy : "Copy" ,
+        Copied : "Copied" ,
+        Copy_URL : "Copy URL" ,
+        // Mission translations
+        Gender : "Gender" ,
+        Male : "Male" ,
+        Female : "Female" ,
+        All : "All" ,
+        Select_branches : "Select branches" ,
+        Details : "Details" ,
+        Bio : "Bio" ,
       },
       content: {}
     }
@@ -428,7 +441,7 @@ const resources = {
         New_Mission : "مهمة جديدة" ,
         type_what_you_want_him_her_to_focus_on : "اكتب ما تريد أن يركز عليه ! " ,
         Include_Purchase_voucher : "تضمين قسيمة شراء" ,
-        Reconnaissance : "استطلاع" ,
+        Reconnaissance : "مهمة استطلاع" ,
         Enable_Reconnaissance : "تفعيل الاستطلاع" ,
         Notes : "ملاحظات" ,
         Next : "التالي" ,
@@ -712,6 +725,19 @@ const resources = {
         date : "التاريخ" ,
         percentage_score : "النسبة المئوية للدرجة" ,
         id : "المعرف" ,
+        // QR Code Cart translations
+        URL : "الرابط" ,
+        Copy : "نسخ" ,
+        Copied : "تم النسخ" ,
+        Copy_URL : "نسخ الرابط" ,
+        // Mission translations
+        Gender : "الجنس" ,
+        Male : "ذكر" ,
+        Female : "أنثى" ,
+        All : "الكل" ,
+        Select_branches : "اختر الفروع" ,
+        Details : "التفاصيل" ,
+        Bio : "نبذة تعريفية" ,
       },
       content: {}
     }

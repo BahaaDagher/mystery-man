@@ -38,7 +38,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 const Parent = styled("div")(({ theme }) => ({
     borderRadius: '10px',
     backgroundColor: '#fff',
-    padding : "20px", 
+    padding : "25px", 
     marginBottom : "20px" ,
     overflowX : "auto" ,
     overflowY : "hidden" ,
@@ -222,6 +222,9 @@ const VisitorRating = styled(Rating)(({ theme }) => ({
 }));
 
 const ViewMissions = ({showMissions , setShowMissions , selectMissions , setButtonsMissions }) => {
+    const { t } = useTranslation();
+    const dispatch = useDispatch();
+    const currentLanguage = localStorage.getItem("language") || "en";
 
     const [chosenSetting , setChosenSetting] = useState("sss") ;
 
@@ -306,7 +309,6 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions , setButt
         }
     }, [getMissionsData])
 
-    const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getMissions())
         
@@ -333,7 +335,6 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions , setButt
         setMissionId(mission.id)
     }
 
-    const {t} = useTranslation()
     const [findData ,  setFindData] = useState(false)
     useEffect(() => {
         setFindData(false)
@@ -473,12 +474,77 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions , setButt
 
     {showMissions ?
     missionsData.map((mission , index) => {
-        if (mission.status == selectMissions){
+        if (selectMissions === 1) {
+            // Show missions with status 1 (Wait_Requests) and status 5 (Pending_user_Acceptance)
+            if (mission.status === 1 || mission.status === 5) {
+                if (!findData) setFindData(true)
+                return (
+                <Parent key={index} className = {PaddingBottom? "PaddingBottom" : PaddingTop && mission.can_sent ? "PaddingTop" :""}>
+                    {mission.reconnaissance == 1 && (
+                        <div className={`absolute top-0 ${currentLanguage === "ar" ? "right-0" : "left-0"} bg-main text-white text-xs font-bold px-2 py-1 z-10`}>
+                            {t("text.Reconnaissance")}
+                        </div>
+                    )}
+                    <Header>
+                        <Published>
+                            <PublishedTitle> {t("text.published")}</PublishedTitle>
+                            <Box color = {Colors.gray} >{mission.dayWritten}</Box>
+                        </Published>
+                        <IconDiv onClick={(e)=>{ handleIconClick(e , mission )}}>
+                            <img src= {ThreeDotesMore} alt ="more"/>
+                        </IconDiv>
+                    </Header>
+                    <MissionTitle className = {mission.status==6 ? "cancel" : ""}>
+                        {mission.name} 
+                    </MissionTitle>
+                    <Divider/>
+                    <Footer>
+                        <Focus>
+                            <FocusTitle>{t("text.Focus")}</FocusTitle>
+                            <FocusThings>
+                                {mission.foucs} 
+                            </FocusThings>
+                        </Focus>
+                        <LocationAndTime>
+                            <LocationAndTimeTitle>{t("text.locationAndTime")}</LocationAndTimeTitle>
+                            <LocationAndTimeThings>
+                                <DateDiv>
+                                    <ImgDiv>
+                                        <img src= {location2} alt ="location"/>
+                                    </ImgDiv>
+                                    <Address>{mission.address}</Address>
+                                </DateDiv>
+                                <DateTime>
+                                    <Date>
+                                        <ImgDiv>
+                                            <img src= {date} alt ="location"/>
+                                        </ImgDiv>
+                                        <Address style = {{color :mission.can_sent? Colors.green : ""}}>{mission.date}</Address>
+                                    </Date>
+                                    <Time>
+                                        <ImgDiv>
+                                            <img src= {time} alt ="location"/>
+                                        </ImgDiv>
+                                        <Address style = {{ direction : "ltr"  , color :mission.can_sent? Colors.green : "" }}> {mission.from} -  {mission.to}</Address>
+                                    </Time>
+                                </DateTime>
+                            </LocationAndTimeThings>
+                        </LocationAndTime>
+                    </Footer>
+                    {mission.status ==1 ? 
+                        <ReviewSubmitButton  onClick={()=>ReviewRequest(mission)}> {t("text.ReviewRequests")}  </ReviewSubmitButton> : null 
+                    }
+                    
+                    
+                </Parent>
+                )
+            }
+        } else if (mission.status == selectMissions){
             if (!findData) setFindData(true)
             return (
             <Parent key={index} className = {PaddingBottom? "PaddingBottom" : PaddingTop && mission.can_sent ? "PaddingTop" :""}>
                 {mission.reconnaissance == 1 && (
-                    <div className="absolute top-0 left-[40%] bg-main text-white text-xs font-bold px-2 py-1 rounded-full z-10">
+                    <div className={`absolute top-0 ${currentLanguage === "ar" ? "right-0" : "left-0"} bg-main text-white text-xs font-bold px-2 py-1 z-10`}>
                         {t("text.Reconnaissance")}
                     </div>
                 )}
@@ -579,7 +645,7 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions , setButt
                 }
                 
             </Parent>
-        ) 
+            )
         }
      } ) : null  
     }

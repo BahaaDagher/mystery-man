@@ -107,8 +107,8 @@ const SidebarProfile = () => {
   const [profileData , setProfileData] = useState ({})
   useEffect(()=>{
     // console.log('getProfileData' ,getProfileData);
-    if (getProfileData.status) {
-      setProfileData(getProfileData.data.user)
+    if (getProfileData?.status) {
+      setProfileData(getProfileData?.data?.user)
     }
   },[getProfileData])
   return (

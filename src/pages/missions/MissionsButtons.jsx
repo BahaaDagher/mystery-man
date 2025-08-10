@@ -122,13 +122,6 @@ const MissionsButtons = ({ setShowMissions , setSelectMissions , buttonsMissions
         icon2 : WaitRequests2
     } , 
     {
-        id : 5 , 
-        name : "Pending_user_Acceptance" , 
-        number :  0 , 
-        icon1: WaitRequests, 
-        icon2 : WaitRequests2
-    } ,
-    {
         id : 2 , 
         name : "Current_Missions" , 
         number :  0 , 
@@ -165,7 +158,6 @@ const MissionsButtons = ({ setShowMissions , setSelectMissions , buttonsMissions
             one : 0 , 
             two : 0 , 
             three : 0 , 
-            five : 0 , 
             six : 0 ,
         }
     )
@@ -183,7 +175,8 @@ const MissionsButtons = ({ setShowMissions , setSelectMissions , buttonsMissions
                 if (mission.status == 0) {
                     arr.zero = arr.zero + 1
                     setNumbers(arr)
-                }else if (mission.status == 1) {
+                }else if (mission.status == 1 || mission.status == 5) {
+                    // Merge status 1 (Wait_Requests) and status 5 (Pending_user_Acceptance)
                     arr.one = arr.one + 1
                     setNumbers(arr)
                 }else if (mission.status == 2) {
@@ -191,9 +184,6 @@ const MissionsButtons = ({ setShowMissions , setSelectMissions , buttonsMissions
                     setNumbers(arr)
                 }else if (mission.status == 3) {
                     arr.three = arr.three + 1
-                    setNumbers(arr)
-                }else if (mission.status == 5) {
-                    arr.five = arr.five + 1
                     setNumbers(arr)
                 }else if (mission.status == 6) {
                     arr.six = arr.six + 1
@@ -203,10 +193,9 @@ const MissionsButtons = ({ setShowMissions , setSelectMissions , buttonsMissions
             let arr = [...buttonsArray]
             arr[0].number = numbers.zero
             arr[1].number = numbers.one
-            arr[2].number = numbers.five
-            arr[3].number = numbers.two
-            arr[4].number = numbers.three
-            arr[5].number = numbers.six
+            arr[2].number = numbers.two
+            arr[3].number = numbers.three
+            arr[4].number = numbers.six
             setButtonsArray(arr)
         }
 
