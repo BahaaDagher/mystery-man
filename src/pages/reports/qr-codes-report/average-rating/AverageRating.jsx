@@ -44,7 +44,7 @@ const AverageRating = ({apiData}) => {
                       data: [item.percentage || 0, otherValue],
                       backgroundColor,
                       borderWidth: 1,
-                      spacing: 3,
+                      spacing: 0,
                       borderRadius: 5,
                     }
                   ]

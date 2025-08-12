@@ -14,6 +14,7 @@ import Home from './pages/home/Home';
 import Profile from "./pages/profile/Profile";
 import Map from './components/Map';
 import NewBranch from './pages/profile/NewBranch';
+import EditBranch from './pages/profile/EditBranch';
 import Bahaa from './components/Bahaa';
 import Questionnaires from './pages/questionnaires/Questionnaires';
 import Missions from './pages/missions/Missions';
@@ -80,6 +81,7 @@ function App() {
         <Route path='/register/review' element = <Review/>  />
         <Route path='/profile' element = <Profile/> />
         <Route path='/newBranch' element = <NewBranch/> />
+        <Route path='/editBranch' element = <EditBranch/> />
         <Route path='/map' element = <Map/>  />
         <Route path='/chat' element = <Chat/>  />
         <Route path="/" element=<Layout /> />

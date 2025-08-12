@@ -66,6 +66,32 @@ export const getBranches = createAsyncThunk(
     }
     );
 
+export const updateBranch = createAsyncThunk(
+    "branch/updateBranch", 
+    async (values) => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios.post(
+                "https://test.secretvisitor.co/dashboard/api/updateBranch" ,{
+                    name: values.name,
+                    address: values.address, 
+                    lat: values.lat,
+                    long: values.long,
+                    branch_id: values.branch_id
+                },{
+                    headers: {
+                        "Authorization" : token , 
+                        "lang" : currentLanguage ,
+                    },
+                }
+            );
+            return response.data ;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+);
+
 
 const branchSlice = createSlice({
 name: "branch",
@@ -75,6 +101,8 @@ initialState: {
     getBranchesDataLoading : false ,
     deleteBranchData : {} ,
     deleteBranchLoading : false , 
+    updateBranchData: {},
+    updateBranchLoading: false,
     
 },
 extraReducers: (builder) => {
@@ -103,6 +131,17 @@ extraReducers: (builder) => {
     }) 
     .addCase(deleteBranch.rejected , (state, action) => {
         state.deleteBranchLoading = false;
+    })
+
+    .addCase(updateBranch.fulfilled , (state, action) => {
+        state.updateBranchData = action.payload;
+        state.updateBranchLoading = false;
+    }) 
+    .addCase(updateBranch.pending, (state, action) => {
+        state.updateBranchLoading = true;
+    }) 
+    .addCase(updateBranch.rejected , (state, action) => {
+        state.updateBranchLoading = false;
     })
 
 }

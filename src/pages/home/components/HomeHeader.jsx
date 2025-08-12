@@ -12,9 +12,9 @@ const HomeHeader = () => {
   return (
     <div className='w-full flex justify-between items-center'>
       <div className='flex '>
-          <div>{t('text.overview')}</div>
+          {/* <div>{t('text.overview')}</div>
           <BranchRating name="half-rating" defaultValue={4} precision={0.5} readOnly />
-          <div className='text-green'>( {t('text.excellent')} )</div>
+          <div className='text-green'>( {t('text.excellent')} )</div> */}
       </div>
       <div className='flex items-center justify-center gap-2 '>
         <div className='bg-main p-[8px] rounded-[5px] cursor-pointer flex items-center justify-center '> 

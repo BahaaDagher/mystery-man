@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next'
 import viewIcon from '../../../assets/icons/ShowIcon.svg'
 import Loading from '../../../components/Loading'
 import { Colors } from '../../../Theme'
+import QuestionsModal from './QuestionsModal'
 
 const ITEMS_PER_PAGE = 5
 
@@ -18,6 +19,8 @@ const Responses = () => {
   const [selectedBranch, setSelectedBranch] = useState('')
   const [branches, setBranches] = useState([])
   const [responses, setResponses] = useState([])
+  const [showQuestionsModal, setShowQuestionsModal] = useState(false)
+  const [selectedQuestions, setSelectedQuestions] = useState(null)
 
   // Redux selectors
   const getBranchesData = useSelector(state => state.branchData.getBranchesData)
@@ -70,6 +73,18 @@ const Responses = () => {
   const offset = currentPage * ITEMS_PER_PAGE
   const currentItems = responses.slice(offset, offset + ITEMS_PER_PAGE)
 
+  // Handle view questions click
+  const handleViewQuestions = (item) => {
+    setSelectedQuestions(item.questions)
+    setShowQuestionsModal(true)
+  }
+
+  // Handle close modal
+  const handleCloseModal = () => {
+    setShowQuestionsModal(false)
+    setSelectedQuestions(null)
+  }
+
   return (
     <div className="bg-[#f5f7fa] rounded-xl p-5 w-full">
       {/* Branch Selection */}
@@ -100,7 +115,7 @@ const Responses = () => {
               <th className="py-3 px-4">{t('text.branch_name')}</th>
               <th className="py-3 px-4">{t('text.date')}</th>
               <th className="py-3 px-4">{t('text.percentage_score')}</th>
-              {/* <th className="py-3 px-4 text-center"></th> */}
+              <th className="py-3 px-4 text-center"></th>
             </tr>
           </thead>
           <tbody>
@@ -111,9 +126,11 @@ const Responses = () => {
                 <td className="py-3 px-4 font-medium text-[16px]">{item.branch_name}</td>
                 <td className="py-3 px-4 font-medium text-[16px]">1-8-2025</td>
                 <td className="py-3 px-4 font-medium text-[16px]">{item.percentage_score}</td>
-                {/* <td className="py-3 px-4 flex items-center justify-center gap-4">
-                  <div className="cursor-pointer"><img src={viewIcon} alt="view"  /></div>
-                </td> */}
+                <td className="py-3 px-4 flex items-center justify-center gap-4">
+                  <div className="cursor-pointer" onClick={() => handleViewQuestions(item)}>
+                    <img src={viewIcon} alt="view" />
+                  </div>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -146,6 +163,13 @@ const Responses = () => {
           />
         </div>
       )}
+
+      {/* Questions Modal */}
+      <QuestionsModal
+        isOpen={showQuestionsModal}
+        onClose={handleCloseModal}
+        questions={selectedQuestions}
+      />
     </div>
   )
 }

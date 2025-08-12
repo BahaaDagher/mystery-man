@@ -12,10 +12,11 @@ import { format, startOfMonth } from 'date-fns'
 import { moreThanBranchReport, oneBranchReport, qrCodeReport } from '../../store/slices/reportSlice'
 import Swal from 'sweetalert2'
 import { getSteps } from '../../store/slices/stepSlice'
+import { de } from 'date-fns/locale';
 
 const Reports = () => {
   const { t } = useTranslation();
-  const [selected, setSelected] = useState('qr'); // one , more , qr
+  const [selected, setSelected] = useState('one'); // one , more , qr
   const dispatch = useDispatch() ;
 
   // Remove the hardcoded qrCodes array
@@ -84,7 +85,7 @@ const Reports = () => {
     if (getBranchesData?.status) {
       setBranches(getBranchesData?.data?.branches)
       // Set the first branch as default  and selectedBranch
-      if (getBranchesData?.data?.branches && getBranchesData?.data?.branches?.length > 0 && branches.length === 0) {
+      if (getBranchesData?.data?.branches && getBranchesData?.data?.branches?.length > 0 ) {
         const firstBranchId = getBranchesData?.data?.branches[0]?.id;
         setSelectedBranch(firstBranchId);
         setSelectedBranches([firstBranchId])
@@ -100,6 +101,7 @@ const Reports = () => {
 
   useEffect(()=>{
     if (getQrCodeBranchesData?.status) {
+      debugger;
       // Transform the API response to match the CustomSelect format
       const transformedQrCodes = getQrCodeBranchesData?.data?.QrCodes?.map(qrCode => ({
         value: qrCode.id,
@@ -108,7 +110,8 @@ const Reports = () => {
       setQrCodes(transformedQrCodes)
       
       // Set the first QR code as default if no QR code is selected
-      if (transformedQrCodes.length > 0 && selectedQRCode === '') {
+      if (transformedQrCodes.length > 0 ) {
+        debugger;
         setSelectedQRCode(transformedQrCodes[0].value)
       }
     }

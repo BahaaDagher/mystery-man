@@ -61,15 +61,26 @@ const missionsData = [
   ];
   
 
-const BranchesReport = () => {
+const BranchesReport = ({ missions = [] }) => {
   const { t } = useTranslation();
   const [selected, setSelected] = useState('missions');
 
   const lang = localStorage.getItem('language');
   const isArabic = lang === 'ar';
 
+  // Transform API data for chart
+  const transformMissionsData = () => {
+    if (!missions || missions.length === 0) return [];
+    return missions.map(mission => [mission.name, mission.countMissions]);
+  };
+
+  const transformRateData = () => {
+    if (!missions || missions.length === 0) return [];
+    return missions.map(mission => [mission.name, parseFloat(mission.rate) || 0]);
+  };
+
   // Choose data based on selection
-  const dataArray = selected === 'missions' ? missionsData : rateData;
+  const dataArray = selected === 'missions' ? transformMissionsData() : transformRateData();
   const labels = dataArray.map(item => item[0]);
   const dataValues = dataArray.map(item => item[1]);
 

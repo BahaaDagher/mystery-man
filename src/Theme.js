@@ -4,6 +4,8 @@ export const Colors = {
     main3 : "#50489cab" , 
     main4 : "#5654D4" , 
     main5 : "#122E74" ,
+    yellow : "#FFFF00" ,
+    orange : "#FFA500" ,  
     light : "#dad8e9" , 
     lightMain : "#3734CA1A" , 
     hoverMain: "#453c9c" , 

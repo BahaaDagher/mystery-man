@@ -262,7 +262,7 @@ const Profile = () => {
                               <IconDiv>
                                 <img src = {trash} onClick= {()=>{delBranch(index)}}/>
                               </IconDiv>
-                              <IconDiv>
+                              <IconDiv onClick={() => navigate('/editBranch', { state: { branchData: branch } })}>
                                 <img src = {EditBranch} />
                               </IconDiv>
                             </Flex>

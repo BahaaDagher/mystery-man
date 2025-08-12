@@ -7,17 +7,17 @@ import showIcon from '../../../assets/icons/ShowIcon.svg'
 import printIcon from '../../../assets/icons/PrintIcon.svg'
 import { generateQrPrintHtml } from './generateQrPrintHtml'
 
-const QrCodesCart = ({branchName , responseCount , address, qrCodeId, qrCodeName, qrCodeImage, totalCount, qrCodeUrl }) => {
+const QrCodesCart = ({ item }) => {
   const { t } = useTranslation();
   const [showModal, setShowModal] = useState(false);
   const [copied, setCopied] = useState(false);
   
   const handleDownloadImage = () => {
-    if (qrCodeImage) {
+    if (item?.image) {
       // Create a temporary link element
       const link = document.createElement('a');
-      link.href = qrCodeImage;
-      link.download = `${qrCodeName || 'qr-code'}.png`;
+      link.href = item.image;
+      link.download = `${item?.name || 'qr-code'}.png`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -26,7 +26,7 @@ const QrCodesCart = ({branchName , responseCount , address, qrCodeId, qrCodeName
 
   const handleCopyUrl = async () => {
     try {
-      await navigator.clipboard.writeText(qrCodeUrl || '');
+      await navigator.clipboard.writeText(item?.url || '');
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
     } catch (e) {
@@ -43,14 +43,14 @@ const QrCodesCart = ({branchName , responseCount , address, qrCodeId, qrCodeName
   };
 
   const handleDownloadPDF = () => {
-    if (!qrCodeImage) return;
+    if (!item?.image) return;
 
     // Create optimized print content
     const printContent = generateQrPrintHtml({
-      qrCodeName,
-      qrCodeImage,
-      branchName,
-      address,
+      qrCodeName: item?.name,
+      qrCodeImage: item?.image,
+      branchName: item?.branch_name,
+      address: item?.branch_address,
     });
 
     try {
@@ -108,19 +108,22 @@ const QrCodesCart = ({branchName , responseCount , address, qrCodeId, qrCodeName
     <>
       <div className='bg-white rounded-[10px] p-[10px] flex flex-col gap-1 w-full'>
           <div className='flex items-center justify-between'>
-              <div className='font-medium text-[18px] leading-[21.28px] tracking-[2%] text-second'>{branchName}</div>
+              <div className='flex flex-col'>
+                  <div className='font-medium text-[18px]  text-second'>{item?.name}</div>
+                  <div className='font-medium text-[14px]  text-gray-600'>{item?.branch_name}</div>
+              </div>
               <div className='flex items-center gap-2'>
                   <div className='cursor-pointer' onClick={()=>{}}> <img src={deleteIcon} alt="" /></div>
                   {/* <div className='cursor-pointer' onClick={()=>{}}> <img src={editIcon} alt="" /></div> */}
                   <div className='cursor-pointer' onClick={handleShowModal}> <img src={showIcon} alt="" /></div>
               </div>
           </div>
-          <div className='font-bold text-[14px] leading-[21.28px] tracking-[2%]'>{responseCount} / {totalCount} {t("text.responses")}</div>
+          <div className='font-bold text-[14px] leading-[21.28px] tracking-[2%]'>{item?.used_count} / {item?.count} {t("text.responses")}</div>
           <div className='flex items-center gap-2'>
               <div className=''>
                   <img src={location} alt="" />
               </div>
-              <div className='font-medium text-[16px] leading-[22.4px] text-second'>{address}</div>
+              <div className='font-medium text-[16px] leading-[22.4px] text-second'>{item?.branch_address}</div>
           </div>
       </div>
 
@@ -143,24 +146,24 @@ const QrCodesCart = ({branchName , responseCount , address, qrCodeId, qrCodeName
             <div className="space-y-4">
               <div className="text-center">
                 <img 
-                  src={qrCodeImage} 
+                  src={item?.image} 
                   alt="QR Code" 
                   className="max-w-full h-auto max-h-48 mx-auto mb-4"
                 />
                 <div className="text-sm text-gray-600 mb-4">
-                  <div className="font-medium">{qrCodeName}</div>
-                  <div>{t("text.Branch")}: {branchName}</div>
-                  <div>{t("text.responses")}: {responseCount} / {totalCount}</div>
-                  {qrCodeUrl && (
+                  <div className="font-medium">{item?.name}</div>
+                  <div>{t("text.Branch")}: {item?.branch_name}</div>
+                  <div>{t("text.responses")}: {item?.used_count} / {item?.count}</div>
+                  {item?.url && (
                     <div className="mt-2 flex items-center justify-center gap-2">
                       <span className="font-medium">{t('text.URL')}:</span>
                       <a 
-                        href={qrCodeUrl}
+                        href={item?.url}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="break-all text-blue-600 hover:text-blue-800 underline cursor-pointer"
                       >
-                        {qrCodeUrl}
+                        {item?.url}
                       </a>
                       <div
                         onClick={handleCopyUrl}

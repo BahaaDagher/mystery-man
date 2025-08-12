@@ -27,11 +27,14 @@ function generateColors(count) {
   );
 }
 
-const DoughnutReconnaissance = () => {
+const DoughnutReconnaissance = ({ reconnaissanceChart }) => {
   const { t } = useTranslation();
   
-  // Simulate API data
-  const apiData = {
+  // Use API data if available, otherwise use default data
+  const apiData = reconnaissanceChart ? {
+    data: [reconnaissanceChart.done || 0, reconnaissanceChart.running || 0],
+    labels: [t('text.done_qr_codes'), t('text.running_qr_codes')],
+  } : {
     data: [16, 3],
     labels: [t('text.done_qr_codes'), t('text.running_qr_codes')],
   };
@@ -56,8 +59,8 @@ const DoughnutReconnaissance = () => {
         data: apiData.data,
         backgroundColor: backgroundColor,
         borderWidth: 1,
-        spacing: 3,
-        borderRadius: 7,
+        spacing: 0,
+        borderRadius: 4,
       },
     ],
   };

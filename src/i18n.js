@@ -369,6 +369,21 @@ const resources = {
         Select_branches : "Select branches" ,
         Details : "Details" ,
         Bio : "Bio" ,
+        // Questions Modal translations
+        Questionnaire_Details : "Questionnaire Details" ,
+        Questionnaire_Information : "Questionnaire Information" ,
+        ID : "ID" ,
+        Title : "Title" ,
+        Steps : "Steps" ,
+        Questions : "Questions" ,
+        Question_ID : "Question ID" ,
+        Type : "Type" ,
+        Choices : "Choices" ,
+        Close : "Close" ,
+        // Branch Edit translations
+        Update_Branch : "Update Branch" ,
+        Updating : "Updating..." ,
+        Please_fill_in_all_fields : "Please fill in all fields" ,
       },
       content: {}
     }
@@ -738,6 +753,21 @@ const resources = {
         Select_branches : "اختر الفروع" ,
         Details : "التفاصيل" ,
         Bio : "نبذة تعريفية" ,
+        // Questions Modal translations
+        Questionnaire_Details : "تفاصيل الاستبيان" ,
+        Questionnaire_Information : "معلومات الاستبيان" ,
+        ID : "المعرف" ,
+        Title : "العنوان" ,
+        Steps : "الخطوات" ,
+        Questions : "الأسئلة" ,
+        Question_ID : "معرف السؤال" ,
+        Type : "النوع" ,
+        Choices : "الخيارات" ,
+        Close : "إغلاق" ,
+        // Branch Edit translations
+        Update_Branch : "تحديث الفرع" ,
+        Updating : "جاري التحديث..." ,
+        Please_fill_in_all_fields : "يرجى ملء جميع الحقول" ,
       },
       content: {}
     }

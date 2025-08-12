@@ -14,7 +14,7 @@ const getBarColor = (rating) => {
         <div
           className="h-full rounded-[4px] transition-all duration-300"
           style={{
-            width: `${(rating /5) * 100}%`,
+            width: `${Math.max((rating / 5) * 100, 0.5)}%`,
             background: color,
           }}
         />

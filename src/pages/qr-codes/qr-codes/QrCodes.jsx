@@ -76,16 +76,7 @@ const QrCodes = () => {
     <div className="flex flex-wrap gap-4 w-full">
       {qrCodes.map((item) => (
         <div key={item.id} className="w-full lg:w-[49%]">
-          <QrCodesCart
-            branchName={item.branch_name}
-            responseCount={item.used_count}
-            address={item.branch_address}
-            qrCodeId={item.id}
-            qrCodeName={item.name}
-            qrCodeImage={item.image}
-            totalCount={item.count}
-            qrCodeUrl={item.url}
-          />
+          <QrCodesCart item={item} />
         </div>
       ))}
     </div>

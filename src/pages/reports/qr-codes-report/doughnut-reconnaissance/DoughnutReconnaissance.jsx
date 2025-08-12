@@ -56,7 +56,7 @@ const DoughnutReconnaissance = ({apiData}) => {
         data: chartData.data,
         backgroundColor: backgroundColor,
         borderWidth: 1,
-        spacing: 3,
+        spacing: 0,
         borderRadius: 7,
       },
     ],

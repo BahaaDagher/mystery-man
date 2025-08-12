@@ -19,6 +19,8 @@ module.exports = {
             main3: Colors.main3, 
             main4: Colors.main4,
             main5: Colors.main5,
+            yellow: Colors.yellow,
+            orange: Colors.orange,
             light: Colors.light,  
             lightMain: Colors.lightMain,
             hoverMain: Colors.hoverMain,

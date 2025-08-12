@@ -1,53 +1,90 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from 'react-i18next';
 import HexMapSaudi from "./HexMapSaudi";
+import { useDispatch, useSelector } from "react-redux";
+import { getCitiesBranches } from "../../../../store/slices/reportSlice";
+import CircleLoader from "../../../../components/CircleLoader";
+import { Colors } from "../../../../Theme";
 
-// Example data
-const data = {
-  branches: 6,
+// Default data for fallback
+const defaultData = {
+  branches: 0,
   cities: [
-    { name: "Riyadh", count: 3 },
-    { name: "Jeddah", count: 1 },
-    { name: "Dammam", count: 1 },
-    { name: "Khobar", count: 1 },
-    { name: "Mecca", count: 1 },
-    { name: "Medina", count: 1 },
+   
   ],
 };
 
-const cityColors = [
-  "#2563eb", // Riyadh
-  "#f87171", // Jeddah
-  "#06b6d4", // Dammam
-  "#be123c", // Khobar
-  "#facc15", // Mecca
-  "#60a5fa", // Medina
-];
+const cityColors = {
+  "Riyadh": "#2563eb",
+  "Jeddah": "#f87171", 
+  "Dammam": "#06b6d4",
+  "Al Khobar": "#be123c",
+  "Mecca": "#facc15",
+  "Medina": "#60a5fa",
+  "Khobar": "#be123c", // Alternative name for Al Khobar
+};
 
-const hexPositions = [
-  [2, 0], // Riyadh (blue)
-  [1, 4], // Jeddah (red)
-  [4, 2], // Dammam (cyan, selected)
-  [3, 4], // Khobar (dark red)
-  [5, 3], // Mecca (yellow)
-  [2, 5], // Medina (light blue)
-];
-const strokesWidth = [6, 5, 6, 3, 8, 6];
 
-const hexSize = 24;
-const hexWidth = Math.sqrt(3) * hexSize;
-const hexHeight = 2 * hexSize;
 
-function hexagonPoints(cx, cy, size) {
-  return Array.from({ length: 6 }, (_, i) => {
-    const angle = (Math.PI / 3) * i;
-    return [cx + size * Math.cos(angle), cy + size * Math.sin(angle)].join(",");
-  }).join(" ");
-}
+
+
 
 const BranchesLocation = () => {
+  const dispatch = useDispatch();
   const { t } = useTranslation();
-  
+  const [citiesBranchesState, setCitiesBranchesState] = useState(null);
+
+  const citiesBranchesData = useSelector(state => state.reportData.getCitiesBranchesData);
+  const citiesBranchesLoading = useSelector(state => state.reportData.getCitiesBranchesLoading);
+
+
+  useEffect(() => {
+    if (citiesBranchesData.status) {
+      console.log("getCitiesBranches Response:", citiesBranchesData);
+      setCitiesBranchesState(citiesBranchesData.data);
+    }
+  }, [citiesBranchesData]);
+
+  useEffect(() => {
+    dispatch(getCitiesBranches());
+  }, []); 
+
+  // Transform API data and calculate total branches
+  const transformData = () => {
+    if (!citiesBranchesState?.cities || citiesBranchesState.cities.length === 0) {
+      return defaultData;
+    }
+
+    const cities = citiesBranchesState.cities.map(city => ({
+      name: city.city,
+      count: city.count
+    }));
+
+    const totalBranches = cities.reduce((sum, city) => sum + city.count, 0);
+
+    return {
+      branches: totalBranches,
+      cities: cities
+    };
+  };
+
+  const data = transformData();
+
+  if (citiesBranchesLoading) {
+    return (
+      <div className="bg-white rounded-[12px] p-[20px] border-[10px] border-[#F22E2E] max-w-3xl mx-auto">
+        <div style={{ height: '128px' }}>
+          <CircleLoader 
+            size={48}
+            color={Colors.main}
+            text="Loading branches data"
+            textColor="#6b7280"
+          />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-white rounded-[12px] p-[20px] border-[10px] border-[#F22E2E] max-w-3xl mx-auto ">
       {/* Legend */}
@@ -61,15 +98,15 @@ const BranchesLocation = () => {
       <div className="flex  justify-between items-center">
         <div className="flex-1">
           <ul className="space-y-3">
-            {data.cities.map((city, idx) => (
+            {data.cities.map((city) => (
               <li key={city.name} className="flex items-center gap-2">
                 <span
                   className=" w-3 h-3 rounded-full"
-                  style={{ background: cityColors[idx] }}
+                  style={{ background: cityColors[city.name] || "#6b7280" }}
                 ></span>
                 <span
                   className={`font-semibold `}
-                  style={{ color: cityColors[idx] }}
+                  style={{ color: cityColors[city.name] || "#6b7280" }}
                 >
                   {city.name.charAt(0).toUpperCase() + city.name.slice(1)} 
                   <span className="text-sm ms-[10px]">({city.count})</span>

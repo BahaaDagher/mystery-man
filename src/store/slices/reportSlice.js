@@ -93,6 +93,49 @@ export const qrCodeReport = createAsyncThunk(
     }
     );
 
+export const getHomeData = createAsyncThunk(
+    "report/getHomeData", 
+    async () => {
+        try {
+            const token = localStorage.getItem('token');
+            
+            const response = await axios.get(
+                "https://test.secretvisitor.co/dashboard/api/statics/getHomeData", 
+                {
+                    headers: {
+                        "Authorization" : token , 
+                        "lang" : currentLanguage ,
+                    },
+                }
+            );
+            return response.data ;
+        } catch (error) {
+            console.error("getHomeData::" , error);
+        }
+    }
+);
+
+export const getCitiesBranches = createAsyncThunk(
+    "report/getCitiesBranches", 
+    async () => {
+        try {
+            const token = localStorage.getItem('token');
+            
+            const response = await axios.get(
+                "https://test.secretvisitor.co/dashboard/api/statics/citiesBranches", 
+                {
+                    headers: {
+                        "Authorization" : token , 
+                        "lang" : currentLanguage ,
+                    },
+                }
+            );
+            return response.data ;
+        } catch (error) {
+            console.error("getCitiesBranches::" , error);
+        }
+    }
+);
 
 const reportSlice = createSlice({
 name: "branch",
@@ -105,6 +148,12 @@ initialState: {
 
     qrCodeReportData: {},
     qrCodeReportLoading : false ,
+
+    getHomeDataData: {},
+    getHomeDataLoading : false ,
+
+    getCitiesBranchesData: {},
+    getCitiesBranchesLoading : false ,
 
     
 },
@@ -142,6 +191,28 @@ extraReducers: (builder) => {
     }) 
     .addCase(qrCodeReport.rejected , (state, action) => {
         state.qrCodeReportLoading = false;
+    })
+    // getHomeData
+    .addCase(getHomeData.fulfilled, (state, action) => {
+        state.getHomeDataData = action.payload;
+        state.getHomeDataLoading = false;
+    }) 
+    .addCase(getHomeData.pending, (state, action) => {
+        state.getHomeDataLoading = true;
+    }) 
+    .addCase(getHomeData.rejected , (state, action) => {
+        state.getHomeDataLoading = false;
+    })
+    // getCitiesBranches
+    .addCase(getCitiesBranches.fulfilled, (state, action) => {
+        state.getCitiesBranchesData = action.payload;
+        state.getCitiesBranchesLoading = false;
+    }) 
+    .addCase(getCitiesBranches.pending, (state, action) => {
+        state.getCitiesBranchesLoading = true;
+    }) 
+    .addCase(getCitiesBranches.rejected , (state, action) => {
+        state.getCitiesBranchesLoading = false;
     })
     
 
