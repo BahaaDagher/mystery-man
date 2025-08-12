@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import ReactPaginate from 'react-paginate'
 import { useDispatch, useSelector } from 'react-redux'
 import { getBranches } from '../../../store/slices/branchSlice'
-import { getQrCodeBranchResponses } from '../../../store/slices/QrCode'
+import { getQrCodeBranchResponses, getResponseDetails } from '../../../store/slices/QrCode'
 import CustomSelect from '../../../components/CustomSelect'
 import { useTranslation } from 'react-i18next'
 import viewIcon from '../../../assets/icons/ShowIcon.svg'
@@ -20,13 +20,15 @@ const Responses = () => {
   const [branches, setBranches] = useState([])
   const [responses, setResponses] = useState([])
   const [showQuestionsModal, setShowQuestionsModal] = useState(false)
-  const [selectedQuestions, setSelectedQuestions] = useState(null)
+  const [selectedResponseData, setSelectedResponseData] = useState(null)
 
   // Redux selectors
   const getBranchesData = useSelector(state => state.branchData.getBranchesData)
   const getBranchesDataLoading = useSelector(state => state.branchData.getBranchesDataLoading)
   const qrCodeBranchResponsesData = useSelector(state => state.qrCodeData.qrCodeBranchResponsesData)
   const qrCodeBranchResponsesLoading = useSelector(state => state.qrCodeData.qrCodeBranchResponsesLoading)
+  const responseDetailsData = useSelector(state => state.qrCodeData.responseDetailsData)
+  const responseDetailsLoading = useSelector(state => state.qrCodeData.responseDetailsLoading)
 
   // Fetch branches on component mount
   useEffect(() => {
@@ -60,6 +62,13 @@ const Responses = () => {
     }
   }, [qrCodeBranchResponsesData])
 
+  // Set response details data when loaded
+  useEffect(() => {
+    if (responseDetailsData?.status) {
+      setSelectedResponseData(responseDetailsData?.data?.responses)
+    }
+  }, [responseDetailsData])
+
   // Reset function to clear branch selection
   const handleReset = () => {
     setSelectedBranch('')
@@ -75,14 +84,14 @@ const Responses = () => {
 
   // Handle view questions click
   const handleViewQuestions = (item) => {
-    setSelectedQuestions(item.questions)
+    dispatch(getResponseDetails(item.id))
     setShowQuestionsModal(true)
   }
 
   // Handle close modal
   const handleCloseModal = () => {
     setShowQuestionsModal(false)
-    setSelectedQuestions(null)
+    setSelectedResponseData(null)
   }
 
   return (
@@ -122,10 +131,10 @@ const Responses = () => {
             {currentItems.map((item, idx) => (
               <tr key={idx} className={`rounded-[10px] ${idx % 2 === 0 ? 'bg-white' : 'bg-gray3'} `}>
                 <td className="py-3 px-4 font-medium text-[16px]">{item.id}</td>
-                <td className="py-3 px-4 font-medium text-[16px]">{item.name}</td>
+                <td className="py-3 px-4 font-medium text-[16px]">{item.qr_code_name}</td>
                 <td className="py-3 px-4 font-medium text-[16px]">{item.branch_name}</td>
-                <td className="py-3 px-4 font-medium text-[16px]">1-8-2025</td>
-                <td className="py-3 px-4 font-medium text-[16px]">{item.percentage_score}</td>
+                <td className="py-3 px-4 font-medium text-[16px]">{item.date}</td>
+                <td className="py-3 px-4 font-medium text-[16px]">{item.percentage_score}%</td>
                 <td className="py-3 px-4 flex items-center justify-center gap-4">
                   <div className="cursor-pointer" onClick={() => handleViewQuestions(item)}>
                     <img src={viewIcon} alt="view" />
@@ -168,7 +177,8 @@ const Responses = () => {
       <QuestionsModal
         isOpen={showQuestionsModal}
         onClose={handleCloseModal}
-        questions={selectedQuestions}
+        responseData={selectedResponseData}
+        loading={responseDetailsLoading}
       />
     </div>
   )

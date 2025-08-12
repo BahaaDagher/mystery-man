@@ -4,7 +4,7 @@ import Responses from './responses/Responses'
 import HeaderTabs from './HeaderTabs'
 
 const QrCodesParent = () => {
-  const [activeTab, setActiveTab] = useState('qr-codes');  // responses or qr-codes
+  const [activeTab, setActiveTab] = useState('responses');  // responses or qr-codes
 
   return (
     <div className="w-full flex flex-col gap-4">
