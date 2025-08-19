@@ -16,6 +16,7 @@ import { getBranches } from '../../../../store/slices/branchSlice';
 import { use } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 const MainContent = styled(FlexSpaceBetween)(({ theme }) => ({
   [theme.breakpoints.down('800')]: {
@@ -108,8 +109,10 @@ const QrCodeQuestionnaires = () => {
   const [selectedBranch, setSelectedBranch] = useState('')
   const [branches, setBranches] = useState([])
   const [count, setCount] = useState('')
+  const [change, setChange] = useState(false)
 
-  const dispatch = useDispatch() ; 
+  const dispatch = useDispatch() ;
+  const navigate = useNavigate(); 
 
   // Get branches data
   const getBranchesData = useSelector(state => state.branchData.getBranchesData);
@@ -144,6 +147,7 @@ const QrCodeQuestionnaires = () => {
     };
 
     dispatch(storeQrCodeQuestionnaire(data));
+    setChange(true)
   }
 
   const questionieres = useSelector((state) => state.questioneirData.questionieres);
@@ -172,8 +176,20 @@ const QrCodeQuestionnaires = () => {
   }, [getBranchesData])
 
   useEffect(() => {
-    if (qrCodeQuestionnaireStoreData?.status) {
-      Swal.fire('Success', qrCodeQuestionnaireStoreData.message || t("text.QR_Code_Questionnaire_saved_successfully"), 'success');
+    console.log("qrCodeQuestionnaireStoreData" , qrCodeQuestionnaireStoreData)
+    if (change){
+
+      if (qrCodeQuestionnaireStoreData?.message==200) {
+        Swal.fire('Success',  t("text.QR_Code_Questionnaire_saved_successfully"), 'success')
+        .then((result) => {
+          if (result.isConfirmed) {
+            navigate("/userDashboard/qr-codes")
+          }
+        });
+      }
+              else {
+          Swal.fire('Error', t("text.please_add_at_least_a_step_to_the_qr_code"), 'error');
+        }
     }
   }, [qrCodeQuestionnaireStoreData])
 

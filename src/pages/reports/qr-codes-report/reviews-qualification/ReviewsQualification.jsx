@@ -19,13 +19,13 @@ const ReviewsQualification = ({apiData}) => {
   
   // Transform API data to chart format
   const pieData = {
-    labels: [t('text.positive'), t('text.neutral'), t('text.negative')],
+    labels: [t('text.positive'), t('text.negative'), t('text.neutral')],
     datasets: [
       {
         data: [
           apiData?.data?.positive || 0,
+          apiData?.data?.negative || 0,
           apiData?.data?.neutral || 0,
-          apiData?.data?.negative || 0
         ],
         backgroundColor: ["#27AE60", "#C32B43", "#DCDCDC"], // positive , negative , neutral
         borderWidth: 0,
