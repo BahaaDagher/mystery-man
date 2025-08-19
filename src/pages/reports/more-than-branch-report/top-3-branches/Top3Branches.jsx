@@ -14,7 +14,10 @@ const Top3Branches = ({apiData}) => {
         <div className="flex flex-col gap-4 mt-8">
           {top3Branches.map((branch, idx) => (
             <div key={idx} className="w-full">
-              <div className="text-black font-bold text-[14px]">{branch.branch_name}</div>
+              <div className="flex justify-between items-center mb-2">
+                <div className="text-black font-bold text-[14px]">{branch.branch_name}</div>
+                <div className="text-black font-bold text-[14px]">{branch.percentage}%</div>
+              </div>
               <div
                 className="bg-[#3734CA] rounded-md h-8 "
                 style={{
