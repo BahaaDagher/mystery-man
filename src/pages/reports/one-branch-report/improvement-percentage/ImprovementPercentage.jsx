@@ -93,7 +93,7 @@ const ImprovementPercentage = ({apiData}) => {
   return (
     <div className="bg-white  rounded-[12px] p-6">
       <div className="flex items-center justify-between mb-2">
-        <span className="text-[22px] font-bold text-black6 leading-[21.55px] tracking-[-0.16px]">
+        <span className="text-2xl font-bold text-black2 leading-[28px]">
             {t("text.The_percentage_of_improvement_of_the_branch_during_the_specified_period_of_time")}
         </span>
       </div>
