@@ -156,7 +156,7 @@ const Reports = () => {
     }))
     // moreThanBranchReport
     dispatch(moreThanBranchReport({
-      branch_ids: [1,3],
+      branch_ids: selectedBranches,
       from_date: format(dateRange.startDate, 'yyyy-MM-dd'),
       to_date: format(dateRange.endDate, 'yyyy-MM-dd'),
       step_ids: stepsIdsFromMoreThanBranch.length > 0 ? stepsIdsFromMoreThanBranch : [allSteps[0]?.id], // Use stepsIds if available, otherwise default to [1]
