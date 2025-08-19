@@ -8,8 +8,8 @@ const SectionProgressBars = ({ sections = [] }) => {
       {sections.map((section, idx) => (
         <div key={idx} className="flex flex-col  ">
           <div className="flex justify-between items-center">
-            <div className="font-medium text-[13px] leading-[18px] tracking-[-0.12px]">{section.name}</div>
-            <div className="font-medium text-[13px] leading-[18px] tracking-[-0.12px]">{section.value}%</div>
+            <div className="font-medium text-[13px] leading-[18px] ">{section.name}</div>
+            <div className="font-medium text-[13px] leading-[18px] ">{section.value}%</div>
           </div>
           <div className="flex-1 flex items-center">
             <div className="w-full h-4 bg-input_fill rounded-s-[4px] overflow-hidden">
