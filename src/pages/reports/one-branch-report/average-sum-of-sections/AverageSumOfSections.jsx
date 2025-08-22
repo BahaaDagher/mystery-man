@@ -22,7 +22,7 @@ const AverageSumOfSections = ({apiData}) => {
   return (
     <div className="bg-white  rounded-[12px] p-6 h-full">
       <div className="flex items-center justify-between mb-2">
-        <span className="text-[22px] font-bold text-black6 leading-[21.55px] tracking-[-0.16px]">
+      <span className="text-2xl font-bold text-black2 leading-[28px]">
             {t("text.Average_sum_of_sections_for_all_tasks_for_the_same_branch")}
         </span>
       </div>

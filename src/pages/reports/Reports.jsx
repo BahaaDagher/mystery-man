@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useTranslation } from 'react-i18next';
 import ReportHeader from './ReportHeader'
 import OneBranchReport from './one-branch-report/OneBranchReport'
@@ -12,12 +12,18 @@ import { format, startOfMonth } from 'date-fns'
 import { moreThanBranchReport, oneBranchReport, qrCodeReport } from '../../store/slices/reportSlice'
 import Swal from 'sweetalert2'
 import { getSteps } from '../../store/slices/stepSlice'
-import { de } from 'date-fns/locale';
+import { de, ar } from 'date-fns/locale';
+import { generateReportPdf } from '../../utils/generateReportPdf';
 
 const Reports = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [selected, setSelected] = useState('one'); // one , more , qr
   const dispatch = useDispatch() ;
+  
+  // Refs for report components
+  const oneBranchReportRef = useRef(null);
+  const moreThanBranchReportRef = useRef(null);
+  const qrCodesReportRef = useRef(null);
 
   // Remove the hardcoded qrCodes array
   // const qrCodes = [
@@ -75,6 +81,82 @@ const Reports = () => {
   const handleStepsIdsChangeFromMoreThanBranch = (newStepsIds) => {
     setStepsIdsFromMoreThanBranch(newStepsIds)
   }
+  
+  // Handle print functionality
+  const handlePrint = async () => {
+    let reportRef = null;
+    let reportName = '';
+    
+    switch(selected) {
+      case 'one':
+        reportRef = oneBranchReportRef;
+        // Get selected branch name
+        const selectedBranchData = branches.find(branch => branch.id === selectedBranch);
+        reportName = selectedBranchData ? selectedBranchData.name : t("text.One_Branch_Report");
+        break;
+      case 'more':
+        reportRef = moreThanBranchReportRef;
+        // Get selected branches names
+        const selectedBranchesData = branches.filter(branch => selectedBranches.includes(branch.id));
+        reportName = selectedBranchesData.length > 0 
+          ? selectedBranchesData.map(branch => branch.name).join(' - ')
+          : t("text.More_than_Branch_Report");
+        break;
+      case 'qr':
+        reportRef = qrCodesReportRef;
+        // Get selected QR code name
+        const selectedQrData = qrCodes.find(qr => qr.value == selectedQRCode);
+        console.log("selectedQrData",qrCodes);
+        reportName = selectedQrData ? selectedQrData.label : t("text.QR_Codes_Report");
+        break;
+      default:
+        return;
+    }
+    
+    if (reportRef && reportRef.current) {
+      try {
+        // Show loading
+        Swal.fire({
+          title: t("text.Generating_PDF"),
+          text: t("text.Please_wait"),
+          allowOutsideClick: false,
+          showConfirmButton: false,
+          willOpen: () => {
+            Swal.showLoading();
+          },
+        });
+        
+        // No need to wait here anymore as we handle it in generateReportPdf
+        
+        // Format date range for display
+        const formattedDateRange = `${format(dateRange.startDate, 'dd/MM/yyyy', { locale: i18n.language === 'ar' ? ar : undefined })} - ${format(dateRange.endDate, 'dd/MM/yyyy', { locale: i18n.language === 'ar' ? ar : undefined })}`;
+        
+        // Generate PDF
+        await generateReportPdf(reportRef, reportName, i18n.language === 'ar', formattedDateRange);
+        
+        // Close loading and show success
+        Swal.close();
+        Swal.fire({
+          icon: 'success',
+          title: t("text.Success"),
+          text: t("text.PDF_generated_successfully"),
+          showConfirmButton: true,
+          confirmButtonText: t("text.Ok"),
+          confirmButtonColor: '#3085d6'
+        });
+      } catch (error) {
+        Swal.close();
+        Swal.fire({
+          icon: 'error',
+          title: t("text.Error"),
+          text: t("text.Failed_to_generate_PDF"),
+          showConfirmButton: true,
+          confirmButtonText: t("text.Ok"),
+          confirmButtonColor: '#d33'
+        });
+      }
+    }
+  }
   useEffect(()=>{
     dispatch(getBranches())
     dispatch(getSteps())
@@ -101,7 +183,7 @@ const Reports = () => {
 
   useEffect(()=>{
     if (getQrCodeBranchesData?.status) {
-      debugger;
+   
       // Transform the API response to match the CustomSelect format
       const transformedQrCodes = getQrCodeBranchesData?.data?.QrCodes?.map(qrCode => ({
         value: qrCode.id,
@@ -111,7 +193,7 @@ const Reports = () => {
       
       // Set the first QR code as default if no QR code is selected
       if (transformedQrCodes.length > 0 ) {
-        debugger;
+        
         setSelectedQRCode(transformedQrCodes[0].value)
       }
     }
@@ -199,10 +281,29 @@ const Reports = () => {
         setSelectedQRCode={setSelectedQRCode}
         dateRange={dateRange}
         setDateRange={setDateRange}
+        onPrint={handlePrint}
       />
-      {selected === 'one' && <OneBranchReport oneBranchData={oneBranchData} onStepsIdsChangeFromOneBranch={handleStepsIdsChangeFromOneBranch} allSteps={allSteps} />}
-      {selected === 'more' && <MoreThanBranchReport moreThanBranchData={moreThanBranchData} onStepsIdsChangeFromMoreThanBranch={handleStepsIdsChangeFromMoreThanBranch} allSteps={allSteps} />}
-      {selected === 'qr' && <QrCodesReport qrCodeData={qrCodeData} />}
+      <div 
+        ref={oneBranchReportRef} 
+        className="report-content-wrapper"
+        style={{ display: selected === 'one' ? 'block' : 'none' }}
+      >
+        <OneBranchReport oneBranchData={oneBranchData} onStepsIdsChangeFromOneBranch={handleStepsIdsChangeFromOneBranch} allSteps={allSteps} />
+      </div>
+      <div 
+        ref={moreThanBranchReportRef} 
+        className="report-content-wrapper"
+        style={{ display: selected === 'more' ? 'block' : 'none' }}
+      >
+        <MoreThanBranchReport moreThanBranchData={moreThanBranchData} onStepsIdsChangeFromMoreThanBranch={handleStepsIdsChangeFromMoreThanBranch} allSteps={allSteps} />
+      </div>
+      <div 
+        ref={qrCodesReportRef} 
+        className="report-content-wrapper"
+        style={{ display: selected === 'qr' ? 'block' : 'none' }}
+      >
+        <QrCodesReport qrCodeData={qrCodeData} />
+      </div>
     </div>
     </>
   )

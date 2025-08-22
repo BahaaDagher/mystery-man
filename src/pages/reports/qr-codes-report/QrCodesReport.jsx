@@ -10,7 +10,7 @@ const QrCodesReport = ({qrCodeData}) => {
     console.log("qrCodeData",qrCodeData)
   return (
     <div className='w-full flex flex-col gap-3'>
-        <div className='w-full flex flex-col gap-3'>
+        <div className='w-full flex flex-col gap-3 pdf-section'>
             <div className='w-full flex justify-between gap-3'>
                 <div className='w-[65%] bg-white rounded-[12px] '> <DoughnutReconnaissance apiData={qrCodeData?.getReconnaissanceData}/></div>
                 <div className='w-[35%] bg-white rounded-[12px] '> <GeneralRate apiData={qrCodeData?.generalRate?.chart}/></div>
@@ -20,10 +20,10 @@ const QrCodesReport = ({qrCodeData}) => {
                 <div className='w-[35%] bg-white rounded-[12px] '> <HighLowSections apiData={qrCodeData?.topAndBottomSections}/></div>
             </div>
         </div>
-        <div className='w-full flex justify-between gap-3'>
+        <div className='w-full flex justify-between gap-3 pdf-section'>
             <AverageRating apiData={qrCodeData?.averagePerSection} />
         </div>
-        <div className='w-full flex justify-between gap-3'>
+        <div className='w-full flex justify-between gap-3 pdf-section'>
             <OverAllRating apiData={qrCodeData?.qrCodesOverallRating} />
         </div>
     </div>

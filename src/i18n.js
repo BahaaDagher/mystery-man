@@ -393,6 +393,18 @@ const resources = {
         Update_Branch : "Update Branch" ,
         Updating : "Updating..." ,
         Please_fill_in_all_fields : "Please fill in all fields" ,
+        
+        // PDF Report translations
+        One_Branch_Report : "One Branch Report" ,
+        More_than_Branch_Report : "More than Branch Report" ,
+        QR_Codes_Report : "QR Codes Report" ,
+        Generating_PDF : "Generating PDF" ,
+        Please_wait : "Please wait..." ,
+        Success : "Success" ,
+        PDF_generated_successfully : "PDF generated successfully" ,
+        Ok : "Ok" ,
+        Error : "Error" ,
+        Failed_to_generate_PDF : "Failed to generate PDF" ,
         // QR Code Cart translations
         qr_code : "QR Code" ,
         Delete_QR_Code : "Delete QR Code" ,
@@ -799,6 +811,18 @@ const resources = {
         Update_Branch : "تحديث الفرع" ,
         Updating : "جاري التحديث..." ,
         Please_fill_in_all_fields : "يرجى ملء جميع الحقول" ,
+        
+        // PDF Report translations
+        One_Branch_Report : "تقرير فرع واحد" ,
+        More_than_Branch_Report : "تقرير أكثر من فرع" ,
+        QR_Codes_Report : "تقرير رموز الاستجابة السريعة" ,
+        Generating_PDF : "جاري إنشاء ملف PDF" ,
+        Please_wait : "يرجى الانتظار..." ,
+        Success : "نجحت العملية" ,
+        PDF_generated_successfully : "تم إنشاء ملف PDF بنجاح" ,
+        Ok : "موافق" ,
+        Error : "خطأ" ,
+        Failed_to_generate_PDF : "فشل في إنشاء ملف PDF" ,
         // QR Code Cart translations
         qr_code : "رمز QR" ,
         Delete_QR_Code : "حذف رمز QR" ,

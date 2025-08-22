@@ -4,7 +4,7 @@ import DateRangePickerComponent from "../../components/DateRangePickerComponent"
 import PrintIcon from '../../assets/icons/PrintIcon.svg';
 import CustomSelect from '../../components/CustomSelect';
 
-const ReportHeader = ({ selected, onSelect, branches, qrCodes, selectedBranch, setSelectedBranch, selectedBranches, setSelectedBranches, selectedQRCode, setSelectedQRCode, dateRange, setDateRange }) => {
+const ReportHeader = ({ selected, onSelect, branches, qrCodes, selectedBranch, setSelectedBranch, selectedBranches, setSelectedBranches, selectedQRCode, setSelectedQRCode, dateRange, setDateRange, onPrint }) => {
   const { t } = useTranslation();
   return (
     <div className="flex justify-between items-center w-full mb-4">
@@ -67,7 +67,10 @@ const ReportHeader = ({ selected, onSelect, branches, qrCodes, selectedBranch, s
           )}
         </div>
         <DateRangePickerComponent onDateChange={setDateRange} />
-        <div className='bg-main p-[8px] rounded-[5px] cursor-pointer flex items-center justify-center '> 
+        <div 
+          className='bg-main p-[8px] rounded-[5px] cursor-pointer flex items-center justify-center hover:opacity-80 transition-opacity' 
+          onClick={onPrint}
+        > 
           <img src={PrintIcon} alt=""  />
         </div>
       </div>

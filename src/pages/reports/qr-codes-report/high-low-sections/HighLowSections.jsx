@@ -16,7 +16,7 @@ const HighLowSections = ({apiData}) => {
   console.log("apiDataapiData",apiData)
   // Add top section if it exists
   if (apiData?.top) {
-    debugger;
+    
     sectionData.push({
       name: apiData.top.section,
       rating: parseFloat(apiData.top.average_rate),
