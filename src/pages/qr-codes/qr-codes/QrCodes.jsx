@@ -54,8 +54,13 @@ const QrCodes = () => {
   // Local state with status-checked data
   const [qrCodes, setQrCodes] = useState([]);
 
-  useEffect(() => {
+  // Function to refresh QR codes data
+  const refreshQrCodes = () => {
     dispatch(getQrCodeBranches());
+  };
+
+  useEffect(() => {
+    refreshQrCodes();
   }, [dispatch]);
 
   useEffect(() => {
@@ -76,7 +81,7 @@ const QrCodes = () => {
     <div className="flex flex-wrap gap-4 w-full">
       {qrCodes.map((item) => (
         <div key={item.id} className="w-full lg:w-[49%]">
-          <QrCodesCart item={item} />
+          <QrCodesCart item={item} onDeleteSuccess={refreshQrCodes} />
         </div>
       ))}
     </div>

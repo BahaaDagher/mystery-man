@@ -69,6 +69,22 @@ export const getResponseDetails = createAsyncThunk(
       }
 });
 
+export const deleteQrCodeBranch = createAsyncThunk(
+    "qrCode/deleteQrCodeBranch", 
+    async (branchId) => {
+      const token = localStorage.getItem('token');
+      try {
+        const response = await axios.post(
+          `${API_BASE_URL}/qrCodeBranch/${branchId}/delete`, 
+          {},
+          { headers: {"Authorization" : token , "lang" : currentLanguage ,}}
+        );
+        return response.data ;
+      } catch (error) {
+        console.error("deleteQrCodeBranch::", error);
+      }
+});
+
 const qrCodeSlice = createSlice({
     name: "qrCode",
     initialState: {
@@ -80,6 +96,8 @@ const qrCodeSlice = createSlice({
         qrCodeBranchResponsesLoading: false,
         responseDetailsData: {},
         responseDetailsLoading: false,
+        deleteQrCodeBranchData: {},
+        deleteQrCodeBranchLoading: false,
     },
     reducers: {
         // Add any additional reducers here if needed
@@ -125,6 +143,16 @@ const qrCodeSlice = createSlice({
             })
             .addCase(getResponseDetails.rejected, (state, action) => {
                 state.responseDetailsLoading = false;
+            })
+            .addCase(deleteQrCodeBranch.fulfilled, (state, action) => {
+                state.deleteQrCodeBranchData = action.payload;
+                state.deleteQrCodeBranchLoading = false;
+            })
+            .addCase(deleteQrCodeBranch.pending, (state, action) => {
+                state.deleteQrCodeBranchLoading = true;
+            })
+            .addCase(deleteQrCodeBranch.rejected, (state, action) => {
+                state.deleteQrCodeBranchLoading = false;
             });
     }
 });

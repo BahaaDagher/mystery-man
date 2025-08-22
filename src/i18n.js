@@ -393,6 +393,19 @@ const resources = {
         Update_Branch : "Update Branch" ,
         Updating : "Updating..." ,
         Please_fill_in_all_fields : "Please fill in all fields" ,
+        // QR Code Cart translations
+        qr_code : "QR Code" ,
+        Delete_QR_Code : "Delete QR Code" ,
+        View_QR_Code_Options : "View QR Code Options" ,
+        Location : "Location" ,
+        QR_Code_Image : "QR Code Image" ,
+        Open_URL_in_new_tab : "Open URL in new tab" ,
+        Print_QR_Code_as_PDF : "Print QR Code as PDF" ,
+        Print : "Print" ,
+        Delete_QR_Code_Confirmation : "Are you sure you want to delete this QR Code? This action cannot be undone." ,
+        QR_Code_deleted_successfully : "QR Code has been deleted successfully" ,
+        Failed_to_delete_QR_Code : "Failed to delete QR Code. Please try again." ,
+        Something_went_wrong : "Something went wrong. Please try again." ,
       },
       content: {}
     }
@@ -786,6 +799,19 @@ const resources = {
         Update_Branch : "تحديث الفرع" ,
         Updating : "جاري التحديث..." ,
         Please_fill_in_all_fields : "يرجى ملء جميع الحقول" ,
+        // QR Code Cart translations
+        qr_code : "رمز QR" ,
+        Delete_QR_Code : "حذف رمز QR" ,
+        View_QR_Code_Options : "عرض خيارات رمز QR" ,
+        Location : "الموقع" ,
+        QR_Code_Image : "صورة رمز QR" ,
+        Open_URL_in_new_tab : "فتح الرابط في تبويب جديد" ,
+        Print_QR_Code_as_PDF : "طباعة رمز QR كملف PDF" ,
+        Print : "طباعة" ,
+        Delete_QR_Code_Confirmation : "هل أنت متأكد من حذف رمز QR هذا؟ لا يمكن التراجع عن هذا الإجراء." ,
+        QR_Code_deleted_successfully : "تم حذف رمز QR بنجاح" ,
+        Failed_to_delete_QR_Code : "فشل في حذف رمز QR. يرجى المحاولة مرة أخرى." ,
+        Something_went_wrong : "حدث خطأ ما. يرجى المحاولة مرة أخرى." ,
       },
       content: {}
     }

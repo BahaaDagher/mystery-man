@@ -461,6 +461,7 @@ const QuestionnaireSettings = ({isAddNew, onStoreQrCodeQuestionnaire, qrCodeQues
   
   return (
     <>
+    {qrCodeQuestionnaireStoreLoading ? <Loading/> : null}
     <QuestionsTypes  setAnchorEl= {setAnchorEl} anchorEl={anchorEl} setChosenType = {setChosenType}/>
     {getQuestionnaireLoading ? <Loading/> : 
     <Parent>
