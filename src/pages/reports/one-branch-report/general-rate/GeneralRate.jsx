@@ -69,7 +69,7 @@ const GeneralRate = ({apiData}) => {
         backgroundColor: backgroundColor,
         borderWidth: 1,
         spacing: -1,
-        borderRadius: 10,
+        // borderRadius: 10,
       },
     ],
   };

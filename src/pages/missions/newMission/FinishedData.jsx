@@ -260,7 +260,7 @@ const FinishedData = (
             <FocusChangeLine>
               <FocusChangeTitle>
               <img src = {Questionnaire}/>
-                <Title>{t("Quiz")}</Title>
+                <Title>{t("text.Quiz")}</Title>
               </FocusChangeTitle>
               <FocusChangeImg>
                 <img src = {quizData.length > 0 ?checked :unchecked}/>

@@ -405,6 +405,8 @@ const resources = {
         Ok : "Ok" ,
         Error : "Error" ,
         Failed_to_generate_PDF : "Failed to generate PDF" ,
+        Steps : "Steps" ,
+        No_steps_available : "No steps available" ,
         // QR Code Cart translations
         qr_code : "QR Code" ,
         Delete_QR_Code : "Delete QR Code" ,
@@ -801,7 +803,7 @@ const resources = {
         Questionnaire_Information : "معلومات الاستبيان" ,
         ID : "المعرف" ,
         Title : "العنوان" ,
-        Steps : "الخطوات" ,
+        Steps : "الأقسام" ,
         Questions : "الأسئلة" ,
         Question_ID : "معرف السؤال" ,
         Type : "النوع" ,
@@ -823,6 +825,8 @@ const resources = {
         Ok : "موافق" ,
         Error : "خطأ" ,
         Failed_to_generate_PDF : "فشل في إنشاء ملف PDF" ,
+        Steps : "الأقسام" ,
+        No_steps_available : "لا توجد أقسام متاحة" ,
         // QR Code Cart translations
         qr_code : "رمز QR" ,
         Delete_QR_Code : "حذف رمز QR" ,

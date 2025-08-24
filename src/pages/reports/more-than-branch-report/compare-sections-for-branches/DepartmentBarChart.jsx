@@ -3,11 +3,11 @@ import { Bar } from 'react-chartjs-2'
 
 const DepartmentBarChart = ({ section, label ,height}) => {
   const data = {
-    labels: section.branches.map(d => d.name),
+    labels: section.branches.map(d => d.branch_name),
     datasets: [
       {
-        label: section.name,
-        data: section.branches.map(d => d.value),
+        label: section.step_name,
+        data: section.branches.map(d => d.average_rating),
         backgroundColor: '#5654D4',
         hoverBackgroundColor: '#5654D4',
         borderRadius: 5,
@@ -24,7 +24,19 @@ const DepartmentBarChart = ({ section, label ,height}) => {
     responsive: true,
     plugins: {
       legend: { display: false },
-      tooltip: { enabled: true },
+      tooltip: { 
+        enabled: true,
+        callbacks: {
+          label: function(context) {
+            const branch = section.branches[context.dataIndex];
+            return [
+              `${branch.branch_name}: ${branch.average_rating}%`,
+              `Count: ${branch.count}`,
+              `Percentage: ${branch.percentage}%`
+            ];
+          }
+        }
+      },
     },
     scales: {
       x: {
@@ -34,8 +46,15 @@ const DepartmentBarChart = ({ section, label ,height}) => {
       y: {
         position: isArabic ? 'right' : 'left',
         beginAtZero: true,
+        // max: 100,
         grid: { color: '#F0F0F0' },
-        ticks: { color: "#A5A5A5", font: { size: 14 } },
+        ticks: { 
+          color: "#A5A5A5", 
+          font: { size: 14 },
+          callback: function(value) {
+            return value + '%';
+          }
+        },
       },
     },
   };

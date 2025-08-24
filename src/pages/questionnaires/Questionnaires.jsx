@@ -104,6 +104,7 @@ const NewQuestionnaire = styled(SubmitButton)(({ theme }) => ({
 const Questionnaires = () => {
   const [pressCreateQuestionnaire , setPressCreateQuestionnaire] = useState(true)
   const [ isAddNew , setIsAddNew ] = useState(false)
+  const [sidebarOpen, setSidebarOpen] = useState(true)
 
   const dispatch = useDispatch() ; 
 
@@ -141,19 +142,46 @@ const numberOFQuestioners = (item)=>{
   return (
     <>
       <SmallContainer >
-        <div style = {{color : Colors.gray_l , marginBottom : "20px"}}>{t("text.questionnaires")} </div>
-        <MainContent>
-          {pressCreateQuestionnaire == true 
-            ? 
-            <div>
-          
-            </div>
-            :
-            <QuestionnaireSettings isAddNew = {isAddNew} >
-              
-            </QuestionnaireSettings>
-          }
-          <div className='flex flex-col gap-3 '>
+        <div className="flex justify-between items-center mb-5">
+          <div style = {{color : Colors.gray_l}}>{t("text.questionnaires")} </div>
+          <button 
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            className="bg-main text-white px-3 py-2 rounded-lg hover:bg-hoverMain transition-colors"
+          >
+            {sidebarOpen ? '✕' : '☰'}
+          </button>
+        </div>
+        <MainContent style={{ position: 'relative' }}>
+          <div 
+            style={{ 
+              // height: "100vh", 
+              // overflowY: "auto", 
+              position: "relative",
+              width: sidebarOpen ? 'calc(100% - 450px)' : '100%',
+              transition: 'width 0.3s ease-in-out'
+            }}
+          >
+            {pressCreateQuestionnaire == true 
+              ? 
+              <div>
+            
+              </div>
+              :
+              <QuestionnaireSettings isAddNew = {isAddNew} >
+                
+              </QuestionnaireSettings>
+            }
+          </div>
+          <div 
+            className={`flex flex-col gap-3 transition-all duration-300 ease-in-out ${
+              sidebarOpen ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0 pointer-events-none'
+            }`}
+            style={{
+              position: sidebarOpen ? 'relative' : 'absolute',
+              right: sidebarOpen ? '0' : '-100%',
+              zIndex: 10
+            }}
+          >
 
             <PreviousQuestionnaires style = {{padding : "10px"}}>
               <CreateQuestionnaire>

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next';
 import { Colors } from '../../Theme'
 import { FlexSpaceBetween } from '../../components/FlexSpaceBetween';
 import { Flex } from '../../components/Flex';
@@ -51,6 +52,7 @@ const EditIconDiv = styled(IconDiv)(({ theme }) => ({
 }));
 
 const Steps = () => {
+  const { t } = useTranslation();
   const [allSteps, setAllSteps] = useState([])
   const [firstTime, setFirstTime] = useState(true)
   
@@ -209,7 +211,7 @@ const Steps = () => {
       
       <div className='bg-white rounded-[12px]'>
         <div className='flex justify-between items-center text-[30px] font-bold bg-main rounded-[12px] text-white m-2 text-center mb-4 p-2'>
-          <div>Steps</div>
+          <div>{t('text.Steps')}</div>
           <div className='text-main text-[18px] bg-white rounded-[100%] w-[30px] h-[30px] flex items-center justify-center cursor-pointer' onClick={() => {handleAddStep()}}>+</div>
         </div>
         <div className='p-4 overflow-y-auto max-h-[500px]'>
@@ -228,7 +230,7 @@ const Steps = () => {
           ))}
           {!allSteps || allSteps.length === 0 ? (
             <div className='text-center text-gray-500 py-8'>
-              No steps available
+              {t('text.No_steps_available')}
             </div>
           ) : null}
         </div>

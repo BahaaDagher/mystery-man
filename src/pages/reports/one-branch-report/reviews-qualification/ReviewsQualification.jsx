@@ -1,10 +1,18 @@
 import React from "react";
 import { useTranslation } from 'react-i18next';
+import { Rating, styled } from '@mui/material';
 import PieChartComponent from "../../../../components/PieChartComponent";
 import Star from "../../../../assets/icons/Star.svg";
 import PositiveIcon from "../../../../assets/icons/PositiveIcon.svg";
 import NeutralIcon from "../../../../assets/icons/NeutralIcon.svg";
 import NegativeIcon from "../../../../assets/icons/NegativeIcon.svg";
+
+const BranchRating = styled(Rating)(({ theme }) => ({
+  direction: "ltr",
+  '& .MuiRating-icon': {
+    fontSize: '28px', // adjust size for this component
+  },
+}));
 
 const ReviewsQualification = ({apiData}) => {
   const { t } = useTranslation();
@@ -52,7 +60,15 @@ const pieOptions = {
           {t("text.Reviews_Qualification")}
         </span>
         <span className="flex items-center gap-2 text-[24px] font-bold text-black2">
-          {apiData?.total_reviews || 0}  <img src={Star} alt="star" className="w-7 h-7" />
+          {apiData?.total_reviews || 0}  
+          {apiData?.total_stars > 0 && (
+            <BranchRating 
+              name="half-rating" 
+              defaultValue={apiData.total_stars} 
+              precision={0.5} 
+              readOnly 
+            />
+          )}
         </span>
       </div>
       <hr className="my-4 border-gray-200" />
