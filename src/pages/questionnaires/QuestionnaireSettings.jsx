@@ -21,7 +21,6 @@ import { useDrag, useDrop } from 'react-dnd';
 const Parent = styled(Box)(({ theme }) => ({
   width : "100%" ,
   // margin  : "0 50px" ,
-// 
   [theme.breakpoints.down('800')]: {
     margin  : "0" ,
   },
@@ -29,12 +28,17 @@ const Parent = styled(Box)(({ theme }) => ({
 
 const Settings = styled("div")(({ theme }) => ({
   backgroundColor : "#fff" ,
-  position:'relative',
+  position: 'sticky',
+  top: 75,
+  zIndex: 100,
+  boxShadow: "0 4px 12px rgba(0,0,0,0.15)", // custom shadow
   padding : "20px" ,
-  borderRadius : "10px" ,
-  [theme.breakpoints.down('800')]: {
+  borderRadius : "10px",
+  [theme.breakpoints.down('1000')]: {
     width : "100%" ,
     margin : "0 auto" ,
+    position: 'relative',
+    top: 0,
   },
 }));
 const SaveAdminButton = styled("div")(({ theme }) => ({

@@ -48,6 +48,9 @@ const Parent = styled("div")(({ theme }) => ({
     } , 
     "&.PaddingTop" :{
         paddingTop : "50px" ,
+    },
+    "&.reconnaissance" :{
+        backgroundColor : "#b9b3fb6e" ,
     }
 }));
 
@@ -57,7 +60,7 @@ const Published = styled(Flex)(({ theme }) => ({
 
 }));
 const PublishedTitle = styled("div")(({ theme }) => ({
-    color : Colors.grayDC , 
+    color : Colors.gray_l , 
     margin : theme.direction == "ltr" ? "0 20px 0 0" : "0 0 0 20px" ,
 }));
 const IconDiv = styled("div")(({ theme }) => ({
@@ -479,7 +482,7 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions , setButt
             if (mission.status === 1 || mission.status === 5) {
                 if (!findData) setFindData(true)
                 return (
-                <Parent key={index} className = {PaddingBottom? "PaddingBottom" : PaddingTop && mission.can_sent ? "PaddingTop" :""}>
+                <Parent key={index} className = {`${PaddingBottom? "PaddingBottom" : PaddingTop && mission.can_sent ? "PaddingTop" :""} ${mission.reconnaissance == 1 ? "reconnaissance" : ""}`}>
                     {mission.reconnaissance == 1 && (
                         <div className={`absolute top-0 ${currentLanguage === "ar" ? "right-0" : "left-0"} bg-main text-white text-xs font-bold px-2 py-1 z-10`}>
                             {t("text.Reconnaissance")}
@@ -542,7 +545,7 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions , setButt
         } else if (mission.status == selectMissions){
             if (!findData) setFindData(true)
             return (
-            <Parent key={index} className = {PaddingBottom? "PaddingBottom" : PaddingTop && mission.can_sent ? "PaddingTop" :""}>
+            <Parent key={index} className = {`${PaddingBottom? "PaddingBottom" : PaddingTop && mission.can_sent ? "PaddingTop" :""} ${mission.reconnaissance == 1 ? "reconnaissance" : ""}`}>
                 {mission.reconnaissance == 1 && (
                     <div className={`absolute top-0 ${currentLanguage === "ar" ? "right-0" : "left-0"} bg-main text-white text-xs font-bold px-2 py-1 z-10`}>
                         {t("text.Reconnaissance")}

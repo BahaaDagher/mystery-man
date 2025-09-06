@@ -14,10 +14,7 @@ const Quiz = ({ onPrev, onNext, initialData = [], onQuizDataChange }) => {
   const [newQuestion, setNewQuestion] = useState({
     question: '',
     answer: 1,
-    option_1: '',
-    option_2: '',
-    option_3: '',
-    option_4: ''
+    options: ['', '', '', ''] // Start with 4 empty options
   });
 
   useEffect(() => {
@@ -31,8 +28,36 @@ const Quiz = ({ onPrev, onNext, initialData = [], onQuizDataChange }) => {
     }
   }, [questions, onQuizDataChange]);
 
-  const handleOptionChange = (optionNumber) => {
-    setNewQuestion({ ...newQuestion, answer: optionNumber });
+  const handleAddOption = () => {
+    setNewQuestion({
+      ...newQuestion,
+      options: [...newQuestion.options, '']
+    });
+  };
+
+  const handleRemoveOption = (index) => {
+    if (newQuestion.options.length > 1) {
+      const newOptions = newQuestion.options.filter((_, i) => i !== index);
+      setNewQuestion({
+        ...newQuestion,
+        options: newOptions,
+        // Adjust answer if it's pointing to a removed option
+        answer: newQuestion.answer > newOptions.length ? newOptions.length : newQuestion.answer
+      });
+    }
+  };
+
+  const handleOptionTextChange = (index, value) => {
+    const newOptions = [...newQuestion.options];
+    newOptions[index] = value;
+    setNewQuestion({
+      ...newQuestion,
+      options: newOptions
+    });
+  };
+
+  const handleAnswerChange = (optionIndex) => {
+    setNewQuestion({ ...newQuestion, answer: optionIndex + 1 });
   };
 
   const handleAddQuestion = () => {
@@ -50,8 +75,8 @@ const Quiz = ({ onPrev, onNext, initialData = [], onQuizDataChange }) => {
 
     // Check if any option is empty
     let hasEmptyOption = false;
-    for (let i = 1; i <= 4; i++) {
-      if (!newQuestion[`option_${i}`].trim()) {
+    for (let i = 0; i < newQuestion.options.length; i++) {
+      if (!newQuestion.options[i].trim()) {
         hasEmptyOption = true;
         break;
       }
@@ -72,7 +97,14 @@ const Quiz = ({ onPrev, onNext, initialData = [], onQuizDataChange }) => {
     if (editingIndex !== null) {
       // Editing existing question
       const updatedQuestions = [...questions];
-      updatedQuestions[editingIndex] = { ...newQuestion };
+      updatedQuestions[editingIndex] = { 
+        ...newQuestion,
+        // Convert options array to numbered options for backward compatibility
+        ...newQuestion.options.reduce((acc, option, index) => {
+          acc[`option_${index + 1}`] = option;
+          return acc;
+        }, {})
+      };
       setQuestions(updatedQuestions);
       setEditingIndex(null);
       
@@ -85,7 +117,15 @@ const Quiz = ({ onPrev, onNext, initialData = [], onQuizDataChange }) => {
       });
     } else {
       // Adding new question
-      setQuestions([...questions, { ...newQuestion }]);
+      const questionToAdd = {
+        ...newQuestion,
+        // Convert options array to numbered options for backward compatibility
+        ...newQuestion.options.reduce((acc, option, index) => {
+          acc[`option_${index + 1}`] = option;
+          return acc;
+        }, {})
+      };
+      setQuestions([...questions, questionToAdd]);
       
       Swal.fire({
         icon: 'success',
@@ -99,16 +139,26 @@ const Quiz = ({ onPrev, onNext, initialData = [], onQuizDataChange }) => {
     setNewQuestion({
       question: '',
       answer: 1,
-      option_1: '',
-      option_2: '',
-      option_3: '',
-      option_4: ''
+      options: ['', '', '', '']
     });
     setShowAddQuestion(false);
   };
 
   const handleEditQuestion = (index) => {
-    setNewQuestion({ ...questions[index] });
+    const questionToEdit = questions[index];
+    // Convert numbered options back to array format
+    const options = [];
+    let optionIndex = 1;
+    while (questionToEdit[`option_${optionIndex}`] !== undefined) {
+      options.push(questionToEdit[`option_${optionIndex}`]);
+      optionIndex++;
+    }
+    
+    setNewQuestion({ 
+      question: questionToEdit.question,
+      answer: questionToEdit.answer,
+      options: options
+    });
     setEditingIndex(index);
     setShowAddQuestion(true);
   };
@@ -140,10 +190,7 @@ const Quiz = ({ onPrev, onNext, initialData = [], onQuizDataChange }) => {
     setNewQuestion({
       question: '',
       answer: 1,
-      option_1: '',
-      option_2: '',
-      option_3: '',
-      option_4: ''
+      options: ['', '', '', '']
     });
     setEditingIndex(null);
     setShowAddQuestion(false);
@@ -216,16 +263,27 @@ const Quiz = ({ onPrev, onNext, initialData = [], onQuizDataChange }) => {
               </div>
             </div>
             <div className="space-y-2">
-              {[1, 2, 3, 4].map((optionNum) => (
-                <div key={optionNum} className="flex items-center">
-                  <div className={`w-4 h-4 rounded-full border-2 me-3 ${
-                    q.answer === optionNum ? 'bg-main border-main' : 'border-gray-300'
-                  }`}></div>
-                  <span className={q.answer === optionNum ? 'font-semibold text-main' : ''}>
-                    {q[`option_${optionNum}`]}
-                  </span>
-                </div>
-              ))}
+              {(() => {
+                const options = [];
+                let optionIndex = 1;
+                while (q[`option_${optionIndex}`] !== undefined) {
+                  options.push({
+                    text: q[`option_${optionIndex}`],
+                    index: optionIndex
+                  });
+                  optionIndex++;
+                }
+                return options.map((option) => (
+                  <div key={option.index} className="flex items-center">
+                    <div className={`w-4 h-4 rounded-full border-2 me-3 ${
+                      q.answer === option.index ? 'bg-main border-main' : 'border-gray-300'
+                    }`}></div>
+                    <span className={q.answer === option.index ? 'font-semibold text-main' : ''}>
+                      {option.text}
+                    </span>
+                  </div>
+                ));
+              })()}
             </div>
           </div>
         ))}
@@ -270,22 +328,41 @@ const Quiz = ({ onPrev, onNext, initialData = [], onQuizDataChange }) => {
             </div>
             
             <div className="space-y-3">
-              <label className="block text-sm font-medium mb-2">{t("text.Options")}:</label>
-              {[1, 2, 3, 4].map((optionNum) => (
-                <div key={optionNum} className="flex items-center">
+              <div className="flex justify-between items-center">
+                <label className="block text-sm font-medium">{t("text.Options")}:</label>
+                <button
+                  type="button"
+                  onClick={handleAddOption}
+                  className="flex items-center gap-1 px-2 py-1 bg-main text-white text-xs rounded hover:bg-blue-700"
+                >
+                  {/* <img src={plusSign} alt="Add" className="w-3 h-3" /> */}
+                  {t("text.Add_Option")}
+                </button>
+              </div>
+              {newQuestion.options.map((option, index) => (
+                <div key={index} className="flex items-center gap-2">
                   <div 
-                    onClick={() => handleOptionChange(optionNum)}
-                    className={`w-4 h-4 rounded-full border me-3 cursor-pointer ${
-                      newQuestion.answer === optionNum ? 'bg-main border-main' : 'border-grayDC'
+                    onClick={() => handleAnswerChange(index)}
+                    className={`w-4 h-4 rounded-full border cursor-pointer ${
+                      newQuestion.answer === index + 1 ? 'bg-main border-main' : 'border-grayDC'
                     }`}
                   ></div>
                   <input
                     type="text"
-                    value={newQuestion[`option_${optionNum}`]}
-                    onChange={(e) => setNewQuestion({...newQuestion, [`option_${optionNum}`]: e.target.value})}
+                    value={option}
+                    onChange={(e) => handleOptionTextChange(index, e.target.value)}
                     className="flex-1 p-2 border border-gray-300 rounded-lg"
-                    placeholder={`${t("text.Option")} ${optionNum}`}
+                    placeholder={`${t("text.Option")} ${index + 1}`}
                   />
+                  {newQuestion.options.length > 1 && (
+                    <div
+                      type="button"
+                      onClick={() => handleRemoveOption(index)}
+                      className="w-8 h-8 flex items-center justify-center bg-red text-white rounded hover:bg-red"
+                    >
+                      ×
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

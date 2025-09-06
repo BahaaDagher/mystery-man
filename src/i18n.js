@@ -239,6 +239,7 @@ const resources = {
         Update_Question : "Update Question" ,
         Quiz : "Quiz" ,
         Quiz_description : "Create quiz questions for your mission" ,
+        Add_Option : "Add Option" ,
         QR_Code_1 : "QR Code 1" ,
         QR_Code_2 : "QR Code 2" ,
         QR_Code_3 : "QR Code 3" ,
@@ -420,6 +421,7 @@ const resources = {
         QR_Code_deleted_successfully : "QR Code has been deleted successfully" ,
         Failed_to_delete_QR_Code : "Failed to delete QR Code. Please try again." ,
         Something_went_wrong : "Something went wrong. Please try again." ,
+        No_category : "No category" ,
       },
       content: {}
     }
@@ -618,7 +620,7 @@ const resources = {
         The_additional_amount_due_to_you : "المبلغ الإضافي المستحق لك" ,
         Additional_amount_due_to_the_visitor : "المبلغ الإضافي المستحق للزائر" ,
         reports : "التقارير"  , 
-        qr_codes : "الكودات الثنائية" , 
+        qr_codes : "رموز ال QR" , 
         Qr_Codes : "رموز QR" ,
         Responses : "الردود" ,
         New_Qr_Code : "رمز QR جديد" ,
@@ -659,6 +661,7 @@ const resources = {
         Update_Question : "تحديث السؤال" ,
         Quiz : "الاختبار" ,
         Quiz_description : "أنشئ أسئلة إختبار لمهمتك" ,
+        Add_Option : "إضافة خيار" ,
         QR_Code_1 : "رمز QR 1" ,
         QR_Code_2 : "رمز QR 2" ,
         QR_Code_3 : "رمز QR 3" ,
@@ -726,8 +729,8 @@ const resources = {
         pending_status : "في انتظار" ,
         // QR Codes Report translations
         reconnaissance : "استطلاع" ,
-        done_qr_codes : "الكودات الثنائية التامة" ,
-        running_qr_codes : "الكودات الثنائية التشغيلية" ,
+        done_qr_codes : "رموز ال QR التامة" ,
+        running_qr_codes : "رموز ال QR التشغيلية" ,
         general_rate : "التقييم العام" ,
         bad : "سيء" ,
         good : "جيد" ,
@@ -840,6 +843,7 @@ const resources = {
         QR_Code_deleted_successfully : "تم حذف رمز QR بنجاح" ,
         Failed_to_delete_QR_Code : "فشل في حذف رمز QR. يرجى المحاولة مرة أخرى." ,
         Something_went_wrong : "حدث خطأ ما. يرجى المحاولة مرة أخرى." ,
+        No_category : "لا يوجد فئة" ,
       },
       content: {}
     }

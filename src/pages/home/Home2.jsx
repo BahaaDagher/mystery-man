@@ -48,9 +48,9 @@ const Home2 = () => {
             currentBalance={homeDataState?.currentBalance}
             reconnaissance={homeDataState?.reconnaissance}
           />
-          <div className="flex gap-2 w-full">
+          <div className="flex flex-col lg:flex-row gap-2 w-full">
             {/* Left column */}
-            <div className="flex flex-col gap-4 w-[60%]">
+            <div className="flex flex-col gap-4 w-full lg:w-[60%]">
               <div className="">
                 <DoughnutReconnaissance 
                   reconnaissanceChart={homeDataState?.reconnaissanceChart}
@@ -64,7 +64,7 @@ const Home2 = () => {
             </div>
 
             {/* Right column */}
-            <div className="flex flex-col gap-4 w-[40%]">
+            <div className="flex flex-col gap-4 w-full lg:w-[40%]">
               <div className="">
                 <BranchRating 
                   rating={homeDataState?.rating}

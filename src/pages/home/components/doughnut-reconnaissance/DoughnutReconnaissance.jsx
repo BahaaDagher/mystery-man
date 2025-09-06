@@ -78,7 +78,7 @@ const DoughnutReconnaissance = ({ reconnaissanceChart }) => {
 
   return (
     <div className="bg-white rounded-[12px] p-[20px]  w-full border-[10px] ">
-      <div className="text-[20px] font-semibold mb-5 ">{t('text.reconnaissance')}</div>
+      <div className="text-[20px] font-semibold mb-5 ">{t('text.Qr_Codes')}</div>
       <div className="flex items-center justify-center gap-10">
         <DoughnutComponent
           chartData={chartData}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Line } from 'react-chartjs-2';
 import {
@@ -13,57 +13,29 @@ import {
 
 ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, Tooltip, Filler);
 
-const missionsData = [
-    ['فرع الرياض الشمالي', 18],
-    ['فرع المدينة الغربية', 27],
-    ['فرع جدة المركزي', 33],
-    ['فرع الدمام الشرقي', 12],
-    ['فرع مكة الجنوبي', 24],
-    ['فرع الطائف الجديد', 30],
-    ['فرع أبها', 15],
-    ['فرع الخبر', 29],
-    ['فرع القصيم', 21],
-    ['فرع تبوك', 36],
-    ['فرع حائل', 17],
-    ['فرع نجران', 25],
-    ['فرع الجوف', 19],
-    ['فرع الباحة', 23],
-    ['فرع ينبع', 28],
-    ['فرع عرعر', 31],
-    ['فرع سكاكا', 20],
-    ['فرع بيشة', 26],
-    ['فرع الخرج', 22],
-    ['فرع الزلفي', 100],
-  ];
-  
 
-  const rateData = [
-    ['فرع الرياض الشمالي', 1.5],
-    ['فرع المدينة الغربية', 2.3],
-    ['فرع جدة المركزي', 2.9],
-    ['فرع الدمام الشرقي', 3.4],
-    ['فرع مكة الجنوبي', 3.8],
-    ['فرع الطائف الجديد', 4.0],
-    ['فرع أبها', 4.3],
-    ['فرع الخبر', 4.6],
-    ['فرع القصيم', 4.8],
-    ['فرع تبوك', 5.0],
-    ['فرع حائل', 3.6],
-    ['فرع نجران', 2.7],
-    ['فرع الجوف', 3.1],
-    ['فرع الباحة', 4.1],
-    ['فرع ينبع', 2.5],
-    ['فرع عرعر', 3.9],
-    ['فرع سكاكا', 4.4],
-    ['فرع بيشة', 3.0],
-    ['فرع الخرج', 2.2],
-    ['فرع الزلفي', 3.3],
-  ];
-  
+
+
 
 const BranchesReport = ({ missions = [] }) => {
   const { t } = useTranslation();
   const [selected, setSelected] = useState('missions');
+  const [chartHeight, setChartHeight] = useState(170);
+
+  // Set responsive height based on screen size
+  useEffect(() => {
+    const updateHeight = () => {
+      if (window.innerWidth >= 1024) {
+        setChartHeight(170); // Desktop (lg and above)
+      } else {
+        setChartHeight(300); // All screens below lg
+      }
+    };
+
+    updateHeight();
+    window.addEventListener('resize', updateHeight);
+    return () => window.removeEventListener('resize', updateHeight);
+  }, []);
 
   const lang = localStorage.getItem('language');
   const isArabic = lang === 'ar';
@@ -135,7 +107,7 @@ const BranchesReport = ({ missions = [] }) => {
   };
 
   return (
-    <div className="bg-white rounded-3xl p-8 border-[10px] border-[#F22E2E] max-w-4xl mx-auto">
+    <div className="bg-white rounded-3xl p-[20px] border-[10px] border-[#F22E2E] ">
       <div className="flex items-center justify-between mb-2">
         <span className="text-2xl font-semibold">{t('text.branches_report')}</span>
         <select
@@ -147,7 +119,7 @@ const BranchesReport = ({ missions = [] }) => {
           <option value="rate">{t('text.rate')}</option>
         </select>
       </div>
-      <Line data={data} options={options} height={170} />
+      <Line data={data} options={options} height={chartHeight} />
     </div>
   );
 };

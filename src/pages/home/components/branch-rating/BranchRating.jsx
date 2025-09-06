@@ -61,7 +61,7 @@ const BranchRating = ({ rating }) => {
   const sectionData = transformStepData();
 
   return (
-    <div className="bg-white rounded-[12px] p-[20px] border-[10px]  max-w-xl mx-auto">
+    <div className="bg-white rounded-[12px] p-[20px] border-[10px]   mx-auto">
       <div className="flex items-center justify-between mb-4">
         <span className="text-2xl font-semibold">{t('text.rating')}</span>
         {/* Star icon group */}

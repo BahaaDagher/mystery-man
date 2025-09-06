@@ -291,6 +291,9 @@ const EditProfile = () => {
               <H3>{t("text.categories")} </H3>
               <Select onChange={handleCategoryChange} value={selectedCategoryID}>
                 {console.log(selectedCategoryID)}
+                  <Option key={-1} value="No category">
+                    {t("text.No_category")}
+                  </Option>
                  { getCategoriesData?.map(category => (
                   <Option key={category.id} value={category.id}>
                     {category.name_ar}

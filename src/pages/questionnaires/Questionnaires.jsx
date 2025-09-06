@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 import Steps from './Steps';
 
 const MainContent = styled(FlexSpaceBetween)(({ theme }) => ({
+  width : "100%" ,
   gap : "20px" ,
   [theme.breakpoints.down('800')]: {
     flexDirection : "column-reverse" ,
@@ -105,6 +106,17 @@ const Questionnaires = () => {
   const [pressCreateQuestionnaire , setPressCreateQuestionnaire] = useState(true)
   const [ isAddNew , setIsAddNew ] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 1024)
+
+  // Handle window resize for responsive behavior
+  useEffect(() => {
+    const handleResize = () => {
+      setIsLargeScreen(window.innerWidth >= 1024)
+    }
+    
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   const dispatch = useDispatch() ; 
 
@@ -154,10 +166,8 @@ const numberOFQuestioners = (item)=>{
         <MainContent style={{ position: 'relative' }}>
           <div 
             style={{ 
-              // height: "100vh", 
-              // overflowY: "auto", 
               position: "relative",
-              width: sidebarOpen ? 'calc(100% - 450px)' : '100%',
+              width: isLargeScreen ? (sidebarOpen ? 'calc(100% - 450px)' : '100%') : '100%',
               transition: 'width 0.3s ease-in-out'
             }}
           >

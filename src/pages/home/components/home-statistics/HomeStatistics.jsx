@@ -34,13 +34,16 @@ const HomeStatistics = ({
 
 
   return (
-    <div className='w-full flex gap-2'>
+    <div className='w-full flex flex-col sm:flex-row gap-2 sm:gap-3 lg:gap-4'>
       <StatisticsContainer className=''>
-        <div className='font-[600] text-[20px] text-black3'>{t('text.available_missions')}</div>
-        <div className="font-extrabold text-[96px] tracking-[1.92px] text-black4">{availableMissions}</div>
-        <Link to="/userDashboard/missions/newMission" className="text-green  m-2">
+        <div className='font-[600] text-base sm:text-lg lg:text-[20px] text-black3'>{t('text.available_missions')}</div>
+        {/* <div className="font-extrabold text-[96px] tracking-[1.92px] text-black4">{availableMissions}</div> */}
+        <div className='flex items-center justify-center gap-1  mt-[20%]'>
+          <div className="font-bold text-4xl sm:text-5xl lg:text-6xl xl:text-[80px] tracking-[1.92px] text-black4 ">{availableMissions}</div>
+        </div>
+        {/* <Link to="/userDashboard/missions/newMission" className="text-green  m-2">
           + {t('text.add_more')}
-        </Link>
+        </Link> */}
         {/* <div className="w-full flex justify-center ">
           <div className="flex w-[90%]  rounded-full border border-gray5 p-[3px]">
             <div className="flex w-full h-[27px] rounded-full border-4 border-gray5 overflow-hidden bg-gray5">
@@ -55,10 +58,10 @@ const HomeStatistics = ({
       </StatisticsContainer>
 
       <StatisticsContainer className=''>
-        <div className='font-[600] text-[20px] '>{t('text.current_balance')}</div>
+        <div className='font-[600] text-base sm:text-lg lg:text-[20px] '>{t('text.current_balance')}</div>
         <div className='flex items-center justify-center gap-1  mt-[20%]'>
           <img src={monyIcon} alt="" />
-        <div className="font-extrabold text-[64px] tracking-[1.92px] text-black4 ">{currentBalance}</div>
+          <div className="font-bold text-3xl sm:text-4xl lg:text-5xl xl:text-[64px] tracking-[1.92px] text-black4 ">{currentBalance}</div>
         </div>
         {/* <div className='w-full'>
           <div className='text-gray6 tracking-[1.92px] text-[10px] font-medium'> {t('text.last_transaction')}</div>
@@ -73,22 +76,21 @@ const HomeStatistics = ({
       </StatisticsContainer>
 
       <StatisticsContainer className=''>
-        <div className='font-[600] text-[20px] '>{t('text.avg_review')}</div>
-        <div className="font-extrabold text-[70px] tracking-[1.92px] text-black4 ">{avgReview}</div>
+        <div className='font-[600] text-base sm:text-lg lg:text-[20px] '>{t('text.avg_review')}</div>
+        <div className="font-bold text-3xl sm:text-4xl lg:text-5xl xl:text-[70px] tracking-[1.92px] text-black4 ">{avgReview}</div>
         {
           avgRate > 0 && (
             <BranchRating name="half-rating" defaultValue={avgRate} precision={0.5} readOnly />
           )
         }
        
-        <div className={`font-bold text-[20px] leading-[140%] ${getRatingInfo(avgRate).color} mt-[10%]`}>
+        <div className={`font-bold text-base sm:text-lg lg:text-[20px] leading-[140%]  ${getRatingInfo(avgRate).color} mt-[10%]`}>
           ( {getRatingInfo(avgRate).text} )
         </div>
       </StatisticsContainer>
       <StatisticsContainer className=''>
-        <div className='font-[600] text-[20px] text-black3'>{t('text.reconnaissance')}</div>
-        <div className="font-extrabold text-[130px] tracking-[1.92px] text-black4">{reconnaissance}</div>
-       
+        <div className='font-[600] text-base sm:text-lg lg:text-[20px] text-black3'>{t('text.reconnaissance')}</div>
+        <div className="font-bold text-4xl sm:text-5xl lg:text-6xl xl:text-[130px] tracking-[1.92px] text-black4">{reconnaissance}</div>
       </StatisticsContainer>
     </div>
   )
