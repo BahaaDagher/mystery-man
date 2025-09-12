@@ -72,7 +72,6 @@ const Home2 = () => {
               </div>
               <div className="relative ">
                 <BranchesLocation />
-                {/* <HexMapSaudi /> */}
               </div>
             </div>
           </div>

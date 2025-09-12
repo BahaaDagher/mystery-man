@@ -344,6 +344,7 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
               </Section>
               <div>
                 <p>{item.user.name}</p>
+                <p> {item.user.info}</p>
                 <Rating name="half-rating" defaultValue={item.user.rate} precision={0.5} readOnly style = {{direction : "ltr"}}/>
               </div>
           </PhotoAndName>
@@ -353,7 +354,7 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
                           <Category key = {index}>{item.name}</Category>
                       )
                   })}
-            </CategoryDiv>
+          </CategoryDiv>
           <ButtonDiv>
             <AcceptButton onClick={()=>handleAccept(item)}>{t("text.Accept")}</AcceptButton>
             <AcceptButton className='details-button' onClick={()=>handleShowQuiz(item)}>{t("text.Details")}</AcceptButton>

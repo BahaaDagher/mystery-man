@@ -39,7 +39,7 @@ const Input = styled("input")(({ theme }) => ({
 const NewBranch = () => {
   const [branchName , setBranchName] = useState("");
   const [branchAddress , setBranchAddress] = useState("");
-  const [location , setLocation] = useState({ lat: 24.774265, lng: 46.738586 })
+  const [location , setLocation] = useState({ lat: -1, lng: -1 })
   const [clickSubmit , setClickSubmit] = useState(false) ;
 
   const addBranchData = useSelector(state => state.branchData.addBranchData) ;  
@@ -72,12 +72,16 @@ const NewBranch = () => {
 
   const handleSubmit = () => {
     setClickSubmit(true)
-    dispatch(addBranch({name : branchName , address : branchAddress , lat : location.lat , long : location.lng}))
+    if (location.lat === -1 && location.lng === -1) 
+      dispatch(addBranch({name : branchName , address : branchAddress }))  
+    else 
+      dispatch(addBranch({name : branchName , address : branchAddress , lat : location.lat , long : location.lng}))
   }
   const theme = useTheme() ; 
   return (
   <>
     <Map setLocation = {setLocation}  latPos=  {24.774265}  lngPos =  {46.738586} handelAddressChanged={setBranchAddress} />
+    {/* <Map setLocation = {setLocation}  latPos=  {-1}  lngPos =  {-1} handelAddressChanged={setBranchAddress} /> */}
     <EnterData>
       <Input placeholder= "Branch Name" value = {branchName} onChange={(e)=>{setBranchName(e.target.value)}}/>
       <Input placeholder= "Branch Address" value = {branchAddress}  onChange={(e)=>{setBranchAddress(e.target.value)}}/>

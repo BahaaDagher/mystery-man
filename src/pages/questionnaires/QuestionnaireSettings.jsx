@@ -521,7 +521,7 @@ const QuestionnaireSettings = ({isAddNew}) => {
             
               }}
              > 
-            {t("text.SaveAdmin")}
+            {t("text.SaveAdmin")} 
             </SaveAdminButton>
             :''
           }
@@ -538,8 +538,13 @@ const QuestionnaireSettings = ({isAddNew}) => {
                 <img src = {plusSign} style = {{margin : "10px" }} />
                 <AddQuestionButton > {t("text.Add_Question")}</AddQuestionButton>
               </AddQuestionContainer>
-              <ActionButton onClick={()=>handleSaveQuestioneir()} > {t("text.Save")}</ActionButton>
-              <ActionButton onClick={()=>handleDeleteQuestioneir()} className = "cancel">{t("text.Delete")}</ActionButton>
+              {!questionieres[currentQuestioneir]?.isAdmin &&
+              <>
+                <ActionButton onClick={()=>handleSaveQuestioneir()} > {t("text.Save")}</ActionButton>
+                <ActionButton onClick={()=>handleDeleteQuestioneir()} className = "cancel">{t("text.Delete")}</ActionButton>
+              </>
+              }
+              
             </ButtonsContainer>
           </InputAndButtons>
           <DndProvider backend={HTML5Backend}>

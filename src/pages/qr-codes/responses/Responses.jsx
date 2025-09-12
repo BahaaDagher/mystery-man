@@ -9,6 +9,7 @@ import viewIcon from '../../../assets/icons/ShowIcon.svg'
 import Loading from '../../../components/Loading'
 import { Colors } from '../../../Theme'
 import QuestionsModal from './QuestionsModal'
+import DateRangePickerComponent from '../../../components/DateRangePickerComponent'
 
 const ITEMS_PER_PAGE = 5
 
@@ -97,8 +98,8 @@ const Responses = () => {
   return (
     <div className="bg-[#f5f7fa] rounded-xl p-5 w-full">
       {/* Branch Selection */}
-      <div className="mb-6 flex items-center gap-4">
-        <div className="min-w-[220px]">
+      <div className="mb-6 flex items-center gap-4 justify-between">
+        <div className="min-w-[220px] ">
           <CustomSelect
             options={branches}
             value={selectedBranch}
@@ -106,6 +107,9 @@ const Responses = () => {
             multiple={false}
             placeholder={t("text.Select_branch")}
           />
+        </div>
+        <div className='min-w-[220px]'>
+          <DateRangePickerComponent/>
         </div>
       </div>
 

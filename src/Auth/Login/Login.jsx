@@ -158,7 +158,7 @@ const Login = () => {
     useEffect(() => {
         console.log(LoginData) 
         if (clickSubmit) {
-            if (LoginData.status ) {
+            if (LoginData?.status ) {
                 if (LoginData.data.isActive) {
                     console.log("success")
                     localStorage.setItem("token" , LoginData.data.user.token) ;
