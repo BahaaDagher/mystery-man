@@ -35,7 +35,7 @@ const BranchesLocation = () => {
   );
 
   useEffect(() => {
-    if (citiesBranchesData.status) {
+    if (citiesBranchesData?.status) {
       console.log("getCitiesBranches Response:", citiesBranchesData);
       setCitiesBranchesState(citiesBranchesData.data);
     }

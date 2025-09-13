@@ -310,23 +310,24 @@ const NewMission = () => {
     }
   } , [getProfileData])
   const handleNext = () => {
-      if (title && focus && selectedBranches.length > 0 && selectedGender !== '' && date && time1  && selectedQuestioniere>-1) {
-        if(voucherValue <= wallet){
-          setCurrentStep('quiz')
-        }
-        else{
-          Swal.fire({
-            icon: 'error',
-            text: t("text.You_dont_have_enough_money_to_create_a_new_mission"),
-          })
-        }
-      }
-      else {
-        Swal.fire({
-          icon: 'error',
-          text: t("text.please_fill_all_the_fields"),
-        })
-    }
+    setCurrentStep('quiz')
+    //   if (title && focus && selectedBranches.length > 0 && selectedGender !== '' && date && time1  && selectedQuestioniere>-1) {
+    //     if(voucherValue <= wallet){
+    //       setCurrentStep('quiz')
+    //     }
+    //     else{
+    //       Swal.fire({
+    //         icon: 'error',
+    //         text: t("text.You_dont_have_enough_money_to_create_a_new_mission"),
+    //       })
+    //     }
+    //   }
+    //   else {
+    //     Swal.fire({
+    //       icon: 'error',
+    //       text: t("text.please_fill_all_the_fields"),
+    //     })
+    // }
   }
 
   const handleQuizDataChange = (data) => {

@@ -6,10 +6,13 @@ import { getQrCodeBranchResponses, getResponseDetails } from '../../../store/sli
 import CustomSelect from '../../../components/CustomSelect'
 import { useTranslation } from 'react-i18next'
 import viewIcon from '../../../assets/icons/ShowIcon.svg'
+import excel from '../../../assets/icons/excel.svg'
 import Loading from '../../../components/Loading'
 import { Colors } from '../../../Theme'
 import QuestionsModal from './QuestionsModal'
 import DateRangePickerComponent from '../../../components/DateRangePickerComponent'
+import { format, startOfMonth } from 'date-fns'
+import * as XLSX from 'xlsx'
 
 const ITEMS_PER_PAGE = 5
 
@@ -22,6 +25,14 @@ const Responses = () => {
   const [responses, setResponses] = useState([])
   const [showQuestionsModal, setShowQuestionsModal] = useState(false)
   const [selectedResponseData, setSelectedResponseData] = useState(null)
+  const [dateRange, setDateRange] = useState({
+      startDate: startOfMonth(new Date()),
+        endDate: new Date(),
+  });
+
+  useEffect(()=>{
+    console.log("dateRange::::" , dateRange)
+  }, dateRange)
 
   // Redux selectors
   const getBranchesData = useSelector(state => state.branchData.getBranchesData)
@@ -47,14 +58,26 @@ const Responses = () => {
     }
   }, [getBranchesData])
 
-  // Fetch responses when branch selection changes
+  // Fetch responses when branch selection or date range changes
   useEffect(() => {
-    if (selectedBranch) {
-      dispatch(getQrCodeBranchResponses(selectedBranch))
-    } else {
-      dispatch(getQrCodeBranchResponses()) // Get all responses
+    const values = {};
+    
+    // Always include dates if available
+    if (dateRange.startDate) {
+      values.from_date = format(dateRange.startDate, 'yyyy-MM-dd') // Format as YYYY-MM-DD
     }
-  }, [selectedBranch, dispatch])
+    if (dateRange.endDate) {
+      values.to_date = format(dateRange.endDate, 'yyyy-MM-dd') // Format as YYYY-MM-DD
+    }
+    
+    // Include branch if selected
+    if (selectedBranch) {
+      values.branch_id = selectedBranch;
+    }
+    
+    // Always call the API with available parameters
+    dispatch(getQrCodeBranchResponses(values));
+  }, [selectedBranch, dateRange, dispatch]);
 
   // Transform responses data when loaded
   useEffect(() => {
@@ -95,22 +118,53 @@ const Responses = () => {
     setSelectedResponseData(null)
   }
 
+  // Handle Excel export
+  const handleExportExcel = () => {
+    // Prepare data for Excel export
+    debugger;
+    const exportData = currentItems.map((item, index) => ({
+      '#': offset + index + 1,
+      [t('text.qr_code_name')]: item.qr_code_name,
+      [t('text.branch_name')]: item.branch_name,
+      [t('text.date')]: item.date,
+      [t('text.percentage_score')]: `${item.percentage_score}%`
+    }));
+    
+    // Create workbook and worksheet
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet(exportData);
+    
+    // Add worksheet to workbook
+    XLSX.utils.book_append_sheet(wb, ws, t('text.QR_Responses'));
+    
+    // Generate filename with current date
+    const currentDate = format(new Date(), 'yyyy-MM-dd');
+    const filename = `QR_Responses_${currentDate}.xlsx`;
+    
+    // Save file
+    XLSX.writeFile(wb, filename);
+  };
+
   return (
     <div className="bg-[#f5f7fa] rounded-xl p-5 w-full">
-      {/* Branch Selection */}
+      {/* Branch Selection and Export */}
       <div className="mb-6 flex items-center gap-4 justify-between">
-        <div className="min-w-[220px] ">
-          <CustomSelect
-            options={branches}
-            value={selectedBranch}
-            onChange={setSelectedBranch}
-            multiple={false}
-            placeholder={t("text.Select_branch")}
-          />
-        </div>
-        <div className='min-w-[220px]'>
-          <DateRangePickerComponent/>
-        </div>
+          <div className="min-w-[220px]">
+            <CustomSelect
+              options={branches}
+              value={selectedBranch}
+              onChange={setSelectedBranch}
+              multiple={false}
+              placeholder={t("text.Select_branch")}
+            />
+          </div>
+          <div className='min-w-[220px] flex gap-2 items-center '>
+            <DateRangePickerComponent onDateChange={setDateRange}/>
+            <div className='cursor-pointer' onClick={handleExportExcel}>
+              <img src = {excel} width={35}/>
+            </div>
+          </div>
+        
       </div>
 
       {/* Loading State */}
@@ -123,7 +177,7 @@ const Responses = () => {
         <table className="min-w-full">
           <thead>
             <tr className="text-[#7D8592] text-[16px] font-medium">
-              <th className="py-3 px-4">{t('text.id')}</th>
+              <th className="py-3 px-4">#</th>
               <th className="py-3 px-4">{t('text.qr_code_name')}</th>
               <th className="py-3 px-4">{t('text.branch_name')}</th>
               <th className="py-3 px-4">{t('text.date')}</th>
@@ -134,7 +188,7 @@ const Responses = () => {
           <tbody>
             {currentItems.map((item, idx) => (
               <tr key={idx} className={`rounded-[10px] ${idx % 2 === 0 ? 'bg-white' : 'bg-gray3'} `}>
-                <td className="py-3 px-4 font-medium text-[16px]">{item.id}</td>
+                <td className="py-3 px-4 font-medium text-[16px]">{offset + idx + 1}</td>
                 <td className="py-3 px-4 font-medium text-[16px]">{item.qr_code_name}</td>
                 <td className="py-3 px-4 font-medium text-[16px]">{item.branch_name}</td>
                 <td className="py-3 px-4 font-medium text-[16px]">{item.date}</td>

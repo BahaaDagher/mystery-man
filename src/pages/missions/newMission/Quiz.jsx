@@ -14,7 +14,7 @@ const Quiz = ({ onPrev, onNext, initialData = [], onQuizDataChange }) => {
   const [newQuestion, setNewQuestion] = useState({
     question: '',
     answer: 1,
-    options: ['', '', '', ''] // Start with 4 empty options
+    options: [''] // Start with 1 empty option
   });
 
   useEffect(() => {
@@ -29,13 +29,17 @@ const Quiz = ({ onPrev, onNext, initialData = [], onQuizDataChange }) => {
   }, [questions, onQuizDataChange]);
 
   const handleAddOption = () => {
-    setNewQuestion({
-      ...newQuestion,
-      options: [...newQuestion.options, '']
-    });
+    // Only allow adding options if we have less than 4
+    if (newQuestion.options.length < 4) {
+      setNewQuestion({
+        ...newQuestion,
+        options: [...newQuestion.options, '']
+      });
+    }
   };
 
   const handleRemoveOption = (index) => {
+    // Only allow removing options if we have more than 1
     if (newQuestion.options.length > 1) {
       const newOptions = newQuestion.options.filter((_, i) => i !== index);
       setNewQuestion({
@@ -73,6 +77,18 @@ const Quiz = ({ onPrev, onNext, initialData = [], onQuizDataChange }) => {
       return;
     }
 
+    // Validate number of options (must be between 1 and 4)
+    if (newQuestion.options.length < 1 || newQuestion.options.length > 4) {
+      Swal.fire({
+        icon: 'error',
+        title: t("text.Invalid_Options_Count"),
+        text: t("text.Question_must_have_between_1_and_4_options"),
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: t("text.OK")
+      });
+      return;
+    }
+
     // Check if any option is empty
     let hasEmptyOption = false;
     for (let i = 0; i < newQuestion.options.length; i++) {
@@ -97,14 +113,16 @@ const Quiz = ({ onPrev, onNext, initialData = [], onQuizDataChange }) => {
     if (editingIndex !== null) {
       // Editing existing question
       const updatedQuestions = [...questions];
-      updatedQuestions[editingIndex] = { 
-        ...newQuestion,
+      const questionData = {
+        question: newQuestion.question,
+        answer: newQuestion.answer,
         // Convert options array to numbered options for backward compatibility
         ...newQuestion.options.reduce((acc, option, index) => {
           acc[`option_${index + 1}`] = option;
           return acc;
         }, {})
       };
+      updatedQuestions[editingIndex] = questionData;
       setQuestions(updatedQuestions);
       setEditingIndex(null);
       
@@ -118,7 +136,8 @@ const Quiz = ({ onPrev, onNext, initialData = [], onQuizDataChange }) => {
     } else {
       // Adding new question
       const questionToAdd = {
-        ...newQuestion,
+        question: newQuestion.question,
+        answer: newQuestion.answer,
         // Convert options array to numbered options for backward compatibility
         ...newQuestion.options.reduce((acc, option, index) => {
           acc[`option_${index + 1}`] = option;
@@ -139,7 +158,7 @@ const Quiz = ({ onPrev, onNext, initialData = [], onQuizDataChange }) => {
     setNewQuestion({
       question: '',
       answer: 1,
-      options: ['', '', '', '']
+      options: ['']
     });
     setShowAddQuestion(false);
   };
@@ -190,7 +209,7 @@ const Quiz = ({ onPrev, onNext, initialData = [], onQuizDataChange }) => {
     setNewQuestion({
       question: '',
       answer: 1,
-      options: ['', '', '', '']
+      options: ['']
     });
     setEditingIndex(null);
     setShowAddQuestion(false);
@@ -333,7 +352,12 @@ const Quiz = ({ onPrev, onNext, initialData = [], onQuizDataChange }) => {
                 <button
                   type="button"
                   onClick={handleAddOption}
-                  className="flex items-center gap-1 px-2 py-1 bg-main text-white text-xs rounded hover:bg-blue-700"
+                  disabled={newQuestion.options.length >= 4}
+                  className={`flex items-center gap-1 px-2 py-1 text-xs rounded ${
+                    newQuestion.options.length >= 4 
+                      ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
+                      : 'bg-main text-white hover:bg-blue-700'
+                  }`}
                 >
                   {/* <img src={plusSign} alt="Add" className="w-3 h-3" /> */}
                   {t("text.Add_Option")}
@@ -358,7 +382,7 @@ const Quiz = ({ onPrev, onNext, initialData = [], onQuizDataChange }) => {
                     <div
                       type="button"
                       onClick={() => handleRemoveOption(index)}
-                      className="w-8 h-8 flex items-center justify-center bg-red text-white rounded hover:bg-red"
+                      className="w-8 h-8 flex items-center justify-center bg-red text-white rounded hover:bg-red cursor-pointer"
                     >
                       ×
                     </div>

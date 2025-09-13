@@ -203,56 +203,70 @@ const numberOFQuestioners = (item)=>{
               <FlexCenter style = {{fontSize : "20px"}}>{t("text.Saved_Questioners")}</FlexCenter>
               <Divider/>
               {
-                questionieres?.map((item , index)=>{
-                return (
-                  !item.isAdmin ? 
-                  
-                  <>
-                    <PreviousQuestionnaire className = {active == index ? "active" : ""}
-                    onClick={()=> {handleQuestionierChange(item.id ,index)  ; setActive(index) }} >
+                (() => {
+                  let counter = 1;
+                  return questionieres?.map((item , index)=>{
+                  return (
+                    !item.isAdmin ? 
+                    
+                    <>
+                      <PreviousQuestionnaire className = {active == index ? "active" : ""}
+                      onClick={()=> {handleQuestionierChange(item.id ,index)  ; setActive(index) }} >
+                        
+                        <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
+                          <span style={{fontWeight: 'bold', fontSize: '16px', color: '#666'}}>
+                            {counter++}.
+                          </span>
+                          <QuestionnaireName>{item.title}</QuestionnaireName>
+                        </div>
+                        <QuestionnaireLengthDiv>
+                          <SpanQ>Q</SpanQ>
+                          <SpanNum>
+                            {numberOFQuestioners(item)}
+                          </SpanNum>
+                        </QuestionnaireLengthDiv>
+                      </PreviousQuestionnaire>
 
-                      <QuestionnaireName>{item.title}</QuestionnaireName>
-                      <QuestionnaireLengthDiv>
-                        <SpanQ>Q</SpanQ>
-                        <SpanNum>
-                          {numberOFQuestioners(item)}
-                        </SpanNum>
-                      </QuestionnaireLengthDiv>
-                    </PreviousQuestionnaire>
-
-                  </>
-                  
-                  :''
-                )
-                })
-              
+                    </>
+                    
+                    :''
+                  )
+                  })
+                })()
               }
 
               <Divider/>
               <FlexCenter style = {{fontSize : "20px"}}>{t("text.Saved_admin_Questioners")}</FlexCenter>
               <Divider/>
               {
-                questionieres?.map((item , index)=>{
-                return (
-                  item.isAdmin ?
-                  <>
-                    <PreviousQuestionnaire className = {active == index ? "active" : ""}
-                    onClick={()=> {handleQuestionierChange(item.id ,index)  ; setActive(index) }} >
+                (() => {
+                  let counter = 1;
+                  return questionieres?.map((item , index)=>{
+                  return (
+                    item.isAdmin ?
+                    <>
+                      <PreviousQuestionnaire className = {active == index ? "active" : ""}
+                      onClick={()=> {handleQuestionierChange(item.id ,index)  ; setActive(index) }} >
 
-                      <QuestionnaireName>{item.title}</QuestionnaireName>
-                      <QuestionnaireLengthDiv>
-                        <SpanQ>Q</SpanQ>
-                        <SpanNum>
-                          {numberOFQuestioners(item)}
-                        </SpanNum>
-                      </QuestionnaireLengthDiv>
-                    </PreviousQuestionnaire>
+                        <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
+                          <span style={{fontWeight: 'bold', fontSize: '16px', color: '#666'}}>
+                            {counter++}.
+                          </span>
+                          <QuestionnaireName>{item.title}</QuestionnaireName>
+                        </div>
+                        <QuestionnaireLengthDiv>
+                          <SpanQ>Q</SpanQ>
+                          <SpanNum>
+                            {numberOFQuestioners(item)}
+                          </SpanNum>
+                        </QuestionnaireLengthDiv>
+                      </PreviousQuestionnaire>
 
-                  </>
-                  :''
-                )
-                })
-              
+                    </>
+                    :''
+                  )
+                  })
+                })()
               }
 
 

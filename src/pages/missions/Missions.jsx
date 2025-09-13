@@ -68,16 +68,16 @@ const Missions = () => {
   } , [getProfileData])
 
   const newMissionPage = () => {
-    // navigate ("/userDashboard/missions/newMission")
-    if (wallet >0) navigate ("/userDashboard/missions/newMission")
-    else {
-      Swal.fire ({
-        icon : "error" ,
-        title : t("text.Error") ,
-        text : t("text.You_dont_have_enough_money_to_create_a_new_mission")  ,
-        confirmButtonText : "Ok" ,
-      })
-    }
+    navigate ("/userDashboard/missions/newMission")
+    // if (wallet >0) navigate ("/userDashboard/missions/newMission")
+    // else {
+    //   Swal.fire ({
+    //     icon : "error" ,
+    //     title : t("text.Error") ,
+    //     text : t("text.You_dont_have_enough_money_to_create_a_new_mission")  ,
+    //     confirmButtonText : "Ok" ,
+    //   })
+    // }
   }
 
   

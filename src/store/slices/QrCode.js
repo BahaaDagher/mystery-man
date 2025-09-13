@@ -37,12 +37,16 @@ export const getQrCodeBranches = createAsyncThunk(
 
 export const getQrCodeBranchResponses = createAsyncThunk(
     "qrCode/getQrCodeBranchResponses", 
-    async (branchId = null) => {
+    async (values = {}) => {
       const token = localStorage.getItem('token');
       try {
-        const url = branchId 
-          ? `${API_BASE_URL}/qrCodeBranch/responses?branch_id=${branchId}`
-          : `${API_BASE_URL}/qrCodeBranch/responses`;
+        // Build query parameters
+        const params = new URLSearchParams();
+        if (values.branch_id) params.append('branch_id', values.branch_id);
+        if (values.from_date) params.append('from_date', values.from_date);
+        if (values.to_date) params.append('to_date', values.to_date);
+        
+        const url = `${API_BASE_URL}/qrCodeBranch/responses?${params.toString()}`;
         
         const response = await axios.get(
           url, 

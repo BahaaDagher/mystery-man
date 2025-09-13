@@ -1,6 +1,8 @@
 import styled from '@emotion/styled';
 import React, { useEffect, useRef, useState } from 'react'
 import plusSign from '../../assets/icons/plusSign.svg'
+import pdfIcon from '../../assets/images/pdf.png'
+import wordIcon from '../../assets/images/word.png'
 import {Colors} from "../../Theme"
 import { Box, ListItemText, Popover } from '@mui/material';
 import { FlexSpaceBetween } from '../../components/FlexSpaceBetween';
@@ -17,6 +19,8 @@ import { getSteps } from '../../store/slices/stepSlice';
 import Swal from 'sweetalert2';
 import { useTranslation } from 'react-i18next';
 import { useDrag, useDrop } from 'react-dnd';
+import { exportQuestionnaireToWord } from '../../utils/questionnaireWordExport';
+import { exportQuestionnaireToPdf } from '../../utils/questionnairePdfExport';
 
 const Parent = styled(Box)(({ theme }) => ({
   width : "100%" ,
@@ -344,7 +348,7 @@ const QuestionnaireSettings = ({isAddNew}) => {
   const handleClickStep = (index,questions) => {
     dispatch(setCurrentStep(index))
     dispatch(setFocusedStep(index))
-    console.log(questionieres[currentQuestioneir].steps);
+    console.log("bahaa" , questionieres);
  
   };
   const handleRemoveStep = (index,questions) => {
@@ -440,6 +444,18 @@ const QuestionnaireSettings = ({isAddNew}) => {
   const moveStep = (fromIndex, toIndex) => {
     console.log('llllllllllll',fromIndex,toIndex);
     dispatch(handleMoveStep({fromIndex, toIndex}))
+  };
+
+  // Handle Word export
+  const handleExportWord = () => {
+    const questionnaire = questionieres[currentQuestioneir];
+    exportQuestionnaireToWord(questionnaire);
+  };
+
+  // Handle PDF export
+  const handleExportPdf = () => {
+    const questionnaire = questionieres[currentQuestioneir];
+    exportQuestionnaireToPdf(questionnaire);
   };
 
   const StepComponent = ({ answer, index , focusedStep}) => {
@@ -539,10 +555,16 @@ const QuestionnaireSettings = ({isAddNew}) => {
                 <AddQuestionButton > {t("text.Add_Question")}</AddQuestionButton>
               </AddQuestionContainer>
               {!questionieres[currentQuestioneir]?.isAdmin &&
-              <>
+              <div className='flex  items-center gap-2'> 
                 <ActionButton onClick={()=>handleSaveQuestioneir()} > {t("text.Save")}</ActionButton>
                 <ActionButton onClick={()=>handleDeleteQuestioneir()} className = "cancel">{t("text.Delete")}</ActionButton>
-              </>
+                <div className='cursor-pointer' onClick={handleExportWord}>
+                  <img src={wordIcon} width={35} height={35}/>
+                </div>
+                <div className='cursor-pointer' onClick={handleExportPdf}>
+                  {/* <img src={pdfIcon} width={35} height={35}/> */}
+                </div>
+              </div>
               }
               
             </ButtonsContainer>

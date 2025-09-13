@@ -127,7 +127,10 @@ const FinishedData = (
       notes : missionNotes  ,
       reconnaissance: missionReconnaissance ? 1 : 0,
       questions: [questionieresData[currentQuestioneir]] , 
-      quiz_questions: quizData,
+      quiz_questions: quizData.map(question => {
+        const { options, ...cleanQuestion } = question;
+        return cleanQuestion;
+      }),
     }
     const [click , setClick] = useState(false)
 
@@ -139,7 +142,7 @@ const FinishedData = (
     useEffect(() => {
       if (addMissionsData.status) {
         Swal.fire(t("text.mission_added_successfully"), '', 'success')
-        // window.location.href ="/userDashboard/missions"
+        window.location.href ="/userDashboard/missions"
       } else if (click) {
         Swal.fire({
           icon: 'error',
