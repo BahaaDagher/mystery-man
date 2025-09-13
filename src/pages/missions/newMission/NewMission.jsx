@@ -461,7 +461,7 @@ const NewMission = () => {
                         disabled={reconnaissanceMission <= 0}
                     />
                     <CheckLabel htmlFor='reconnaissance' style={{ color: reconnaissanceMission <= 0 ? '#ccc' : 'inherit' }}>
-                      {t("text.Enable_Reconnaissance")} {reconnaissanceMission > 0 && `(${reconnaissanceMission})`}
+                      {t("text.Enable_Reconnaissance")} 
                     </CheckLabel>
          
                   {reconnaissanceMission <= 0 && (

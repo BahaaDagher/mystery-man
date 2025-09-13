@@ -140,15 +140,19 @@ const FinishedData = (
     const navigate = useNavigate() ; 
 
     useEffect(() => {
-      if (addMissionsData.status) {
-        Swal.fire(t("text.mission_added_successfully"), '', 'success')
-        window.location.href ="/userDashboard/missions"
-      } else if (click) {
-        Swal.fire({
-          icon: 'error',
-          text: addMissionsData.message,
-        })
+      if (click){
+        if (addMissionsData?.status) {
+          Swal.fire(t("text.mission_added_successfully"), '', 'success').then(() => {
+            window.location.href ="/userDashboard/missions"
+          })
+        } else {
+          Swal.fire({
+            icon: 'error',
+            text: addMissionsData.message,
+          })
+        }
       }
+    
     }, [addMissionsData])
 
     const handlePostMission = () => {

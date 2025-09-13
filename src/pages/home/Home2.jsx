@@ -40,7 +40,7 @@ const Home2 = () => {
     <>
     {homeDataLoading && <Loading/>}
       <div className="w-full flex flex-col gap-3">
-        <HomeHeader />
+        {/* <HomeHeader /> */}
         <div className="Printable w-full flex flex-col gap-3">
           <HomeStatistics 
             availableMissions={homeDataState?.availableMissions}
