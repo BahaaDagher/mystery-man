@@ -19,7 +19,7 @@ const QuestionnaireDisplay = ({ questionnaire }) => {
           {questionnaire.steps.map((step, stepIndex) => (
             <div key={step.id || stepIndex} className="bg-gray-50 rounded-lg p-4">
               <h5 className="font-medium text-gray-800 mb-3">
-                {t('text.Step')} {stepIndex + 1}: {step.name}
+                {stepIndex + 1} - {step.name}
               </h5>
               
               {step.questions && step.questions.length > 0 && (
