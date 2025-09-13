@@ -20,7 +20,7 @@ const HomeHeader = () => {
         <div className='bg-main p-[8px] rounded-[5px] cursor-pointer flex items-center justify-center '> 
           <img src={PrintIcon} alt=""  />
         </div>
-        <DateRangePickerComponent />
+        {/* <DateRangePickerComponent /> */}
       </div>
     </div>
   )

@@ -437,7 +437,7 @@ const resources = {
         Najran : "Najran" ,
         AlBaha : "Al Baha" ,
         Hafar_AlBatin : "Hafar Al-Batin" ,
-        Khobar : "Khobar" ,
+        AlKhobar : "Al Khobar" ,
       },
       content: {}
     }

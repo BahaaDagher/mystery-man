@@ -94,7 +94,8 @@ function App() {
           <Route path='home' element = <Home2/>  />
           <Route path='questionnaires' element = <Questionnaires/>  />
           <Route path='missions' element = <Missions/>  />
-          <Route path='missions/newMission' element = {<ProtectNewMission><NewMission/></ProtectNewMission>} />  
+          {/* <Route path='missions/newMission' element = {<ProtectNewMission><NewMission/></ProtectNewMission>} />   */}
+          <Route path='missions/newMission' element = <NewMission/> />  
           <Route path='missions/waitRequests/viewMissions' element = <ReviewMissionRequest/> /> 
           <Route path='missions/viewMissions' element = <ReviewMissionRequest/> /> 
           <Route path='missions/viewDetails/:id' element = <ViewDetails missionDetails={missionDetails}/> /> 

@@ -43,8 +43,8 @@ export const getQrCodeBranchResponses = createAsyncThunk(
         // Build query parameters
         const params = new URLSearchParams();
         if (values.branch_id) params.append('branch_id', values.branch_id);
-        if (values.from_date) params.append('from_date', values.from_date);
-        if (values.to_date) params.append('to_date', values.to_date);
+        if (values.from_date) params.append('date_from', values.from_date);
+        if (values.to_date) params.append('date_to', values.to_date);
         
         const url = `${API_BASE_URL}/qrCodeBranch/responses?${params.toString()}`;
         

@@ -4,32 +4,30 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getProfile } from '../store/slices/profileSlice';
 import { useTranslation } from 'react-i18next';
 import Swal from 'sweetalert2';
-import CircleLoader from '../components/CircleLoader';
+import Loading from '../components/Loading';
 import { Colors } from '../Theme';
 
 const ProtectNewMission = ({ children }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
+
   const [shouldRedirect, setShouldRedirect] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  
-  const getProfileData = useSelector(state => state.profileData.getProfileData);
-  const getProfileLoading = useSelector(state => state.profileData.getProfileLoading);
 
+  const getProfileData = useSelector((state) => state.profileData.getProfileData);
+  const getProfileLoading = useSelector((state) => state.profileData.getProfileLoading);
+
+  // Fetch profile data if missing
   useEffect(() => {
-    // Fetch profile data if not already available
-    if (!getProfileData?.status && !getProfileLoading) {
       dispatch(getProfile());
-    }
-  }, [dispatch, getProfileData, getProfileLoading]);
+  }, []);
 
+  // Check once profile data is loaded
   useEffect(() => {
-    if (getProfileData?.status) {
-      const newMissionCount = getProfileData.data.user.newMission;
-      setIsLoading(false);
-      
+    console.log("asasa")
+    if (getProfileData?.data?.user) {
+      const newMissionCount = getProfileData?.data?.user?.newMission || 0;
+
       if (newMissionCount <= 0) {
-        // Show error message and redirect
         Swal.fire({
           icon: "error",
           title: t("text.Error"),
@@ -40,38 +38,21 @@ const ProtectNewMission = ({ children }) => {
         });
       }
     }
-  }, [getProfileData, t]);
+  }, [getProfileData]);
 
-  // Show loading while checking
-  if (isLoading || getProfileLoading) {
+  // Show loader while fetching
+  if (getProfileLoading || !getProfileData?.data?.user) {
     return (
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        minHeight: '50vh'
-      }}>
-        <CircleLoader
-          size={48}
-          color={Colors.main}
-          text={t("text.checking_permissions")}
-          textColor="#6b7280"
-        />
-      </div>
+      <Loading/>
     );
   }
 
-  // Redirect if wallet is insufficient
+  // Redirect case
   if (shouldRedirect) {
-    return <Navigate to="/userDashboard/missions" replace />;
+    return <Navigate to="/userDashboard/missions"  />;
   }
 
-  // Check if user has sufficient missions
-  const newMissionCount = getProfileData?.data?.user?.newMission || 0;
-  if (newMissionCount <= 0) {
-    return <Navigate to="/userDashboard/missions" replace />;
-  }
-
+  // ✅ Normal case: allow access
   return children;
 };
 

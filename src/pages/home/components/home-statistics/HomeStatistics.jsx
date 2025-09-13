@@ -20,6 +20,16 @@ const HomeStatistics = ({
   console.log("availableMissions" , availableMissions)
   const { t } = useTranslation();
 
+  // Font size variables - easy to control
+  const fontSize = {
+    title: 'text-base sm:text-lg lg:text-[20px]',        // Section titles
+    mainNumber: 'text-4xl sm:text-5xl lg:text-6xl xl:text-[60px]',  // Large numbers
+    avgNumber: 'text-3xl sm:text-4xl lg:text-5xl xl:text-[50px]',   // Avg review number
+    ratingText: 'text-base sm:text-lg lg:text-[20px]',  // Rating description text
+    small: 'text-[10px]',                               // Small text
+    medium: 'text-[20px]'                               // Medium text
+  };
+
   // Convert avgReview to number and handle rating text
   const avgRate =  parseFloat(avgReview) || 0;
    
@@ -36,10 +46,9 @@ const HomeStatistics = ({
   return (
     <div className='w-full flex flex-col sm:flex-row gap-2 sm:gap-3 lg:gap-4'>
       <StatisticsContainer className=''>
-        <div className='font-[600] text-base sm:text-lg lg:text-[20px] text-black3'>{t('text.available_missions')}</div>
-        {/* <div className="font-extrabold text-[96px] tracking-[1.92px] text-black4">{availableMissions}</div> */}
-        <div className='flex items-center justify-center gap-1  mt-[20%]'>
-          <div className="font-bold text-4xl sm:text-5xl lg:text-6xl xl:text-[80px] tracking-[1.92px] text-black4 ">{availableMissions}</div>
+        <div className={`font-[600] ${fontSize.title} text-black3`}>{t('text.available_missions')}</div>
+        <div className='flex items-center justify-center gap-1 mt-0 sm:mt-[20%]'>
+          <div className={`font-bold ${fontSize.mainNumber} tracking-[1.92px] text-black4`}>{availableMissions}</div>
         </div>
         {/* <Link to="/userDashboard/missions/newMission" className="text-green  m-2">
           + {t('text.add_more')}
@@ -58,11 +67,13 @@ const HomeStatistics = ({
       </StatisticsContainer>
 
       <StatisticsContainer className=''>
-        <div className='font-[600] text-base sm:text-lg lg:text-[20px] '>{t('text.current_balance')}</div>
-        <div className='flex items-center justify-center gap-1  mt-[20%]'>
+         <div className={`font-[600] ${fontSize.title} text-black3`}>{t('text.current_balance')}</div>
+        <div className='flex items-center justify-center gap-1 mt-0 sm:mt-[20%]'>
           <img src={monyIcon} alt="" />
-          <div className="font-bold text-3xl sm:text-4xl lg:text-5xl xl:text-[64px] tracking-[1.92px] text-black4 ">{currentBalance}</div>
+          <div className={`font-bold ${fontSize.mainNumber} tracking-[1.92px] text-black4`}>{currentBalance}</div>
         </div>
+        
+
         {/* <div className='w-full'>
           <div className='text-gray6 tracking-[1.92px] text-[10px] font-medium'> {t('text.last_transaction')}</div>
           <div className='flex items-center gap-3 text-[20px] text-green'>
@@ -76,21 +87,24 @@ const HomeStatistics = ({
       </StatisticsContainer>
 
       <StatisticsContainer className=''>
-        <div className='font-[600] text-base sm:text-lg lg:text-[20px] '>{t('text.avg_review')}</div>
-        <div className="font-bold text-3xl sm:text-4xl lg:text-5xl xl:text-[70px] tracking-[1.92px] text-black4 ">{avgReview}</div>
+        <div className={`font-[600] ${fontSize.title} mb-[10px]`}>{t('text.avg_review')}</div>
+        <div className={`font-bold ${fontSize.avgNumber} tracking-[1.92px] text-black4`}>{avgReview}</div>
         {
           avgRate > 0 && (
             <BranchRating name="half-rating" defaultValue={avgRate} precision={0.5} readOnly />
           )
         }
        
-        <div className={`font-bold text-base sm:text-lg lg:text-[20px] leading-[140%]  ${getRatingInfo(avgRate).color} mt-[10%]`}>
+        <div className={`font-bold ${fontSize.ratingText} leading-[140%] ${getRatingInfo(avgRate).color} mt-[2%]`}>
           ( {getRatingInfo(avgRate).text} )
         </div>
       </StatisticsContainer>
+
       <StatisticsContainer className=''>
-        <div className='font-[600] text-base sm:text-lg lg:text-[20px] text-black3'>{t('text.reconnaissance')}</div>
-        <div className="font-bold text-4xl sm:text-5xl lg:text-6xl xl:text-[130px] tracking-[1.92px] text-black4">{reconnaissance}</div>
+        <div className={`font-[600] ${fontSize.title} text-black3`}>{t('text.reconnaissance')}</div>
+        <div className='flex items-center justify-center gap-1 mt-0 sm:mt-[20%]'>
+          <div className={`font-bold ${fontSize.mainNumber} tracking-[1.92px] text-black4`}>{reconnaissance}</div>
+        </div>
       </StatisticsContainer>
     </div>
   )

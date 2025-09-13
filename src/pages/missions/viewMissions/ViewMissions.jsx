@@ -306,7 +306,7 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions , setButt
     const [missionsData , setMissionsData] = useState([])
 
     useEffect(() => {
-        if(getMissionsData.status) {
+        if(getMissionsData?.status) {
             setMissionsData(getMissionsData.data.missions)
             setButtonsMissions(getMissionsData.data.missions)
         }

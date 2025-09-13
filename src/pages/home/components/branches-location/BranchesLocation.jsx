@@ -93,7 +93,7 @@ const BranchesLocation = () => {
   return (
     <div className="bg-white rounded-[12px] p-[20px] border-[10px] border-[#F22E2E] max-w-3xl mx-auto ">
       {/* Legend */}
-      <div className="text-2xl font-semibold mb-4 flex justify-between items-center">
+      <div className="text-[xl] sm:text-2xl font-semibold mb-4 flex justify-between items-center">
         <div>{t("text.branches_saudi_arabia")}</div>
         {/* Branches count */}
         <div className="text-3xl font-bold">{data.branches}</div>

@@ -218,7 +218,7 @@ const NewMission = () => {
   const getBranchesData = useSelector(state => state.branchData.getBranchesData) ;
   useEffect(()=>{
     
-    if (getBranchesData.status) {
+    if (getBranchesData?.status) {
       setCurrentBranches(getBranchesData.data.branches)
     }
   },[getBranchesData])
