@@ -6,6 +6,8 @@ import { Colors } from '../../../Theme';
 import { SubmitButton } from '../../../components/SubmitButton';
 import { FlexDiv } from '../../../components/FlexDiv';
 import adminImage from "../../../assets/images/admin.png"
+import pdfBackground from "../../../assets/images/pdf-backgound.jpg"
+import blueLogo from "../../../assets/images/BlueLogo.png"
 import { Rating } from '@mui/material';
 import { Flex } from '../../../components/Flex';
 import { FlexCenter } from '../../../components/FlexCenter';
@@ -16,6 +18,7 @@ import { FlexSpaceBetween } from '../../../components/FlexSpaceBetween';
 import jsPDF from 'jspdf';
 import 'jspdf-font';
 import html2canvas from 'html2canvas';
+import Loading from '../../../components/Loading';
 const Place = styled("div")(({ theme }) => ({
   marginBottom : "10px" ,
 }));
@@ -104,7 +107,9 @@ const Category = styled(FlexCenter)(({ theme }) => ({
 
 const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
   const accepetRequestData = useSelector(state => state.missionData.accepetRequestData) 
+  const accepetRequestDataLoading = useSelector(state => state.missionData.accepetRequestDataLoading) 
   const sendMissionPdfData = useSelector(state => state.missionData.sendMissionPdfData)
+  const sendMissionPdfLoading = useSelector(state => state.missionData.sendMissionPdfLoading)
   const CurrentMissionEmployees = reviewRequestData.employee
   const [showQuizModal, setShowQuizModal] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
@@ -112,28 +117,41 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
   const [pdfPreviewUrl, setPdfPreviewUrl] = useState('');
   const [pdfBlob, setPdfBlob] = useState(null);
   const [selectedEmployeeForPdf, setSelectedEmployeeForPdf] = useState(null);
+  const [send , setSend] = useState(false)
 
   const dispatch = useDispatch()
   useEffect(()=>{
   
     console.log(accepetRequestData);
-    if (accepetRequestData.status) {
-          console.log(accepetRequestData);
-          Swal.fire(accepetRequestData.message, '', 'success').then((result) => {
-            if (result.isConfirmed) {
-              // window.location.href ="/userDashboard/missions"
-            }
+    if (send){
+      if (accepetRequestData.status ) {
+            console.log(accepetRequestData);
+            Swal.fire({
+            title: accepetRequestData.message,
+            icon: 'success',
+            timer: 2000,
+            showConfirmButton: false,
+            timerProgressBar: true
           })
+      }
     }
   },[accepetRequestData])
 
   useEffect(() => {
-    if (sendMissionPdfData.status) {
-      console.log('PDF sent successfully:', sendMissionPdfData);
-      Swal.fire('PDF Generated and Sent Successfully', '', 'success');
-    } else if (sendMissionPdfData.error) {
-      console.log('PDF sending failed:', sendMissionPdfData.error);
-      Swal.fire('Failed to send PDF', sendMissionPdfData.error, 'error');
+    if(send) {
+      if (sendMissionPdfData.status) {
+        console.log('PDF sent successfully:', sendMissionPdfData);
+        Swal.fire({
+        title: t('text.PDF_Generated_and_Sent_Successfully'),
+        icon: 'success',
+        timer: 2000,
+        showConfirmButton: false,
+        timerProgressBar: true
+      });
+      } else  {
+        console.log('PDF sending failed:', sendMissionPdfData.error);
+        Swal.fire('Failed to send PDF', sendMissionPdfData.error, 'error');
+      }
     }
   }, [sendMissionPdfData])
 
@@ -146,37 +164,212 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
     };
   }, [pdfPreviewUrl]);
 
-  const generatePdfPreview = async (employee, companyName) => {
-    // Create HTML content for the certificate
+  const generatePdfPreview = async (employee , company , companyName) => {
+    // Function to load external image through canvas (better CORS handling)
+    const loadExternalImage = async (imageUrl) => {
+      return new Promise((resolve) => {
+        const img = new Image();
+        
+        // Set up success handler
+        img.onload = () => {
+          try {
+            // Create canvas to convert image to base64
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Resize image for smaller file size
+            const maxWidth = 300; // Reduced from original size
+            const maxHeight = 200;
+            
+            let { width, height } = img;
+            
+            // Calculate new dimensions
+            if (width > height) {
+              if (width > maxWidth) {
+                height = (height * maxWidth) / width;
+                width = maxWidth;
+              }
+            } else {
+              if (height > maxHeight) {
+                width = (width * maxHeight) / height;
+                height = maxHeight;
+              }
+            }
+            
+            canvas.width = width;
+            canvas.height = height;
+            
+            // Draw image to canvas
+            ctx.drawImage(img, 0, 0, width, height);
+            
+            // Convert to base64 with compression
+            const base64 = canvas.toDataURL('image/jpeg', 0.8);
+            resolve(base64);
+          } catch (error) {
+            console.error('Error converting image to base64:', error);
+            resolve(blueLogo);
+          }
+        };
+        
+        // Set up error handler
+        img.onerror = () => {
+          console.warn('Failed to load external image, trying proxy method...');
+          // Try proxy method as fallback
+          tryProxyMethod(imageUrl).then(resolve).catch(() => resolve(blueLogo));
+        };
+        
+        // Try to load with crossOrigin
+        img.crossOrigin = 'anonymous';
+        img.src = imageUrl;
+        
+        // Fallback timeout
+        setTimeout(() => {
+          if (!img.complete) {
+            console.warn('Image loading timeout, trying proxy method...');
+            tryProxyMethod(imageUrl).then(resolve).catch(() => resolve(blueLogo));
+          }
+        }, 5000); // 5 second timeout
+      });
+    };
+
+    // Proxy method for CORS-blocked images
+    const tryProxyMethod = async (imageUrl) => {
+      try {
+        // Using a CORS proxy service (free public proxies)
+        const proxyUrls = [
+          `https://cors-anywhere.herokuapp.com/${imageUrl}`,
+          `https://api.allorigins.win/raw?url=${encodeURIComponent(imageUrl)}`,
+          `https://corsproxy.io/?${encodeURIComponent(imageUrl)}`
+        ];
+        
+        for (const proxyUrl of proxyUrls) {
+          try {
+            const response = await fetch(proxyUrl, { mode: 'cors' });
+            if (response.ok) {
+              const blob = await response.blob();
+              return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.readAsDataURL(blob);
+              });
+            }
+          } catch (error) {
+            console.warn(`Proxy ${proxyUrl} failed:`, error);
+            continue;
+          }
+        }
+        throw new Error('All proxy methods failed');
+      } catch (error) {
+        console.error('Proxy method failed:', error);
+        throw error;
+      }
+    };
+
+    // Convert company image to base64 if it exists
+    let companyImageSrc = blueLogo;
+    if (company.companyimage) {
+      try {
+        console.log("company.companyimage" , company.companyimage)
+        companyImageSrc = await loadExternalImage(company.companyimage);
+        console.log("companyImageSrc loaded successfully");
+      } catch (error) {
+        console.error('Failed to load company image, using fallback:', error);
+        companyImageSrc = blueLogo;
+      }
+    }
+    // Create HTML content for the certificate with background and logos
     const certificateHTML = `
       <div style="
-        width: 800px; 
-        height: 600px; 
-        padding: 40px; 
-        background: white; 
-        font-family: Arial, sans-serif;
-        direction: ltr;
+        width: 210mm; 
+        height: 297mm; 
+        background-image: url('${pdfBackground}');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        position: relative;
+        font-family: 'Cairo', 'Tahoma', sans-serif;
+        direction: rtl;
+        padding: 20mm;
+        box-sizing: border-box;
+        margin: 0;
+        page-break-inside: avoid;
       ">
-        <div style="text-align: center; margin-bottom: 30px;">
-          <h1 style="font-size: 24px; margin-bottom: 10px; color: #333;">Mission Assignment Certificate</h1>
-          <h1 style="font-size: 24px; margin-bottom: 10px; color: #333; direction: rtl;">شهادة تعيين المهمة</h1>
+        <!-- Top Logos -->
+        <div style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 60px;
+          padding: 0 20px;
+        ">
+          <img src="${companyImageSrc}" alt="Company Logo" style="
+            width: 120px;
+            height: auto;
+            max-height: 80px;
+          ">
+          <img src="${blueLogo}" alt="Blue Logo" style="
+            width: 120px;
+            height: auto;
+            max-height: 80px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+          ">
         </div>
-        
-        <div style="margin-bottom: 20px;">
-          <p style="font-size: 16px; margin: 10px 0;"><strong>Employee Name / اسم الموظف:</strong> ${employee.user.name}</p>
-          <p style="font-size: 16px; margin: 10px 0;"><strong>Company Name / اسم الشركة:</strong> ${companyName}</p>
-          <p style="font-size: 16px; margin: 10px 0;"><strong>Date / التاريخ:</strong> ${new Date().toLocaleDateString('ar-SA')}</p>
-          ${reviewRequestData.name ? `<p style="font-size: 16px; margin: 10px 0;"><strong>Mission / المهمة:</strong> ${reviewRequestData.name}</p>` : ''}
-          ${reviewRequestData.address ? `<p style="font-size: 16px; margin: 10px 0;"><strong>Location / الموقع:</strong> ${reviewRequestData.address}</p>` : ''}
+
+        <!-- Main Title Header -->
+        <div style="
+          margin-bottom: 80px;
+          padding: 10px;
+        ">
+          <h1 style="
+            font-size: 56px;
+            font-weight: bold;
+            margin: 0;
+            text-align: center;
+            color: ${Colors.main};
+          ">تصريح دخول استطلاعي</h1>
         </div>
-        
-        <div style="margin-top: 30px; padding: 20px; border-top: 2px solid #333;">
-          <p style="font-size: 14px; margin: 10px 0; line-height: 1.5;">
-            This document certifies that the above employee has been assigned to this mission.
-          </p>
-          <p style="font-size: 14px; margin: 10px 0; line-height: 1.5; direction: rtl;">
-            هذا المستند يؤكد أن الموظف المذكور أعلاه تم تعيينه لهذه المهمة.
-          </p>
+
+        <!-- Content Section -->
+        <div style="
+          border-radius: 22px;
+          margin: 20px 0;
+          color: ${Colors.main} !important;
+        ">
+          <!-- Authorization Content -->
+          <div style="
+            font-size: 22px;
+            line-height: 2.2;
+            color: ${Colors.main} !important;
+            font-weight: 500;
+          ">
+            <p style="margin: 10px 0;">
+              نصرح نحن [ ${companyName} ]  بأن  [ ${employee.user.name} ]</strong>
+            </p>
+            <p style="margin: 10px 0;">
+              مصرح له بالدخول إلى المنشأة يوم  [ ${company.dayWritten || company.date} ]  في تمام الساعة [ ${company.from} ] 
+            </p>
+            <p style="margin: 10px 0;">
+              للقيام بجولة لجميع المرافق الداخلية وسؤال العاملين أو الزائرين داخل المنشأة.            
+            </p>
+            
+            <div style="margin: 10px 0; ">
+              <p style="margin: 10px 0; ">
+                نرجو من جميع الموظفين تسهيل زيارته والتعاون معه حسب التعليمات الموجّهة له.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div style="
+          font-size: 32px;
+          color: ${Colors.main};
+          font-weight: bold;
+          padding: 20px 40px;
+          border-radius: 15px;
+          text-align: center;
+        ">
+          شكرًا لتعاونكم
         </div>
       </div>
     `;
@@ -190,31 +383,49 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
     document.body.appendChild(tempDiv);
 
     try {
-      // Convert HTML to canvas
+      // Wait for images to load
+      const images = tempDiv.querySelectorAll('img');
+      const imagePromises = Array.from(images).map(img => {
+        return new Promise((resolve) => {
+          if (img.complete) {
+            resolve();
+          } else {
+            img.onload = resolve;
+            img.onerror = resolve; // Continue even if image fails to load
+          }
+        });
+      });
+
+      await Promise.all(imagePromises);
+
+      // Convert HTML to canvas with A4 dimensions
       const canvas = await html2canvas(tempDiv.firstElementChild, {
-        width: 800,
-        height: 600,
-        scale: 2,
+        width: 794, // A4 width in pixels at 96 DPI (210mm)
+        height: 1123, // A4 height in pixels at 96 DPI (297mm)
+        scale: 1.5, // Reduced from 2 to 1.5 for smaller file size
         useCORS: true,
         allowTaint: true,
-        backgroundColor: '#ffffff'
+        backgroundColor: '#ffffff',
+        logging: false,
+        quality: 0.8 // Reduced quality for smaller file size
       });
 
       // Remove temporary div
       document.body.removeChild(tempDiv);
 
-      // Create PDF
-      const doc = new jsPDF('p', 'mm', 'a4');
-      const imgData = canvas.toDataURL('image/png');
+      // Create PDF with A4 dimensions and compression
+      const doc = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4',
+        compress: true // Enable PDF compression
+      });
+      const imgData = canvas.toDataURL('image/jpeg', 0.7); // Use JPEG with 70% quality instead of PNG
       
-      // Calculate dimensions to fit the image properly
-      const imgWidth = 190;
-      const pageHeight = 297;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      
-      doc.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
+      // Use full A4 dimensions
+      doc.addImage(imgData, 'JPEG', 0, 0, 210, 297, undefined, 'FAST'); // Use FAST compression
 
-      // Create blob for preview and sending
+      // Create blob for preview and sending with compression
       const pdfBlob = doc.output('blob');
       const pdfUrl = URL.createObjectURL(pdfBlob);
       
@@ -222,16 +433,24 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
       setPdfPreviewUrl(pdfUrl);
       setSelectedEmployeeForPdf(employee);
       setShowPdfModal(true);
+      
+      // Return the PDF data for direct use
+      return { pdfBlob, employee };
     } catch (error) {
       console.error('Error generating PDF:', error);
+      // Remove temporary div in case of error
+      if (document.body.contains(tempDiv)) {
+        document.body.removeChild(tempDiv);
+      }
+      
       // Fallback to simple PDF if html2canvas fails
       const doc = new jsPDF();
       doc.setFontSize(20);
-      doc.text('Mission Assignment Certificate', 105, 30, { align: 'center' });
+      doc.text('تصريح دخول استطلاعي', 105, 30, { align: 'center' });
       doc.setFontSize(12);
-      doc.text(`Employee Name: ${employee.user.name}`, 20, 60);
-      doc.text(`Company Name: ${companyName}`, 20, 80);
-      doc.text(`Date: ${new Date().toLocaleDateString()}`, 20, 100);
+      doc.text(`اسم الموظف: ${employee.user.name}`, 20, 60);
+      doc.text(`اسم الشركة: ${companyName}`, 20, 80);
+      doc.text(`التاريخ: ${new Date().toLocaleDateString('ar-SA')}`, 20, 100);
       
       const pdfBlob = doc.output('blob');
       const pdfUrl = URL.createObjectURL(pdfBlob);
@@ -240,22 +459,23 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
       setPdfPreviewUrl(pdfUrl);
       setSelectedEmployeeForPdf(employee);
       setShowPdfModal(true);
+      
+      // Return the PDF data for direct use
+      return { pdfBlob, employee };
     }
   }
 
-  const handleSendPdf = () => {
-    if (pdfBlob && selectedEmployeeForPdf) {
+  const handleSendPdf = (pdfBlobData = null, employeeData = null) => {
+    const blobToUse = pdfBlobData || pdfBlob;
+    const employeeToUse = employeeData || selectedEmployeeForPdf;
+    
+    if (blobToUse && employeeToUse) {
+      setSend(true)
       dispatch(sendMissionPdf({
         missionId: missionId,
-        pdfBlob: pdfBlob
+        pdfBlob: blobToUse
       }));
-      setShowPdfModal(false);
-      if (pdfPreviewUrl) {
-        URL.revokeObjectURL(pdfPreviewUrl);
-      }
-      setPdfPreviewUrl('');
-      setPdfBlob(null);
-      setSelectedEmployeeForPdf(null);
+     
     }
   }
 
@@ -267,9 +487,11 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
     setPdfPreviewUrl('');
     setPdfBlob(null);
     setSelectedEmployeeForPdf(null);
+    window.location.href ="/userDashboard/missions"
   }
   
   const handleAccept = (CurrentMissionEmployee)=>{
+    console.log("reviewRequestData" , reviewRequestData)
     console.log(CurrentMissionEmployee.id);
     Swal.fire({
       title: t("text.are_you_sure_you_want_to_accept_this_visitor"),
@@ -284,7 +506,12 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
             if (reviewRequestData.reconnaissance) {
               // Generate PDF preview after successful acceptance
               const companyName = reviewRequestData.companyName || 'Unknown Company';
-              generatePdfPreview(CurrentMissionEmployee, companyName).catch(error => {
+              generatePdfPreview(CurrentMissionEmployee , reviewRequestData, companyName).then((pdfData) => {
+                // Automatically send PDF after generation using the returned data
+                if (pdfData && pdfData.pdfBlob && pdfData.employee) {
+                    handleSendPdf(pdfData.pdfBlob, pdfData.employee);
+                }
+              }).catch(error => {
                 console.error('Error generating PDF:', error);
                 Swal.fire('Error', 'Failed to generate PDF preview', 'error');
               });
@@ -329,6 +556,7 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
   const {t} = useTranslation() ; 
   return (
     <>
+    { sendMissionPdfLoading  && <Loading/> } 
     <SmallContainer>
     <Place>
         <span>{t("text.Missions")}/ </span>
@@ -367,7 +595,6 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
       
     </Parent>
     </SmallContainer>
-
     {/* Quiz Modal */}
     {showQuizModal && selectedEmployee && (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -506,7 +733,7 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
         <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
           <div className="flex justify-between items-center p-6 border-b border-gray-200">
             <h3 className="text-lg font-semibold text-gray-900">
-              PDF Preview - Mission Certificate
+              {t('text.PDF_Preview_Mission_Certificate')}
             </h3>
             <div
               onClick={handleClosePdfModal}
@@ -517,11 +744,6 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
           </div>
           
           <div className="p-6">
-            <div className="mb-4">
-              <p className="text-gray-600 mb-4">
-                Review the PDF certificate for {selectedEmployeeForPdf?.user.name} before sending.
-              </p>
-            </div>
             
             <div className="border border-gray-200 rounded-lg overflow-hidden">
               <iframe
@@ -531,19 +753,19 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
               />
             </div>
             
-            <div className="flex justify-end space-x-3 mt-6">
+            <div className="flex justify-end gap-2 mt-6">
               <button
                 onClick={handleClosePdfModal}
                 className="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
               >
-                Cancel
+                {t('text.Cancel')}
               </button>
-              <button
+              {/* <button
                 onClick={handleSendPdf}
                 className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
               >
-                Send PDF
-              </button>
+                {t('text.Send_PDF')}
+              </button> */}
             </div>
           </div>
         </div>

@@ -66,6 +66,13 @@ const HomeStatistics = ({
         </div> */}
       </StatisticsContainer>
 
+       <StatisticsContainer className=''>
+        <div className={`font-[600] ${fontSize.title} text-black3`}>{t('text.reconnaissance')}</div>
+        <div className='flex items-center justify-center gap-1 mt-0 sm:mt-[20%]'>
+          <div className={`font-bold ${fontSize.mainNumber} tracking-[1.92px] text-black4`}>{reconnaissance}</div>
+        </div>
+      </StatisticsContainer>
+
       <StatisticsContainer className=''>
          <div className={`font-[600] ${fontSize.title} text-black3`}>{t('text.current_balance')}</div>
         <div className='flex items-center justify-center gap-1 mt-0 sm:mt-[20%]'>
@@ -100,12 +107,7 @@ const HomeStatistics = ({
         </div>
       </StatisticsContainer>
 
-      <StatisticsContainer className=''>
-        <div className={`font-[600] ${fontSize.title} text-black3`}>{t('text.reconnaissance')}</div>
-        <div className='flex items-center justify-center gap-1 mt-0 sm:mt-[20%]'>
-          <div className={`font-bold ${fontSize.mainNumber} tracking-[1.92px] text-black4`}>{reconnaissance}</div>
-        </div>
-      </StatisticsContainer>
+     
     </div>
   )
 }

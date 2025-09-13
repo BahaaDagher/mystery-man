@@ -191,6 +191,7 @@ const missionSlice = createSlice({
         SelectedMission : 0  , 
         missionDetails : {} , 
         accepetRequestData:{},
+        accepetRequestDataLoading:{},
         questionsMissionsData:{},
         deleteMissionData:{},
         deleteMissionLoading:false , 
@@ -241,7 +242,14 @@ const missionSlice = createSlice({
         }) 
         .addCase(accepetRequest.fulfilled , (state, action) => {
             state.accepetRequestData = action.payload;
-       
+            state.accepetRequestDataLoading = false;
+        }) 
+         .addCase(accepetRequest.pending , (state, action) => {
+            state.accepetRequestDataLoading = true;
+        }) 
+        .addCase(accepetRequest.rejected , (state, action) => {
+            state.accepetRequestDataLoading = false;
+
         }) 
         .addCase(getQuestionsMissions.fulfilled , (state, action) => {
             state.questionsMissionsData = action.payload;

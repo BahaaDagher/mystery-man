@@ -72,7 +72,7 @@ const resources = {
         New_Mission : "New Mission" ,
         type_what_you_want_him_her_to_focus_on : "type what you want him/her to focus on!" , 
         Include_Purchase_voucher : "Include Purchase voucher" ,
-        Reconnaissance : "Reconnaissance" ,
+        Reconnaissance : "Reconnaissance missions" ,
         Enable_Reconnaissance : "Enable Reconnaissance" ,
         no_reconnaissance_missions_available : "No reconnaissance missions available" ,
         checking_permissions : "Checking permissions..." ,
@@ -207,6 +207,9 @@ const resources = {
         QR_Code_Options : "QR Code Options" ,
         responses : "responses" ,
         Print_PDF : "Print PDF" ,
+        PDF_Preview_Mission_Certificate : "PDF Preview - Mission Certificate" ,
+        Send_PDF : "Send PDF" ,
+        PDF_Generated_and_Sent_Successfully : "PDF Generated and Sent Successfully" ,
         Select_Branch : "Select Branch" ,
         Select_a_branch : "Select a branch" ,
         Count : "Count" ,
@@ -438,6 +441,10 @@ const resources = {
         AlBaha : "Al Baha" ,
         Hafar_AlBatin : "Hafar Al-Batin" ,
         AlKhobar : "Al Khobar" ,
+        PDF_Preview_Mission_Certificate: "PDF Preview - Mission Certificate",
+        Cancel: "Cancel",
+        Send_PDF: "Send PDF"
+        
       },
       content: {}
     }
@@ -645,6 +652,7 @@ const resources = {
         QR_Code_Options : "خيارات رمز QR" ,
         responses : "ردود" ,
         Print_PDF : "طباعة PDF" ,
+        PDF_Generated_and_Sent_Successfully : "تم إنشاء وإرسال PDF بنجاح" ,
         Select_Branch : "اختر الفرع" ,
         Select_a_branch : "اختر فرع" ,
         Count : "العدد" ,
@@ -747,7 +755,7 @@ const resources = {
         failed : "فشل" ,
         pending_status : "في انتظار" ,
         // QR Codes Report translations
-        reconnaissance : "استطلاع" ,
+        reconnaissance : "مهمات الاستطلاع" ,
         done_qr_codes : "رموز ال QR التامة" ,
         running_qr_codes : "رموز ال QR التشغيلية" ,
         general_rate : "التقييم العام" ,
@@ -876,6 +884,10 @@ const resources = {
         AlBaha : "الباحة" ,
         Hafar_AlBatin : "حفر الباطن" ,
         AlKhobar : "الخبر" ,
+        PDF_Preview_Mission_Certificate: "معاينة PDF - شهادة المهمة",
+        Cancel: "إلغاء",
+        Send_PDF: "إرسال PDF"
+        
       },
       content: {}
     }
