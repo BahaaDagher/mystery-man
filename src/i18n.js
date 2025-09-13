@@ -423,6 +423,19 @@ const resources = {
         Failed_to_delete_QR_Code : "Failed to delete QR Code. Please try again." ,
         Something_went_wrong : "Something went wrong. Please try again." ,
         No_category : "No category" ,
+        // City names translations
+        Riyadh : "Riyadh" ,
+        Jeddah : "Jeddah" ,
+        Dammam : "Dammam" ,
+        Mecca : "Mecca" ,
+        Medina : "Medina" ,
+        Abha : "Abha" ,
+        Jizan : "Jizan" ,
+        Tabuk : "Tabuk" ,
+        Najran : "Najran" ,
+        AlBaha : "Al Baha" ,
+        Hafar_AlBatin : "Hafar Al-Batin" ,
+        Khobar : "Khobar" ,
       },
       content: {}
     }
@@ -846,6 +859,19 @@ const resources = {
         Failed_to_delete_QR_Code : "فشل في حذف رمز QR. يرجى المحاولة مرة أخرى." ,
         Something_went_wrong : "حدث خطأ ما. يرجى المحاولة مرة أخرى." ,
         No_category : "لا يوجد فئة" ,
+        // City names translations
+        Riyadh : "الرياض" ,
+        Jeddah : "جدة" ,
+        Dammam : "الدمام" ,
+        Mecca : "مكة المكرمة" ,
+        Medina : "المدينة المنورة" ,
+        Abha : "أبها" ,
+        Jizan : "جازان" ,
+        Tabuk : "تبوك" ,
+        Najran : "نجران" ,
+        AlBaha : "الباحة" ,
+        Hafar_AlBatin : "حفر الباطن" ,
+        AlKhobar : "الخبر" ,
       },
       content: {}
     }

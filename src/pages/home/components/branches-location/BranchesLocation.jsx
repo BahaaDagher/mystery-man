@@ -12,14 +12,20 @@ const defaultData = {
   cities: [],
 };
 
+
 const cityColors = {
-  Riyadh: "#2563eb",
-  Jeddah: "#f87171",
-  Dammam: "#06b6d4",
-  "Al Khobar": "#be123c",
-  Mecca: "#facc15",
-  Medina: "#60a5fa",
-  Khobar: "#be123c", // Alternative name for Al Khobar
+  Riyadh: "#3F51B5",
+  Jeddah: "#a6946f",
+  Dammam: "#2196F3",
+  Mecca: "#FF5722",
+  Medina: "#FFC107",
+  Abha: "#4CAF50",
+  Jizan: "#9C27B0",
+  Tabuk: "#00BCD4",
+  Najran: "#795548",
+  AlBaha: "#607D8B",
+  Hafar_AlBatin: "#E91E63",
+  AlKhobar: "#009688"
 };
 
 const BranchesLocation = () => {
@@ -36,7 +42,7 @@ const BranchesLocation = () => {
 
   useEffect(() => {
     if (citiesBranchesData?.status) {
-      console.log("getCitiesBranches Response:", citiesBranchesData);
+      console.log("c", citiesBranchesData);
       setCitiesBranchesState(citiesBranchesData.data);
     }
   }, [citiesBranchesData]);
@@ -105,7 +111,7 @@ const BranchesLocation = () => {
                   className={`font-semibold `}
                   style={{ color: cityColors[city.name] || "#6b7280" }}
                 >
-                  <span>{city.name}</span>
+                  <span>{t(`text.${city.name}`)}</span>
                   <span className="text-sm ms-[10px]">({city.count})</span>
                 </div>
               </li>
@@ -114,7 +120,7 @@ const BranchesLocation = () => {
         </div>
         {/* Map */}
         <div className="relative">
-          <HexMapSaudi />
+          <HexMapSaudi cities = {data.cities} />
         </div>
       </div>
     </div>

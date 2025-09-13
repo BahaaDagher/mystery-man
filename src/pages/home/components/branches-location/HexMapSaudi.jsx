@@ -27,14 +27,21 @@ const saudiHexes = [
 
 // Colored cities
 const coloredHexes = [
-  { q: 2, r: 2, color: '#3F51B5' }, // top left blue
-  { q: 7, r: 5, color: '#2196F3' }, // top middle blue
-  { q: 2, r: 3, color: '#00BCD4' }, // dammam
-  { q: 1, r: 4, color: '#FF5722' }, // left orange
-  { q: 3, r: 7, color: '#FFC107' }, // right yellow
-  { q: 3, r: 5, color: '#C62828' }, // middle red
-  { q: 5, r: 9, color: '#64B5F6' }, // bottom blue
+  { q: 3, r: 5, color: '#3F51B5', city: 'Riyadh' },        // Riyadh (Central)
+  { q: 2, r: 3, color: '#2196F3', city: 'Dammam' },        // Dammam (East, near Gulf)
+  { q: 3, r: 2, color: '#009688', city: 'AlKhobar' },        // Khobar (Next to Dammam, East)
+  { q: 1, r: 5, color: '#FF5722', city: 'Mecca' },         // Mecca (West, slightly below Medina)
+  { q: 3, r: 3, color: '#FFC107', city: 'Medina' },        // Medina (Northwest)
+  { q: 7, r: 5, color: '#a6946f', city: 'Jeddah' },        // Jeddah (West coast)
+  { q: 5, r: 7, color: '#4CAF50', city: 'Abha' },          // Abha (Southwest)
+  { q: 4, r: 9, color: '#9C27B0', city: 'Jizan' },         // Jizan (South, coast)
+  { q: 8, r: 6, color: '#00BCD4', city: 'Tabuk' },         // Tabuk (Northwest, near Jordan)
+  { q: 12, r: 8, color: '#795548', city: 'Najran' },       // Najran (Far south)
+  { q: 10, r: 8, color: '#607D8B', city: 'AlBaha' },      // Al Baha (South, near Abha)
+  { q: 2, r: 10, color: '#E91E63', city: 'Hafar_AlBatin' } // Hafar Al-Batin (Northeast)
 ];
+
+
 
 // Dammam highlight hex (same as a colored one)
 const dammamHex = { q: 2, r: 3 };
@@ -55,7 +62,7 @@ function drawHex(ctx, x, y, size, fillStyle = '#ddd') {
   ctx.stroke();
 }
 
-const HexMapSaudi = () => {
+const HexMapSaudi = ({cities}) => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -64,18 +71,25 @@ const HexMapSaudi = () => {
     canvas.height = 450;
     const ctx = canvas.getContext('2d');
 
+    // Filter coloredHexes to only show cities that exist in the cities data
+    const activeCities = coloredHexes.filter(coloredHex => 
+      cities && cities.some(cityData => cityData.name === coloredHex.city)
+    );
+
+
     for (let [q, r] of saudiHexes) {
       const x = q * horizSpacing + 30;
       const y = r * vertSpacing + (q % 2) * (vertSpacing / 2) + 30;
 
-      const colored = coloredHexes.find(h => h.q === q && h.r === r);
+      // Check if this hex should be colored (only if city exists in data)
+      const colored = activeCities.find(h => h.q === q && h.r === r);
       const fill = colored ? colored.color : '#E0E0E0';
 
       drawHex(ctx, x, y, hexSize, fill);
 
       
     }
-  }, []);
+  }, [cities]); // Add cities as dependency
 
   return <canvas ref={canvasRef} className='' style={{  width: '100%' }} />;
 };
