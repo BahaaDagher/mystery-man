@@ -138,7 +138,7 @@ const Profile = () => {
   const dispatch = useDispatch() ;
 
   useEffect(()=>{
-    if (getBranchesData.status) {
+    if (getBranchesData?.status) {
       console.log("getBranchesData" , getBranchesData.data.branches)
       setCurrentBranches(getBranchesData.data.branches)
     }
@@ -153,7 +153,7 @@ const Profile = () => {
   const getProfileLoading = useSelector(state => state.profileData.getProfileLoading) ;
 
   useEffect(()=>{
-    if (getProfileData.status) {
+    if (getProfileData?.status) {
       console.log("getProfileData" , getProfileData.data)
       setProfileData(getProfileData.data.user)
     }
@@ -162,13 +162,14 @@ const Profile = () => {
   const [newBranch , setNewBranch] = useState(false) ; 
   const [currentBranches , setCurrentBranches] = useState ([])
   const [profileData , setProfileData] = useState ({})
+  const [clickDelete , setClickDelete] = useState (false)
 
   // delete branch 
   const deleteBranchData = useSelector(state => state.branchData.deleteBranchData) ;
   const deleteBranchLoading = useSelector(state => state.branchData.deleteBranchLoading) ;
 
   useEffect(()=>{
-    if (deleteBranchData.status) {
+    if (deleteBranchData.status && clickDelete) {
       Swal.fire(t("text.branch_deleted_successfully"), '', 'success')
       dispatch(getBranches())
     }
@@ -187,6 +188,7 @@ const Profile = () => {
       denyButtonText: t("text.No"),
     }).then((result) => {
       if (result.isConfirmed) {
+        setClickDelete(true)
         dispatch(deleteBranch({id : branchID}))
       }
     })
