@@ -89,6 +89,7 @@ const profileSlice = createSlice({
         getProfileData : {} ,
         getProfileLoading : false ,
         profileData : {} , 
+        reconnaissanceMission : 0 , // Add reconnaissance mission count
 
         updateProfileData : {}, 
         updateProfileLoading : false ,
@@ -103,12 +104,19 @@ const profileSlice = createSlice({
         ProfileData: (state, action) => {
           state.profileData = action.payload
         },
+        setReconnaissanceMission: (state, action) => {
+          state.reconnaissanceMission = action.payload
+        },
     },
     extraReducers: (builder) => {
         builder
         .addCase(getProfile.fulfilled , (state, action) => {
             state.getProfileData = action.payload;
             state.getProfileLoading = false;
+            // Save reconnaissance_mission to state if available
+            if (action.payload?.data?.user?.reconnaissance_mission !== undefined) {
+                state.reconnaissanceMission = action.payload.data.user.reconnaissance_mission;
+            }
         }) 
         .addCase(getProfile.pending , (state, action) => {
             state.getProfileLoading = true;
@@ -153,5 +161,5 @@ const profileSlice = createSlice({
     
     }
 });
-export const { ProfileData }=profileSlice.actions;
+export const { ProfileData, setReconnaissanceMission }=profileSlice.actions;
 export default profileSlice.reducer;

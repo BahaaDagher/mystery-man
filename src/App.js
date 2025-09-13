@@ -23,6 +23,7 @@ import ReviewMissionRequest from './pages/missions/reviewMissionRequest/ReviewMi
 import Chat from './pages/chat/Chat';
 import i18n from './i18n';
 import ProtectAuth from './protected/ProtectAuth';
+import ProtectNewMission from './protected/ProtectNewMission';
 import ViewDetails from './pages/missions/viewMissionDetailes/ViewDetails';
 import NavbarContainer from './components/NavbarContainer';
 import { useSelector } from "react-redux";
@@ -93,7 +94,7 @@ function App() {
           <Route path='home' element = <Home2/>  />
           <Route path='questionnaires' element = <Questionnaires/>  />
           <Route path='missions' element = <Missions/>  />
-          <Route path='missions/newMission' element = <NewMission/> />  
+          <Route path='missions/newMission' element = {<ProtectNewMission><NewMission/></ProtectNewMission>} />  
           <Route path='missions/waitRequests/viewMissions' element = <ReviewMissionRequest/> /> 
           <Route path='missions/viewMissions' element = <ReviewMissionRequest/> /> 
           <Route path='missions/viewDetails/:id' element = <ViewDetails missionDetails={missionDetails}/> /> 

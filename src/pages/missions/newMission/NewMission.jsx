@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 import { Colors } from '../../../Theme';
 import { useDispatch, useSelector } from 'react-redux';
 import { getBranches } from '../../../store/slices/branchSlice';
+import { getProfile } from '../../../store/slices/profileSlice';
 import { MenuItem, Select } from '@mui/material';
 import { use } from 'i18next';
 import { FlexCenter } from '../../../components/FlexCenter';
@@ -164,6 +165,7 @@ const VoucherDiv = styled("div")(({ theme }) => ({
 const CheckDiv = styled("div")(({ theme }) => ({
   display : "flex" , 
   alignItems : "center" , 
+  gap : "10px" ,
   justifyContent : "center" ,
   margin : theme.direction == "ltr" ? "0 20px 0 0" : "0 0  0 20px" ,
   [theme.breakpoints.down('500')]: {
@@ -225,6 +227,7 @@ const NewMission = () => {
   useEffect(() => {
     dispatch(getBranches())
     dispatch(getQuestionnaire())
+    dispatch(getProfile())
   }, [])
 
   const [selectedBranch, setSelectedBranch] = useState('');
@@ -301,33 +304,41 @@ const NewMission = () => {
   const [currentStep, setCurrentStep] = useState('form'); // 'form', 'quiz', 'questionnaire'
   const [quizData, setQuizData] = useState([]);
   const getProfileData = useSelector(state => state.profileData.getProfileData)
+  const reconnaissanceMission = useSelector(state => state.profileData.reconnaissanceMission)
 
   const [wallet , setWallet] = useState(0)
 
   useEffect(() => {
-    if (getProfileData.status) {
+    if (getProfileData?.status) {
       setWallet(getProfileData.data.user.wallet)
     }
   } , [getProfileData])
+
+  // Reset reconnaissance checkbox if no missions available
+  useEffect(() => {
+    if (reconnaissanceMission <= 0) {
+      setReconnaissance(false)
+    }
+  }, [reconnaissanceMission])
   const handleNext = () => {
-    setCurrentStep('quiz')
-    //   if (title && focus && selectedBranches.length > 0 && selectedGender !== '' && date && time1  && selectedQuestioniere>-1) {
-    //     if(voucherValue <= wallet){
-    //       setCurrentStep('quiz')
-    //     }
-    //     else{
-    //       Swal.fire({
-    //         icon: 'error',
-    //         text: t("text.You_dont_have_enough_money_to_create_a_new_mission"),
-    //       })
-    //     }
-    //   }
-    //   else {
-    //     Swal.fire({
-    //       icon: 'error',
-    //       text: t("text.please_fill_all_the_fields"),
-    //     })
-    // }
+    // setCurrentStep('quiz')
+      if (title && focus && selectedBranches.length > 0 && selectedGender !== '' && date && time1  && selectedQuestioniere>-1) {
+        if(voucherValue <= wallet){
+          setCurrentStep('quiz')
+        }
+        else{
+          Swal.fire({
+            icon: 'error',
+            text: t("text.You_dont_have_enough_money_to_create_a_new_mission"),
+          })
+        }
+      }
+      else {
+        Swal.fire({
+          icon: 'error',
+          text: t("text.please_fill_all_the_fields"),
+        })
+    }
   }
 
   const handleQuizDataChange = (data) => {
@@ -442,13 +453,22 @@ const NewMission = () => {
             <Divider/>
             <VoucherDiv>
                 <CheckDiv>
-                  <CheckInput
-                      id='reconnaissance'
-                      type="checkbox"
-                      checked={reconnaissance}
-                      onChange={(e)=>setReconnaissance(e.target.checked)}
-                  />
-                  <CheckLabel htmlFor='reconnaissance'>{t("text.Enable_Reconnaissance")}</CheckLabel>
+                    <CheckInput
+                        id='reconnaissance'
+                        type="checkbox"
+                        checked={reconnaissance}
+                        onChange={(e)=>setReconnaissance(e.target.checked)}
+                        disabled={reconnaissanceMission <= 0}
+                    />
+                    <CheckLabel htmlFor='reconnaissance' style={{ color: reconnaissanceMission <= 0 ? '#ccc' : 'inherit' }}>
+                      {t("text.Enable_Reconnaissance")} {reconnaissanceMission > 0 && `(${reconnaissanceMission})`}
+                    </CheckLabel>
+         
+                  {reconnaissanceMission <= 0 && (
+                    <span style={{ color: '#ff6b6b', fontSize: '12px', marginLeft: '10px' }}>
+                      {t("text.no_reconnaissance_missions_available")}
+                    </span>
+                  )}
                 </CheckDiv>
             </VoucherDiv>
             <Divider/>

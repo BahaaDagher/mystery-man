@@ -331,7 +331,7 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
     <>
     <SmallContainer>
     <Place>
-        <span>Missions/ </span>
+        <span>{t("text.Missions")}/ </span>
         <span style = {{color : Colors.main}}>{t("text.Review_Requests")} </span>
     </Place>
     <Parent>
