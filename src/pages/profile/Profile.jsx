@@ -169,19 +169,8 @@ const Profile = () => {
 
   useEffect(()=>{
     if (deleteBranchData.status) {
-      Swal.fire({
-        title: t("text.are_you_sure_you_want_to_delete_this_branch"),
-        showDenyButton: true,
-        confirmButtonText: t("text.Yes"),
-        denyButtonText: t("text.No"),
-      }).then((result) => {
-        if (result.isConfirmed) {
-          Swal.fire(t("text.branch_deleted_successfully"), '', 'success')
-          dispatch(getBranches())
-        } else if (result.isDenied) {
-          Swal.fire(t("text.Changes_are_not_saved"), '', 'info')
-        }
-      })
+      Swal.fire(t("text.branch_deleted_successfully"), '', 'success')
+      dispatch(getBranches())
     }
   },[deleteBranchData])
 
@@ -189,7 +178,18 @@ const Profile = () => {
   const delBranch = (index) => {
     const branchID = currentBranches[index].id ;
     console.log("currentBranches[index]" , branchID)
-    dispatch(deleteBranch({id : branchID}))
+    
+    // Show confirmation dialog before deleting
+    Swal.fire({
+      title: t("text.are_you_sure_you_want_to_delete_this_branch"),
+      showDenyButton: true,
+      confirmButtonText: t("text.Yes"),
+      denyButtonText: t("text.No"),
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(deleteBranch({id : branchID}))
+      }
+    })
   }
 
   const navigate = useNavigate() ; 
