@@ -274,7 +274,7 @@ const Profile = () => {
                             <p style = {{margin : "0 5px"}}>{branch.address}</p>
                           </Flex>
                           <LocationDiv>
-                            <Map  latPos = {parseFloat(branch.lat)} lngPos = {parseFloat(branch.long)} mapWidth={"100%"} mapHeight={"100%"} showSearch = {false}/>
+                            <Map  latPos = {parseFloat(branch.lat)} lngPos = {parseFloat(branch.long)} mapWidth={"100%"} mapHeight={"100%"} showSearch = {false} handelAddressChanged={() => {}}/>
                           </LocationDiv>
                         </BranchDetails>
                       )

@@ -74,10 +74,8 @@ const Map = ({setLocation , latPos  , lngPos , mapWidth , mapHeight , showSearch
         }
       });
       
-      mapRef.current.fitBounds(bounds);
-      
-      // Add some padding to the bounds
-      const padding = { top: 20, right: 20, bottom: 20, left: 20 };
+      // Add more padding to zoom out further
+      const padding = { top: 40, right: 40, bottom: 40, left: 40 };
       mapRef.current.fitBounds(bounds, padding);
     }
   }, [branches, fitBounds]);
@@ -100,7 +98,9 @@ const Map = ({setLocation , latPos  , lngPos , mapWidth , mapHeight , showSearch
     console.log(loc);
     fromLatLng(loc.lat ,loc.lng).then( (res) => {
     console.log(res.results[0].formatted_address);
-    handelAddressChanged(res.results[0].formatted_address)
+    if (handelAddressChanged && typeof handelAddressChanged === 'function') {
+      handelAddressChanged(res.results[0].formatted_address)
+    }
     setZoom(prev => prev==18 ? prev : prev+2)
   })
     setCenter(loc)
@@ -119,7 +119,7 @@ const Map = ({setLocation , latPos  , lngPos , mapWidth , mapHeight , showSearch
               mapContainerClassName="map-container"
               center={center}
               zoom={zoom}
-              onClick={(event)=>{ placeMarker(event.latLng.toJSON());}}
+              onClick={branches && branches.length > 0 ? undefined : (event)=>{ placeMarker(event.latLng.toJSON());}}
               onLoad={(map) => {
                 mapRef.current = map;
               }}
@@ -174,7 +174,11 @@ const Map = ({setLocation , latPos  , lngPos , mapWidth , mapHeight , showSearch
                     />
                   ))
               ) : (
-                <MarkerF draggable position={mPosition} onDrag={(event)=>placeMarker(event.latLng.toJSON())} />
+                <MarkerF 
+                  draggable 
+                  position={mPosition} 
+                  onDrag={(event)=>placeMarker(event.latLng.toJSON())} 
+                />
               )}
             </GoogleMap>
           )}
