@@ -7,7 +7,7 @@ import CustomSelect from '../../components/CustomSelect';
 const ReportHeader = ({ selected, onSelect, branches, qrCodes, selectedBranch, setSelectedBranch, selectedBranches, setSelectedBranches, selectedQRCode, setSelectedQRCode, dateRange, setDateRange, onPrint }) => {
   const { t } = useTranslation();
   return (
-    <div className="flex justify-between items-center w-full mb-4">
+    <div className="flex justify-between items-center w-full mb-4 flex-col gap-2 md:flex-row md:gap-0 ">
       <div className="flex gap-4 ">
         <div
           className={`flex justify-center items-center cursor-pointer px-8 py-4 rounded-[10px] text-[16px] font-medium leading-[21.28px] tracking-[0.02em] ${
@@ -37,7 +37,7 @@ const ReportHeader = ({ selected, onSelect, branches, qrCodes, selectedBranch, s
         </div>
       </div>
       <div className="flex justify-center items-center gap-2">
-        <div className="min-w-[220px]">
+        <div className=" lg:min-w-[220px]">
           {selected === 'one' && (
             <CustomSelect
               options={branches}

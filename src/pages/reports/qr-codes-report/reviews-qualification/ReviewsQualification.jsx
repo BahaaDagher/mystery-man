@@ -44,7 +44,7 @@ const ReviewsQualification = ({apiData}) => {
         </span>
       </div>
       <hr className="my-4 border-gray-200" />
-      <div className="flex flex-row gap-8 items-center justify-between">
+      <div className="flex flex-col lg:flex-row gap-8 items-center justify-between">
         {/* Pie Chart only */}
         <div className="flex-1 flex items-center gap-8">
           <div className="relative">

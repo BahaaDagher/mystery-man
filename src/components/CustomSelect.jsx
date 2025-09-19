@@ -1,9 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const CustomSelect = ({ options = [], value, onChange, multiple = false, placeholder = 'Select...', disabledOptions = [], className = '' }) => {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
   const ref = useRef();
+  const { i18n } = useTranslation();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -70,7 +72,7 @@ const CustomSelect = ({ options = [], value, onChange, multiple = false, placeho
         <svg className="w-4 h-4 ml-2 text-gray-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
       </div>
       {open && (
-        <div className="absolute z-50 left-0 mt-2 w-full bg-white rounded-xl shadow-lg p-4 flex flex-col gap-2 min-w-[220px]" style={{maxHeight: 320}}>
+        <div className={`absolute z-50 ${i18n.language === 'ar' ? 'right-0' : 'left-0'} mt-2 w-full bg-white rounded-xl shadow-lg p-4 flex flex-col gap-2 min-w-[220px]`} style={{maxHeight: 320}}>
           <div className="flex items-center border rounded-lg px-2 py-1 mb-2 bg-gray-50">
             <svg className="w-4 h-4 text-gray-400 mr-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" /></svg>
             <input
