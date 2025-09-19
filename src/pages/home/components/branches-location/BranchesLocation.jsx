@@ -3,8 +3,10 @@ import { useTranslation } from "react-i18next";
 import HexMapSaudi from "./HexMapSaudi";
 import { useDispatch, useSelector } from "react-redux";
 import { getCitiesBranches } from "../../../../store/slices/reportSlice";
+import { getBranches } from "../../../../store/slices/branchSlice";
 import CircleLoader from "../../../../components/CircleLoader";
 import { Colors } from "../../../../Theme";
+import Map from "../../../../components/Map";
 
 // Default data for fallback
 const defaultData = {
@@ -32,6 +34,7 @@ const BranchesLocation = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [citiesBranchesState, setCitiesBranchesState] = useState(null);
+  const [branchesState, setBranchesState] = useState([]);
 
   const citiesBranchesData = useSelector(
     (state) => state.reportData.getCitiesBranchesData
@@ -40,6 +43,10 @@ const BranchesLocation = () => {
     (state) => state.reportData.getCitiesBranchesLoading
   );
 
+  // Add branches selectors
+  const getBranchesData = useSelector(state => state.branchData.getBranchesData);
+  const getBranchesDataLoading = useSelector(state => state.branchData.getBranchesDataLoading);
+
   useEffect(() => {
     if (citiesBranchesData?.status) {
       console.log("c", citiesBranchesData);
@@ -47,8 +54,17 @@ const BranchesLocation = () => {
     }
   }, [citiesBranchesData]);
 
+  // Add effect for branches data
+  useEffect(() => {
+    if (getBranchesData?.status) {
+      console.log("getBranchesData", getBranchesData.data.branches);
+      setBranchesState(getBranchesData.data.branches);
+    }
+  }, [getBranchesData]);
+
   useEffect(() => {
     dispatch(getCitiesBranches());
+    dispatch(getBranches()); // Add getBranches call
   }, []);
 
   // Transform API data and calculate total branches
@@ -75,7 +91,24 @@ const BranchesLocation = () => {
 
   const data = transformData();
 
-  if (citiesBranchesLoading) {
+  // Get all valid branch coordinates for the map
+  const getValidBranches = () => {
+    if (!branchesState || branchesState.length === 0) {
+      return [];
+    }
+
+    return branchesState.filter(branch => 
+      branch.lat && branch.long && 
+      !isNaN(parseFloat(branch.lat)) && !isNaN(parseFloat(branch.long))
+    );
+  };
+
+  const validBranches = getValidBranches();
+
+  // Default center for Saudi Arabia when no branches
+  const defaultCenter = { lat: 24.7136, lng: 46.6753 };
+
+  if (citiesBranchesLoading || getBranchesDataLoading) {
     return (
       <div className="bg-white rounded-[12px] p-[20px] border-[10px] border-[#F22E2E] max-w-3xl mx-auto">
         <div style={{ height: "128px" }}>
@@ -98,7 +131,7 @@ const BranchesLocation = () => {
         {/* Branches count */}
         <div className="text-3xl font-bold">{data.branches}</div>
       </div>
-      <div className="flex  justify-between items-center">
+      <div className="flex  justify-between items-center gap-2">
         <div className="flex-1">
           <ul className="space-y-3">
             {data.cities.map((city) => (
@@ -119,8 +152,16 @@ const BranchesLocation = () => {
           </ul>
         </div>
         {/* Map */}
-        <div className="relative">
-          <HexMapSaudi cities = {data.cities} />
+        <div className="relative" style={{ width: '400px', height: '300px' }}>
+          <Map 
+            latPos={defaultCenter.lat} 
+            lngPos={defaultCenter.lng} 
+            mapWidth="100%" 
+            mapHeight="100%" 
+            showSearch={false}
+            branches={validBranches}
+            fitBounds={true}
+          />
         </div>
       </div>
     </div>

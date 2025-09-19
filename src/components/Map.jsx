@@ -1,5 +1,5 @@
 import { GoogleMap, MarkerF, useLoadScript } from "@react-google-maps/api";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect, useRef } from "react";
 import Autocomplete from 'react-google-autocomplete';
 import "./Map.css";
 import { CircularProgress } from "@mui/material";
@@ -52,11 +52,35 @@ const SearchIcon = styled("img")(({ theme }) => ({
 
 }));
 
-const Map = ({setLocation , latPos  , lngPos , mapWidth , mapHeight , showSearch , handelAddressChanged}) => {
+const Map = ({setLocation , latPos  , lngPos , mapWidth , mapHeight , showSearch , handelAddressChanged, branches, fitBounds}) => {
   // const center = useMemo(() => ({ lat: latPos, lng: lngPos}), []);
   const [mPosition , setMPosition] = useState({ lat: latPos, lng: lngPos })
   const [center , setCenter] = useState({ lat: latPos, lng: lngPos })
   const [zoom , setZoom] = useState(10)
+  const mapRef = useRef(null);
+
+  // Effect to fit bounds when branches are provided
+  useEffect(() => {
+    if (fitBounds && branches && branches.length > 0 && mapRef.current) {
+      const bounds = new window.google.maps.LatLngBounds();
+      
+      branches.forEach(branch => {
+        if (branch.lat && branch.long && 
+            !isNaN(parseFloat(branch.lat)) && !isNaN(parseFloat(branch.long))) {
+          bounds.extend({
+            lat: parseFloat(branch.lat),
+            lng: parseFloat(branch.long)
+          });
+        }
+      });
+      
+      mapRef.current.fitBounds(bounds);
+      
+      // Add some padding to the bounds
+      const padding = { top: 20, right: 20, bottom: 20, left: 20 };
+      mapRef.current.fitBounds(bounds, padding);
+    }
+  }, [branches, fitBounds]);
 
   
   setDefaults({
@@ -96,6 +120,9 @@ const Map = ({setLocation , latPos  , lngPos , mapWidth , mapHeight , showSearch
               center={center}
               zoom={zoom}
               onClick={(event)=>{ placeMarker(event.latLng.toJSON());}}
+              onLoad={(map) => {
+                mapRef.current = map;
+              }}
             >
               <AutocompleteWrapper
                   style={{
@@ -131,7 +158,24 @@ const Map = ({setLocation , latPos  , lngPos , mapWidth , mapHeight , showSearch
                 
               </AutocompleteWrapper>
 
-              <MarkerF draggable position={mPosition} onDrag={(event)=>placeMarker(event.latLng.toJSON())} />
+              {/* Render multiple markers if branches are provided */}
+              {branches && branches.length > 0 ? (
+                branches
+                  .filter(branch => branch.lat && branch.long && 
+                    !isNaN(parseFloat(branch.lat)) && !isNaN(parseFloat(branch.long)))
+                  .map((branch, index) => (
+                    <MarkerF 
+                      key={index}
+                      position={{ 
+                        lat: parseFloat(branch.lat), 
+                        lng: parseFloat(branch.long) 
+                      }}
+                      title={branch.name || `Branch ${index + 1}`}
+                    />
+                  ))
+              ) : (
+                <MarkerF draggable position={mPosition} onDrag={(event)=>placeMarker(event.latLng.toJSON())} />
+              )}
             </GoogleMap>
           )}
         </div>
