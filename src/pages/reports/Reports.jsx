@@ -83,7 +83,7 @@ const Reports = () => {
   }
   
   // Handle print functionality
-  const handlePrint = async () => {
+  const handlePrint = async (note = '') => {
     let reportRef = null;
     let reportName = '';
     
@@ -131,8 +131,8 @@ const Reports = () => {
         // Format date range for display
         const formattedDateRange = `${format(dateRange.startDate, 'dd/MM/yyyy', { locale: i18n.language === 'ar' ? ar : undefined })} - ${format(dateRange.endDate, 'dd/MM/yyyy', { locale: i18n.language === 'ar' ? ar : undefined })}`;
         
-        // Generate PDF
-        await generateReportPdf(reportRef, reportName, i18n.language === 'ar', formattedDateRange);
+        // Generate PDF with note
+        await generateReportPdf(reportRef, reportName, i18n.language === 'ar', formattedDateRange, note);
         
         // Close loading and show success
         Swal.close();

@@ -56,7 +56,7 @@ const Map = ({setLocation , latPos  , lngPos , mapWidth , mapHeight , showSearch
   // const center = useMemo(() => ({ lat: latPos, lng: lngPos}), []);
   const [mPosition , setMPosition] = useState({ lat: latPos, lng: lngPos })
   const [center , setCenter] = useState({ lat: latPos, lng: lngPos })
-  const [zoom , setZoom] = useState(10)
+  const [zoom , setZoom] = useState(5)
   const mapRef = useRef(null);
 
   // Effect to fit bounds when branches are provided
@@ -75,7 +75,7 @@ const Map = ({setLocation , latPos  , lngPos , mapWidth , mapHeight , showSearch
       });
       
       // Add more padding to zoom out further
-      const padding = { top: 40, right: 40, bottom: 40, left: 40 };
+      const padding = { top: 50, right: 50, bottom: 50, left: 50 };
       mapRef.current.fitBounds(bounds, padding);
     }
   }, [branches, fitBounds]);

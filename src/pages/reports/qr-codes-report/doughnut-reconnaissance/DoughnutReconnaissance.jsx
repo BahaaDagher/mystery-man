@@ -33,7 +33,7 @@ const DoughnutReconnaissance = ({apiData}) => {
   // Transform API data to chart format
   const chartData = {
     data: [apiData?.done_responses || 0, apiData?.remaining_responses || 0],
-    labels: [t('text.done_qr_codes'), t('text.running_qr_codes')],
+    labels: [t('text.done_responses'), t('text.remaining_responses')],
   };
 
   // Generate colors based on label count
@@ -75,7 +75,7 @@ const DoughnutReconnaissance = ({apiData}) => {
 
   return (
     <div className="bg-white rounded-[12px] p-[20px] w-full ">
-      <div className="text-[20px] font-semibold mb-5 ">{t('text.reconnaissance')}</div>
+      <div className="text-[20px] font-semibold mb-5 ">{t('text.responses')}</div>
       <div className="flex items-center justify-center gap-10">
         <DoughnutComponent
           chartData={chartDataConfig}

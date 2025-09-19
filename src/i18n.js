@@ -409,6 +409,13 @@ const resources = {
         Please_wait : "Please wait..." ,
         Success : "Success" ,
         PDF_generated_successfully : "PDF generated successfully" ,
+        Failed_to_generate_PDF : "Failed to generate PDF" ,
+        Ok : "Ok" ,
+        // Print Note Modal translations
+        Add_Note_Before_Print : "Add Note Before Print" ,
+        Enter_note_optional : "Enter note (optional)" ,
+        Print_with_Note : "Print with Note" ,
+        PDF_generated_successfully : "PDF generated successfully" ,
         Ok : "Ok" ,
         Error : "Error" ,
         Failed_to_generate_PDF : "Failed to generate PDF" ,
@@ -444,7 +451,9 @@ const resources = {
         PDF_Preview_Mission_Certificate: "PDF Preview - Mission Certificate",
         Cancel: "Cancel",
         Send_PDF: "Send PDF",
-        Download: "Download"
+        Download: "Download" , 
+        done_responses : "Done Responses",  
+        remaining_responses : "Remaining Responses" ,
         
       },
       content: {}
@@ -853,9 +862,13 @@ const resources = {
         Please_wait : "يرجى الانتظار..." ,
         Success : "نجحت العملية" ,
         PDF_generated_successfully : "تم إنشاء ملف PDF بنجاح" ,
+        Failed_to_generate_PDF : "فشل في إنشاء ملف PDF" ,
         Ok : "موافق" ,
         Error : "خطأ" ,
-        Failed_to_generate_PDF : "فشل في إنشاء ملف PDF" ,
+        // Print Note Modal translations
+        Add_Note_Before_Print : "إضافة ملاحظة قبل الطباعة" ,
+        Enter_note_optional : "أدخل ملاحظة (اختياري)" ,
+        Print_with_Note : "طباعة مع الملاحظة" ,
         Steps : "الأقسام" ,
         No_steps_available : "لا توجد أقسام متاحة" ,
         // QR Code Cart translations
@@ -888,7 +901,10 @@ const resources = {
         PDF_Preview_Mission_Certificate: "معاينة PDF - شهادة المهمة",
         Cancel: "إلغاء",
         Send_PDF: "إرسال PDF",
-        Download: "تحميل"
+        Download: "تحميل" , 
+        done_responses : "الردود المكتملة",  
+        remaining_responses : "الردود المتبقية" ,
+        
         
       },
       content: {}

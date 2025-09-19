@@ -36,7 +36,7 @@ const Settings = styled("div")(({ theme }) => ({
   top: 75,
   zIndex: 100,
   boxShadow: "0 4px 12px rgba(0,0,0,0.15)", // custom shadow
-  padding : "20px" ,
+  padding : "10px" ,
   borderRadius : "10px",
   [theme.breakpoints.down('1000')]: {
     width : "100%" ,
@@ -61,17 +61,17 @@ const SaveAdminButton = styled("div")(({ theme }) => ({
 }));
 const InputAndButtons = styled(FlexSpaceBetween)(({ theme }) => ({
   alignItems : "center" ,
-  [theme.breakpoints.down('1500')]: {
+  gap : "10px" ,
+  [theme.breakpoints.down('1000')]: {
     alignItems : "flex-start" ,
     flexDirection : "column" ,
-    gap : "10px" ,
   },
 }));
 const InputContainer = styled("div")(({ theme }) => ({
   backgroundColor : Colors.main ,
-  padding : "20px" ,
+  padding : "10px" ,
   borderRadius : "10px" ,
-  height : "80px" , 
+  height : "50px" , 
   width : "80%" , 
   [theme.breakpoints.down('1500')]: {
     width : "100%" ,
@@ -113,23 +113,23 @@ const StepInput = styled("input")(({ theme }) => ({
 }));
 
 const ButtonsContainer = styled(Flex)(({ theme }) => ({
-  [theme.breakpoints.down('1500')]: {
+  [theme.breakpoints.down('1000')]: {
     flexWrap : "wrap" ,
-     gap : "10px" 
+     gap : "4px" 
   },
 }));
 const AddQuestionContainer = styled("div")(({ theme }) => ({
-  padding : "10px" ,
+  padding : "5px" ,
   borderRadius: '10px',
   display : "flex" , 
   justifyContent : "space-between" ,
   alignItems : "center" ,
   backgroundColor : Colors.grayDC ,
   margin : "0 10px" , 
-  height : "60px" , 
+  // height : "60px" , 
   cursor : "pointer" ,
   transition : "all 0.3s ease" , 
-  width : "200px" ,
+  width : "130px" ,
   "&:hover" : {
     backgroundColor : Colors.hoverGray ,
   } , 
@@ -143,21 +143,22 @@ const AddQuestionContainer = styled("div")(({ theme }) => ({
   },
 }));
 const AddQuestionButton = styled("div")(({ theme }) => ({
-  fontSize: '18px',
+  // fontSize: '18px',
   fontWeight: 500,
   textAlign: 'center',
   width : "100%" ,
 }));
 const ActionButton = styled(FlexCenter)(({ theme }) => ({
-  width: '76px',
-  height: '60px',
+  // width: '40px',
+  // height: '40px',
   padding: '10px 12px 10px 12px',
   borderRadius: '10px',
   backgroundColor: Colors.green,
   color : "#fff" , 
   cursor : "pointer" ,
   transition : "all 0.3s ease" , 
-  marginLeft : "10px" ,
+  // marginLeft : "10px" ,
+  // fontSize: "14px" ,
   "&:hover" : {
     backgroundColor : Colors.hoverGreen ,
   },
@@ -180,15 +181,13 @@ const ActionButton = styled(FlexCenter)(({ theme }) => ({
   },
 }));
 const AddStepButton = styled(FlexSpaceBetween)(({ theme }) => ({
-  // border : "1px solid red" ,
   position : "relative" , 
-  padding: '5px 20px',
+  padding: '3px ',
   borderRadius: '10px',
   gap: '10px',
-  minWidth:'30%',
   backgroundColor: Colors.bg,
   margin : "10px 10px" , 
-  fontSize : "20px" ,
+  fontSize : "14px" ,
   color : Colors.gray_l ,
   cursor : "pointer" ,
   transition : "all 0.3s ease" ,
@@ -225,10 +224,12 @@ const AddButton = styled("div")(({ theme }) => ({
 }));
 const StepsContainer = styled(FlexCenter)(({ theme }) => ({
   flexWrap : "wrap" , 
+  maxHeight:"120px",
+  overflowY : "auto" ,
+
 }));
 const StepName = styled("span")(({ theme }) => ({
   width : "100%" , 
-  // border : "1px solid red" ,
 
 }));
 
@@ -280,6 +281,8 @@ const QuestionnaireSettings = ({isAddNew}) => {
   const [showStepsDropdown, setShowStepsDropdown] = useState(false);
   const [editingStepIndex, setEditingStepIndex] = useState(null);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
+  const [showAddStepModal, setShowAddStepModal] = useState(false);
+  const [addStepPosition, setAddStepPosition] = useState({ top: 0, left: 0 });
   const [isAdminQues, setIsAdminQues] = useState(false); 
 
   const showTypes = (event) => {
@@ -323,9 +326,14 @@ const QuestionnaireSettings = ({isAddNew}) => {
     dispatch(setNewStepName(value))
   };
 
-  const handleAddStep = () => {
-    setShowStepsDropdown(!showStepsDropdown)
-    setEditingStepIndex(null)
+  const handleAddStep = (event) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    setAddStepPosition({
+      top: rect.bottom + window.scrollY,
+      left: rect.left + window.scrollX
+    });
+    setShowAddStepModal(true);
+    setEditingStepIndex(null);
   };
 
   const handleSelectStep = (step) => {
@@ -333,11 +341,12 @@ const QuestionnaireSettings = ({isAddNew}) => {
       // Editing existing step
       dispatch(setNewStepName({ index: editingStepIndex, name: step.name, id: step.id }))
       setEditingStepIndex(null)
+      setShowStepsDropdown(false)
     } else {
       // Adding new step
       dispatch(setNewStep({ name: step.name, id: step.id }))
+      setShowAddStepModal(false)
     }
-    setShowStepsDropdown(false)
   };
 
   const handleEditStep = (index, event) => {
@@ -394,13 +403,16 @@ const QuestionnaireSettings = ({isAddNew}) => {
         setShowStepsDropdown(false);
         setEditingStepIndex(null);
       }
+      if (showAddStepModal && !event.target.closest('.add-step-modal')) {
+        setShowAddStepModal(false);
+      }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [showStepsDropdown]);
+  }, [showStepsDropdown, showAddStepModal]);
 
   const handleSaveQuestioneir = () => {
     console.log(questionieres[currentQuestioneir]);
@@ -558,7 +570,7 @@ const QuestionnaireSettings = ({isAddNew}) => {
             </InputContainer>
             <ButtonsContainer>
               <AddQuestionContainer onClick = {showTypes}>
-                <img src = {plusSign} style = {{margin : "10px" }} />
+                <img src = {plusSign} style = {{margin : "0 5px " }} />
                 <AddQuestionButton > {t("text.Add_Question")}</AddQuestionButton>
               </AddQuestionContainer>
               {!questionieres[currentQuestioneir]?.isAdmin &&
@@ -588,49 +600,11 @@ const QuestionnaireSettings = ({isAddNew}) => {
                     index={index}
                     moveStep={moveStep}
                     focusedStep={focusedStep}
-                    
-                  
                   />
                 </AddStepButton>
               )) : ''}
-              <AddStepButton onClick={handleAddStep} style={{position: 'relative'}} className="steps-dropdown">
+              <AddStepButton onClick={handleAddStep} className="add-step-button">
                 +
-                {showStepsDropdown && editingStepIndex === null && (
-                  <div style={{
-                    position: 'absolute',
-                    top: '100%',
-                    left: 0,
-                    right: 0,
-                    backgroundColor: '#fff',
-                    border: '1px solid #ccc',
-                    borderRadius: '8px',
-                    boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-                    zIndex: 1000,
-                    maxHeight: '200px',
-                    overflowY: 'auto'
-                  }}>
-                    {getStepsLoading ? (
-                      <div style={{padding: '10px', textAlign: 'center'}}>Loading...</div>
-                    ) : getStepsData?.data?.steps?.map((step, index) => (
-                      <div
-                        key={step.id}
-                        onClick={() => handleSelectStep(step)}
-                        style={{
-                          padding: '10px',
-                          cursor: 'pointer',
-                          borderBottom: '1px solid #eee',
-                          ':hover': {
-                            backgroundColor: '#f5f5f5'
-                          }
-                        }}
-                        onMouseEnter={(e) => e.target.style.backgroundColor = '#f5f5f5'}
-                        onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
-                      >
-                        {step.name}
-                      </div>
-                    ))}
-                  </div>
-                )}
               </AddStepButton>
             </StepsContainer>
           </DndProvider>
@@ -666,6 +640,47 @@ const QuestionnaireSettings = ({isAddNew}) => {
               minWidth: '200px'
             }}
             className="steps-dropdown"
+          >
+            {getStepsLoading ? (
+              <div style={{padding: '10px', textAlign: 'center'}}>Loading...</div>
+            ) : getStepsData?.data?.steps?.map((step, index) => (
+              <div
+                key={step.id}
+                onClick={() => handleSelectStep(step)}
+                style={{
+                  padding: '10px',
+                  cursor: 'pointer',
+                  borderBottom: '1px solid #eee',
+                  ':hover': {
+                    backgroundColor: '#f5f5f5'
+                  }
+                }}
+                onMouseEnter={(e) => e.target.style.backgroundColor = '#f5f5f5'}
+                onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+              >
+                {step.name}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Floating modal for adding new steps */}
+        {showAddStepModal && (
+          <div 
+            style={{
+              position: 'fixed',
+              top: addStepPosition.top,
+              left: addStepPosition.left,
+              backgroundColor: '#fff',
+              border: '1px solid #ccc',
+              borderRadius: '8px',
+              boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+              zIndex: 1000,
+              maxHeight: '200px',
+              overflowY: 'auto',
+              minWidth: '200px'
+            }}
+            className="add-step-modal"
           >
             {getStepsLoading ? (
               <div style={{padding: '10px', textAlign: 'center'}}>Loading...</div>

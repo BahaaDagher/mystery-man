@@ -24,7 +24,7 @@ const waitForCharts = async () => {
   await new Promise(resolve => setTimeout(resolve, 500));
 };
 
-export const generateReportPdf = async (elementRef, reportName, isRTL = false, dateRange = null) => {
+export const generateReportPdf = async (elementRef, reportName, isRTL = false, dateRange = null, note = '') => {
   try {
     // Get the element to convert
     const element = elementRef.current;
@@ -183,6 +183,44 @@ export const generateReportPdf = async (elementRef, reportName, isRTL = false, d
     // Append header and content to wrapper
     wrapper.appendChild(header);
     wrapper.appendChild(clonedElement);
+    
+    // Add note section if note is provided
+    if (note && note.trim()) {
+      const noteSection = document.createElement('div');
+      noteSection.style.backgroundColor = 'white';
+      noteSection.style.padding = '20px';
+      noteSection.style.marginTop = '20px';
+      noteSection.style.borderRadius = '12px';
+      noteSection.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+      noteSection.style.direction = isRTL ? 'rtl' : 'ltr';
+      noteSection.style.pageBreakInside = 'avoid';
+      
+      // Note title
+      const noteTitle = document.createElement('h3');
+      noteTitle.textContent = isRTL ? 'ملاحظات' : 'Notes';
+      noteTitle.style.fontSize = '18px';
+      noteTitle.style.fontWeight = 'bold';
+      noteTitle.style.marginBottom = '15px';
+      noteTitle.style.color = '#333';
+      noteTitle.style.fontFamily = isRTL ? 'Arial, Tahoma, sans-serif' : 'Arial, sans-serif';
+      noteTitle.style.direction = isRTL ? 'rtl' : 'ltr';
+      noteTitle.style.unicodeBidi = 'embed';
+      
+      // Note content
+      const noteContent = document.createElement('p');
+      noteContent.textContent = note;
+      noteContent.style.fontSize = '14px';
+      noteContent.style.lineHeight = '1.6';
+      noteContent.style.color = '#555';
+      noteContent.style.fontFamily = isRTL ? 'Arial, Tahoma, sans-serif' : 'Arial, sans-serif';
+      noteContent.style.direction = isRTL ? 'rtl' : 'ltr';
+      noteContent.style.unicodeBidi = 'embed';
+      noteContent.style.whiteSpace = 'pre-wrap'; // Preserve line breaks
+      
+      noteSection.appendChild(noteTitle);
+      noteSection.appendChild(noteContent);
+      wrapper.appendChild(noteSection);
+    }
     
     // Temporarily append wrapper to body
     wrapper.style.position = 'absolute';

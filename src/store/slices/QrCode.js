@@ -17,6 +17,7 @@ export const storeQrCodeQuestionnaire = createAsyncThunk(
         return response.data ;
       } catch (error) {
         console.error("storeQrCodeQuestionnaire::", error);
+        return error.response.data ;
       }
 });
 
@@ -116,6 +117,7 @@ const qrCodeSlice = createSlice({
                 state.qrCodeQuestionnaireStoreLoading = true;
             })
             .addCase(storeQrCodeQuestionnaire.rejected, (state, action) => {
+              state.qrCodeQuestionnaireStoreData = action.payload;
                 state.qrCodeQuestionnaireStoreLoading = false;
             })
             .addCase(getQrCodeBranches.fulfilled, (state, action) => {

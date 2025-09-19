@@ -135,7 +135,7 @@ const QrCodeQuestionnaires = () => {
 
     const currentQuestionnaire = questionieres[currentQuestioneir];
     if (!currentQuestionnaire || !currentQuestionnaire.title) {
-      Swal.fire('Error', t("text.Please_enter_a_questionnaire_title"), 'error');
+      Swal.fire(t("text.Error"), t("text.Please_enter_a_questionnaire_title"), 'error');
       return;
     }
 
@@ -176,6 +176,7 @@ const QrCodeQuestionnaires = () => {
   }, [getBranchesData])
 
   useEffect(() => {
+    debugger;
     console.log("qrCodeQuestionnaireStoreData" , qrCodeQuestionnaireStoreData)
     if (change){
 
@@ -186,6 +187,12 @@ const QrCodeQuestionnaires = () => {
             navigate("/userDashboard/qr-codes")
           }
         });
+      }
+      else if (qrCodeQuestionnaireStoreData?.status==false) {
+        Swal.fire({
+          icon: 'error',
+          text: qrCodeQuestionnaireStoreData.message
+        })
       }
               else {
           Swal.fire('Error', t("text.please_add_at_least_a_step_to_the_qr_code"), 'error');
