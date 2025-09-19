@@ -160,8 +160,8 @@ const Responses = () => {
           </div>
           <div className='min-w-[220px] flex gap-2 items-center '>
             <DateRangePickerComponent onDateChange={setDateRange}/>
-            <div className='cursor-pointer' onClick={handleExportExcel}>
-              <img src = {excel} width={35}/>
+            <div className='cursor-pointer bg-gold p-[10px] text-white rounded' onClick={handleExportExcel}>
+              {t("text.Download")}
             </div>
           </div>
         

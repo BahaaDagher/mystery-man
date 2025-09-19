@@ -443,7 +443,8 @@ const resources = {
         AlKhobar : "Al Khobar" ,
         PDF_Preview_Mission_Certificate: "PDF Preview - Mission Certificate",
         Cancel: "Cancel",
-        Send_PDF: "Send PDF"
+        Send_PDF: "Send PDF",
+        Download: "Download"
         
       },
       content: {}
@@ -886,7 +887,8 @@ const resources = {
         AlKhobar : "الخبر" ,
         PDF_Preview_Mission_Certificate: "معاينة PDF - شهادة المهمة",
         Cancel: "إلغاء",
-        Send_PDF: "إرسال PDF"
+        Send_PDF: "إرسال PDF",
+        Download: "تحميل"
         
       },
       content: {}

@@ -161,6 +161,13 @@ const ActionButton = styled(FlexCenter)(({ theme }) => ({
   "&:hover" : {
     backgroundColor : Colors.hoverGreen ,
   },
+  "&.download" : {
+    backgroundColor : Colors.gold ,
+     "&:hover" : {
+      backgroundColor : Colors.hoverGold ,
+    }
+  },
+
   "&.cancel" : {
     backgroundColor : Colors.red , 
     "&:hover" : {
@@ -558,9 +565,9 @@ const QuestionnaireSettings = ({isAddNew}) => {
               <div className='flex  items-center gap-2'> 
                 <ActionButton onClick={()=>handleSaveQuestioneir()} > {t("text.Save")}</ActionButton>
                 <ActionButton onClick={()=>handleDeleteQuestioneir()} className = "cancel">{t("text.Delete")}</ActionButton>
-                <div className='cursor-pointer' onClick={handleExportWord}>
-                  <img src={wordIcon} width={35} height={35}/>
-                </div>
+                <ActionButton className='download' onClick={handleExportWord}>
+                  {t("text.Download")}
+                </ActionButton>
                 <div className='cursor-pointer' onClick={handleExportPdf}>
                   {/* <img src={pdfIcon} width={35} height={35}/> */}
                 </div>

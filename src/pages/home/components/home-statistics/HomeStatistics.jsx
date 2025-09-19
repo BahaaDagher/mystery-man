@@ -8,7 +8,7 @@ import { Rating, styled } from '@mui/material'
 const BranchRating = styled(Rating)(({ theme }) => ({
   direction : "ltr",
   '& .MuiRating-icon': {
-    fontSize: '35px', // increase size
+    fontSize: '24px', // increase size
   },
 }));
 const HomeStatistics = ({ 
@@ -22,12 +22,12 @@ const HomeStatistics = ({
 
   // Font size variables - easy to control
   const fontSize = {
-    title: 'text-base sm:text-lg lg:text-[20px]',        // Section titles
-    mainNumber: 'text-4xl sm:text-5xl lg:text-6xl xl:text-[60px]',  // Large numbers
-    avgNumber: 'text-3xl sm:text-4xl lg:text-5xl xl:text-[50px]',   // Avg review number
-    ratingText: 'text-base sm:text-lg lg:text-[20px]',  // Rating description text
-    small: 'text-[10px]',                               // Small text
-    medium: 'text-[20px]'                               // Medium text
+    title: 'text-sm sm:text-base lg:text-[16px]',        // Section titles
+    mainNumber: 'text-2xl sm:text-3xl lg:text-4xl xl:text-[40px]',  // Large numbers
+    avgNumber: 'text-xl sm:text-2xl lg:text-3xl xl:text-[32px]',   // Avg review number
+    ratingText: 'text-sm sm:text-base lg:text-[16px]',  // Rating description text
+    small: 'text-[8px]',                               // Small text
+    medium: 'text-[16px]'                               // Medium text
   };
 
   // Convert avgReview to number and handle rating text
