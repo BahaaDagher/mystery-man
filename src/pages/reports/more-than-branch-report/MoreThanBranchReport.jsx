@@ -15,15 +15,15 @@ const MoreThanBranchReport = ({moreThanBranchData, onStepsIdsChangeFromMoreThanB
   }
   return (
     <div className='flex flex-col gap-3'>
-      <div className='w-full flex justify-between gap-3 pdf-section'>
-        <div className='w-[35%] bg-white rounded-[12px] ' > <Top3Branches apiData={moreThanBranchData.topBranchesByStepRating}/></div>
-        <div className='w-[65%] bg-white rounded-[12px] '> <EvaluationOfQuestions apiData={moreThanBranchData.questionStatsPerBranch}/></div>
+      <div className='w-full flex flex-col lg:flex-row justify-between gap-3 pdf-section'>
+        <div className='w-full lg:w-[35%] bg-white rounded-[12px] ' > <Top3Branches apiData={moreThanBranchData.topBranchesByStepRating}/></div>
+        <div className='w-full lg:w-[65%] bg-white rounded-[12px] '> <EvaluationOfQuestions apiData={moreThanBranchData.questionStatsPerBranch}/></div>
       </div>
       <div className='w-full bg-white rounded-[12px] pdf-section'> <CompareSectionsForBranches apiData={moreThanBranchData.stepStatsGroupedByStep} onStepsIdsChangeFromMoreThanBranch={handleStepsIdsChangeFromMoreThanBranch} allSteps={allSteps}/></div>
       <div className='w-full bg-white rounded-[12px] pdf-section'> <OverallEvaluationOfEachBranch apiData={moreThanBranchData.topBranchesByStepRating}/></div>
-      <div className='w-full flex justify-between gap-3 pdf-section'>
-        <div className='w-[50%] bg-white rounded-[12px] '> <AverageDepartmentRatings apiData={moreThanBranchData.averageRatingPerStep}/></div>
-        <div className='w-[50%] bg-white rounded-[12px] '> <AverageBranchRatings apiData={moreThanBranchData.monthlyBranchRatingsFromSteps}/></div>
+      <div className='w-full flex flex-col lg:flex-row justify-between gap-3 pdf-section'>
+        <div className='w-full lg:w-[50%] bg-white rounded-[12px] '> <AverageDepartmentRatings apiData={moreThanBranchData.averageRatingPerStep}/></div>
+        <div className='w-full lg:w-[50%] bg-white rounded-[12px] '> <AverageBranchRatings apiData={moreThanBranchData.monthlyBranchRatingsFromSteps}/></div>
       </div>
       <div className='w-full bg-white rounded-[12px] pdf-section'> <TheRateOfDevelopmentInEachBranch apiData={moreThanBranchData.stepImprovementPerBranch} /></div>
     </div>

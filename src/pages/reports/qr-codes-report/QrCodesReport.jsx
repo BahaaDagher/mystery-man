@@ -11,13 +11,13 @@ const QrCodesReport = ({qrCodeData}) => {
   return (
     <div className='w-full flex flex-col gap-3'>
         <div className='w-full flex flex-col gap-3 pdf-section'>
-            <div className='w-full flex justify-between gap-3'>
-                <div className='w-[65%] bg-white rounded-[12px] '> <DoughnutReconnaissance apiData={qrCodeData?.getReconnaissanceData}/></div>
-                <div className='w-[35%] bg-white rounded-[12px] '> <GeneralRate apiData={qrCodeData?.generalRate?.chart}/></div>
+            <div className='w-full flex flex-col lg:flex-row justify-between gap-3'>
+                <div className='w-full lg:w-[65%] bg-white rounded-[12px] '> <DoughnutReconnaissance apiData={qrCodeData?.getReconnaissanceData}/></div>
+                <div className='w-full lg:w-[35%] bg-white rounded-[12px] '> <GeneralRate apiData={qrCodeData?.generalRate?.chart}/></div>
             </div>
-            <div className='w-full flex justify-between gap-3'>
-                <div className='w-[65%] bg-white rounded-[12px] '> <ReviewsQualification apiData={qrCodeData?.reviewQualification}/></div>
-                <div className='w-[35%] bg-white rounded-[12px] '> <HighLowSections apiData={qrCodeData?.topAndBottomSections}/></div>
+            <div className='w-full flex flex-col lg:flex-row justify-between gap-3'>
+                <div className='w-full lg:w-[65%] bg-white rounded-[12px] '> <ReviewsQualification apiData={qrCodeData?.reviewQualification}/></div>
+                <div className='w-full lg:w-[35%] bg-white rounded-[12px] '> <HighLowSections apiData={qrCodeData?.topAndBottomSections}/></div>
             </div>
         </div>
         <div className='w-full flex justify-between gap-3 pdf-section'>
