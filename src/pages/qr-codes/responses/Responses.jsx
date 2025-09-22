@@ -118,21 +118,145 @@ const Responses = () => {
     setSelectedResponseData(null)
   }
 
+  // Helper function to get selected choice title for SingleChoice and multiChoice questions
+  const getChoiceTitle = (question, answerId) => {
+    if (!question.choices || question.choices.length === 0) return answerId;
+    
+    if (question.type === 'SingleChoice') {
+      const choice = question.choices.find(choice => choice.id.toString() === answerId);
+      return choice ? choice.title : answerId;
+    } else if (question.type === 'multiChoice') {
+      const answerIds = answerId.split(',');
+      const selectedChoices = answerIds.map(id => {
+        const choice = question.choices.find(choice => choice.id.toString() === id);
+        return choice ? choice.title : id;
+      });
+      return selectedChoices.join(', ');
+    }
+    
+    return answerId;
+  };
+
+  // Helper function to format answer based on question type
+  const formatAnswer = (question) => {
+    if (!question.answer) return '';
+    
+    switch (question.type) {
+      case 'SingleChoice':
+      case 'multiChoice':
+        return getChoiceTitle(question, question.answer);
+      case 'yesOrNo':
+        return question.answer === 'yes' ? t('text.yes') || 'Yes' : question.answer === 'no' ? t('text.no') || 'No' : question.answer;
+      case 'rating':
+        return `${question.answer}/5`;
+      case 'uploadImages':
+        return question.choices && question.choices.length > 0 ? `${question.choices.length} image(s)` : 'No images';
+      case 'open':
+      case 'headLine':
+      default:
+        return question.answer;
+    }
+  };
+
+  // Helper function to format question title and answer for display in cell
+  const formatQuestionAndAnswer = (question) => {
+    const answer = formatAnswer(question);
+    return `• ${question.title}: ${answer}`;
+  };
+
+  // Helper function to get the maximum number of questions in any single response
+  const getMaxQuestionsCount = () => {
+    let maxQuestions = 0;
+    
+    currentItems.forEach(item => {
+      if (item.questions && item.questions.steps) {
+        let questionCount = 0;
+        item.questions.steps.forEach(step => {
+          if (step.questions) {
+            questionCount += step.questions.length;
+          }
+        });
+        maxQuestions = Math.max(maxQuestions, questionCount);
+      }
+    });
+    
+    return maxQuestions;
+  };
+
+  // Helper function to get all questions from a single response in order
+  const getQuestionsFromResponse = (item) => {
+    const questions = [];
+    
+    if (item.questions && item.questions.steps) {
+      item.questions.steps.forEach(step => {
+        if (step.questions) {
+          step.questions.forEach(question => {
+            questions.push({
+              stepName: step.name,
+              question: question
+            });
+          });
+        }
+      });
+    }
+    
+    return questions;
+  };
+
   // Handle Excel export
   const handleExportExcel = () => {
+    // Get the maximum number of questions to create column headers
+    const maxQuestions = getMaxQuestionsCount();
+    
     // Prepare data for Excel export
     debugger;
-    const exportData = currentItems.map((item, index) => ({
-      '#': offset + index + 1,
-      [t('text.qr_code_name')]: item.qr_code_name,
-      [t('text.branch_name')]: item.branch_name,
-      [t('text.date')]: item.date,
-      [t('text.percentage_score')]: `${item.percentage_score}%`
-    }));
+    const exportData = currentItems.map((item, index) => {
+      // Start with basic information
+      const rowData = {
+        '#': offset + index + 1,
+        [t('text.qr_code_name')]: item.qr_code_name,
+        [t('text.branch_name')]: item.branch_name,
+        [t('text.date')]: item.date,
+        [t('text.percentage_score')]: `${item.percentage_score}%`
+      };
+
+      // Get all questions from this response in order
+      const responseQuestions = getQuestionsFromResponse(item);
+      
+      // Add each question to its corresponding column (السؤال 1, السؤال 2, etc.)
+      for (let i = 0; i < maxQuestions; i++) {
+        const columnHeader = `${t('text.question') || 'السؤال'} ${i + 1}`;
+        
+        if (i < responseQuestions.length) {
+          const questionData = responseQuestions[i];
+          rowData[columnHeader] = formatQuestionAndAnswer(questionData.question);
+        } else {
+          rowData[columnHeader] = ''; // Empty cell if this response has fewer questions
+        }
+      }
+
+      return rowData;
+    });
     
     // Create workbook and worksheet
     const wb = XLSX.utils.book_new();
     const ws = XLSX.utils.json_to_sheet(exportData);
+    
+    // Set column widths for better readability
+    const colWidths = [
+      { wch: 5 },   // #
+      { wch: 20 },  // QR Code Name
+      { wch: 20 },  // Branch Name
+      { wch: 20 },  // Date
+      { wch: 15 },  // Percentage Score
+    ];
+    
+    // Add width for question columns
+    for (let i = 0; i < maxQuestions; i++) {
+      colWidths.push({ wch: 40 }); // Width for each question column
+    }
+    
+    ws['!cols'] = colWidths;
     
     // Add worksheet to workbook
     XLSX.utils.book_append_sheet(wb, ws, t('text.QR_Responses'));
