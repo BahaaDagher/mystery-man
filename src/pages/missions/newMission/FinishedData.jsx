@@ -96,17 +96,20 @@ const FinishedData = (
     missionSelectedGender ,
     missionDate ,
     missionTime1 , 
-    
     missionVoucherChecked ,
     missionVoucherValue ,
     missionSelectedQuestioniere,
     missionNotes ,
     missionReconnaissance,
     quizData = [],
+    profileData,
   } ) => {
     const [activePost , setActivePost] = useState(false)
     useEffect(() => {
-      if(missionTitle && missionFocus && missionSelectedBranches.length > 0 && missionSelectedGender !== '' && missionDate && missionTime1  && missionSelectedQuestioniere>-1 && quizData.length > 0){
+      if(missionTitle && missionFocus && missionSelectedBranches.length > 0 && missionSelectedGender !== '' &&
+          missionDate && missionTime1  && missionSelectedQuestioniere>-1 &&
+          missionSelectedBranches.length * missionVoucherValue <= profileData.wallet 
+          ){
         setActivePost(true)
       }
       else {
@@ -156,6 +159,14 @@ const FinishedData = (
     }, [addMissionsData])
 
     const handlePostMission = () => {
+      if (profileData?.newMission <= 0){
+        Swal.fire({
+          icon: 'warning',
+          title: t("text.no_available_missions"),
+          confirmButtonText: t("text.OK")
+        });
+        return;
+      }
       Swal.fire({
         title: t("text.are_you_sure_you_want_to_add_this_mission"),
         showDenyButton: true,

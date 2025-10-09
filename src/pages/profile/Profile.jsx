@@ -126,7 +126,7 @@ const NewBranchButton = styled(TabButton)(({ theme }) => ({
 }));
 
 const Profile = () => {
-  const [activeTab, setActiveTab] = useState('branches'); // 'branches' or 'wallet'
+  const [activeTab, setActiveTab] = useState('wallet'); // 'branches' or 'wallet'
   const [dateRange, setDateRange] = useState(null);
   
   const {t} = useTranslation();

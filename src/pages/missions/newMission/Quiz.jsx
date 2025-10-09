@@ -216,18 +216,19 @@ const Quiz = ({ onPrev, onNext, initialData = [], onQuizDataChange }) => {
   };
 
   const handleNext = () => {
-    if (questions.length > 0) {
-      console.log('Quiz data:', questions);
-      onNext();
-    } else {
-      Swal.fire({
-        icon: 'warning',
-        title: t("text.No_Questions_Added"),
-        text: t("text.Please_add_at_least_one_question_to_continue"),
-        confirmButtonColor: '#3085d6',
-        confirmButtonText: t("text.OK")
-      });
-    }
+    onNext();
+    // if (questions.length > 0) {
+    //   console.log('Quiz data:', questions);
+    //   onNext();
+    // } else {
+    //   Swal.fire({
+    //     icon: 'warning',
+    //     title: t("text.No_Questions_Added"),
+    //     text: t("text.Please_add_at_least_one_question_to_continue"),
+    //     confirmButtonColor: '#3085d6',
+    //     confirmButtonText: t("text.OK")
+    //   });
+    // }
   };
 
   const handlePrev = () => {

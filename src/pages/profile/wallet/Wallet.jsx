@@ -38,7 +38,9 @@ const Wallet = () => {
     balanceBefore: transaction.balance_before,
     balanceAfter: transaction.balance_after,
     currency: 'SAR',
-    date: transaction.created_at
+    date: transaction.created_at,
+    type:transaction.type,
+    type_text:transaction.type_text
   }))
 
   return (

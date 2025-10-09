@@ -17,6 +17,7 @@ import Quiz from './Quiz';
 import Swal from 'sweetalert2';
 import { useTranslation } from 'react-i18next';
 import CustomSelect from '../../../components/CustomSelect';
+import Loading from '../../../components/Loading';
 
 const Container = styled(SmallContainer)(({ theme }) => ({
   
@@ -304,12 +305,15 @@ const NewMission = () => {
   const [currentStep, setCurrentStep] = useState('form'); // 'form', 'quiz', 'questionnaire'
   const [quizData, setQuizData] = useState([]);
   const getProfileData = useSelector(state => state.profileData.getProfileData)
+  const getProfileLoading = useSelector(state => state.profileData.getProfileLoading)
   const reconnaissanceMission = useSelector(state => state.profileData.reconnaissanceMission)
 
   const [wallet , setWallet] = useState(0)
+  const [profileData , setProfileData] = useState(null)
 
   useEffect(() => {
     if (getProfileData?.status) {
+      setProfileData(getProfileData.data.user)
       setWallet(getProfileData.data.user.wallet)
     }
   } , [getProfileData])
@@ -323,15 +327,19 @@ const NewMission = () => {
   const handleNext = () => {
     // setCurrentStep('quiz')
       if (title && focus && selectedBranches.length > 0 && selectedGender !== '' && date && time1  && selectedQuestioniere>-1) {
-        if(voucherValue <= wallet){
+        if(voucherValue * selectedBranches.length <= wallet && profileData?.newMission > 0 ){
           setCurrentStep('quiz')
         }
-        else{
+        else {
+          let message = '';
+          if ((profileData?.newMission ?? 0) <= 0) message = t('text.no_available_missions');
+          else message = t('text.You_dont_have_enough_money_to_create_a_new_mission_with_voucher');
           Swal.fire({
             icon: 'error',
-            text: t("text.You_dont_have_enough_money_to_create_a_new_mission"),
-          })
+            text: message,
+          });
         }
+        
       }
       else {
         Swal.fire({
@@ -362,6 +370,7 @@ const NewMission = () => {
   
   return (
     <>
+    {getProfileLoading? <Loading/>:""}
     <SmallContainer>
       <Place>
         <span> {t("text.missions")} / </span>
@@ -526,6 +535,7 @@ const NewMission = () => {
           missionSelectedQuestioniere={selectedQuestioniere}
           missionReconnaissance={reconnaissance}
           quizData={quizData}
+          profileData= {profileData}
         />
       </Parent>
     </SmallContainer>

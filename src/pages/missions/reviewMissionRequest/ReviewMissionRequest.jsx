@@ -571,9 +571,26 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
                 <img src = {item.user.image} style = {{width : "65px" , height : "65px" ,   borderRadius : "50%" }} alt = "pic"/>
               </Section>
               <div>
-                <p>{item.user.name}</p>
-                <p> {item.user.info}</p>
-                <Rating name="half-rating" defaultValue={item.user.rate} precision={0.5} readOnly style = {{direction : "ltr"}}/>
+                <div>{item.user.name}</div>
+                <div className='text-xs'> {item.user.info}</div>
+                {/* Added quiz statistics below user info */}
+                {item.quiz_request && item.quiz_request.length > 0 && (
+                  <div className="mt-2">
+                    <div className="text-sm">
+                      {t("text.Score")}:{" "}
+                      <span className="font-bold">
+                        {Math.round(
+                          (item.quiz_request.filter((q) => q.is_correct).length /
+                            item.quiz_request.length) *
+                            100
+                        )}
+                        %
+                      </span>{" "}
+                      ({item.quiz_request.filter((q) => q.is_correct).length}/
+                      {item.quiz_request.length})
+                    </div>
+                  </div>
+                )}
               </div>
           </PhotoAndName>
           <CategoryDiv>
@@ -645,42 +662,51 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
                     <p className="text-gray-700 mb-3">{quiz.question}</p>
                     
                     <div className="space-y-2">
-                      <div className={`p-2 rounded ${
-                        // quiz.answer === 1 ? 'bg-lightSuccess border border-success' : 
-                        'bg-gray-50'
-                      }`}>
-                        <span className="font-medium">{getArabicLetter(0)}</span> 
-                        <span className="font-medium mx-2">-</span> 
-                        <span style={{direction: textDirection}}>{quiz.option_1}</span>
-                        {/* {quiz.answer === 1 && <span className="ml-2 text-success">✓ {t("text.Correct_Answer")}</span>} */}
-                      </div>
-                      <div className={`p-2 rounded ${
-                        // quiz.answer === 2 ? 'bg-lightSuccess border border-success' : 
-                        'bg-gray-50'
-                      }`}>
-                        <span className="font-medium">{getArabicLetter(1)}</span> 
-                        <span className="font-medium mx-2">-</span> 
-                        <span style={{direction: textDirection}}>{quiz.option_2}</span>
-                        {/* {quiz.answer === 2 && <span className="ml-2 text-success">✓ {t("text.Correct_Answer")}</span>} */}
-                      </div>
-                      <div className={`p-2 rounded ${
-                        // quiz.answer === 3 ? 'bg-lightSuccess border border-success' : 
-                        'bg-gray-50'
-                      }`}>
-                        <span className="font-medium">{getArabicLetter(2)}</span> 
-                        <span className="font-medium mx-2">-</span> 
-                        <span style={{direction: textDirection}}>{quiz.option_3}</span>
-                        {/* {quiz.answer === 3 && <span className="ml-2 text-success">✓ {t("text.Correct_Answer")}</span>} */}
-                      </div>
-                      <div className={`p-2 rounded ${
-                        // quiz.answer === 4 ? 'bg-lightSuccess border border-success' : 
-                        'bg-gray-50'
-                      }`}>
-                        <span className="font-medium">{getArabicLetter(3)}</span> 
-                        <span className="font-medium mx-2">-</span> 
-                        <span style={{direction: textDirection}}>{quiz.option_4}</span>
-                        {/* {quiz.answer === 4 && <span className="ml-2 text-success">✓ {t("text.Correct_Answer")}</span>} */}
-                      </div>
+                      {/* Only show options that are not null */}
+                      {quiz.option_1 !== null && (
+                        <div className={`p-2 rounded ${
+                          // quiz.answer === 1 ? 'bg-lightSuccess border border-success' : 
+                          'bg-gray-50'
+                        }`}>
+                          <span className="font-medium">{getArabicLetter(0)}</span> 
+                          <span className="font-medium mx-2">-</span> 
+                          <span style={{direction: textDirection}}>{quiz.option_1}</span>
+                          {/* {quiz.answer === 1 && <span className="ml-2 text-success">✓ {t("text.Correct_Answer")}</span>} */}
+                        </div>
+                      )}
+                      {quiz.option_2 !== null && (
+                        <div className={`p-2 rounded ${
+                          // quiz.answer === 2 ? 'bg-lightSuccess border border-success' : 
+                          'bg-gray-50'
+                        }`}>
+                          <span className="font-medium">{getArabicLetter(1)}</span> 
+                          <span className="font-medium mx-2">-</span> 
+                          <span style={{direction: textDirection}}>{quiz.option_2}</span>
+                          {/* {quiz.answer === 2 && <span className="ml-2 text-success">✓ {t("text.Correct_Answer")}</span>} */}
+                        </div>
+                      )}
+                      {quiz.option_3 !== null && (
+                        <div className={`p-2 rounded ${
+                          // quiz.answer === 3 ? 'bg-lightSuccess border border-success' : 
+                          'bg-gray-50'
+                        }`}>
+                          <span className="font-medium">{getArabicLetter(2)}</span> 
+                          <span className="font-medium mx-2">-</span> 
+                          <span style={{direction: textDirection}}>{quiz.option_3}</span>
+                          {/* {quiz.answer === 3 && <span className="ml-2 text-success">✓ {t("text.Correct_Answer")}</span>} */}
+                        </div>
+                      )}
+                      {quiz.option_4 !== null && (
+                        <div className={`p-2 rounded ${
+                          // quiz.answer === 4 ? 'bg-lightSuccess border border-success' : 
+                          'bg-gray-50'
+                        }`}>
+                          <span className="font-medium">{getArabicLetter(3)}</span> 
+                          <span className="font-medium mx-2">-</span> 
+                          <span style={{direction: textDirection}}>{quiz.option_4}</span>
+                          {/* {quiz.answer === 4 && <span className="ml-2 text-success">✓ {t("text.Correct_Answer")}</span>} */}
+                        </div>
+                      )}
                     </div>
                     
                     <div className={`mt-3 p-2 rounded ${
