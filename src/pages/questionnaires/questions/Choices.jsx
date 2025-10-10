@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { handleDeleteQuestion, setQuestionDetails } from '../../../store/slices/questionierSlice';
 import { useTranslation } from 'react-i18next';
 import Swal from 'sweetalert2';
+import { Flex } from '../../../components/Flex';
 
 
 const Parent = styled("div")(({ theme }) => ({
@@ -60,7 +61,8 @@ const AnswerContainer = styled("div")(({ theme }) => ({
     width : "100%" ,
   },
 }));
-const Answer = styled("div")(({ theme }) => ({
+const Answer = styled(Flex)(({ theme }) => ({
+  alignItems : "center" ,
   padding : "5px" ,
   width : "80%" ,
   margin : "0 10px" ,
@@ -153,7 +155,11 @@ const Choices = ({questionData,index ,setIsApplyFocus}) => {
               <div key={index}>
                 <AnswerContainer>
                   <img src = {grayDelete} onClick={() => handleDeleteAnswer(index)} style = {{cursor : "pointer"}}/>
-                  <Answer>{answer.title}</Answer>
+                  <Answer>
+                    {answer.title}
+                    <div className='text-sm ms-[8px]' >({answer.rate}%)</div>
+                  </Answer>
+                  
                 </AnswerContainer>
               </div>
             ))}

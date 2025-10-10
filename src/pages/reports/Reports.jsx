@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getBranches } from '../../store/slices/branchSlice'
 import { getQrCodeBranches } from '../../store/slices/QrCode'
 import Loading from '../../components/Loading'
-import { format, startOfMonth } from 'date-fns'
+import { endOfYear, format, startOfMonth, startOfYear } from 'date-fns'
 import { moreThanBranchReport, oneBranchReport, qrCodeReport } from '../../store/slices/reportSlice'
 import Swal from 'sweetalert2'
 import { getSteps } from '../../store/slices/stepSlice'
@@ -40,8 +40,8 @@ const Reports = () => {
   const [selectedBranches, setSelectedBranches] = useState([]);
   const [selectedQRCode, setSelectedQRCode] = useState('');
   const [dateRange, setDateRange] = useState({
-    startDate: startOfMonth(new Date()),
-      endDate: new Date(),
+    startDate: startOfYear(new Date()),
+    endDate: endOfYear(new Date()),
   });
   const [stepsIdsFromOneBranch, setStepsIdsFromOneBranch] = useState([]);
   const [stepsIdsFromMoreThanBranch, setStepsIdsFromMoreThanBranch] = useState([]);

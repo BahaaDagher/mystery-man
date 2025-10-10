@@ -21,18 +21,18 @@ const DateRangePickerComponent = ({ onDateChange }) => {
   const { t, i18n } = useTranslation();
   const isRTL = i18n.dir() === "rtl";
 
-  const [range, setRange] = useState([
-    {
-      startDate: startOfMonth(new Date()),
-      endDate: new Date(),
-      key: "selection",
-    },
-  ]);
+  // Set default range to "this year" instead of "this month"
+  const defaultRange = {
+    startDate: startOfYear(new Date()),
+    endDate: endOfYear(new Date()),
+    key: "selection",
+  };
 
+  const [range, setRange] = useState([defaultRange]);
   const [showPicker, setShowPicker] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 800);
-  const [selectedPreset, setSelectedPreset] = useState("");
-  const [tempRange, setTempRange] = useState(range);
+  const [selectedPreset, setSelectedPreset] = useState("thisYear"); // Set default preset to "thisYear"
+  const [tempRange, setTempRange] = useState([defaultRange]);
   const wrapperRef = useRef(null);
 
   // Preset date functions
