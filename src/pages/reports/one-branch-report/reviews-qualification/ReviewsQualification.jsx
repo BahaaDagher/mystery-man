@@ -6,6 +6,7 @@ import Star from "../../../../assets/icons/Star.svg";
 import PositiveIcon from "../../../../assets/icons/PositiveIcon.svg";
 import NeutralIcon from "../../../../assets/icons/NeutralIcon.svg";
 import NegativeIcon from "../../../../assets/icons/NegativeIcon.svg";
+import { Colors } from "../../../../Theme";
 
 const BranchRating = styled(Rating)(({ theme }) => ({
   direction: "ltr",
@@ -39,7 +40,7 @@ const ReviewsQualification = ({apiData}) => {
     datasets: [
       {
         data: transformedData.data,
-        backgroundColor: ["#27AE60", "#DCDCDC", "#C32B43"], // positive, neutral, negative
+        backgroundColor: [Colors.green, Colors.gold2, Colors.red], // positive, neutral, negative
         borderWidth: 0,
       },
     ],

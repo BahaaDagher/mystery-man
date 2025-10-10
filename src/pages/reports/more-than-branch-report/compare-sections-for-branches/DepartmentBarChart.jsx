@@ -1,19 +1,32 @@
 import React from 'react'
 import { Bar } from 'react-chartjs-2'
+import { Colors } from '../../../../Theme';
 
 const DepartmentBarChart = ({ section, label ,height}) => {
+  // Function to determine color based on percentage value
+  const getColorBasedOnPercentage = (percentage) => {
+    if (percentage >= 70) {
+      return Colors.green; // green
+    } else if (percentage >= 40) {
+      return Colors.gold2; // gold
+    } else {
+      return Colors.red; // red
+    }
+  };
+
+  const ratingData = section.branches.map(d => d.average_rating);
+  
   const data = {
     labels: section.branches.map(d => d.branch_name),
     datasets: [
       {
         label: section.step_name,
-        data: section.branches.map(d => d.average_rating),
-        backgroundColor: '#5654D4',
-        hoverBackgroundColor: '#5654D4',
+        data: ratingData,
+        backgroundColor: ratingData.map(value => getColorBasedOnPercentage(value)),
+        hoverBackgroundColor: ratingData.map(value => getColorBasedOnPercentage(value)),
         borderRadius: 5,
         barPercentage: 0.6,
         categoryPercentage: 0.7,
-        // tension: 0.3,
       },
     ],
   }
@@ -46,7 +59,6 @@ const DepartmentBarChart = ({ section, label ,height}) => {
       y: {
         position: isArabic ? 'right' : 'left',
         beginAtZero: true,
-        // max: 100,
         grid: { color: '#F0F0F0' },
         ticks: { 
           color: "#A5A5A5", 
@@ -66,4 +78,4 @@ const DepartmentBarChart = ({ section, label ,height}) => {
   )
 }
 
-export default DepartmentBarChart 
+export default DepartmentBarChart

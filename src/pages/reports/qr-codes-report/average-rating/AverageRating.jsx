@@ -1,10 +1,11 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 import DoughnutComponent from '../../../../components/DoughnutComponent'
+import { Colors } from '../../../../Theme';
 
 const backgroundColor = [
-  "#446AFA",
-  "#FF7853"
+  Colors.green,
+  Colors.gold2
 ]
 
 const doughnutSize = 100

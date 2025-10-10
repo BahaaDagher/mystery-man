@@ -1,8 +1,20 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next';
+import { Colors } from '../../../../Theme';
 
 const Top3Branches = ({apiData}) => {
   const { t } = useTranslation();
+  
+  // Function to determine color based on percentage value
+  const getColorBasedOnPercentage = (percentage) => {
+    if (percentage >= 70) {
+      return Colors.green; // green
+    } else if (percentage >= 40) {
+      return Colors.gold2; // gold2
+    } else {
+      return Colors.red; // red
+    }
+  };
   
   // Take only the first 3 items from apiData, or all if less than 3
   const top3Branches = apiData?.slice(0, 3) || []
@@ -19,11 +31,12 @@ const Top3Branches = ({apiData}) => {
                 <div className="text-black font-bold text-[14px]">{branch.percentage}%</div>
               </div>
               <div
-                className="bg-[#3734CA] rounded-md h-8 "
+                className="rounded-md h-8 "
                 style={{
                   width: `${branch.percentage}%`, // Use percentage from API data
                   minWidth: "1px",
-                  transition: "width 0.3s"
+                  transition: "width 0.3s",
+                  backgroundColor: getColorBasedOnPercentage(branch.percentage)
                 }}
               ></div>
             </div>

@@ -5,6 +5,7 @@ import Star from "../../../../assets/icons/Star.svg";
 import PositiveIcon from "../../../../assets/icons/PositiveIcon.svg";
 import NeutralIcon from "../../../../assets/icons/NeutralIcon.svg";
 import NegativeIcon from "../../../../assets/icons/NegativeIcon.svg";
+import { Colors } from "../../../../Theme";
 
 const pieOptions = {
   plugins: {
@@ -27,7 +28,7 @@ const ReviewsQualification = ({apiData}) => {
           apiData?.data?.negative || 0,
           apiData?.data?.neutral || 0,
         ],
-        backgroundColor: ["#27AE60", "#C32B43", "#DCDCDC"], // positive , negative , neutral
+        backgroundColor: [Colors.green, Colors.red, Colors.gold2], // positive , negative , neutral
         borderWidth: 0,
       },
     ],

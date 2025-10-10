@@ -46,6 +46,7 @@ module.exports = {
             Black3: Colors.Black3,
             input_fill: Colors.input_fill,
             gold: Colors.gold,
+            gold2: Colors.gold2,
             hoverGold: Colors.hoverGold,
             lightGray: Colors.lightGray,
             danger: Colors.danger,

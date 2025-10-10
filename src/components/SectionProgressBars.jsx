@@ -1,8 +1,18 @@
 import React from "react";
-
-const COLORS = ["#6794DC", "#DC8C67", "#DC67AB"];
+import { Colors } from "../Theme";
 
 const SectionProgressBars = ({ sections = [] }) => {
+  // Function to determine color based on percentage value
+  const getColorBasedOnPercentage = (percentage) => {
+    if (percentage >= 70) {
+      return Colors.green; // Green for high percentages
+    } else if (percentage >= 40) {
+      return Colors.gold2; // Gold for medium percentages
+    } else {
+      return Colors.red; // Red for low percentages
+    }
+  };
+
   return (
     <div className="flex flex-col gap-6 w-full">
       {sections.map((section, idx) => (
@@ -17,7 +27,7 @@ const SectionProgressBars = ({ sections = [] }) => {
                 className="h-4 rounded-s-[4px] transition-all duration-300"
                 style={{
                   width: `${section.value}%`,
-                  background: COLORS[idx % COLORS.length],
+                  background: getColorBasedOnPercentage(section.value),
                 }}
               ></div>
             </div>
@@ -28,4 +38,4 @@ const SectionProgressBars = ({ sections = [] }) => {
   );
 };
 
-export default SectionProgressBars; 
+export default SectionProgressBars;

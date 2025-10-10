@@ -1,9 +1,21 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 import BarComponent from '../../../../components/BarComponent';
+import { Colors } from '../../../../Theme';
 
 const AverageSectionRatings = ({apiData}) => {
   const { t } = useTranslation();
+  
+  // Function to determine color based on percentage value
+  const getColorBasedOnPercentage = (percentage) => {
+    if (percentage >= 70) {
+      return Colors.green; // green
+    } else if (percentage >= 40) {
+      return Colors.gold2; // gold2
+    } else {
+      return Colors.red; // red
+    }
+  };
   
   // Transform apiData to match the expected format for the chart
   const transformedData = apiData?.map(step => ({
@@ -17,7 +29,7 @@ const AverageSectionRatings = ({apiData}) => {
       {
         label: 'Rating',
         data: transformedData.map(item => item.value),
-        backgroundColor: '#122E74',
+        backgroundColor: transformedData.map(item => getColorBasedOnPercentage(item.value)),
         borderRadius: 5,
         barPercentage: 0.6,
         categoryPercentage: 0.7,

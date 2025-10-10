@@ -1,12 +1,13 @@
 import React from "react";
 import { useTranslation } from 'react-i18next';
 import DoughnutComponent from "../../../../components/DoughnutComponent";
+import { Colors } from "../../../../Theme";
 
 const backgroundColor = [
-  "#2F49A9", // Good (blue)
-  "#C32B43", // Bad (red)
-  "#45464E", // Normal (gray)
-  "#27AE60", // Excellent (green)
+  Colors.red, // Bad (red)
+  Colors.gold2, // Normal (gray)
+  // "#2F49A9", // Good (blue)
+  Colors.green, // Excellent (green)
 ];
 
 const doughnutSize = 200;
@@ -27,27 +28,26 @@ const GeneralRate = ({apiData}) => {
   const { t } = useTranslation();
   
   const legend = [
-    { color: "#C32B43", label: t("text.bad") },
-    { color: "#2F49A9", label: t("text.good") },
-    { color: "#45464E", label: t("text.natural") },
-    { color: "#27AE60", label: t("text.excellent") },
+    { color: Colors.red, label: t("text.bad") },
+    { color: Colors.blue, label: t("text.good") },
+    { color: Colors.gold2, label: t("text.natural") },
+    { color: Colors.green, label: t("text.excellent") },
   ];
 
   // Transform API data to chart format
   const transformApiData = (apiData) => {
     if (!apiData || !apiData.percentages) {
       return {
-        labels: [t("text.bad"), t("text.natural"), t("text.good"), t("text.excellent")],
+        labels: [t("text.bad"), t("text.natural"), t("text.excellent")],
         data: [0, 0, 0, 0]
       };
     }
     
     return {
-      labels: [t("text.bad"), t("text.natural"), t("text.good"), t("text.excellent")],
+      labels: [t("text.bad"), t("text.natural"), t("text.excellent")],
       data: [
         apiData.percentages.bad || 0,
         apiData.percentages.normal || 0,
-        apiData.percentages.good || 0,
         apiData.percentages.excellent || 0
       ]
     };
@@ -104,7 +104,7 @@ const GeneralRate = ({apiData}) => {
               </div>
             </div>
             <div>
-              <div className="flex items-center gap-3 w-1/2 min-w-[90px]">
+              {/* <div className="flex items-center gap-3 w-1/2 min-w-[90px]">
                 <div
                   className="flex items-center justify-center w-[8px] h-[8px] rounded-full"
                   style={{ background: legend[1].color }}
@@ -112,7 +112,7 @@ const GeneralRate = ({apiData}) => {
                 <span className="text-black text-[12px] font-semibold">
                   {legend[1].label}
                 </span>
-              </div>
+              </div> */}
               <div className="flex items-center gap-3 w-1/2 min-w-[90px]">
                 <div
                   className="flex items-center justify-center w-[8px] h-[8px] rounded-full"

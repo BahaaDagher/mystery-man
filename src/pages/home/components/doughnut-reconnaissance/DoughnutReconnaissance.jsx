@@ -2,14 +2,15 @@ import React from "react";
 import { useTranslation } from 'react-i18next';
 import { Chart, ArcElement, Tooltip, Legend } from "chart.js";
 import DoughnutComponent from "../../../../components/DoughnutComponent";
+import { Colors } from "../../../../Theme";
 
 Chart.register(ArcElement, Tooltip, Legend);
 
 // Function to generate N distinct colors
 function generateColors(count) {
   const baseColors = [
-    "#3366FF",
-    "#FF7A59",
+    Colors.green,
+    Colors.gold2,
     "#34D399",
     "#F59E42",
     "#A78BFA",

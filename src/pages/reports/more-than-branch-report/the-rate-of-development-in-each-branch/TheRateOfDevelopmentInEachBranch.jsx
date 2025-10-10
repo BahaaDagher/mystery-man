@@ -1,11 +1,23 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 import BarComponent from '../../../../components/BarComponent';
+import { Colors } from '../../../../Theme';
 
 const TheRateOfDevelopmentInEachBranch = ({apiData}) => {
   const { t } = useTranslation();
   const lang = localStorage.getItem('language');
   const isArabic = lang === 'ar';
+  
+  // Function to determine color based on percentage value
+  const getColorBasedOnPercentage = (percentage) => {
+    if (percentage >= 70) {
+      return Colors.green; // green
+    } else if (percentage >= 40) {
+      return Colors.gold2; // gold2
+    } else {
+      return Colors.red; // red
+    }
+  };
   
   const options = {
     responsive: true,
@@ -36,21 +48,24 @@ const TheRateOfDevelopmentInEachBranch = ({apiData}) => {
       <div className="space-y-6">
         {apiData?.map((branch, branchIndex) => {
           // Transform branch steps data for the chart
+          const oldAvgData = branch.steps.map(step => step.old_avg);
+          const newAvgData = branch.steps.map(step => step.new_avg);
+          
           const chartData = {
             labels: branch.steps.map(step => step.step_name),
             datasets: [
               {
                 label: t('text.old_average'),
-                data: branch.steps.map(step => step.old_avg),
-                backgroundColor: '#5654D4',
+                data: oldAvgData,
+                backgroundColor: oldAvgData.map(value => getColorBasedOnPercentage(value)),
                 borderRadius: 5,
                 barPercentage: 0.6,
                 categoryPercentage: 0.7,
               },
               {
                 label: t('text.new_average'),
-                data: branch.steps.map(step => step.new_avg),
-                backgroundColor: '#FF718B',
+                data: newAvgData,
+                backgroundColor: newAvgData.map(value => getColorBasedOnPercentage(value)),
                 borderRadius: 5,
                 barPercentage: 0.6,
                 categoryPercentage: 0.7,

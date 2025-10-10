@@ -1,29 +1,41 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 import BarChartComponent from '../../../../components/BarChartComponent'
+import { Colors } from '../../../../Theme';
 
 const RateOfDevelopmentInEachSectionLine = ({apiData}) => {
   const { t } = useTranslation();
   const lang = localStorage.getItem('language');
   const isArabic = lang === 'ar';
 
-  // Transform API data to chart format
+  // Function to determine color based on percentage value
+  const getColorBasedOnPercentage = (percentage) => {
+    if (percentage >= 70) {
+      return Colors.green; // green
+    } else if (percentage >= 40) {
+      return Colors.gold2; // gold2
+    } else {
+      return Colors.red; // red
+    }
+  };
+
+  // Transform API data to chart format with dynamic colors
   const transformApiData = (apiData) => {
     if (!apiData || !apiData.chart) {
       return {
         labels: [],
         datasets: [
-                  {
-          label: t("text.Previous_Month"),
-          data: [],
+          {
+            label: t("text.Previous_Month"),
+            data: [],
             backgroundColor: '#5654D4', // blue
             borderRadius: 5,
             barPercentage: 0.6,
             categoryPercentage: 0.7,
           },
-                  {
-          label: t("text.Current_Month"),
-          data: [],
+          {
+            label: t("text.Current_Month"),
+            data: [],
             backgroundColor: '#FF9F0A', // orange
             borderRadius: 5,
             barPercentage: 0.6,
@@ -33,21 +45,25 @@ const RateOfDevelopmentInEachSectionLine = ({apiData}) => {
       };
     }
     
+    // Create separate datasets for each bar with individual colors based on values
+    const firstData = apiData.chart.map(item => item.first);
+    const secondData = apiData.chart.map(item => item.second);
+    
     return {
       labels: apiData.chart.map(item => item.label),
       datasets: [
         {
           label: t("text.first"),
-          data: apiData.chart.map(item => item.first),
-          backgroundColor: '#5654D4', // blue
+          data: firstData,
+          backgroundColor: firstData.map(value => getColorBasedOnPercentage(value)),
           borderRadius: 5,
           barPercentage: 0.6,
           categoryPercentage: 0.7,
         },
         {
           label: t("text.second"),
-          data: apiData.chart.map(item => item.second),
-          backgroundColor: '#FF9F0A', // orange
+          data: secondData,
+          backgroundColor: secondData.map(value => getColorBasedOnPercentage(value)),
           borderRadius: 5,
           barPercentage: 0.6,
           categoryPercentage: 0.7,
@@ -61,7 +77,7 @@ const RateOfDevelopmentInEachSectionLine = ({apiData}) => {
   const options = {
     responsive: true,
     plugins: {
-      legend: { display: true },
+      legend: { display: false },
       tooltip: { enabled: true },
     },
     scales: {

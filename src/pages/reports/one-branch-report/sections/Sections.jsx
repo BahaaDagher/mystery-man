@@ -10,6 +10,7 @@ import {
   Tooltip,
   Filler,
 } from "chart.js";
+import { Colors } from "../../../../Theme";
 
 ChartJS.register(
   LineElement,
@@ -51,10 +52,10 @@ const Sections = ({apiData}) => {
         label: t("text.Sections"),
         data: dataValues,
         fill: true,
-        borderColor: "#FF718B",
+        borderColor: Colors.main6,
         backgroundColor: "transparent",
         pointBackgroundColor: "#fff",
-        pointBorderColor: "#FF718B",
+        pointBorderColor: Colors.main6,
         pointRadius: 7,
         pointHoverRadius: 7,
         tension: 0,

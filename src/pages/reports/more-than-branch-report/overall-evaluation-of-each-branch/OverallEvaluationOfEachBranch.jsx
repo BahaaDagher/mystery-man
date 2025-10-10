@@ -1,6 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 import LineChartComponent from '../../../../components/LineChartComponent'
+import { Colors } from '../../../../Theme';
 
 const OverallEvaluationOfEachBranch = ({apiData}) => {
   const { t } = useTranslation();
@@ -21,10 +22,10 @@ const OverallEvaluationOfEachBranch = ({apiData}) => {
         label: t('text.sections'),
         data: dataValues,
         fill: true,
-        borderColor: "#FF718B", 
+        borderColor: Colors.main6, 
         backgroundColor: "transparent",
         pointBackgroundColor: "#fff",
-        pointBorderColor: "#FF718B",
+        pointBorderColor: Colors.main6,
         pointRadius: 7,
         pointHoverRadius: 7,
         tension: 0,

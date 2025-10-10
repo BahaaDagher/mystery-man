@@ -10,6 +10,7 @@ import {
   Tooltip,
   Filler,
 } from 'chart.js';
+import { Colors } from '../../../../Theme';
 
 ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, Tooltip, Filler);
 
@@ -63,10 +64,10 @@ const BranchesReport = ({ missions = [] }) => {
         label: selected === 'missions' ? t('text.missions') : t('text.rate'),
         data: dataValues,
         fill: true,
-        borderColor: '#2563eb',
+        borderColor: Colors.main6,
         backgroundColor: 'rgba(37,99,235,0.07)',
         pointBackgroundColor: '#fff',
-        pointBorderColor: '#2563eb',
+        pointBorderColor: Colors.main6,
         pointRadius: 5,
         pointHoverRadius: 7,
         tension: 0.4,

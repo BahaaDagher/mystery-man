@@ -19,7 +19,7 @@ const BranchReviewCard = ({ branchName, reviews , index}) => {
           style={{ width: `${reviews.negative_percentage}%`, minWidth: reviews.negative_percentage ? 8 : 0 }}
         />
         <div
-          className="h-full bg-grayDC"
+          className="h-full bg-gold2"
           style={{ width: `${reviews.neutral_percentage}%`, minWidth: reviews.neutral_percentage ? 8 : 0 }}
         />
         <div
@@ -33,7 +33,7 @@ const BranchReviewCard = ({ branchName, reviews , index}) => {
           <span className="font-inter font-bold text-[10px] text-black">{reviews.negative.toLocaleString()}</span>
         </div>
         <div className="flex items-center gap-1 text-grayDC gap-1">
-          <span className="w-[8px] h-[8px] rounded-full bg-grayDC inline-block"></span>
+          <span className="w-[8px] h-[8px] rounded-full bg-gold2 inline-block"></span>
           <span className="font-inter font-bold text-[10px] text-black">{reviews.neutral.toLocaleString()}</span>
         </div>
         <div className="flex items-center gap-1 text-green gap-1">
