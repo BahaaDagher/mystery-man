@@ -5,21 +5,30 @@ const currentLanguage = localStorage.getItem("language") || "en";
 
 export const getMissions = createAsyncThunk(
 "mission/getMissions", 
-async (values) => {
+async (values = {}) => {
     console.log("i18n.lang", i18n.language)
     const token = localStorage.getItem('token');
     try {
-    const response = await axios.get(
-        `https://test.secretvisitor.co/dashboard/api/getMissions` ,{
-            headers: {
-                "Authorization" : token , 
-                "lang" : currentLanguage
-            },
-        }
-    );
-    return response.data ;
+        // Build query parameters
+        const params = new URLSearchParams();
+        if (values.branch_id) params.append('branch_id', values.branch_id);
+        if (values.date_from) params.append('date_from', values.date_from);
+        if (values.date_to) params.append('date_to', values.date_to);
+        
+        const url = `https://test.secretvisitor.co/dashboard/api/getMissions?${params.toString()}`;
+        
+        const response = await axios.get(
+            url, 
+            {
+                headers: {
+                    "Authorization": token,
+                    "lang": currentLanguage
+                }
+            }
+        );
+        return response.data;
     } catch (error) {
-    console.error(error);
+        console.error(error);
     }
 }
 );

@@ -1,16 +1,24 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 import BarChartComponent from '../../../../components/BarChartComponent'
-import { Colors } from '../../../../Theme'; // Added Colors import
+import { useSelector } from 'react-redux';
+import { getColorPercentages } from '../../../../utils/colorPercentageUtils';
+import { Colors } from '../../../../Theme';
 
 const OverAllRating = ({apiData}) => {
   const { t } = useTranslation();
   
-  // Function to determine color based on percentage value
+  // Get profile data from Redux state
+  const profileData = useSelector(state => state.profileData.getProfileData);
+  
+  // Get dynamic color percentages
+  const { greenPercentage, goldPercentage } = getColorPercentages(profileData);
+
+  // Function to determine color based on percentage value using dynamic thresholds
   const getColorBasedOnPercentage = (percentage) => {
-    if (percentage >= 70) {
+    if (percentage >= greenPercentage) {
       return Colors.green; // green
-    } else if (percentage >= 40) {
+    } else if (percentage >= goldPercentage) {
       return Colors.gold2; // gold2
     } else {
       return Colors.red; // red

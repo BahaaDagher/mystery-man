@@ -33,6 +33,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { format } from 'date-fns'; 
 
 
 const Parent = styled("div")(({ theme }) => ({
@@ -224,7 +225,7 @@ const VisitorRating = styled(Rating)(({ theme }) => ({
     direction :theme.direction ,
 }));
 
-const ViewMissions = ({showMissions , setShowMissions , selectMissions , setButtonsMissions }) => {
+const ViewMissions = ({showMissions , setShowMissions , selectMissions , setButtonsMissions, branchId, dateRange }) => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const currentLanguage = localStorage.getItem("language") || "en";
@@ -313,9 +314,24 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions , setButt
     }, [getMissionsData])
 
     useEffect(() => {
-        dispatch(getMissions())
+        // Prepare filter values for API call
+        const values = {};
         
-    }, [])
+        // Always include dates if available
+        if (dateRange?.startDate) {
+            values.date_from = format(dateRange.startDate, 'yyyy-MM-dd'); // Format as YYYY-MM-DD
+        }
+        if (dateRange?.endDate) {
+            values.date_to = format(dateRange.endDate, 'yyyy-MM-dd'); // Format as YYYY-MM-DD
+        }
+        
+        // Include branch if selected
+        if (branchId) {
+            values.branch_id = branchId;
+        }
+        
+        dispatch(getMissions(values));
+    }, [branchId, dateRange, dispatch])
     useEffect(() => {
         if (selectMissions==1 ) setPaddingBottom(true)
         else setPaddingBottom(false)

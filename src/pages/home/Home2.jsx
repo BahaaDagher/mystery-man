@@ -51,11 +51,11 @@ const Home2 = () => {
           <div className="flex flex-col lg:flex-row gap-2 w-full">
             {/* Left column */}
             <div className="flex flex-col gap-4 w-full lg:w-[60%]">
-              <div className="">
+              {/* <div className="">
                 <DoughnutReconnaissance 
                   reconnaissanceChart={homeDataState?.reconnaissanceChart}
                 />
-              </div>
+              </div> */}
               <div className="">
                 <BranchesReport 
                   missions={homeDataState?.missions}

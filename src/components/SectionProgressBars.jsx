@@ -1,12 +1,20 @@
-import React from "react";
-import { Colors } from "../Theme";
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { getColorPercentages } from '../utils/colorPercentageUtils';
+import { Colors } from '../Theme';
 
 const SectionProgressBars = ({ sections = [] }) => {
-  // Function to determine color based on percentage value
+  // Get profile data from Redux state
+  const profileData = useSelector(state => state.profileData.getProfileData);
+  
+  // Get dynamic color percentages
+  const { greenPercentage, goldPercentage } = getColorPercentages(profileData);
+
+  // Function to determine color based on percentage value using dynamic thresholds
   const getColorBasedOnPercentage = (percentage) => {
-    if (percentage >= 70) {
+    if (percentage >= greenPercentage) {
       return Colors.green; // Green for high percentages
-    } else if (percentage >= 40) {
+    } else if (percentage >= goldPercentage) {
       return Colors.gold2; // Gold for medium percentages
     } else {
       return Colors.red; // Red for low percentages

@@ -10,8 +10,12 @@ import ViewMissions from './viewMissions/ViewMissions';
 import { useTranslation } from 'react-i18next';
 import { use } from 'i18next';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
+import DateRangePickerComponent from '../../components/DateRangePickerComponent';
+import CustomSelect from '../../components/CustomSelect';
+import { getBranches } from '../../store/slices/branchSlice';
+import { format, startOfYear, endOfYear } from 'date-fns';
 
 const MainContent = styled(FlexSpaceBetween)(({ theme }) => ({
   [theme.breakpoints.down('800')]: {
@@ -32,7 +36,7 @@ const DetailsPart = styled("div")(({ theme }) => ({
 const NewMissionDiv = styled("div")(({ theme }) => ({
   display : "flex" ,
   justifyContent : theme.direction == "ltr" ? "flex-end" :"flex-start" ,
-  marginBottom : "20px" 
+  marginBottom : "10px" 
 }));
 const NewMissionButton = styled(FlexCenter)(({ theme }) => ({
   width: '200px',
@@ -53,9 +57,23 @@ const Missions = () => {
   
   const [selectMissions, setSelectMissions] = useState(0); 
   const {t} = useTranslation()
+  const dispatch = useDispatch();
+  const [selectedBranch, setSelectedBranch] = useState('');
+  const [branches, setBranches] = useState([]);
+  // Set default date range to "this year" to match DateRangePickerComponent
+  const [dateRange, setDateRange] = useState({
+    startDate: startOfYear(new Date()),
+    endDate: endOfYear(new Date())
+  });
+
+  // Redux selectors for branches
+  const getBranchesData = useSelector(state => state.branchData.getBranchesData);
+  const getBranchesDataLoading = useSelector(state => state.branchData.getBranchesDataLoading);
+
   useEffect(() => {
     console.log(selectMissions)
   }, [selectMissions])
+  
   const navigate = useNavigate() ; 
   const getProfileData = useSelector(state => state.profileData.getProfileData)
 
@@ -66,6 +84,22 @@ const Missions = () => {
       setWallet(getProfileData.data.user.newMission)
     }
   } , [getProfileData])
+
+  // Fetch branches on component mount
+  useEffect(() => {
+    dispatch(getBranches());
+  }, [dispatch]);
+
+  // Transform branches data when loaded
+  useEffect(() => {
+    if (getBranchesData?.status) {
+      const transformedBranches = getBranchesData?.data?.branches?.map(branch => ({
+        value: branch.id,
+        label: branch.name
+      })) || [];
+      setBranches(transformedBranches);
+    }
+  }, [getBranchesData]);
 
   const newMissionPage = () => {
     // navigate ("/userDashboard/missions/newMission")
@@ -89,14 +123,31 @@ const Missions = () => {
     <SmallContainer>
     <MainContent>
       <DetailsPart>
-        <NewMissionDiv>
-         {showMissions &&  <NewMissionButton onClick={newMissionPage}> {t("text.New_Mission")} </NewMissionButton> }
-        </NewMissionDiv>
+          <NewMissionDiv>
+          {showMissions &&  <NewMissionButton onClick={newMissionPage}> {t("text.New_Mission")} </NewMissionButton> }
+          </NewMissionDiv>
+        <div className='flex align-items-center justify-content-between mb-[10px] gap-4'>
+          <div className='min-w-[220px]'>
+            <CustomSelect
+              options={branches}
+              value={selectedBranch}
+              onChange={setSelectedBranch}
+              multiple={false}
+              placeholder={t("text.Select_branch")}
+            />
+          </div>
+          <div className=''>
+            <DateRangePickerComponent onDateChange={setDateRange}/>
+          </div>
+        </div>
         <ViewMissions
           showMissions = {showMissions}
           setShowMissions={setShowMissions}
           selectMissions= {selectMissions} 
           setButtonsMissions = {setButtonsMissions}
+          // Pass filter values as props
+          branchId={selectedBranch}
+          dateRange={dateRange}
         />
       </DetailsPart>
       <MissionsButtons 

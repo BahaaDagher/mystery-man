@@ -4,6 +4,8 @@ import Swal from 'sweetalert2';
 import DateRangePickerComponent from "../../components/DateRangePickerComponent";
 import PrintIcon from '../../assets/icons/PrintIcon.svg';
 import CustomSelect from '../../components/CustomSelect';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const ReportHeader = ({ selected, onSelect, branches, qrCodes, selectedBranch, setSelectedBranch, selectedBranches, setSelectedBranches, selectedQRCode, setSelectedQRCode, dateRange, setDateRange, onPrint }) => {
   const { t } = useTranslation();
@@ -16,7 +18,8 @@ const ReportHeader = ({ selected, onSelect, branches, qrCodes, selectedBranch, s
 
   const handlePrintWithNote = () => {
     setShowNoteModal(false);
-    onPrint(noteText); // Pass the note to the print function
+    // Pass the note as HTML content
+    onPrint(noteText);
     setNoteText(''); // Reset note
   };
 
@@ -59,14 +62,14 @@ const ReportHeader = ({ selected, onSelect, branches, qrCodes, selectedBranch, s
         >
           {t("text.More_than_Branch")}
         </div>
-        <div
+        {/* <div
           className={`flex justify-center items-center cursor-pointer px-8 py-4 rounded-[10px] text-[16px] font-medium leading-[21.28px] tracking-[0.02em] ${
             selected === "qr" ? "bg-main text-[#fff] " : "bg-white text-black5"
           }`}
           onClick={() => onSelect("qr")}
         >
           {t("text.QR_codes")}
-        </div>
+        </div> */}
       </div>
       <div className="flex justify-center items-center gap-2">
         <div className=" lg:min-w-[220px]">
@@ -146,13 +149,29 @@ const ReportHeader = ({ selected, onSelect, branches, qrCodes, selectedBranch, s
               <h3 className="text-xl font-bold text-gray-800 mb-3">
                 {t("text.Add_Note_Before_Print")}
               </h3>
-              <textarea
+              <ReactQuill
                 value={noteText}
-                onChange={(e) => setNoteText(e.target.value)}
+                onChange={setNoteText}
                 placeholder={t("text.Enter_note_optional")}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none text-base"
-                rows={6}
+                className="w-full"
+                style={{ height: '120px' }}
+                modules={{
+                  toolbar: [
+                    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                    ['bold', 'italic', 'underline', 'strike'],
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                    [{ 'color': [] }], // Add color picker
+                    ['clean']
+                  ]
+                }}
+                formats={[
+                  'header',
+                  'bold', 'italic', 'underline', 'strike',
+                  'list', 'bullet',
+                  'color' // Add color format
+                ]}
               />
+              <div style={{ marginTop: '150px' }}></div>
             </div>
             <div className="flex gap-3 justify-end">
               <button

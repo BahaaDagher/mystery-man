@@ -1,6 +1,8 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 import BarComponent from '../../../../components/BarComponent';
+import { useSelector } from 'react-redux';
+import { getColorPercentages } from '../../../../utils/colorPercentageUtils';
 import { Colors } from '../../../../Theme';
 
 const TheRateOfDevelopmentInEachBranch = ({apiData}) => {
@@ -8,22 +10,47 @@ const TheRateOfDevelopmentInEachBranch = ({apiData}) => {
   const lang = localStorage.getItem('language');
   const isArabic = lang === 'ar';
   
-  // Function to determine color based on percentage value
+  // Get profile data from Redux state
+  const profileData = useSelector(state => state.profileData.getProfileData);
+  
+  // Get dynamic color percentages
+  const { greenPercentage, goldPercentage } = getColorPercentages(profileData);
+
+  // Function to determine color based on percentage value using dynamic thresholds
   const getColorBasedOnPercentage = (percentage) => {
-    if (percentage >= 70) {
+    if (percentage >= greenPercentage) {
       return Colors.green; // green
-    } else if (percentage >= 40) {
+    } else if (percentage >= goldPercentage) {
       return Colors.gold2; // gold2
     } else {
       return Colors.red; // red
     }
   };
-  
+
   const options = {
     responsive: true,
     plugins: {
       legend: { display: false },
       tooltip: { enabled: true },
+      // Enhanced datalabels plugin configuration without background
+      datalabels: {
+        anchor: 'end',
+        align: 'top',
+        formatter: (value) => value,
+        font: {
+          weight: 'bold',
+          size: 12,
+        },
+        color: '#000',
+        offset: 5,
+        padding: {
+          top: 6,
+          bottom: 6,
+          left: 10,
+          right: 10
+        },
+        textAlign: 'center'
+      },
     },
     scales: {
       x: {
@@ -37,6 +64,12 @@ const TheRateOfDevelopmentInEachBranch = ({apiData}) => {
         ticks: { color: "#A5A5A5", font: { size: 14 } },
       },
     },
+    // Add padding at the top to accommodate data labels
+    layout: {
+      padding: {
+        top: 30
+      }
+    }
   };
 
   return (

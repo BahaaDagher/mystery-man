@@ -20,7 +20,29 @@ const options = {
       enabled: true,
       position: "nearest",
     },
+    datalabels: {
+      anchor: 'center',
+      align: 'center',
+      formatter: (value) => {
+        // Only show labels for non-zero values
+        return value > 0 ? value : '';
+      },
+      font: {
+        weight: 'bold',
+        size: 12,
+      },
+      color: "#fff",
+      offset: 5,
+      padding: {
+        top: 5,
+        bottom: 6,
+        left: 10,
+        right: 10
+      },
+      textAlign: 'center'
+    },
   },
+  
   maintainAspectRatio: false,
 };
 

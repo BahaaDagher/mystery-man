@@ -207,15 +207,23 @@ export const generateReportPdf = async (elementRef, reportName, isRTL = false, d
       noteTitle.style.unicodeBidi = 'embed';
       
       // Note content
-      const noteContent = document.createElement('p');
-      noteContent.textContent = note;
+      const noteContent = document.createElement('div');
+      // Check if note contains HTML tags
+      if (note && /<[a-z][\s\S]*>/i.test(note)) {
+        // If it's HTML, set innerHTML
+        noteContent.innerHTML = note;
+      } else {
+        // If it's plain text, set textContent
+        noteContent.textContent = note;
+      }
       noteContent.style.fontSize = '14px';
       noteContent.style.lineHeight = '1.6';
       noteContent.style.color = '#555';
       noteContent.style.fontFamily = isRTL ? 'Arial, Tahoma, sans-serif' : 'Arial, sans-serif';
       noteContent.style.direction = isRTL ? 'rtl' : 'ltr';
       noteContent.style.unicodeBidi = 'embed';
-      noteContent.style.whiteSpace = 'pre-wrap'; // Preserve line breaks
+      // Remove whiteSpace: 'pre-wrap' as it's not needed for HTML content
+      noteContent.classList.add('report-note-content');
       
       noteSection.appendChild(noteTitle);
       noteSection.appendChild(noteContent);
@@ -269,6 +277,27 @@ export const generateReportPdf = async (elementRef, reportName, isRTL = false, d
           clonedDoc.documentElement.style.direction = 'rtl';
         }
         
+        // Preserve styles for Quill-generated content
+        const noteContentElements = clonedDoc.querySelectorAll('.report-note-content');
+        noteContentElements.forEach(el => {
+          // Ensure the element preserves its inner HTML structure
+          el.style.whiteSpace = 'normal';
+          
+          // Handle Quill-specific styling
+          const styledElements = el.querySelectorAll('*');
+          styledElements.forEach(childEl => {
+            // Preserve color styles
+            if (childEl.style && childEl.style.color) {
+              childEl.style.color = childEl.style.color;
+            }
+            
+            // Preserve background color styles
+            if (childEl.style && childEl.style.backgroundColor) {
+              childEl.style.backgroundColor = childEl.style.backgroundColor;
+            }
+          });
+        });
+        
         // Fix Arabic text rendering
         const allTextElements = clonedDoc.querySelectorAll('*');
         allTextElements.forEach(el => {
@@ -303,6 +332,42 @@ export const generateReportPdf = async (elementRef, reportName, isRTL = false, d
           
           .no-page-break {
             page-break-inside: avoid;
+          }
+          
+          /* Quill editor content styling */
+          .report-note-content h1, .report-note-content h2, .report-note-content h3,
+          .report-note-content h4, .report-note-content h5, .report-note-content h6 {
+            margin: 10px 0;
+            font-weight: bold;
+          }
+          
+          .report-note-content p {
+            margin: 8px 0;
+          }
+          
+          .report-note-content strong {
+            font-weight: bold;
+          }
+          
+          .report-note-content em {
+            font-style: italic;
+          }
+          
+          .report-note-content u {
+            text-decoration: underline;
+          }
+          
+          .report-note-content strike {
+            text-decoration: line-through;
+          }
+          
+          .report-note-content ul, .report-note-content ol {
+            margin: 10px 0;
+            padding-left: 20px;
+          }
+          
+          .report-note-content li {
+            margin: 5px 0;
           }
         `;
         clonedDoc.head.appendChild(style);

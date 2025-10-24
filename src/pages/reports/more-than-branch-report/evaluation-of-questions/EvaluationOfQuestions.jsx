@@ -26,15 +26,15 @@ const EvaluationOfQuestions = ({apiData}) => {
   const ApiReviewTypeData = [
     {
       name: 'negative',
-      count: apiData?.summary?.negative,
+      count: apiData?.summary?.mission_negative,
     },
     {
       name: 'neutral',
-      count: apiData?.summary?.neutral,
+      count: apiData?.summary?.mission_neutral,
     },
     {
       name: 'positive',
-      count: apiData?.summary?.positive,
+      count: apiData?.summary?.mission_positive,
     },
   ];
 

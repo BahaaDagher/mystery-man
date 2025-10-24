@@ -10,6 +10,7 @@ import {
   Tooltip,
   Filler,
 } from "chart.js";
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Colors } from "../../../../Theme";
 
 ChartJS.register(
@@ -18,7 +19,8 @@ ChartJS.register(
   CategoryScale,
   LinearScale,
   Tooltip,
-  Filler
+  Filler,
+  ChartDataLabels
 );
 
 const Sections = ({apiData}) => {
@@ -74,6 +76,25 @@ const Sections = ({apiData}) => {
           },
         },
       },
+      // Enhanced datalabels plugin configuration without background
+      datalabels: {
+        anchor: 'end',
+        align: 'top',
+        formatter: (value) => value,
+        font: {
+          weight: 'bold',
+          size: 12,
+        },
+        color: Colors.main6,
+        offset: 5,
+        padding: {
+          top: 6,
+          bottom: 6,
+          left: 10,
+          right: 10
+        },
+        textAlign: 'center'
+      },
     },
     scales: {
       y: {
@@ -90,6 +111,12 @@ const Sections = ({apiData}) => {
         grid: { display: false },
       },
     },
+    // Add padding at the top to accommodate data labels
+    layout: {
+      padding: {
+        top: 30
+      }
+    }
   };
 
   return (

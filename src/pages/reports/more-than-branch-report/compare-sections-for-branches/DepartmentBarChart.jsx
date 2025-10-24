@@ -1,13 +1,21 @@
 import React from 'react'
 import { Bar } from 'react-chartjs-2'
+import { useSelector } from 'react-redux';
+import { getColorPercentages } from '../../../../utils/colorPercentageUtils';
 import { Colors } from '../../../../Theme';
 
 const DepartmentBarChart = ({ section, label ,height}) => {
-  // Function to determine color based on percentage value
+  // Get profile data from Redux state
+  const profileData = useSelector(state => state.profileData.getProfileData);
+  
+  // Get dynamic color percentages
+  const { greenPercentage, goldPercentage } = getColorPercentages(profileData);
+
+  // Function to determine color based on percentage value using dynamic thresholds
   const getColorBasedOnPercentage = (percentage) => {
-    if (percentage >= 70) {
+    if (percentage >= greenPercentage) {
       return Colors.green; // green
-    } else if (percentage >= 40) {
+    } else if (percentage >= goldPercentage) {
       return Colors.gold2; // gold
     } else {
       return Colors.red; // red
@@ -50,6 +58,28 @@ const DepartmentBarChart = ({ section, label ,height}) => {
           }
         }
       },
+      // Enhanced datalabels plugin configuration without background
+      datalabels: {
+        anchor: 'end',
+        align: 'top',
+        formatter: (value) => {
+          // Only show labels for non-zero values
+          return value > 0 ? value : '';
+        },
+        font: {
+          weight: 'bold',
+          size: 12,
+        },
+        color: '#000',
+        offset: 5,
+        padding: {
+          top: 6,
+          bottom: 6,
+          left: 10,
+          right: 10
+        },
+        textAlign: 'center'
+      },
     },
     scales: {
       x: {
@@ -69,6 +99,12 @@ const DepartmentBarChart = ({ section, label ,height}) => {
         },
       },
     },
+    // Add padding at the top to accommodate data labels
+    layout: {
+      padding: {
+        top: 30
+      }
+    }
   };
   return (
     <div className="bg-white rounded-xl p-4 shadow-sm">

@@ -50,6 +50,27 @@ const pieOptions = {
   plugins: {
     legend: { display: false },
     tooltip: { enabled: true },
+    datalabels: {
+      anchor: 'center',
+      align: 'center',
+      formatter: (value) => {
+        // Only show labels for non-zero values
+        return value > 0 ? value : '';
+      },
+      font: {
+        weight: 'bold',
+        size: 12,
+      },
+      color: "#fff",
+      offset: 5,
+      padding: {
+        top: 5,
+        bottom: 6,
+        left: 10,
+        right: 10
+      },
+      textAlign: 'center'
+    },
   },
   maintainAspectRatio: false,
 };
@@ -61,7 +82,7 @@ const pieOptions = {
           {t("text.Reviews_Qualification")}
         </span>
         <span className="flex items-center gap-2 text-[24px] font-bold text-black2">
-          {apiData?.total_reviews || 0}  
+          {apiData?.total_missions || 0}  
           {apiData?.total_stars > 0 && (
             <BranchRating 
               name="half-rating" 
@@ -89,18 +110,18 @@ const pieOptions = {
           <div className="flex gap-16">
             <div className="">
               <div className="flex items-center gap-2  text-lg font-bold">
-                <img src={PositiveIcon} alt="star" /> {apiData?.positive || 0}
+                <img src={PositiveIcon} alt="star" /> {apiData?.mission_positive || 0}
               </div>
             </div>
             <div>
               <div className="flex items-center gap-2  text-lg font-bold">
-                <img src={NegativeIcon} alt="star" /> {apiData?.negative || 0}
+                <img src={NegativeIcon} alt="star" /> {apiData?.mission_negative || 0}
               </div>
             </div>
           </div>
           <div>
             <div className="flex items-center gap-2  text-lg font-bold">
-              <img src={NeutralIcon} alt="star" /> {apiData?.neutral || 0}
+              <img src={NeutralIcon} alt="star" /> {apiData?.mission_neutral || 0}
             </div>
           </div>
         </div>

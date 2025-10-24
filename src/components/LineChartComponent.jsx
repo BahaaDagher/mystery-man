@@ -9,6 +9,7 @@ import {
   Tooltip,
   Filler,
 } from "chart.js";
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 ChartJS.register(
   LineElement,
@@ -16,7 +17,8 @@ ChartJS.register(
   CategoryScale,
   LinearScale,
   Tooltip,
-  Filler
+  Filler,
+  ChartDataLabels
 );
 
 const LineChartComponent = ({ title, chartData, chartOptions ,height}) => {
@@ -33,4 +35,4 @@ const LineChartComponent = ({ title, chartData, chartOptions ,height}) => {
   );
 };
 
-export default LineChartComponent; 
+export default LineChartComponent;

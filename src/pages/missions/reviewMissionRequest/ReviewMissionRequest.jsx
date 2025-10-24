@@ -110,7 +110,8 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
   const accepetRequestDataLoading = useSelector(state => state.missionData.accepetRequestDataLoading) 
   const sendMissionPdfData = useSelector(state => state.missionData.sendMissionPdfData)
   const sendMissionPdfLoading = useSelector(state => state.missionData.sendMissionPdfLoading)
-  const CurrentMissionEmployees = reviewRequestData.employee
+  // Use state to manage the employee list so we can update it
+  const [currentMissionEmployees, setCurrentMissionEmployees] = useState(reviewRequestData.employee || []);
   const [showQuizModal, setShowQuizModal] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [showPdfModal, setShowPdfModal] = useState(false);
@@ -511,6 +512,20 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
                 if (pdfData && pdfData.pdfBlob && pdfData.employee) {
                     handleSendPdf(pdfData.pdfBlob, pdfData.employee);
                 }
+                
+                // Show success message that the employee is accepted after PDF is sent
+                Swal.fire({
+                  title: t("text.Employee_accepted_successfully"),
+                  icon: 'success',
+                  timer: 2000,
+                  showConfirmButton: false,
+                  timerProgressBar: true
+                });
+                
+                // Remove the accepted employee from the list
+                setCurrentMissionEmployees(prevEmployees => 
+                  prevEmployees.filter(emp => emp.id !== CurrentMissionEmployee.id)
+                );
               }).catch(error => {
                 console.error('Error generating PDF:', error);
                 Swal.fire('Error', 'Failed to generate PDF preview', 'error');
@@ -518,7 +533,30 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
             } else {
               // If reconnaissance is false, just show success message without PDF
               console.log('Reconnaissance is false, skipping PDF generation');
+              
+              // Show success message that the employee is accepted
+              Swal.fire({
+                title: t("text.Employee_accepted_successfully"),
+                icon: 'success',
+                timer: 2000,
+                showConfirmButton: false,
+                timerProgressBar: true
+              });
+              
+              // Remove the accepted employee from the list
+              setCurrentMissionEmployees(prevEmployees => 
+                prevEmployees.filter(emp => emp.id !== CurrentMissionEmployee.id)
+              );
             }
+          } else {
+            // Handle case where acceptance failed
+            Swal.fire({
+              title: t("text.Failed_to_accept_employee"),
+              icon: 'error',
+              timer: 2000,
+              showConfirmButton: false,
+              timerProgressBar: true
+            });
           }
         })
       } else if (result.isDenied) {
@@ -563,7 +601,7 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
         <span style = {{color : Colors.main}}>{t("text.Review_Requests")} </span>
     </Place>
     <Parent>
-    {CurrentMissionEmployees?.map((item , index) => {
+    {currentMissionEmployees?.map((item , index) => {
       return (
       <Line>
           <PhotoAndName>

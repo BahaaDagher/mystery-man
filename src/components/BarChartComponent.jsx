@@ -9,6 +9,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 ChartJS.register(
   CategoryScale,
@@ -16,15 +17,16 @@ ChartJS.register(
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  ChartDataLabels
 );
 
 const BarChartComponent = ({ chartData, options, height = 100, width = '100%' }) => {
   return (
-    <div  className="flex items-center justify-center w-full ">
+    <div className="flex items-center justify-center w-full">
       <Bar data={chartData} options={options} height={height} />
     </div>
   );
 };
 
-export default BarChartComponent; 
+export default BarChartComponent;

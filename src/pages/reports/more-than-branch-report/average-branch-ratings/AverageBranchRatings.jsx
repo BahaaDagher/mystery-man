@@ -1,6 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 import LineChartComponent from '../../../../components/LineChartComponent';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Colors } from '../../../../Theme';
 
 const AverageBranchRatings = ({apiData}) => {
@@ -47,6 +48,25 @@ const AverageBranchRatings = ({apiData}) => {
           },
         },
       },
+      // Enhanced datalabels plugin configuration without background
+      datalabels: {
+        anchor: 'end',
+        align: 'top',
+        formatter: (value) => value,
+        font: {
+          weight: 'bold',
+          size: 12,
+        },
+        color: Colors.main6,
+        offset: 5,
+        padding: {
+          top: 6,
+          bottom: 6,
+          left: 10,
+          right: 10
+        },
+        textAlign: 'center'
+      },
     },
     scales: {
       y: {
@@ -62,6 +82,12 @@ const AverageBranchRatings = ({apiData}) => {
         grid: { display: false },
       },
     },
+    // Add padding at the top to accommodate data labels
+    layout: {
+      padding: {
+        top: 30
+      }
+    }
   };
 
   return (

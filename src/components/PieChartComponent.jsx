@@ -1,5 +1,19 @@
 import React from 'react';
 import { Pie } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+
+ChartJS.register(
+  ArcElement,
+  Tooltip,
+  Legend,
+  ChartDataLabels
+);
 
 const PieChartComponent = ({ chartData, options, size = 220, children }) => {
   return (
@@ -14,4 +28,4 @@ const PieChartComponent = ({ chartData, options, size = 220, children }) => {
   );
 };
 
-export default PieChartComponent; 
+export default PieChartComponent;

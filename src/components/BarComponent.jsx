@@ -8,13 +8,15 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 ChartJS.register(
   BarElement,
   CategoryScale,
   LinearScale,
   Tooltip,
-  Legend
+  Legend,
+  ChartDataLabels
 );
 
 const BarComponent = ({ title, chartData, chartOptions ,height }) => {
@@ -31,4 +33,4 @@ const BarComponent = ({ title, chartData, chartOptions ,height }) => {
   );
 };
 
-export default BarComponent; 
+export default BarComponent;
