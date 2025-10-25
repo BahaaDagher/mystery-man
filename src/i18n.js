@@ -301,7 +301,9 @@ const resources = {
         Sign_out : "Sign out" ,
         // Wallet translations
         wallet : "Wallet" ,
+        My_Wallet : "My Wallet" ,
         current_balance : "Current Balance" ,
+        Transactions : "Transactions" ,
         total_expenses : "Total Expenses" ,
         pending : "Pending" ,
         statistics : "Statistics" ,
@@ -318,6 +320,13 @@ const resources = {
         success : "SUCCESS" ,
         failed : "FAILED" ,
         pending_status : "PENDING" ,
+        // Subscription Transactions translations
+        start_date : "Start Date" ,
+        end_date : "End Date" ,
+        Status : "Status" ,
+        Inactive : "Inactive" ,
+        Active : "Active" ,
+        No_subscriptions_found : "No subscriptions found" ,
         // QR Codes Report translations
         reconnaissance : "Reconnaissance Visits" ,
         done_qr_codes : "Done Qr codes" ,
@@ -347,6 +356,7 @@ const resources = {
         sections : "Sections" ,
         old_average : "Old Average" ,
         new_average : "New Average" ,
+        branch_evaluation_in_relation_to_time : "Branch evaluation in relation to time" ,
         // Home2 translations
         overview : "Overview" ,
         excellent : "Excellent" ,
@@ -428,6 +438,24 @@ const resources = {
         Failed_to_generate_PDF : "Failed to generate PDF" ,
         Steps : "Steps" ,
         No_steps_available : "No steps available" ,
+        // Add New Step translations
+        add_new_step : "Add New Step",
+        step_name : "Step Name",
+        enter_step_name : "Enter step name...",
+        add_step : "Add Step",
+        cancel : "Cancel",
+        you_need_to_write_a_step_name : "You need to write a step name!",
+        step_added_successfully : "Step added successfully",
+        update_step : "Update Step",
+        update_step_button : "Update Step",
+        are_you_sure : "Are you sure?",
+        delete_step_confirmation : "Do you want to delete step \"{{stepName}}\"?",
+        yes_delete_it : "Yes, delete it!",
+        step_updated_successfully : "Step updated successfully",
+        step_deleted_successfully : "Step deleted successfully",
+        success : "Success",
+        ok : "OK",
+        request_failed : "فشل الطلب: {{error}}",
         // QR Code Cart translations
         qr_code : "QR Code" ,
         Delete_QR_Code : "Delete QR Code" ,
@@ -461,6 +489,7 @@ const resources = {
         Download: "Download" , 
         done_responses : "Done Responses",  
         remaining_responses : "Remaining Responses" ,
+        Branches : "Branches" ,
         
       },
       content: {}
@@ -640,6 +669,7 @@ const resources = {
         Are_you_sure_you_want_to_logout : "هل أنت متأكد أنك تريد تسجيل الخروج؟" ,
         Logout_successfully : "تم تسجيل الخروج بنجاح" ,
         print : "طباعة" , 
+        Branches : "الفروع" ,
         Branches_Report : "تقرير الفروع" ,
         Missions : "مهمة" ,
         rate  : "التقييم" ,
@@ -761,7 +791,9 @@ const resources = {
         Sign_out : "تسجيل الخروج" ,
         // Wallet translations
         wallet : "المحفظة" ,
+        My_Wallet : "محفظتي" ,
         current_balance : "الرصيد الحالي" ,
+        Transactions : "المعاملات" ,
         total_expenses : "المصاريف الكلية" ,
         pending : "في انتظار" ,
         statistics : "الإحصائيات" ,
@@ -778,6 +810,13 @@ const resources = {
         success : "نجاح" ,
         failed : "فشل" ,
         pending_status : "في انتظار" ,
+        // Subscription Transactions translations
+        start_date : "تاريخ البدء" ,
+        end_date : "تاريخ الانتهاء" ,
+        Status : "الحالة" ,
+        Inactive : "غير نشط" ,
+        Active : "نشط" ,
+        No_subscriptions_found : "لم يتم العثور على اشتراكات" ,
         // مسموع Codes Report translations
         reconnaissance : "زيارات الاستطلاع" ,
         done_qr_codes : "رموز المسموع التامة" ,
@@ -807,6 +846,7 @@ const resources = {
         sections : "الأقسام" ,
         old_average : "المتوسط القديم" ,
         new_average : "المتوسط الجديد" ,
+        branch_evaluation_in_relation_to_time : "تقييم الفرع بالنسبة للوقت" ,
         // Home2 translations
         overview : "الملخص" ,
         excellent : "ممتاز" ,
@@ -885,7 +925,25 @@ const resources = {
         Print_with_Note : "طباعة مع الملاحظة" ,
         Steps : "الأقسام" ,
         No_steps_available : "لا توجد أقسام متاحة" ,
-        // مسموع Code Cart translations
+        // Add New Step translations
+        add_new_step : "إضافة قسم جديد",
+        step_name : "اسم القسم",
+        enter_step_name : "أدخل اسم القسم...",
+        add_step : "إضافة قسم",
+        cancel : "إلغاء",
+        you_need_to_write_a_step_name : "يجب كتابة اسم القسم!",
+        step_added_successfully : "تمت إضافة القسم بنجاح",
+        update_step : "تحديث القسم",
+        update_step_button : "تحديث القسم",
+        are_you_sure : "هل أنت متأكد؟",
+        delete_step_confirmation : "هل تريد حذف القسم \"{{stepName}}\"؟",
+        yes_delete_it : "نعم، احذفه!",
+        step_updated_successfully : "تم تحديث القسم بنجاح",
+        step_deleted_successfully : "تم حذف القسم بنجاح",
+        success : "نجحت العملية",
+        ok : "موافق",
+        request_failed : "فشل الطلب: {{error}}",
+        // QR Code Cart translations
         qr_code : " المسموع" ,
         Delete_QR_Code : "حذف  المسموع" ,
         View_QR_Code_Options : "عرض خيارات  المسموع" ,
@@ -918,8 +976,6 @@ const resources = {
         Download: "تحميل" , 
         done_responses : "الردود المكتملة",  
         remaining_responses : "الردود المتبقية" ,
-        
-        
       },
       content: {}
     }

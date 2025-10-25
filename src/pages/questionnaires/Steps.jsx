@@ -79,16 +79,16 @@ const Steps = () => {
 
   const handleAddStep = () => {
     Swal.fire({
-      title: 'Add New Step',
+      title: t('text.add_new_step'),
       input: 'text',
-      inputLabel: 'Step Name',
-      inputPlaceholder: 'Enter step name...',
+      inputLabel: t('text.step_name'),
+      inputPlaceholder: t('text.enter_step_name'),
       showCancelButton: true,
-      confirmButtonText: 'Add Step',
-      cancelButtonText: 'Cancel',
+      confirmButtonText: t('text.add_step'),
+      cancelButtonText: t('text.cancel'),
       inputValidator: (value) => {
         if (!value) {
-          return 'You need to write a step name!'
+          return t('text.you_need_to_write_a_step_name');
         }
       },
       showLoaderOnConfirm: true,
@@ -97,12 +97,12 @@ const Steps = () => {
         return dispatch(addStep({name: stepName}))
         .then((result) => {
           if (result.error) {
-            Swal.showValidationMessage(`Request failed: ${result.error.message}`)
+            Swal.showValidationMessage(t('text.request_failed', { error: result.error.message }))
           }
           return result
         })
         .catch((error) => {
-          Swal.showValidationMessage(`Request failed: ${error}`)
+          Swal.showValidationMessage(t('text.request_failed', { error: error }))
         })
       },
       allowOutsideClick: () => !Swal.isLoading()
@@ -116,10 +116,10 @@ const Steps = () => {
   useEffect(() => {
     if (addStepData?.status && !firstTime) {
       Swal.fire({
-        title: 'Success',
-        text: 'Step added successfully',
+        title: t('text.success'),
+        text: t('text.step_added_successfully'),
         icon: 'success',
-        confirmButtonText: 'OK'
+        confirmButtonText: t('text.ok')
       })
       // Refresh the steps list after adding
       dispatch(getSteps())
@@ -128,17 +128,17 @@ const Steps = () => {
 
   const handleUpdateStep = (step) => {
     Swal.fire({
-      title: 'Update Step',
+      title: t('text.update_step'),
       input: 'text',
-      inputLabel: 'Step Name',
+      inputLabel: t('text.step_name'),
       inputValue: step.name,
-      inputPlaceholder: 'Enter step name...',
+      inputPlaceholder: t('text.enter_step_name'),
       showCancelButton: true,
-      confirmButtonText: 'Update Step',
-      cancelButtonText: 'Cancel',
+      confirmButtonText: t('text.update_step_button'),
+      cancelButtonText: t('text.cancel'),
       inputValidator: (value) => {
         if (!value) {
-          return 'You need to write a step name!'
+          return t('text.you_need_to_write_a_step_name');
         }
       },
       showLoaderOnConfirm: true,
@@ -146,12 +146,12 @@ const Steps = () => {
         return dispatch(updateStep({id: step.id, name: stepName}))
         .then((result) => {
           if (result.error) {
-            Swal.showValidationMessage(`Request failed: ${result.error.message}`)
+            Swal.showValidationMessage(t('text.request_failed', { error: result.error.message }))
           }
           return result
         })
         .catch((error) => {
-          Swal.showValidationMessage(`Request failed: ${error}`)
+          Swal.showValidationMessage(t('text.request_failed', { error: error }))
         })
       },
       allowOutsideClick: () => !Swal.isLoading()
@@ -164,14 +164,14 @@ const Steps = () => {
 
   const handleDeleteStep = (step) => {
     Swal.fire({
-      title: 'Are you sure?',
-      text: `Do you want to delete step "${step.name}"?`,
+      title: t('text.are_you_sure'),
+      text: t('text.delete_step_confirmation', { stepName: step.name }),
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#d33',
       cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Yes, delete it!',
-      cancelButtonText: 'Cancel'
+      confirmButtonText: t('text.yes_delete_it'),
+      cancelButtonText: t('text.cancel')
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(deleteStep({id: step.id}))
@@ -182,10 +182,10 @@ const Steps = () => {
   useEffect(() => {
     if (updateStepData?.status) {
       Swal.fire({
-        title: 'Success',
-        text: 'Step updated successfully',
+        title: t('text.success'),
+        text: t('text.step_updated_successfully'),
         icon: 'success',
-        confirmButtonText: 'OK'
+        confirmButtonText: t('text.ok')
       })
       // Refresh the steps list after updating
       dispatch(getSteps())
@@ -195,10 +195,10 @@ const Steps = () => {
   useEffect(() => {
     if (deleteStepData?.status) {
       Swal.fire({
-        title: 'Success',
-        text: 'Step deleted successfully',
+        title: t('text.success'),
+        text: t('text.step_deleted_successfully'),
         icon: 'success',
-        confirmButtonText: 'OK'
+        confirmButtonText: t('text.ok')
       })
       // Refresh the steps list after deleting
       dispatch(getSteps())

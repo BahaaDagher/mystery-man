@@ -163,43 +163,45 @@ const MissionsButtons = ({ setShowMissions , setSelectMissions , buttonsMissions
     )
         
     useEffect(() => {
-        let get = true
-        for (let i = 0; i < buttonsArray.length; i++) {
-            if (buttonsArray[i].number != 0) get = false
-        }
-        console.log("buttonsMissions", buttonsMissions)
-        if (get) {
-            buttonsMissions.map((mission , index) => {
-                console.log ("mission.status", mission.status )
-                let arr = numbers 
-                if (mission.status == 0) {
-                    arr.zero = arr.zero + 1
-                    setNumbers(arr)
-                }else if (mission.status == 1 || mission.status == 5) {
-                    // Merge status 1 (Wait_Requests) and status 5 (Pending_user_Acceptance)
-                    arr.one = arr.one + 1
-                    setNumbers(arr)
-                }else if (mission.status == 2) {
-                    arr.two = arr.two + 1
-                    setNumbers(arr)
-                }else if (mission.status == 3) {
-                    arr.three = arr.three + 1
-                    setNumbers(arr)
-                }else if (mission.status == 6) {
-                    arr.six = arr.six + 1
-                    setNumbers(arr)
-                }
-            })
-            let arr = [...buttonsArray]
-            arr[0].number = numbers.zero
-            arr[1].number = numbers.one
-            arr[2].number = numbers.two
-            arr[3].number = numbers.three
-            arr[4].number = numbers.six
-            setButtonsArray(arr)
-        }
+        // Reset counters
+        let newNumbers = {
+            zero : 0 , 
+            one : 0 , 
+            two : 0 , 
+            three : 0 , 
+            six : 0 ,
+        };
+        
+        // Count missions by status
+        buttonsMissions.forEach((mission) => {
+            console.log ("mission.status", mission.status);
+            if (mission.status == 0) {
+                newNumbers.zero = newNumbers.zero + 1;
+            } else if (mission.status == 1 || mission.status == 5) {
+                // Merge status 1 (Wait_Requests) and status 5 (Pending_user_Acceptance)
+                newNumbers.one = newNumbers.one + 1;
+            } else if (mission.status == 2) {
+                newNumbers.two = newNumbers.two + 1;
+            } else if (mission.status == 3) {
+                newNumbers.three = newNumbers.three + 1;
+            } else if (mission.status == 6) {
+                newNumbers.six = newNumbers.six + 1;
+            }
+        });
+        
+        // Update numbers state
+        setNumbers(newNumbers);
+        
+        // Update buttonsArray with new numbers
+        let updatedButtonsArray = [...buttonsArray];
+        updatedButtonsArray[0].number = newNumbers.zero;
+        updatedButtonsArray[1].number = newNumbers.one;
+        updatedButtonsArray[2].number = newNumbers.two;
+        updatedButtonsArray[3].number = newNumbers.three;
+        updatedButtonsArray[4].number = newNumbers.six;
+        setButtonsArray(updatedButtonsArray);
 
-    },[buttonsMissions])
+    }, [buttonsMissions]);
     
   return (
     <>

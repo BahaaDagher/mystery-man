@@ -20,6 +20,7 @@ import { useNavigate } from 'react-router-dom';
 import { getProfile } from '../../store/slices/profileSlice';
 import { FlexCenter } from '../../components/FlexCenter';
 import Wallet from './wallet/Wallet';
+import SubscriptionTransactions from './subscriptionTransactions/SubscriptionTransactions';
 import DateRangePickerComponent from '../../components/DateRangePickerComponent';
 
 const Container = styled("div")(({ theme }) => ({
@@ -126,7 +127,7 @@ const NewBranchButton = styled(TabButton)(({ theme }) => ({
 }));
 
 const Profile = () => {
-  const [activeTab, setActiveTab] = useState('wallet'); // 'branches' or 'wallet'
+  const [activeTab, setActiveTab] = useState('branches'); // 'branches' or 'wallet'
   const [dateRange, setDateRange] = useState(null);
   
   const {t} = useTranslation();
@@ -228,13 +229,19 @@ const Profile = () => {
                     active={activeTab === 'branches'}
                     onClick={() => setActiveTab('branches')}
                   >
-                    Branches
+                    {t("text.Branches")}
                   </TabButton>
                   <TabButton 
                     active={activeTab === 'wallet'}
                     onClick={() => setActiveTab('wallet')}
                   >
-                    My Wallet
+                    {t("text.My_Wallet")}
+                  </TabButton>
+                  <TabButton 
+                    active={activeTab === 'transactions'}
+                    onClick={() => setActiveTab('transactions')}
+                  >
+                    {t("text.Transactions")}
                   </TabButton>
                 </div>
                 <div className='flex justify-between items-center' >
@@ -286,6 +293,12 @@ const Profile = () => {
               {activeTab === 'wallet' && (
                 <div >
                   <Wallet/>
+                </div>
+              )}
+              
+              {activeTab === 'transactions' && (
+                <div>
+                  <SubscriptionTransactions />
                 </div>
               )}
               

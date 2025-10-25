@@ -6,6 +6,7 @@ import AverageDepartmentRatings from './average-section-ratings/AverageSectionRa
 import AverageBranchRatings from './average-branch-ratings/AverageBranchRatings'
 import TheRateOfDevelopmentInEachBranch from './the-rate-of-development-in-each-branch/TheRateOfDevelopmentInEachBranch'
 import CompareSectionsForBranches from './compare-sections-for-branches/CompareSectionsForBranches'
+import BranchEvaluationInRelationToTime from './branch_evaluation_in_relation_to_time/BranchEvaluationInRelationToTime'
 
 const MoreThanBranchReport = ({moreThanBranchData, onStepsIdsChangeFromMoreThanBranch, allSteps}) => {
   const handleStepsIdsChangeFromMoreThanBranch = (newStepsIds) => {
@@ -20,6 +21,7 @@ const MoreThanBranchReport = ({moreThanBranchData, onStepsIdsChangeFromMoreThanB
         <div className='w-full lg:w-[65%] bg-white rounded-[12px] '> <EvaluationOfQuestions apiData={moreThanBranchData.questionStatsPerBranch}/></div>
       </div>
       <div className='w-full bg-white rounded-[12px] pdf-section'> <OverallEvaluationOfEachBranch apiData={moreThanBranchData.topBranchesByStepRating}/></div>
+      {/* <div className='w-full bg-white rounded-[12px] pdf-section'> <BranchEvaluationInRelationToTime apiData={moreThanBranchData?.branchImprovementTrend}/></div> */}
       <div className='w-full flex flex-col lg:flex-row justify-between gap-3 pdf-section'>
         <div className='w-full lg:w-[50%] bg-white rounded-[12px] '> <AverageDepartmentRatings apiData={moreThanBranchData.averageRatingPerStep}/></div>
         <div className='w-full lg:w-[50%] bg-white rounded-[12px] '> <AverageBranchRatings apiData={moreThanBranchData.monthlyBranchRatingsFromSteps}/></div>
