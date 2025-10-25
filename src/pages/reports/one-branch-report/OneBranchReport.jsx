@@ -7,6 +7,7 @@ import ImprovementPercentage from './improvement-percentage/ImprovementPercentag
 import AverageSumOfSections from './average-sum-of-sections/AverageSumOfSections'
 import RateOfDevelopmentInEachSectionLine from './rate-of-development-in-each-section/RateOfDevelopmentInEachSectionLine'
 import DepartmentDevelopmentRate from './department-development-rate/DepartmentDevelopmentRate'
+import StepsEvaluationInRelationToTime from './steps-evaluate-in-relation-to-time/StepsEvaluationInRelationToTime';
 
 const OneBranchReport = ({oneBranchData, onStepsIdsChangeFromOneBranch, allSteps}) => {
   const { t } = useTranslation();
@@ -25,6 +26,8 @@ const OneBranchReport = ({oneBranchData, onStepsIdsChangeFromOneBranch, allSteps
           <div className='w-full lg:w-[65%] bg-white rounded-[12px] '> <ReviewsQualification apiData={oneBranchData.reviewStats}/></div>
         </div>
         <div className='w-full bg-white rounded-[12px] p-6 pdf-section'><Sections apiData={oneBranchData.stepStats}/></div>
+        <div className='w-full bg-white rounded-[12px] p-6 pdf-section'><StepsEvaluationInRelationToTime apiData={oneBranchData?.stepMonthlyTrend}/></div>
+
         <div className='w-full flex flex-col lg:flex-row justify-between gap-3 h-auto lg:h-[650px] pdf-section'>
           <div className='w-full lg:w-[50%] bg-white rounded-[12px] '> <AverageSumOfSections apiData={oneBranchData.stepAverageStats}/></div>
           <div className='w-full lg:w-[50%] bg-white rounded-[12px] '> <ImprovementPercentage apiData={oneBranchData.branchImprovementTrend}/></div>

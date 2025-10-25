@@ -356,7 +356,8 @@ const resources = {
         sections : "Sections" ,
         old_average : "Old Average" ,
         new_average : "New Average" ,
-        branch_evaluation_in_relation_to_time : "Branch evaluation in relation to time" ,
+        branches_evaluation_in_relation_to_time : "Branch evaluation in relation to time" ,
+        steps_evaluation_in_relation_to_time : "Steps evaluation in relation to time" ,
         // Home2 translations
         overview : "Overview" ,
         excellent : "Excellent" ,
@@ -846,7 +847,8 @@ const resources = {
         sections : "الأقسام" ,
         old_average : "المتوسط القديم" ,
         new_average : "المتوسط الجديد" ,
-        branch_evaluation_in_relation_to_time : "تقييم الفرع بالنسبة للوقت" ,
+        branches_evaluation_in_relation_to_time : "تقييم الفروع بالنسبة للزمن" ,
+        steps_evaluation_in_relation_to_time : "تقييم الأقسام بالنسبة للزمن" ,
         // Home2 translations
         overview : "الملخص" ,
         excellent : "ممتاز" ,
