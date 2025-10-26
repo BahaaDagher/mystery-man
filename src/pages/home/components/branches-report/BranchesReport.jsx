@@ -87,7 +87,28 @@ const BranchesReport = ({ missions = [] }) => {
             return context.parsed.y;
           }
         }
-      }
+      },
+      datalabels: {
+        anchor: 'end',
+        align: 'top',
+        formatter: (value) => {
+          // Only show labels for non-zero values
+          return value > 0 ? value : '';
+        },
+        font: {
+          weight: 'bold',
+          size: 12,
+        },
+        color: Colors.main6,
+        offset: 5,
+        padding: {
+          top: 6,
+          bottom: 0,
+          left: 10,
+          right: 10
+        },
+        textAlign: 'center'
+      },
     },
     scales: {
       y: {
@@ -103,6 +124,15 @@ const BranchesReport = ({ missions = [] }) => {
       x: {
         grid: { display: false },
         
+      }
+    },
+    // Adding layout padding to prevent data labels from being cut off at the top
+    layout: {
+      padding: {
+        top: 30,
+        bottom: 0,
+        left: 0,
+        right: 0
       }
     }
   };

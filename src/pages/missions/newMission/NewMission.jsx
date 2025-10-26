@@ -382,7 +382,7 @@ const NewMission = () => {
             <TitleDiv>
                 <Title>{t("text.Title")}</Title>
                 <Input 
-                  placeholder={t("text.type_here")} 
+                  placeholder={t("text.Title")} 
                   value={title}
                   onChange={handleTitle}
                 />
@@ -391,7 +391,7 @@ const NewMission = () => {
             <TitleDiv>
                 <Title>{t("text.type_what_you_want_him_her_to_focus_on")}</Title>
                 <Input 
-                  placeholder={t("text.type_here")} 
+                  placeholder={t("text.Focus")} 
                   className='small'
                   value={focus}
                   onChange={handleFocus}
@@ -484,7 +484,7 @@ const NewMission = () => {
             <TitleDiv>
                 <Title>{t("text.Notes")}</Title>
                 <NotesText 
-                  placeholder={t("text.type_here")} 
+                  placeholder={t("text.Notes")} 
                   value={notes}
                   onChange={(e)=>setNotes(e.target.value)}
                 />
