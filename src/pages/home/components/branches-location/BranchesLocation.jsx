@@ -27,7 +27,39 @@ const cityColors = {
   Najran: "#795548",
   AlBaha: "#607D8B",
   Hafar_AlBatin: "#E91E63",
-  AlKhobar: "#009688"
+  AlKhobar: "#009688",
+  // Additional major cities in Saudi Arabia
+  Mubarraz: "#8E24AA",
+  Buraydah: "#00897B",
+  Khamis_Mushait: "#5E35B1",
+  Yanbu: "#F4511E",
+  Jubail: "#6D4C41",
+  Taif: "#1E88E5",
+  Hail: "#3949AB",
+  Arar: "#039BE5",
+  Al_Qatif: "#43A047",
+  Al_Kharj: "#FB8C00",
+  // Additional cities with specific colors
+  AlMajmaah: "#7B1FA2",
+  AlUla: "#C62828",
+  Sakaka: "#1565C0",
+  Rafha: "#9E9D24",
+  Wadi_AdDawasir: "#D32F2F",
+  AlJouf: "#0288D1",
+  Qurayyat: "#512DA8",
+  Taima: "#689F38",
+  AlLith: "#C2185B",
+  Bisha: "#00796B",
+  AlAflaj: "#FFA000",
+  Rabigh: "#5D4037",
+  AlMandaq: "#AFB42B",
+  AlNamas: "#8BC34A",
+  Dhahran: "#303F9F",
+  Baljurashi: "#0288D1",
+  AlWajh: "#6A1B9A",
+  AlQunfudhah: "#EF6C00",
+  Turaif: "#2E7D32",
+  Duba: "#00838F"
 };
 
 const BranchesLocation = () => {

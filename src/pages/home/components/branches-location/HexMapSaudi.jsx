@@ -38,10 +38,10 @@ const coloredHexes = [
   { q: 8, r: 6, color: '#00BCD4', city: 'Tabuk' },         // Tabuk (Northwest, near Jordan)
   { q: 12, r: 8, color: '#795548', city: 'Najran' },       // Najran (Far south)
   { q: 10, r: 8, color: '#607D8B', city: 'AlBaha' },      // Al Baha (South, near Abha)
-  { q: 2, r: 10, color: '#E91E63', city: 'Hafar_AlBatin' } // Hafar Al-Batin (Northeast)
+  { q: 2, r: 10, color: '#E91E63', city: 'Hafar_AlBatin' }, // Hafar Al-Batin (Northeast)
+  // Additional cities can be added here with their appropriate coordinates:
+  // { q: X, r: Y, color: '#COLOR', city: 'CityName' }
 ];
-
-
 
 // Dammam highlight hex (same as a colored one)
 const dammamHex = { q: 2, r: 3 };

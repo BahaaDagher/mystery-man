@@ -43,8 +43,8 @@ const EvaluationOfQuestions = ({apiData}) => {
         <div className='flex justify-between items-center'>
             <div className=' font-bold text-[22px] leading-[28px] '> {t('text.evaluation_questions_branch')}</div>
             <div className='text-black font-bold text-[14px] flex items-center gap-2'>
-                <span className='font-inter font-medium text-[24px] leading-[28px]  '>2,540</span>
-                <img src={Star} alt="Star" />
+                {/* <span className='font-inter font-medium text-[24px] leading-[28px]  '>2,540</span>
+                <img src={Star} alt="Star" /> */}
             </div>
         </div>
         <hr className='border-gray_l'/>
