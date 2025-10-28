@@ -22,12 +22,12 @@ const iconMap = {
   ),
 };
 
-const ReviewTypeCard = ({ name, count }) => (
+const ReviewTypeCard = ({ name, name2, count }) => (
   console.log("count::" , count) ,
   <div className="flex flex-col gap-2">
     <div className="text-gray8 text-[18px] font-semibold mb-2">{name}</div>
     <div className="flex items-center gap-2 mb-2">
-      {iconMap[name]}
+      {iconMap[name2]}
       <span className="text-[#18192B] font-bold text-2xl">{count}</span>
     </div>
     {/* <div className="flex flex-wrap  gap-1">
@@ -38,4 +38,4 @@ const ReviewTypeCard = ({ name, count }) => (
   </div>
 );
 
-export default ReviewTypeCard; 
+export default ReviewTypeCard;

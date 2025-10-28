@@ -12,7 +12,8 @@ const Top3Branches = ({apiData}) => {
   
   // Get dynamic color percentages
   const { greenPercentage, goldPercentage } = getColorPercentages(profileData);
-
+  console.log("greenPercentage" , greenPercentage)
+  console.log("goldPercentage" , goldPercentage)
   // Function to determine color based on percentage value using dynamic thresholds
   const getColorBasedOnPercentage = (percentage) => {
     if (percentage >= greenPercentage) {

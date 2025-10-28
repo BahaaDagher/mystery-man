@@ -170,7 +170,9 @@ const Reports = () => {
       if (getBranchesData?.data?.branches && getBranchesData?.data?.branches?.length > 0 ) {
         const firstBranchId = getBranchesData?.data?.branches[0]?.id;
         setSelectedBranch(firstBranchId);
-        setSelectedBranches([firstBranchId])
+        // Set all branches as selected by default
+        const allBranchIds = getBranchesData?.data?.branches.map(branch => branch.id);
+        setSelectedBranches(allBranchIds)
       }
     }
   },[getBranchesData])
@@ -224,7 +226,9 @@ const Reports = () => {
       setSelectedBranch(getBranchesData?.data?.branches[0]?.id)
     }
     if (selectedBranches.length === 0) {
-      setSelectedBranches([getBranchesData?.data?.branches[0]?.id])
+      // When no branches are selected, select all branches
+      const allBranchIds = getBranchesData?.data?.branches?.map(branch => branch.id) || [];
+      setSelectedBranches(allBranchIds)
     }
     if (selectedQRCode === '') {
       setSelectedQRCode(qrCodes[0]?.value)
