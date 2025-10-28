@@ -13,16 +13,17 @@ export const getColorPercentages = (profileData) => {
   if (profileData?.data?.colorPercentages) {
     const colorPercentages = profileData.data.colorPercentages;
     
-    // Find the green percentage (id: 1)
-    const greenData = colorPercentages.find(item => item.id === 1);
-    if (greenData && typeof greenData.percentage === 'number') {
-      greenPercentage = greenData.percentage;
-    }
-    
-    // Find the gold percentage (id: 2)
-    const goldData = colorPercentages.find(item => item.id === 2);
-    if (goldData && typeof goldData.percentage === 'number') {
-      goldPercentage = goldData.percentage;
+    // Use index-based mapping: index 0 => green, index 1 => gold
+    if (Array.isArray(colorPercentages)) {
+      const greenData = colorPercentages[0];
+      if (greenData && typeof greenData.percentage === 'number') {
+        greenPercentage = greenData.percentage;
+      }
+
+      const goldData = colorPercentages[1];
+      if (goldData && typeof goldData.percentage === 'number') {
+        goldPercentage = goldData.percentage;
+      }
     }
   }
 
