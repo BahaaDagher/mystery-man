@@ -12,16 +12,16 @@ const QrCodesReport = ({qrCodeData}) => {
     <div className='w-full flex flex-col gap-3'>
         <div className='w-full flex flex-col gap-3 pdf-section'>
             <div className='w-full flex flex-col lg:flex-row justify-between gap-3'>
-                <div className='w-full lg:w-[65%] bg-white rounded-[12px] '> <DoughnutReconnaissance apiData={qrCodeData?.getReconnaissanceData}/></div>
-                <div className='w-full lg:w-[35%] bg-white rounded-[12px] '> <GeneralRate apiData={qrCodeData?.generalRate?.chart}/></div>
+                <div className='w-full lg:w-[65%] bg-white rounded-[12px] '> <DoughnutReconnaissance apiData={qrCodeData?.getReconnaissanceData?.[0]}/></div>
+                <div className='w-full lg:w-[35%] bg-white rounded-[12px] '> <GeneralRate apiData={qrCodeData?.generalRate?.qr_codes?.[0]?.chart || []}/></div>
             </div>
             <div className='w-full flex flex-col lg:flex-row justify-between gap-3'>
-                <div className='w-full lg:w-[65%] bg-white rounded-[12px] '> <ReviewsQualification apiData={qrCodeData?.reviewQualification}/></div>
-                <div className='w-full lg:w-[35%] bg-white rounded-[12px] '> <HighLowSections apiData={qrCodeData?.topAndBottomSections}/></div>
+                <div className='w-full lg:w-[65%] bg-white rounded-[12px] '> <ReviewsQualification apiData={qrCodeData?.reviewQualification?.summary || qrCodeData?.reviewQualification?.qr_codes?.[0]}/></div>
+                <div className='w-full lg:w-[35%] bg-white rounded-[12px] '> <HighLowSections apiData={qrCodeData?.topAndBottomSections?.qr_codes?.[0]}/></div>
             </div>
         </div>
         <div className='w-full flex justify-between gap-3 pdf-section'>
-            <AverageRating apiData={qrCodeData?.averagePerSection} />
+            <AverageRating apiData={qrCodeData?.averagePerSection?.qr_codes?.[0]?.sections || []} />
         </div>
         <div className='w-full flex justify-between gap-3 pdf-section'>
             <OverAllRating apiData={qrCodeData?.qrCodesOverallRating} />

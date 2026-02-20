@@ -4,11 +4,11 @@ import LineChartComponent from '../../../../components/LineChartComponent'
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Colors } from '../../../../Theme';
 
-const StepsEvaluationInRelationToTime = ({apiData}) => {
+const StepsEvaluationInRelationToTime = ({ apiData }) => {
   const { t } = useTranslation();
-  
+
   // Extract all unique time periods from the API data
-  const allTimePeriods = [...new Set(apiData?.flatMap(step => 
+  const allTimePeriods = [...new Set(apiData?.flatMap(step =>
     step.chart.map(item => item.month)
   ))];
 
@@ -25,10 +25,10 @@ const StepsEvaluationInRelationToTime = ({apiData}) => {
 
     // Generate a unique color for each step
     const colors = [
-      Colors.main6, "#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", 
+      Colors.main6, "#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0",
       "#9966FF", "#FF9F40", "#8AC926", "#1982C4", "#6A4C93"
     ];
-    
+
     return {
       label: step.step_name,
       data: values,
@@ -76,12 +76,19 @@ const StepsEvaluationInRelationToTime = ({apiData}) => {
           size: 12,
         },
         color: '#fff',
+        // Dynamic background color that matches the segment color, but don't return anything if value is 0
+        backgroundColor: (context) => {
+          if (context.dataset.data[context.dataIndex] === 0) {
+            return undefined;
+          }
+          return context.dataset.backgroundColor;
+        },
         offset: 5,
         padding: {
-          top: 60,
-          bottom: 6,
-          left: 10,
-          right: 10
+          top: 2,
+          bottom: 2,
+          left: 4,
+          right: 4
         },
         textAlign: 'center'
       },
@@ -114,7 +121,7 @@ const StepsEvaluationInRelationToTime = ({apiData}) => {
     <LineChartComponent
       title={t('text.steps_evaluation_in_relation_to_time')}
       chartData={chartData}
-      chartOptions={chartOptions} 
+      chartOptions={chartOptions}
       height={100}
     />
   )

@@ -88,8 +88,9 @@ const Responses = () => {
 
   // Set response details data when loaded
   useEffect(() => {
+    console.log("responseDetailsData::::" , responseDetailsData)
     if (responseDetailsData?.status) {
-      setSelectedResponseData(responseDetailsData?.data?.responses)
+      setSelectedResponseData(responseDetailsData?.data?.responce      )
     }
   }, [responseDetailsData])
 
@@ -108,8 +109,8 @@ const Responses = () => {
 
   // Handle view questions click
   const handleViewQuestions = (item) => {
-    dispatch(getResponseDetails(item.id))
     setShowQuestionsModal(true)
+    dispatch(getResponseDetails(item.id))
   }
 
   // Handle close modal

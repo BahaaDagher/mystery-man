@@ -70,7 +70,7 @@ const DepartmentDevelopmentRate = ( {apiData, onStepsIdsChangeFromOneBranch , al
       {getStepsDataLoading ? <Loading/> : null}
       <div className="bg-white rounded-3xl ">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-2xl font-bold text-black2 leading-[28px]">
+          <span className="text-2xl font-bold text-black2 ">
             {t("text.Department_development_rate")}
           </span>
         </div>

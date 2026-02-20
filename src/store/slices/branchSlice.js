@@ -8,7 +8,7 @@ async (values) => {
     try {
         const token = localStorage.getItem('token');
     const response = await axios.post(
-        "https://test.secretvisitor.co/dashboard/api/addBranch" ,{
+        "https://maknoun.sa/dashboard/api/addBranch" ,{
             name:values.name,
             address:values.address , 
             lat : values.lat ,
@@ -32,7 +32,7 @@ export const deleteBranch = createAsyncThunk(
         const token = localStorage.getItem('token');
         try {
         const response = await axios.get(
-            `https://test.secretvisitor.co/dashboard/api/deleteBranch?branch_id=${values.id}` ,{
+            `https://maknoun.sa/dashboard/api/deleteBranch?branch_id=${values.id}` ,{
                 headers: {
                     "Authorization" : token , 
                     "lang" : currentLanguage ,
@@ -52,7 +52,7 @@ export const getBranches = createAsyncThunk(
         const token = localStorage.getItem('token');
         try {
         const response = await axios.get(
-            "https://test.secretvisitor.co/dashboard/api/getBranches" ,{
+            "https://maknoun.sa/dashboard/api/getBranches" ,{
                 headers: {
                     "Authorization" : token , 
                     "lang" : currentLanguage , 
@@ -72,7 +72,7 @@ export const updateBranch = createAsyncThunk(
         try {
             const token = localStorage.getItem('token');
             const response = await axios.post(
-                "https://test.secretvisitor.co/dashboard/api/updateBranch" ,{
+                "https://maknoun.sa/dashboard/api/updateBranch" ,{
                     name: values.name,
                     address: values.address, 
                     lat: values.lat,

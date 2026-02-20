@@ -44,7 +44,7 @@ const NewMissionButton = styled(FlexCenter)(({ theme }) => ({
   padding: '9px 40px 8px 40px',
   borderRadius: '10px',
   backgroundColor: Colors.gold,
-  color: "#000",
+  color: "white",
   fontSize : "20px" , 
   cursor : "pointer" ,
   transition : "all 0.3s ease" ,

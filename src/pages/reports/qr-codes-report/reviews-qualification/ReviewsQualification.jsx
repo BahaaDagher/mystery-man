@@ -19,15 +19,16 @@ const ReviewsQualification = ({apiData}) => {
   const { t } = useTranslation();
   
   // Transform API data to chart format
+  const positive = apiData?.data?.positive ?? apiData?.positive ?? 0;
+  const negative = apiData?.data?.negative ?? apiData?.negative ?? 0;
+  const neutral  = apiData?.data?.neutral  ?? apiData?.neutral  ?? 0;
+  const total    = apiData?.total ?? (positive + negative + neutral) ?? 0;
+
   const pieData = {
     labels: [t('text.positive'), t('text.negative'), t('text.neutral')],
     datasets: [
       {
-        data: [
-          apiData?.data?.positive || 0,
-          apiData?.data?.negative || 0,
-          apiData?.data?.neutral || 0,
-        ],
+        data: [positive, negative, neutral],
         backgroundColor: [Colors.green, Colors.red, Colors.gold2], // positive , negative , neutral
         borderWidth: 0,
       },
@@ -41,7 +42,7 @@ const ReviewsQualification = ({apiData}) => {
           {t('text.reviews_qualification')}
         </span>
         <span className="flex items-center gap-2 text-[24px] font-bold text-black2">
-          {apiData?.total || 0} <img src={Star} alt="star" className="w-7 h-7" />
+          {total} <img src={Star} alt="star" className="w-7 h-7" />
         </span>
       </div>
       <hr className="my-4 border-gray-200" />
@@ -61,18 +62,18 @@ const ReviewsQualification = ({apiData}) => {
           <div className="flex gap-16">
             <div className="">
               <div className="flex items-center gap-2  text-lg font-bold">
-                <img src={PositiveIcon} alt="star" /> {apiData?.data?.positive || 0}
+                <img src={PositiveIcon} alt="star" /> {positive}
               </div>
             </div>
             <div>
               <div className="flex items-center gap-2  text-lg font-bold">
-                <img src={NegativeIcon} alt="star" /> {apiData?.data?.negative || 0}
+                <img src={NegativeIcon} alt="star" /> {negative}
               </div>
             </div>
           </div>
           <div>
             <div className="flex items-center gap-2  text-lg font-bold">
-              <img src={NeutralIcon} alt="star" /> {apiData?.data?.neutral || 0}
+              <img src={NeutralIcon} alt="star" /> {neutral}
             </div>
           </div>
         </div>

@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const CustomSelect = ({ options = [], value, onChange, multiple = false, placeholder = 'Select...', disabledOptions = [], className = '' }) => {
+const CustomSelect = ({ options = [], value, onChange, multiple = false, placeholder = 'Select...', disabledOptions = [], className = '', showSelectAll = false }) => {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
   const ref = useRef();
   const { i18n } = useTranslation();
-
+  const { t } = useTranslation();
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (ref.current && !ref.current.contains(event.target)) {
@@ -56,6 +56,33 @@ const CustomSelect = ({ options = [], value, onChange, multiple = false, placeho
     onChange(multiple ? [] : '');
   };
 
+  const handleSelectAll = (e) => {
+    e.stopPropagation();
+    if (multiple && showSelectAll) {
+      const allValues = options.map(opt => getOptionValue(opt));
+      onChange(allValues);
+    }
+  };
+
+  const handleDeselectAll = (e) => {
+    e.stopPropagation();
+    if (multiple && showSelectAll) {
+      // When deselecting all, only select the first option
+      const firstValue = options.length > 0 ? getOptionValue(options[0]) : null;
+      onChange(firstValue ? [firstValue] : []);
+    }
+  };
+
+  const isAllSelected = () => {
+    if (!multiple || !showSelectAll) return false;
+    return Array.isArray(value) && value.length === options.length;
+  };
+
+  const isNoneSelected = () => {
+    if (!multiple || !showSelectAll) return false;
+    return !Array.isArray(value) || value.length === 0;
+  };
+
   return (
     <div className={`relative max-w-[220px] ${className}`} ref={ref}>
       <div
@@ -85,6 +112,19 @@ const CustomSelect = ({ options = [], value, onChange, multiple = false, placeho
           <div className="overflow-y-auto flex-1" style={{maxHeight: 180}}>
             {filteredOptions.length === 0 && (
               <div className="text-gray-400 text-center py-4">No options</div>
+            )}
+            {showSelectAll && multiple && filteredOptions.length > 0 && (
+              <div className="border-b border-gray-200 pb-2 mb-2">
+                <label className="flex items-center gap-2 px-2 py-1 rounded cursor-pointer font-semibold text-main">
+                  <input
+                    type="checkbox"
+                    checked={isAllSelected()}
+                    onChange={isAllSelected() ? handleDeselectAll : handleSelectAll}
+                    className="accent-main w-5 h-5"
+                  />
+                  <span>{isAllSelected() ? t('text.Deselect_All') : t('text.Select_All')}</span>
+                </label>
+              </div>
             )}
             {filteredOptions.map(opt => {
               const optionValue = getOptionValue(opt);

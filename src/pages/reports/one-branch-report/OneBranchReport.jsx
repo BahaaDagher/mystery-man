@@ -25,7 +25,7 @@ const OneBranchReport = ({oneBranchData, onStepsIdsChangeFromOneBranch, allSteps
           <div className='w-full lg:w-[35%] bg-white rounded-[12px] '> <GeneralRate apiData={oneBranchData.generalRate}/></div>
           <div className='w-full lg:w-[65%] bg-white rounded-[12px] '> <ReviewsQualification apiData={oneBranchData.reviewStats}/></div>
         </div>
-        <div className='w-full bg-white rounded-[12px] p-6 pdf-section'><Sections apiData={oneBranchData.stepStats}/></div>
+        {/* <div className='w-full bg-white rounded-[12px] p-6 pdf-section'><Sections apiData={oneBranchData.stepStats}/></div> */}
         <div className='w-full bg-white rounded-[12px] p-6 pdf-section'><StepsEvaluationInRelationToTime apiData={oneBranchData?.stepMonthlyTrend}/></div>
 
         <div className='w-full flex flex-col lg:flex-row justify-between gap-3 h-auto lg:h-[650px] pdf-section'>

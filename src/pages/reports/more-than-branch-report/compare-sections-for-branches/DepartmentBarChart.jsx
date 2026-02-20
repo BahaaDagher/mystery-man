@@ -97,6 +97,7 @@ const DepartmentBarChart = ({ section, label ,height}) => {
             return value + '%';
           }
         },
+        max: 100,
       },
     },
     // Add padding at the top to accommodate data labels

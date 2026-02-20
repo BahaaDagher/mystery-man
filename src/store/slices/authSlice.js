@@ -11,7 +11,7 @@ export const userLogin = createAsyncThunk(
     
     try {
       const response = await axios.post(
-        "https://test.secretvisitor.co/dashboard/api/loginMission" ,{
+        "https://maknoun.sa/dashboard/api/loginMission" ,{
             phone:values.phone,
             password:values.password
         } , 
@@ -32,7 +32,7 @@ export const userLogout = createAsyncThunk(
     const token = localStorage.getItem('token');
     try {
       const response = await axios.post(
-        "http://secretvisitor.co/dashboard/api/logout" ,{
+        "http://maknoun.sa/dashboard/api/logout" ,{
             phone:values.phone,
             password:values.password
         },
@@ -54,7 +54,7 @@ export const userRegister = createAsyncThunk(
       
       try {
         const response = await axios.post(
-          "https://test.secretvisitor.co/dashboard/api/registerMission" ,
+          "https://maknoun.sa/dashboard/api/registerMission" ,
             values, 
             {
               headers: {
@@ -73,7 +73,7 @@ export const userRegister = createAsyncThunk(
     async (values) => {
         try {
           const response = await axios.post(
-            "https://test.secretvisitor.co/dashboard/api/verifyOtpMission" ,
+            "https://maknoun.sa/dashboard/api/verifyOtpMission" ,
               values, 
               {
                 headers: {
@@ -91,7 +91,7 @@ export const userRegister = createAsyncThunk(
     async (values) => {
         try {
           const response = await axios.post(
-            "https://test.secretvisitor.co/dashboard/api/resendOtp" ,
+            "https://maknoun.sa/dashboard/api/resendOtp" ,
               values, 
               {
                 headers: {
@@ -109,7 +109,7 @@ export const userRegister = createAsyncThunk(
     async (values) => {
         try {
           const response = await axios.post(
-            "https://test.secretvisitor.co/dashboard/api/forgetPasswordMission" ,
+            "https://maknoun.sa/dashboard/api/forgetPasswordMission" ,
               values, 
               {
                 headers: {
@@ -128,7 +128,7 @@ export const userRegister = createAsyncThunk(
     async (values) => {
         try {
           const response = await axios.post(
-            "https://test.secretvisitor.co/dashboard/api/verifyOtpPasswordMIssion" ,
+            "https://maknoun.sa/dashboard/api/verifyOtpPasswordMIssion" ,
               values, 
               {
                 headers: {
@@ -146,7 +146,7 @@ export const userRegister = createAsyncThunk(
     async (values) => {
         try {
           const response = await axios.post(
-            "https://test.secretvisitor.co/dashboard/api/changePasswordMission" ,
+            "https://maknoun.sa/dashboard/api/changePasswordMission" ,
               values, 
               {
                 headers: {
@@ -165,7 +165,7 @@ export const userRegister = createAsyncThunk(
     async (values) => {
         try {
         const response = await axios.get(
-            "https://test.secretvisitor.co/dashboard/api/categories" ,{
+            "https://maknoun.sa/dashboard/api/categories" ,{
                 headers: {
                     "lang" : currentLanguage , 
                 },

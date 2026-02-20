@@ -9,7 +9,7 @@ async (values) => {
     try {
         const token = localStorage.getItem('token');
         
-        const url = `https://test.secretvisitor.co/dashboard/api/steps/all`;
+        const url = `https://maknoun.sa/dashboard/api/steps/all`;
         
         const response = await axios.get(url, {
             headers: {
@@ -30,7 +30,7 @@ export const addStep = createAsyncThunk(
         try {
             const token = localStorage.getItem('token');
             const response = await axios.post(
-            "https://test.secretvisitor.co/dashboard/api/steps/store" ,{
+            "https://maknoun.sa/dashboard/api/steps/store" ,{
                 name:values.name,
             },{
                 headers: {
@@ -52,7 +52,7 @@ export const updateStep = createAsyncThunk(
         try {
             const token = localStorage.getItem('token');
             const response = await axios.post(
-            `https://test.secretvisitor.co/dashboard/api/steps/${values.id}/update` ,{
+            `https://maknoun.sa/dashboard/api/steps/${values.id}/update` ,{
                 name:values.name,
             },{
                 headers: {
@@ -75,7 +75,7 @@ export const deleteStep = createAsyncThunk(
            
             const token = localStorage.getItem('token');
             const response = await axios.post(
-            `https://test.secretvisitor.co/dashboard/api/steps/${values.id}/delete` ,{},{
+            `https://maknoun.sa/dashboard/api/steps/${values.id}/delete` ,{},{
                 headers: {
                     "Authorization" : token , 
                     "lang" : currentLanguage ,

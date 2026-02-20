@@ -27,7 +27,7 @@ const OverAllRating = ({apiData}) => {
   
   // Transform API data to chart format
   const chartData = {
-    labels: apiData?.map(item => item.qr_code) || [],
+  labels: apiData?.map(item => item.qr_code || item.qr_code_name || item.name) || [],
     datasets: [
       {
         label: 'Rating',

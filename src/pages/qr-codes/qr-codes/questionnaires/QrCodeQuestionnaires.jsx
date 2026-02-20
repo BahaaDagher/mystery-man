@@ -164,6 +164,7 @@ const QrCodeQuestionnaires = () => {
   useEffect(() => {
     dispatch(setNewQuestioneir())
     dispatch(getBranches())
+    dispatch(getQuestionnaire())
   }, [])
 
   useEffect(() => {
@@ -176,7 +177,7 @@ const QrCodeQuestionnaires = () => {
   }, [getBranchesData])
 
   useEffect(() => {
-    debugger;
+   
     console.log("qrCodeQuestionnaireStoreData" , qrCodeQuestionnaireStoreData)
     if (change){
 
@@ -221,7 +222,7 @@ const QrCodeQuestionnaires = () => {
           </div>
         </div>
 
-        {/* Branch and Count Selection */}
+        {/* Branch, Count, and Questionnaire Selection */}
         <div className="mb-4 flex gap-4">
           {/* Branch Selection */}
           <div className="flex-1">
@@ -256,6 +257,25 @@ const QrCodeQuestionnaires = () => {
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               min="1"
             />
+          </div>
+
+          {/* Questionnaire Selection */}
+          <div className="flex-1">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              {t("text.questionnaires")}
+            </label>
+            <select
+              value={typeof currentQuestioneir === 'number' ? currentQuestioneir : -1}
+              onChange={(e) => dispatch(setCurrentQuestioneir(parseInt(e.target.value)))}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value={-1}>{t("text.Select_questionnaire")}</option>
+              {questionieres?.map((quest, index) => (
+                <option key={index} value={index}>
+                  {quest.title}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 

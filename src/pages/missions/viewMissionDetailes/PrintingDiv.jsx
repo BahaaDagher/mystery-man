@@ -406,7 +406,7 @@ const Percentage1 = styled("div")(({ theme }) => ({
 }));
 
 const RatingScore = styled("div")(({ theme }) => ({
-    backgroundColor : "#50489C" , 
+    backgroundColor : "#0f4ce8" , 
     fontWeight : "bold" , 
     color : "#fff" , 
     width : "130px" , 

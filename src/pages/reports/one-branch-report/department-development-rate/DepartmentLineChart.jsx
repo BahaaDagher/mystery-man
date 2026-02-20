@@ -54,6 +54,7 @@ const DepartmentLineChart = ({ section, label }) => {
         grid: { color: '#F0F0F0' },
         position: isArabic ? 'right' : 'left',
         ticks: { color: '#A5A5A5', font: { size: 14 } },
+        max: 100,
       },
       x: {
         grid: { display: false },

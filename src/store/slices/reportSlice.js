@@ -76,7 +76,15 @@ export const qrCodeReport = createAsyncThunk(
             const params = new URLSearchParams();
             if (values.from_date) params.append('from_date', values.from_date);
             if (values.to_date) params.append('to_date', values.to_date);
+            // Support fetching by either qr_code_id or branch_id
             if (values.qr_code_id) params.append('qr_code_id', values.qr_code_id);
+            if (values.branch_id) params.append('branch_id', values.branch_id);
+            if (values.branch_ids && values.branch_ids.length > 0) {
+                params.append('branch_ids', JSON.stringify(values.branch_ids));
+            }
+            if (values.step_ids && values.step_ids.length > 0) {
+                params.append('step_ids', JSON.stringify(values.step_ids));
+            }
             
             const url = `${API_BASE_URL}/report/qrCode?${params.toString()}`;
             
@@ -100,7 +108,7 @@ export const getHomeData = createAsyncThunk(
             const token = localStorage.getItem('token');
             
             const response = await axios.get(
-                "https://test.secretvisitor.co/dashboard/api/statics/getHomeData", 
+                "https://maknoun.sa/dashboard/api/statics/getHomeData", 
                 {
                     headers: {
                         "Authorization" : token , 
@@ -122,7 +130,7 @@ export const getCitiesBranches = createAsyncThunk(
             const token = localStorage.getItem('token');
             
             const response = await axios.get(
-                "https://test.secretvisitor.co/dashboard/api/statics/citiesBranches", 
+                "https://maknoun.sa/dashboard/api/statics/citiesBranches", 
                 {
                     headers: {
                         "Authorization" : token , 
