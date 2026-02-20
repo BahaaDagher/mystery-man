@@ -76,7 +76,7 @@ const OverallEvaluationOfEachBranch = ({apiData}) => {
         ticks: {
           max: undefined,
         },
-        max: undefined,
+        max: 100,
       },
       x: {
         grid: { display: false },

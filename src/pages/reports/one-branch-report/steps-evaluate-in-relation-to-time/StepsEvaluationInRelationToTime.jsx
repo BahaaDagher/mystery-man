@@ -77,11 +77,20 @@ const StepsEvaluationInRelationToTime = ({apiData}) => {
         },
         color: '#fff',
         offset: 5,
+        // Dynamic background color that matches the segment color, but don't return anything if value is 0
+        backgroundColor: (context) => {
+          if (context.dataset.data[context.dataIndex] === 0) {
+            return undefined;
+          }
+          return context.dataset.backgroundColor;
+        },
+        borderRadius: 4,
+        borderWidth: 0,
         padding: {
-          top: 6,  // Fixed: Changed from 60 to 6
-          bottom: 60,
-          left: 10,
-          right: 10
+          top: 2,
+          bottom: 2,
+          left: 4,
+          right: 4
         },
         textAlign: 'center'
       },

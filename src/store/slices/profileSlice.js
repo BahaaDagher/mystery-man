@@ -9,7 +9,7 @@ export const getProfile = createAsyncThunk(
         const token = localStorage.getItem('token');
         try {
         const response = await axios.get(
-            `https://test.secretvisitor.co/dashboard/api/getProfileDataMIssion` ,{
+            `https://maknoun.sa/dashboard/api/getProfileDataMIssion` ,{
                 headers: {
                     "Authorization" : token , 
                     "lang" : currentLanguage
@@ -28,7 +28,7 @@ export const updateProfile = createAsyncThunk(
         const token = localStorage.getItem('token');
         try {
         const response = await axios.post(
-            `https://test.secretvisitor.co/dashboard/api/updateProfilemission` ,
+            `https://maknoun.sa/dashboard/api/updateProfilemission` ,
             values ,
             {
                 headers: {
@@ -50,7 +50,7 @@ export const getNotifications = createAsyncThunk(
         const token = localStorage.getItem('token');
         try {
         const response = await axios.get(
-            `https://test.secretvisitor.co/dashboard/api/getNotifications` , {
+            `https://maknoun.sa/dashboard/api/getNotifications` , {
                 headers: {
                     "Authorization" : token , 
                     "lang" : currentLanguage
@@ -70,7 +70,7 @@ export const getWalletTransactions = createAsyncThunk(
         const token = localStorage.getItem('token');
         try {
         const response = await axios.get(
-            `https://test.secretvisitor.co/dashboard/api/walletTransactions` , {
+            `https://maknoun.sa/dashboard/api/walletTransactions` , {
                 headers: {
                     "Authorization" : token , 
                     "lang" : currentLanguage
@@ -90,7 +90,7 @@ export const getSubscriptions = createAsyncThunk(
         const token = localStorage.getItem('token');
         try {
         const response = await axios.get(
-            `https://test.secretvisitor.co/dashboard/api/subscriptions` , {
+            `https://maknoun.sa/dashboard/api/subscriptions` , {
                 headers: {
                     "Authorization" : token , 
                     "lang" : currentLanguage

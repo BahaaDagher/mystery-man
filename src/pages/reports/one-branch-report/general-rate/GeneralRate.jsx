@@ -49,6 +49,31 @@ const options = {
 const GeneralRate = ({apiData}) => {
   const { t } = useTranslation();
   
+  const localizeCenterLabel = (label) => {
+    if (!label) return t("text.excellent");
+    const normalized = String(label).toLowerCase().trim();
+    switch (normalized) {
+      case "excellent":
+      case "ممتاز":
+        return t("text.excellent");
+      case "good":
+      case "جيد":
+        return t("text.good");
+      case "average":
+      case "normal":
+      case "neutral":
+      case "متوسط":
+      case "طبيعي":
+        return t("text.natural");
+      case "bad":
+      case "poor":
+      case "ضعيف":
+        return t("text.bad");
+      default:
+        return label;
+    }
+  };
+
   const legend = [
     { color: Colors.red, label: t("text.bad") },
     { color: Colors.blue, label: t("text.good") },
@@ -78,7 +103,7 @@ const GeneralRate = ({apiData}) => {
   const transformedData = transformApiData(apiData);
 
   const content = {
-    value: apiData?.center_label || "Excellent",
+    value: localizeCenterLabel(apiData?.center_label),
     contentDimensions: 80,
     contentFontSize: 20,
   };

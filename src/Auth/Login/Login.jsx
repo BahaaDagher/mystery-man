@@ -130,7 +130,7 @@ const SubmitButton = styled("div")(({ theme }) => ({
     height: '60px',
     padding: '2px 0px 1px 0px',
     borderRadius: '10px',
-    color : "#000" , 
+    color : "white" , 
     backgroundColor : Colors.gold ,
     cursor : "pointer" , 
     display : "flex" ,

@@ -62,6 +62,7 @@ const TheRateOfDevelopmentInEachBranch = ({apiData}) => {
         beginAtZero: true,
         grid: { color: '#F0F0F0' },
         ticks: { color: "#A5A5A5", font: { size: 14 } },
+        max: 100,
       },
     },
     // Add padding at the top to accommodate data labels

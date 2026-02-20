@@ -1,5 +1,5 @@
 // API Configuration
-export const API_BASE_URL = "https://test.secretvisitor.co/dashboard/api";
+export const API_BASE_URL = "https://maknoun.sa/dashboard/api";
 
 // API Endpoints
 export const API_ENDPOINTS = {

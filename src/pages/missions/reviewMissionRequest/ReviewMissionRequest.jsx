@@ -20,94 +20,94 @@ import 'jspdf-font';
 import html2canvas from 'html2canvas';
 import Loading from '../../../components/Loading';
 const Place = styled("div")(({ theme }) => ({
-  marginBottom : "10px" ,
+  marginBottom: "10px",
 }));
 
 const Parent = styled("div")(({ theme }) => ({
-  width : "100%" , 
+  width: "100%",
   borderRadius: '10px',
 }));
 
 const Line = styled(FlexSpaceBetween)(({ theme }) => ({
-  width : "100%" , 
+  width: "100%",
   borderRadius: '5px',
-  padding : "10px", 
-  marginBottom : "20px" ,
-  backgroundColor : "#fff" , 
+  padding: "10px",
+  marginBottom: "20px",
+  backgroundColor: "#fff",
   [theme.breakpoints.down('600')]: {
-    flexDirection : "column" ,
+    flexDirection: "column",
     // alignItems : "center" ,
-  
+
   }
 }));
 
 const PhotoAndName = styled(Flex)(({ theme }) => ({
   // width : "100%" , 
-  flexDirection : "row" ,
-  justifyContent : "flex-start" ,
+  flexDirection: "row",
+  justifyContent: "flex-start",
   [theme.breakpoints.down('800')]: {
-    justifyContent : "center" ,
+    justifyContent: "center",
   },
   [theme.breakpoints.down('600')]: {
-    justifyContent : "space-between" ,
+    justifyContent: "space-between",
   }
 }));
 const Section = styled("div")(({ theme }) => ({
-  display : "flex" ,
-  justifyContent : "center" ,
-  alignItems : "center" ,
-  marginRight : theme.direction == "ltr" ? "20px" : "0px" , 
-  marginLeft : theme.direction == "rtl" ? "20px" : "0px" , 
-  cursor : "pointer" ,
-  "&.company" : {
-    flexDirection : "column" ,
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  marginRight: theme.direction == "ltr" ? "20px" : "0px",
+  marginLeft: theme.direction == "rtl" ? "20px" : "0px",
+  cursor: "pointer",
+  "&.company": {
+    flexDirection: "column",
     [theme.breakpoints.down('1200')]: {
-      display : "none" ,
+      display: "none",
     },
   },
 }));
 const ButtonDiv = styled("div")(({ theme }) => ({
-  gap : "10px" ,
-  display : "flex"  , 
-  justifyContent : "center" ,
-  alignItems : "center" ,
+  gap: "10px",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
 }));
 const AcceptButton = styled(SubmitButton)(({ theme }) => ({
-  backgroundColor : Colors.green ,
-  padding : "0px 10px" ,  
-  margin : "0" , 
-  "&:hover" : {
-    backgroundColor : Colors.hoverGreen ,
-    
+  backgroundColor: Colors.green,
+  padding: "0px 10px",
+  margin: "0",
+  "&:hover": {
+    backgroundColor: Colors.hoverGreen,
+
   },
-  "&.details-button" : {
-    backgroundColor : Colors.main ,
-    "&:hover" : {
-      backgroundColor : Colors.hoverMain ,
+  "&.details-button": {
+    backgroundColor: Colors.main,
+    "&:hover": {
+      backgroundColor: Colors.hoverMain,
     }
   }
 
 }));
 
 const CategoryDiv = styled(FlexCenter)(({ theme }) => ({
-    [theme.breakpoints.down('600')]: {
-      margin : "10px 0" ,
-    }
+  [theme.breakpoints.down('600')]: {
+    margin: "10px 0",
+  }
 }));
 const Category = styled(FlexCenter)(({ theme }) => ({
-    height : "35px" ,  
-    padding : "5px 10px" , 
-    color : "#fff" , 
-    fontWeight : "bold" ,
-    backgroundColor : "#605df9" ,
-    borderRadius : "10px" ,
-    margin : "0 5px" ,
+  height: "35px",
+  padding: "5px 10px",
+  color: "#fff",
+  fontWeight: "bold",
+  backgroundColor: "#605df9",
+  borderRadius: "10px",
+  margin: "0 5px",
 
 }));
 
-const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
-  const accepetRequestData = useSelector(state => state.missionData.accepetRequestData) 
-  const accepetRequestDataLoading = useSelector(state => state.missionData.accepetRequestDataLoading) 
+const ReviewMissionRequest = ({ reviewRequestData, missionId }) => {
+  const accepetRequestData = useSelector(state => state.missionData.accepetRequestData)
+  const accepetRequestDataLoading = useSelector(state => state.missionData.accepetRequestDataLoading)
   const sendMissionPdfData = useSelector(state => state.missionData.sendMissionPdfData)
   const sendMissionPdfLoading = useSelector(state => state.missionData.sendMissionPdfLoading)
   // Use state to manage the employee list so we can update it
@@ -118,38 +118,38 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
   const [pdfPreviewUrl, setPdfPreviewUrl] = useState('');
   const [pdfBlob, setPdfBlob] = useState(null);
   const [selectedEmployeeForPdf, setSelectedEmployeeForPdf] = useState(null);
-  const [send , setSend] = useState(false)
+  const [send, setSend] = useState(false)
 
   const dispatch = useDispatch()
-  useEffect(()=>{
-  
+  useEffect(() => {
+
     console.log(accepetRequestData);
-    if (send){
-      if (accepetRequestData.status ) {
-            console.log(accepetRequestData);
-            Swal.fire({
-            title: accepetRequestData.message,
-            icon: 'success',
-            timer: 2000,
-            showConfirmButton: false,
-            timerProgressBar: true
-          })
+    if (send) {
+      if (accepetRequestData.status) {
+        console.log(accepetRequestData);
+        Swal.fire({
+          title: accepetRequestData.message,
+          icon: 'success',
+          timer: 2000,
+          showConfirmButton: false,
+          timerProgressBar: true
+        })
       }
     }
-  },[accepetRequestData])
+  }, [accepetRequestData])
 
   useEffect(() => {
-    if(send) {
+    if (send) {
       if (sendMissionPdfData.status) {
         console.log('PDF sent successfully:', sendMissionPdfData);
         Swal.fire({
-        title: t('text.PDF_Generated_and_Sent_Successfully'),
-        icon: 'success',
-        timer: 2000,
-        showConfirmButton: false,
-        timerProgressBar: true
-      });
-      } else  {
+          title: t('text.PDF_Generated_and_Sent_Successfully'),
+          icon: 'success',
+          timer: 2000,
+          showConfirmButton: false,
+          timerProgressBar: true
+        });
+      } else {
         console.log('PDF sending failed:', sendMissionPdfData.error);
         Swal.fire('Failed to send PDF', sendMissionPdfData.error, 'error');
       }
@@ -165,25 +165,25 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
     };
   }, [pdfPreviewUrl]);
 
-  const generatePdfPreview = async (employee , company , companyName) => {
+  const generatePdfPreview = async (employee, company, companyName) => {
     // Function to load external image through canvas (better CORS handling)
     const loadExternalImage = async (imageUrl) => {
       return new Promise((resolve) => {
         const img = new Image();
-        
+
         // Set up success handler
         img.onload = () => {
           try {
             // Create canvas to convert image to base64
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
-            
+
             // Resize image for smaller file size
             const maxWidth = 300; // Reduced from original size
             const maxHeight = 200;
-            
+
             let { width, height } = img;
-            
+
             // Calculate new dimensions
             if (width > height) {
               if (width > maxWidth) {
@@ -196,13 +196,13 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
                 height = maxHeight;
               }
             }
-            
+
             canvas.width = width;
             canvas.height = height;
-            
+
             // Draw image to canvas
             ctx.drawImage(img, 0, 0, width, height);
-            
+
             // Convert to base64 with compression
             const base64 = canvas.toDataURL('image/jpeg', 0.8);
             resolve(base64);
@@ -211,18 +211,18 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
             resolve(blueLogo);
           }
         };
-        
+
         // Set up error handler
         img.onerror = () => {
           console.warn('Failed to load external image, trying proxy method...');
           // Try proxy method as fallback
           tryProxyMethod(imageUrl).then(resolve).catch(() => resolve(blueLogo));
         };
-        
+
         // Try to load with crossOrigin
         img.crossOrigin = 'anonymous';
         img.src = imageUrl;
-        
+
         // Fallback timeout
         setTimeout(() => {
           if (!img.complete) {
@@ -242,7 +242,7 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
           `https://api.allorigins.win/raw?url=${encodeURIComponent(imageUrl)}`,
           `https://corsproxy.io/?${encodeURIComponent(imageUrl)}`
         ];
-        
+
         for (const proxyUrl of proxyUrls) {
           try {
             const response = await fetch(proxyUrl, { mode: 'cors' });
@@ -270,7 +270,7 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
     let companyImageSrc = blueLogo;
     if (company.companyimage) {
       try {
-        console.log("company.companyimage" , company.companyimage)
+        console.log("company.companyimage", company.companyimage)
         companyImageSrc = await loadExternalImage(company.companyimage);
         console.log("companyImageSrc loaded successfully");
       } catch (error) {
@@ -422,19 +422,19 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
         compress: true // Enable PDF compression
       });
       const imgData = canvas.toDataURL('image/jpeg', 0.7); // Use JPEG with 70% quality instead of PNG
-      
+
       // Use full A4 dimensions
       doc.addImage(imgData, 'JPEG', 0, 0, 210, 297, undefined, 'FAST'); // Use FAST compression
 
       // Create blob for preview and sending with compression
       const pdfBlob = doc.output('blob');
       const pdfUrl = URL.createObjectURL(pdfBlob);
-      
+
       setPdfBlob(pdfBlob);
       setPdfPreviewUrl(pdfUrl);
       setSelectedEmployeeForPdf(employee);
       setShowPdfModal(true);
-      
+
       // Return the PDF data for direct use
       return { pdfBlob, employee };
     } catch (error) {
@@ -443,7 +443,7 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
       if (document.body.contains(tempDiv)) {
         document.body.removeChild(tempDiv);
       }
-      
+
       // Fallback to simple PDF if html2canvas fails
       const doc = new jsPDF();
       doc.setFontSize(20);
@@ -452,15 +452,15 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
       doc.text(`اسم الموظف: ${employee.user.name}`, 20, 60);
       doc.text(`اسم الشركة: ${companyName}`, 20, 80);
       doc.text(`التاريخ: ${new Date().toLocaleDateString('ar-SA')}`, 20, 100);
-      
+
       const pdfBlob = doc.output('blob');
       const pdfUrl = URL.createObjectURL(pdfBlob);
-      
+
       setPdfBlob(pdfBlob);
       setPdfPreviewUrl(pdfUrl);
       setSelectedEmployeeForPdf(employee);
       setShowPdfModal(true);
-      
+
       // Return the PDF data for direct use
       return { pdfBlob, employee };
     }
@@ -469,14 +469,14 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
   const handleSendPdf = (pdfBlobData = null, employeeData = null) => {
     const blobToUse = pdfBlobData || pdfBlob;
     const employeeToUse = employeeData || selectedEmployeeForPdf;
-    
+
     if (blobToUse && employeeToUse) {
       setSend(true)
       dispatch(sendMissionPdf({
         missionId: missionId,
         pdfBlob: blobToUse
       }));
-     
+
     }
   }
 
@@ -488,11 +488,11 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
     setPdfPreviewUrl('');
     setPdfBlob(null);
     setSelectedEmployeeForPdf(null);
-    window.location.href ="/userDashboard/missions"
+    window.location.href = "/userDashboard/missions"
   }
-  
-  const handleAccept = (CurrentMissionEmployee)=>{
-    console.log("reviewRequestData" , reviewRequestData)
+
+  const handleAccept = (CurrentMissionEmployee) => {
+    console.log("reviewRequestData", reviewRequestData)
     console.log(CurrentMissionEmployee.id);
     Swal.fire({
       title: t("text.are_you_sure_you_want_to_accept_this_visitor"),
@@ -501,18 +501,18 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
       denyButtonText: t("text.No"),
     }).then((result) => {
       if (result.isConfirmed) {
-        dispatch(accepetRequest({order_id:CurrentMissionEmployee.id , mission_id:missionId})).then((result) => {
+        dispatch(accepetRequest({ order_id: CurrentMissionEmployee.id, mission_id: missionId })).then((result) => {
           if (result.payload && result.payload.status) {
             // Check if reconnaissance is true before generating PDF
             if (reviewRequestData.reconnaissance) {
               // Generate PDF preview after successful acceptance
               const companyName = reviewRequestData.companyName || 'Unknown Company';
-              generatePdfPreview(CurrentMissionEmployee , reviewRequestData, companyName).then((pdfData) => {
+              generatePdfPreview(CurrentMissionEmployee, reviewRequestData, companyName).then((pdfData) => {
                 // Automatically send PDF after generation using the returned data
                 if (pdfData && pdfData.pdfBlob && pdfData.employee) {
-                    handleSendPdf(pdfData.pdfBlob, pdfData.employee);
+                  handleSendPdf(pdfData.pdfBlob, pdfData.employee);
                 }
-                
+
                 // Show success message that the employee is accepted after PDF is sent
                 Swal.fire({
                   title: t("text.Employee_accepted_successfully"),
@@ -521,9 +521,9 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
                   showConfirmButton: false,
                   timerProgressBar: true
                 });
-                
+
                 // Remove the accepted employee from the list
-                setCurrentMissionEmployees(prevEmployees => 
+                setCurrentMissionEmployees(prevEmployees =>
                   prevEmployees.filter(emp => emp.id !== CurrentMissionEmployee.id)
                 );
               }).catch(error => {
@@ -533,7 +533,7 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
             } else {
               // If reconnaissance is false, just show success message without PDF
               console.log('Reconnaissance is false, skipping PDF generation');
-              
+
               // Show success message that the employee is accepted
               Swal.fire({
                 title: t("text.Employee_accepted_successfully"),
@@ -542,9 +542,9 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
                 showConfirmButton: false,
                 timerProgressBar: true
               });
-              
+
               // Remove the accepted employee from the list
-              setCurrentMissionEmployees(prevEmployees => 
+              setCurrentMissionEmployees(prevEmployees =>
                 prevEmployees.filter(emp => emp.id !== CurrentMissionEmployee.id)
               );
             }
@@ -591,250 +591,247 @@ const ReviewMissionRequest = ({reviewRequestData ,missionId}) => {
   // Get text direction based on language
   const textDirection = localStorage.getItem("language") === "ar" ? 'rtl' : 'ltr';
 
-  const {t} = useTranslation() ; 
+  const { t } = useTranslation();
   return (
     <>
-    { sendMissionPdfLoading  && <Loading/> } 
-    <SmallContainer>
-    <Place>
-        <span>{t("text.Missions")}/ </span>
-        <span style = {{color : Colors.main}}>{t("text.Review_Requests")} </span>
-    </Place>
-    <Parent>
-    {currentMissionEmployees?.map((item , index) => {
-      return (
-      <Line>
-          <PhotoAndName>
-              <Section>
-                <img src = {item.user.image} style = {{width : "65px" , height : "65px" ,   borderRadius : "50%" }} alt = "pic"/>
-              </Section>
-              <div>
-                <div>{item.user.name}</div>
-                <div className='text-xs'> {item.user.info}</div>
-                {/* Added quiz statistics below user info */}
-                {item.quiz_request && item.quiz_request.length > 0 && (
-                  <div className="mt-2">
-                    <div className="text-sm">
-                      {t("text.Score")}:{" "}
-                      <span className="font-bold">
-                        {Math.round(
-                          (item.quiz_request.filter((q) => q.is_correct).length /
-                            item.quiz_request.length) *
-                            100
-                        )}
-                        %
-                      </span>{" "}
-                      ({item.quiz_request.filter((q) => q.is_correct).length}/
-                      {item.quiz_request.length})
-                    </div>
+      {sendMissionPdfLoading && <Loading />}
+      <SmallContainer>
+        <Place>
+          <span>{t("text.Missions")}/ </span>
+          <span style={{ color: Colors.main }}>{t("text.Review_Requests")} </span>
+        </Place>
+        <Parent>
+          {currentMissionEmployees?.map((item, index) => {
+            return (
+              <Line>
+                <PhotoAndName>
+                  <Section>
+                    <img src={item.user.image} style={{ width: "65px", height: "65px", borderRadius: "50%" }} alt="pic" />
+                  </Section>
+                  <div>
+                    <div>{item.user.name}</div>
+                    <div className='text-xs'> {item.user.info}</div>
+                    {/* Added quiz statistics below user info */}
+                    {item.quiz_request && item.quiz_request.length > 0 && (
+                      <div className="mt-2">
+                        <div className="text-sm">
+                          {t("text.Score")}:{" "}
+                          <span className="font-bold">
+                            {Math.round(
+                              (item.quiz_request.filter((q) => q.is_correct).length /
+                                item.quiz_request.length) *
+                              100
+                            )}
+                            %
+                          </span>{" "}
+                          ({item.quiz_request.filter((q) => q.is_correct).length}/
+                          {item.quiz_request.length})
+                        </div>
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-          </PhotoAndName>
-          <CategoryDiv>
-                  {item.user.categories?.map((item , index) => {
-                      return (
-                          <Category key = {index}>{item.name}</Category>
-                      )
+                </PhotoAndName>
+                <CategoryDiv>
+                  {item.user.categories?.map((item, index) => {
+                    return (
+                      <Category key={index}>{item.name}</Category>
+                    )
                   })}
-          </CategoryDiv>
-          <ButtonDiv>
-            <AcceptButton onClick={()=>handleAccept(item)}>{t("text.Accept")}</AcceptButton>
-            <AcceptButton className='details-button' onClick={()=>handleShowQuiz(item)}>{t("text.Details")}</AcceptButton>
-            
-          </ButtonDiv>
-      </Line> 
-      ) 
-    }
-    )}
-      
-    </Parent>
-    </SmallContainer>
-    {/* Quiz Modal */}
-    {showQuizModal && selectedEmployee && (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-        <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-          <div className="flex justify-between items-center p-6 border-b border-gray-200">
-            <h3 className="text-lg font-semibold text-gray-900">
-              {t("text.Details")} - {selectedEmployee.user.name}
-            </h3>
-            <div
-              onClick={handleCloseQuizModal}
-              className="text-gray-400 hover:text-gray-600 text-xl font-bold cursor-pointer"
-            >
-              ×
-            </div>
-          </div>
-          
-          <div className="p-6">
-            {/* Employee Info Section */}
-            {selectedEmployee.user.info && (
-              <div className="mb-6 p-4 bg-gray-50 rounded-lg">
-                <h4 className="font-medium text-gray-900 mb-3">{t("text.Bio")}</h4>
-                <p className="text-gray-700 leading-relaxed">{selectedEmployee.user.info}</p>
+                </CategoryDiv>
+                <ButtonDiv>
+                  {reviewRequestData?.status == 5 ? item?.accept_status == 0 ? t("text.Not_Accepted_Employee") : t("text.Accepted_Employee") : null}
+                  {reviewRequestData?.status == 1 ? <AcceptButton onClick={() => handleAccept(item)}>{t("text.Accept")}</AcceptButton> : null}
+                  <AcceptButton className='details-button' onClick={() => handleShowQuiz(item)}>{t("text.Details")}</AcceptButton>
+
+                </ButtonDiv>
+              </Line>
+            )
+          }
+          )}
+
+        </Parent>
+      </SmallContainer>
+      {/* Quiz Modal */}
+      {showQuizModal && selectedEmployee && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center p-6 border-b border-gray-200">
+              <h3 className="text-lg font-semibold text-gray-900">
+                {t("text.Details")} - {selectedEmployee.user.name}
+              </h3>
+              <div
+                onClick={handleCloseQuizModal}
+                className="text-gray-400 hover:text-gray-600 text-xl font-bold cursor-pointer"
+              >
+                ×
               </div>
-            )}
-            
-            {/* Quiz Results Section */}
-            <div className="mb-4">
-              <h4 className="font-medium text-gray-900 mb-3">{t("text.Quiz_Results")}</h4>
             </div>
-            
-            {selectedEmployee.quiz_request && selectedEmployee.quiz_request.length > 0 ? (
-              <div className="space-y-4">
-                {selectedEmployee.quiz_request.map((quiz, index) => (
-                  <div key={quiz.id} className="border border-gray-200 rounded-lg p-4">
-                    <div className="flex items-center justify-between mb-3">
-                      <h4 className="font-medium text-gray-900">
-                        {t("text.Question")} {index + 1}
-                      </h4>
-                      <div className={`px-3 py-1 rounded-full text-sm font-medium ${
-                        quiz.is_correct 
-                          ? 'bg-lightSuccess text-success' 
-                          : 'bg-lightFailed text-failed'
-                      }`}>
-                        {quiz.is_correct ? t("text.Correct") : t("text.Incorrect")}
+
+            <div className="p-6">
+              {/* Employee Info Section */}
+              {selectedEmployee.user.info && (
+                <div className="mb-6 p-4 bg-gray-50 rounded-lg">
+                  <h4 className="font-medium text-gray-900 mb-3">{t("text.Bio")}</h4>
+                  <p className="text-gray-700 leading-relaxed">{selectedEmployee.user.info}</p>
+                </div>
+              )}
+
+              {/* Quiz Results Section */}
+              <div className="mb-4">
+                <h4 className="font-medium text-gray-900 mb-3">{t("text.Quiz_Results")}</h4>
+              </div>
+
+              {selectedEmployee.quiz_request && selectedEmployee.quiz_request.length > 0 ? (
+                <div className="space-y-4">
+                  {selectedEmployee.quiz_request.map((quiz, index) => (
+                    <div key={quiz.id} className="border border-gray-200 rounded-lg p-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <h4 className="font-medium text-gray-900">
+                          {t("text.Question")} {index + 1}
+                        </h4>
+                        <div className={`px-3 py-1 rounded-full text-sm font-medium ${quiz.is_correct
+                            ? 'bg-lightSuccess text-success'
+                            : 'bg-lightFailed text-failed'
+                          }`}>
+                          {quiz.is_correct ? t("text.Correct") : t("text.Incorrect")}
+                        </div>
+                      </div>
+
+                      <p className="text-gray-700 mb-3">{quiz.question}</p>
+
+                      <div className="space-y-2">
+                        {/* Only show options that are not null */}
+                        {quiz.option_1 !== null && (
+                          <div className={`p-2 rounded ${
+                            // quiz.answer === 1 ? 'bg-lightSuccess border border-success' : 
+                            'bg-gray-50'
+                            }`}>
+                            <span className="font-medium">{getArabicLetter(0)}</span>
+                            <span className="font-medium mx-2">-</span>
+                            <span style={{ direction: textDirection }}>{quiz.option_1}</span>
+                            {/* {quiz.answer === 1 && <span className="ml-2 text-success">✓ {t("text.Correct_Answer")}</span>} */}
+                          </div>
+                        )}
+                        {quiz.option_2 !== null && (
+                          <div className={`p-2 rounded ${
+                            // quiz.answer === 2 ? 'bg-lightSuccess border border-success' : 
+                            'bg-gray-50'
+                            }`}>
+                            <span className="font-medium">{getArabicLetter(1)}</span>
+                            <span className="font-medium mx-2">-</span>
+                            <span style={{ direction: textDirection }}>{quiz.option_2}</span>
+                            {/* {quiz.answer === 2 && <span className="ml-2 text-success">✓ {t("text.Correct_Answer")}</span>} */}
+                          </div>
+                        )}
+                        {quiz.option_3 !== null && (
+                          <div className={`p-2 rounded ${
+                            // quiz.answer === 3 ? 'bg-lightSuccess border border-success' : 
+                            'bg-gray-50'
+                            }`}>
+                            <span className="font-medium">{getArabicLetter(2)}</span>
+                            <span className="font-medium mx-2">-</span>
+                            <span style={{ direction: textDirection }}>{quiz.option_3}</span>
+                            {/* {quiz.answer === 3 && <span className="ml-2 text-success">✓ {t("text.Correct_Answer")}</span>} */}
+                          </div>
+                        )}
+                        {quiz.option_4 !== null && (
+                          <div className={`p-2 rounded ${
+                            // quiz.answer === 4 ? 'bg-lightSuccess border border-success' : 
+                            'bg-gray-50'
+                            }`}>
+                            <span className="font-medium">{getArabicLetter(3)}</span>
+                            <span className="font-medium mx-2">-</span>
+                            <span style={{ direction: textDirection }}>{quiz.option_4}</span>
+                            {/* {quiz.answer === 4 && <span className="ml-2 text-success">✓ {t("text.Correct_Answer")}</span>} */}
+                          </div>
+                        )}
+                      </div>
+
+                      <div className={`mt-3 p-2 rounded ${quiz.is_correct ? 'bg-lightSuccess' : 'bg-lightFailed'
+                        }`}>
+                        <span className={`font-medium ${quiz.is_correct ? 'text-success' : 'text-failed'
+                          }`}>{t("text.User_Answer")}: </span>
+                        <span className={`${quiz.is_correct ? 'text-success' : 'text-failed'
+                          }`}>
+                          {getArabicLetter(quiz.user_answer - 1)}
+                        </span>
                       </div>
                     </div>
-                    
-                    <p className="text-gray-700 mb-3">{quiz.question}</p>
-                    
-                    <div className="space-y-2">
-                      {/* Only show options that are not null */}
-                      {quiz.option_1 !== null && (
-                        <div className={`p-2 rounded ${
-                          // quiz.answer === 1 ? 'bg-lightSuccess border border-success' : 
-                          'bg-gray-50'
-                        }`}>
-                          <span className="font-medium">{getArabicLetter(0)}</span> 
-                          <span className="font-medium mx-2">-</span> 
-                          <span style={{direction: textDirection}}>{quiz.option_1}</span>
-                          {/* {quiz.answer === 1 && <span className="ml-2 text-success">✓ {t("text.Correct_Answer")}</span>} */}
-                        </div>
-                      )}
-                      {quiz.option_2 !== null && (
-                        <div className={`p-2 rounded ${
-                          // quiz.answer === 2 ? 'bg-lightSuccess border border-success' : 
-                          'bg-gray-50'
-                        }`}>
-                          <span className="font-medium">{getArabicLetter(1)}</span> 
-                          <span className="font-medium mx-2">-</span> 
-                          <span style={{direction: textDirection}}>{quiz.option_2}</span>
-                          {/* {quiz.answer === 2 && <span className="ml-2 text-success">✓ {t("text.Correct_Answer")}</span>} */}
-                        </div>
-                      )}
-                      {quiz.option_3 !== null && (
-                        <div className={`p-2 rounded ${
-                          // quiz.answer === 3 ? 'bg-lightSuccess border border-success' : 
-                          'bg-gray-50'
-                        }`}>
-                          <span className="font-medium">{getArabicLetter(2)}</span> 
-                          <span className="font-medium mx-2">-</span> 
-                          <span style={{direction: textDirection}}>{quiz.option_3}</span>
-                          {/* {quiz.answer === 3 && <span className="ml-2 text-success">✓ {t("text.Correct_Answer")}</span>} */}
-                        </div>
-                      )}
-                      {quiz.option_4 !== null && (
-                        <div className={`p-2 rounded ${
-                          // quiz.answer === 4 ? 'bg-lightSuccess border border-success' : 
-                          'bg-gray-50'
-                        }`}>
-                          <span className="font-medium">{getArabicLetter(3)}</span> 
-                          <span className="font-medium mx-2">-</span> 
-                          <span style={{direction: textDirection}}>{quiz.option_4}</span>
-                          {/* {quiz.answer === 4 && <span className="ml-2 text-success">✓ {t("text.Correct_Answer")}</span>} */}
-                        </div>
-                      )}
+                  ))}
+
+                  <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+                    <div className="flex justify-between items-center">
+                      <span className="font-medium text-gray-700">{t("text.Total_Questions")}:</span>
+                      <span className="font-bold">{selectedEmployee.quiz_request.length}</span>
                     </div>
-                    
-                    <div className={`mt-3 p-2 rounded ${
-                      quiz.is_correct ? 'bg-lightSuccess' : 'bg-lightFailed'
-                    }`}>
-                      <span className={`font-medium ${
-                        quiz.is_correct ? 'text-success' : 'text-failed'
-                      }`}>{t("text.User_Answer")}: </span>
-                      <span className={`${
-                        quiz.is_correct ? 'text-success' : 'text-failed'
-                      }`}>
-                        {getArabicLetter(quiz.user_answer - 1)}
+                    <div className="flex justify-between items-center mt-2">
+                      <span className="font-medium text-gray-700">{t("text.Correct_Answers")}:</span>
+                      <span className="font-bold text-success">
+                        {selectedEmployee.quiz_request.filter(q => q.is_correct).length}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center mt-2">
+                      <span className="font-medium text-gray-700">{t("text.Score")}:</span>
+                      <span className="font-bold text-blue-600">
+                        {Math.round((selectedEmployee.quiz_request.filter(q => q.is_correct).length / selectedEmployee.quiz_request.length) * 100)}%
                       </span>
                     </div>
                   </div>
-                ))}
-                
-                <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-                  <div className="flex justify-between items-center">
-                    <span className="font-medium text-gray-700">{t("text.Total_Questions")}:</span>
-                    <span className="font-bold">{selectedEmployee.quiz_request.length}</span>
-                  </div>
-                  <div className="flex justify-between items-center mt-2">
-                    <span className="font-medium text-gray-700">{t("text.Correct_Answers")}:</span>
-                    <span className="font-bold text-success">
-                      {selectedEmployee.quiz_request.filter(q => q.is_correct).length}
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center mt-2">
-                    <span className="font-medium text-gray-700">{t("text.Score")}:</span>
-                    <span className="font-bold text-blue-600">
-                      {Math.round((selectedEmployee.quiz_request.filter(q => q.is_correct).length / selectedEmployee.quiz_request.length) * 100)}%
-                    </span>
-                  </div>
                 </div>
-              </div>
-            ) : (
-              <div className="text-center py-8">
-                <p className="text-gray-500">{t("text.No_Quiz_Data_Available")}</p>
-              </div>
-            )}
+              ) : (
+                <div className="text-center py-8">
+                  <p className="text-gray-500">{t("text.No_Quiz_Data_Available")}</p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    )}
+      )}
 
-    {/* PDF Preview Modal */}
-    {showPdfModal && pdfPreviewUrl && (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-        <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-          <div className="flex justify-between items-center p-6 border-b border-gray-200">
-            <h3 className="text-lg font-semibold text-gray-900">
-              {t('text.PDF_Preview_Mission_Certificate')}
-            </h3>
-            <div
-              onClick={handleClosePdfModal}
-              className="text-gray-400 hover:text-gray-600 text-xl font-bold cursor-pointer"
-            >
-              ×
-            </div>
-          </div>
-          
-          <div className="p-6">
-            
-            <div className="border border-gray-200 rounded-lg overflow-hidden">
-              <iframe
-                src={pdfPreviewUrl}
-                className="w-full h-96"
-                title="PDF Preview"
-              />
-            </div>
-            
-            <div className="flex justify-end gap-2 mt-6">
-              <button
+      {/* PDF Preview Modal */}
+      {showPdfModal && pdfPreviewUrl && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center p-6 border-b border-gray-200">
+              <h3 className="text-lg font-semibold text-gray-900">
+                {t('text.PDF_Preview_Mission_Certificate')}
+              </h3>
+              <div
                 onClick={handleClosePdfModal}
-                className="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                className="text-gray-400 hover:text-gray-600 text-xl font-bold cursor-pointer"
               >
-                {t('text.Cancel')}
-              </button>
-              {/* <button
+                ×
+              </div>
+            </div>
+
+            <div className="p-6">
+
+              <div className="border border-gray-200 rounded-lg overflow-hidden">
+                <iframe
+                  src={pdfPreviewUrl}
+                  className="w-full h-96"
+                  title="PDF Preview"
+                />
+              </div>
+
+              <div className="flex justify-end gap-2 mt-6">
+                <button
+                  onClick={handleClosePdfModal}
+                  className="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  {t('text.Cancel')}
+                </button>
+                {/* <button
                 onClick={handleSendPdf}
                 className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
               >
                 {t('text.Send_PDF')}
               </button> */}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    )}
+      )}
     </>
   )
 }

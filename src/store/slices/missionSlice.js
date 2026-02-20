@@ -15,7 +15,7 @@ async (values = {}) => {
         if (values.date_from) params.append('date_from', values.date_from);
         if (values.date_to) params.append('date_to', values.date_to);
         
-        const url = `https://test.secretvisitor.co/dashboard/api/getMissions?${params.toString()}`;
+        const url = `https://maknoun.sa/dashboard/api/getMissions?${params.toString()}`;
         
         const response = await axios.get(
             url, 
@@ -39,7 +39,7 @@ async (values) => {
     const token = localStorage.getItem('token');
     try {
     const response = await axios.get(
-        `https://test.secretvisitor.co/dashboard/api/getQuestionsMissions?mission_id=${values}` ,{
+        `https://maknoun.sa/dashboard/api/getQuestionsMissions?mission_id=${values}` ,{
             headers: {
                 "Authorization" : token , 
                 "lang" : currentLanguage
@@ -59,7 +59,7 @@ async (values) => {
     const token = localStorage.getItem('token');
     try {
     const response = await axios.get(
-        `https://test.secretvisitor.co/dashboard/api/getAnswers?mission_id=${values}` ,{
+        `https://maknoun.sa/dashboard/api/getAnswers?mission_id=${values}` ,{
             headers: {
                 "Authorization" : token , 
                 "lang" : currentLanguage
@@ -79,7 +79,7 @@ async (values) => {
     const token = localStorage.getItem('token');
     try {
     const response = await axios.post(
-        `https://test.secretvisitor.co/dashboard/api/accepetRequest`,
+        `https://maknoun.sa/dashboard/api/accepetRequest`,
         {
             mission_id: values.mission_id  ,
             order_id: values.order_id
@@ -103,7 +103,7 @@ export const addMissions = createAsyncThunk(
         const token = localStorage.getItem('token');
         try {
         const response = await axios.post(
-            `https://test.secretvisitor.co/dashboard/api/addMission` ,
+            `https://maknoun.sa/dashboard/api/addMission` ,
             values , 
             {
                 headers: {
@@ -124,7 +124,7 @@ export const deleteMission = createAsyncThunk(
         const token = localStorage.getItem('token');
         try {
         const response = await axios.post(
-            `https://test.secretvisitor.co/dashboard/api/deleteMission` ,
+            `https://maknoun.sa/dashboard/api/deleteMission` ,
             values , 
             {
                 headers: {
@@ -145,7 +145,7 @@ export const deleteMission = createAsyncThunk(
             const token = localStorage.getItem('token');
             try {
             const response = await axios.post(
-                `https://test.secretvisitor.co/dashboard/api/rate_vistors` ,
+                `https://maknoun.sa/dashboard/api/rate_vistors` ,
                 values , 
                 {
                     headers: {
@@ -170,7 +170,7 @@ export const sendMissionPdf = createAsyncThunk(
         formData.append('pdf', values.pdfBlob, 'mission_certificate.pdf');
         
         const response = await axios.post(
-            `https://test.secretvisitor.co/dashboard/api/missionPdf/${values.missionId}` ,
+            `https://maknoun.sa/dashboard/api/missionPdf/${values.missionId}` ,
             formData , 
             {
                 headers: {

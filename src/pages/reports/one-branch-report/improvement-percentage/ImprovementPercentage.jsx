@@ -105,7 +105,7 @@ const ImprovementPercentage = ({apiData}) => {
             //   stepSize: isRate ? 1 : 10,
             max: undefined,
           },
-          max: undefined,
+          max: 100,
         },
         x: {
           grid: { display: false },

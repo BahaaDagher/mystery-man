@@ -550,7 +550,7 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions , setButt
                             </LocationAndTimeThings>
                         </LocationAndTime>
                     </Footer>
-                    {mission.status ==1 ? 
+                    {mission.status ==1 || mission.status == 5 ? 
                         <ReviewSubmitButton  onClick={()=>ReviewRequest(mission)}> {t("text.ReviewRequests")}  </ReviewSubmitButton> : null 
                     }
                     
@@ -613,7 +613,7 @@ const ViewMissions = ({showMissions , setShowMissions , selectMissions , setButt
                         </LocationAndTimeThings>
                     </LocationAndTime>
                 </Footer>
-                {mission.status ==1 ? 
+                {mission.status ==1 || mission.status == 5 ? 
                     <ReviewSubmitButton  onClick={()=>ReviewRequest(mission)}> {t("text.ReviewRequests")}  </ReviewSubmitButton> : null 
                 }
                 {/* <FinishedDiv>Finished 05 minutes ago</FinishedDiv> : null  */}

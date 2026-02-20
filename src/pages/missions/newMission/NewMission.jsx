@@ -496,7 +496,7 @@ const NewMission = () => {
                   value={selectedQuestioniere}
                   onChange={handleSelectedQuestionnaire}
                 >
-                  {questionieres.map((questioniere, index) => (
+                  {questionieres.filter(questioniere => !questioniere.isAdmin).map((questioniere, index) => (
                     <StyledMenuItem key={index} value={index}>
                       {questioniere.title}
                     </StyledMenuItem>

@@ -7,7 +7,7 @@ import CustomSelect from '../../components/CustomSelect';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
-const ReportHeader = ({ selected, onSelect, branches, qrCodes, selectedBranch, setSelectedBranch, selectedBranches, setSelectedBranches, selectedQRCode, setSelectedQRCode, dateRange, setDateRange, onPrint }) => {
+const ReportHeader = ({ selected, onSelect, branches, qrCodes, selectedBranch, setSelectedBranch, selectedBranches, setSelectedBranches, selectedQrBranches, setSelectedQrBranches, selectedQRCode, setSelectedQRCode, dateRange, setDateRange, onPrint, onExportExcel }) => {
   const { t } = useTranslation();
   const [showNoteModal, setShowNoteModal] = useState(false);
   const [noteText, setNoteText] = useState('');
@@ -62,14 +62,14 @@ const ReportHeader = ({ selected, onSelect, branches, qrCodes, selectedBranch, s
         >
           {t("text.More_than_Branch")}
         </div>
-        {/* <div
+        <div
           className={`flex justify-center items-center cursor-pointer px-8 py-4 rounded-[10px] text-[16px] font-medium leading-[21.28px] tracking-[0.02em] ${
             selected === "qr" ? "bg-main text-[#fff] " : "bg-white text-black5"
           }`}
           onClick={() => onSelect("qr")}
         >
           {t("text.QR_codes")}
-        </div> */}
+        </div>
       </div>
       <div className="flex justify-center items-center gap-2">
         <div className=" lg:min-w-[220px]">
@@ -89,19 +89,30 @@ const ReportHeader = ({ selected, onSelect, branches, qrCodes, selectedBranch, s
               onChange={setSelectedBranches}
               multiple={true}
               placeholder={t("text.Select_branches")}
+              showSelectAll={true}
             />
           )}
           {selected === 'qr' && (
             <CustomSelect
-              options={qrCodes}
-              value={selectedQRCode}
-              onChange={setSelectedQRCode}
-              multiple={false}
-              placeholder={t("text.Select_QR_codes")}
+              options={branches}
+              value={selectedQrBranches}
+              onChange={setSelectedQrBranches}
+              multiple={true}
+              placeholder={t("text.Select_branches")}
+              showSelectAll={true}
             />
           )}
         </div>
         <DateRangePickerComponent onDateChange={setDateRange} />
+        {onExportExcel && (
+          <div
+            className='bg-green p-[8px] rounded-[5px] cursor-pointer flex items-center justify-center text-white hover:opacity-80 transition-opacity px-3'
+            onClick={onExportExcel}
+            title="Export Excel"
+          >
+            Excel
+          </div>
+        )}
         <div 
           className='bg-main p-[8px] rounded-[5px] cursor-pointer flex items-center justify-center hover:opacity-80 transition-opacity' 
           onClick={handlePrintClick}

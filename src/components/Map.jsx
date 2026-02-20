@@ -82,13 +82,13 @@ const Map = ({setLocation , latPos  , lngPos , mapWidth , mapHeight , showSearch
 
   
   setDefaults({
-    key: "AIzaSyCtoOSkC_xpom94NO2vGj1S2TsNltZ5sSY", // Your API key here.
+    key: "AIzaSyC-5PuSeYiIRrgkSSaD9wVpvBPXPIRA8sU", // Your API key here.
     language: "en", // Default language for responses.
    // Default region for responses.
   });
 
   const { isLoaded } = useLoadScript({
-        googleMapsApiKey: "AIzaSyCtoOSkC_xpom94NO2vGj1S2TsNltZ5sSY",
+        googleMapsApiKey: "AIzaSyC-5PuSeYiIRrgkSSaD9wVpvBPXPIRA8sU",
         libraries: ['places']
   });
   
