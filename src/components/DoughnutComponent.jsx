@@ -15,30 +15,40 @@ ChartJS.register(
   ChartDataLabels
 );
 
+// Plugin that draws text directly in the center of the doughnut canvas
+// This is print-safe because it's part of the canvas itself, not an overlay HTML element
+const centerTextPlugin = {
+  id: 'centerText',
+  afterDraw(chart) {
+    const { content } = chart.config.options._centerText || {};
+    if (!content) return;
+
+    const { ctx, chartArea } = chart;
+    const centerX = (chartArea.left + chartArea.right) / 2;
+    const centerY = (chartArea.top + chartArea.bottom) / 2;
+
+    ctx.save();
+    ctx.font = `bold ${content.contentFontSize || 20}px ${content.fontFamily || 'Tajawal, sans-serif'}`;
+    ctx.fillStyle = content.color || '#1f2937';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(content.value ?? '', centerX, centerY);
+    ctx.restore();
+  },
+};
+
+ChartJS.register(centerTextPlugin);
+
 const DoughnutComponent = ({ chartData, doughnutSize , content  , options}) => {
     
+  const mergedOptions = {
+    ...options,
+    _centerText: { content },
+  };
+
   return (
-    <div className="flex items-center justify-center relative" style={{ width: doughnutSize, height: doughnutSize }}>
-      <div className="flex items-center justify-center" style={{ width: doughnutSize, height: doughnutSize }}>
-        <Doughnut data={chartData} options={options} width={doughnutSize} height={doughnutSize} />
-      </div>
-      <div
-        className="flex items-center justify-center absolute top-0 left-0 w-full h-full"
-        style={{ pointerEvents: 'none' }}
-      >
-        <span
-          className="font-bold text-gray-800 rounded-full shadow flex items-center justify-center"
-          style={{
-            fontSize: `${content.contentFontSize}px`,
-            width: `${content.contentDimensions}px`,
-            height: `${content.contentDimensions}px`,
-            background: 'rgba(255,255,255,0.3)',
-            pointerEvents: 'none'
-          }}
-        >
-          {content.value}
-        </span>
-      </div>
+    <div className="flex items-center justify-center" style={{ width: doughnutSize, height: doughnutSize }}>
+      <Doughnut data={chartData} options={mergedOptions} width={doughnutSize} height={doughnutSize} />
     </div>
   );
 };

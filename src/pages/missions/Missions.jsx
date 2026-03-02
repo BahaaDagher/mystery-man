@@ -15,7 +15,7 @@ import Swal from 'sweetalert2';
 import DateRangePickerComponent from '../../components/DateRangePickerComponent';
 import CustomSelect from '../../components/CustomSelect';
 import { getBranches } from '../../store/slices/branchSlice';
-import { format, startOfYear, endOfYear } from 'date-fns';
+import { format, startOfYear, endOfYear , subYears } from 'date-fns';
 
 const MainContent = styled(FlexSpaceBetween)(({ theme }) => ({
   [theme.breakpoints.down('800')]: {
@@ -61,10 +61,16 @@ const Missions = () => {
   const [selectedBranch, setSelectedBranch] = useState('');
   const [branches, setBranches] = useState([]);
   // Set default date range to "this year" to match DateRangePickerComponent
-  const [dateRange, setDateRange] = useState({
-    startDate: startOfYear(new Date()),
-    endDate: endOfYear(new Date())
-  });
+  // const [dateRange, setDateRange] = useState({
+  //   startDate: startOfYear(new Date()),
+  //   endDate: endOfYear(new Date())
+  // });
+  const lastYear = subYears(new Date(), 2);
+
+const [dateRange, setDateRange] = useState({
+  startDate: startOfYear(lastYear),
+  endDate: endOfYear(new Date())
+});
 
   // Redux selectors for branches
   const getBranchesData = useSelector(state => state.branchData.getBranchesData);

@@ -58,7 +58,7 @@ function App() {
       // root.style.setProperty('--app-font-family', "'Roboto', sans-serif");
       root.style.setProperty('--app-font-family', "'Cairo', sans-serif");
     } else if (language === 'ar') {
-      root.style.setProperty('--app-font-family', "'Noto Sans Arabic', sans-serif");
+      root.style.setProperty('Tajawal','--app-font-family', "'Noto Sans Arabic', sans-serif");
     }
   } , [localStorage.getItem("language")])
 

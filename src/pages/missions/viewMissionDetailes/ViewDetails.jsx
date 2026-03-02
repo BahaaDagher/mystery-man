@@ -61,7 +61,7 @@ const ViewDetails = ({missionDetails}) => {
 
     useEffect(()=>{
         console.log("cccccccCompletedMissionAnswer" , CompletedMissionAnswer );
-        if (CompletedMissionAnswer.data) {
+        if (CompletedMissionAnswer?.data) {
             setMissionAnswer(CompletedMissionAnswer.data.questions)
             const arr =[]
             CompletedMissionAnswer.data.questions.steps.forEach((step)=>{
