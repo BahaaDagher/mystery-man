@@ -275,18 +275,18 @@ const DateRangePickerComponent = ({ onDateChange }) => {
                     "flex gap-2"
                   }`}
                 >
-                  <button
+                  <div
                     onClick={handleCancel}
-                    className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 transition-colors"
+                    className="cursor-pointer px-4 py-2 text-sm font-medium text-gray-700 bg-grayDC rounded-md hover:bg-gray_l transition-colors"
                   >
                     {t("text.Cancel")}
-                  </button>
-                  <button
+                  </div>
+                  <div
                     onClick={handleApply}
-                    className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors"
+                    className="cursor-pointer px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors"
                   >
                     {t("text.Apply")}
-                  </button>
+                  </div>
                 </div>
               </div>
             </div>

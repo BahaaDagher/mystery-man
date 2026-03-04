@@ -263,6 +263,8 @@ const AllRating = styled("div")(({ theme }) => ({
     // padding  :"85px 50px" , 
     // direction : "ltr" , 
     // 
+    pageBreakInside: 'avoid',
+    breakInside: 'avoid',
 }));
 const Graph = styled("div")(({ theme }) => ({
     position : "relative" ,
@@ -305,9 +307,13 @@ const RatingTitle = styled("div")(({ theme }) => ({
 
 }));
 const RatingTitle2 = styled("div")(({ theme }) => ({
-    fontSize : "45px" , 
+    fontSize : "35px" , 
     fontWeight : "700" ,
-    color : Colors.main
+    color : Colors.main,
+    display : "flex" ,
+    justifyContent : "center" ,
+    alignItems : "center" ,
+    textAlign : "center" , 
 
 }));
 const RatingPercentage = styled("div")(({ theme }) => ({
@@ -413,7 +419,7 @@ const Divisor = styled("div")(({ theme }) => ({
     height:'2px',
     background : '#0000000D' , 
     margin :"auto" , 
-    margin :"10px"  , 
+    margin :"100px 0"  , 
 }));
 // const StepQuestions = styled("div")({
 //   marginTop: "30px",
@@ -432,7 +438,7 @@ const QuestionText = styled("div")({
   fontWeight: "600",
   fontSize: "18px",
   color: "#2C3E50",
-  width: "60%",
+//   width: "60%",
 });
 
 const AnswerBox = styled("div")({
@@ -615,36 +621,37 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                     <img src={diamond} alt="diamond" width={30} height={30}/>
                 </div>
                 <div className="flex justify-around items-center">
-                    <div className="relative ">
-                        <PieChartComponent
-                            chartData={{
-                                labels: [t('text.Rate'), ''],
-                                datasets: [
-                                    {
-                                        data: [
-                                            parseFloat(missionAnswer?.rate?.replace(',', '.') || 0),
-                                            100 - parseFloat(missionAnswer?.rate?.replace(',', '.') || 0)
-                                        ],
-                                        backgroundColor: [Colors.main, '#fff'],
-                                        borderWidth: 0,
+                    <div className="flex items-start justify-center gap-[5px] shrink-0">
+                        <div className="w-[250px] h-[250px]">
+                            <PieChartComponent
+                                chartData={{
+                                    labels: [t('text.Rate'), ''],
+                                    datasets: [
+                                        {
+                                            data: [
+                                                parseFloat(missionAnswer?.rate?.replace(',', '.') || 0),
+                                                100 - parseFloat(missionAnswer?.rate?.replace(',', '.') || 0)
+                                            ],
+                                            backgroundColor: [Colors.main, '#fff'],
+                                            borderWidth: 0,
+                                        },
+                                    ],
+                                }}
+                                options={{
+                                    plugins: {
+                                        legend: { display: false },
+                                        tooltip: { enabled: false },
+                                        datalabels: { display: false }
                                     },
-                                ],
-                            }}
-                            options={{
-                                plugins: {
-                                    legend: { display: false },
-                                    tooltip: { enabled: false },
-                                    datalabels: { display: false }
-                                },
-                                maintainAspectRatio: false,
-                            }}
-                            size={250}
-                        >
-                        </PieChartComponent>
+                                    maintainAspectRatio: false,
+                                }}
+                                size={250}
+                            />
+                        </div>
                         
-                      <div className=" font-light text-[36px] leading-none tracking-normal text-center text-main absolute top-[10px] left-[-110px] ">
-                        {convert(missionAnswer?.rate)}
-                      </div>
+                        <div className="font-light text-[36px] leading-none tracking-normal text-center text-main mt-[10px] whitespace-nowrap">
+                            {convert(missionAnswer?.rate)}
+                        </div>
                     </div>
                     <div>
                         <RatingScore bg={rateColor}>
@@ -657,11 +664,11 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                         </RatingScore>
                     </div>
                 </div>
-                <div className="w-[70%] m-auto">
-                    <HorizontalBarChart steps={missionAnswer?.steps} profileData={profileData} />
-                </div>
 
             </AllRating>
+            <div style={{ width: '100%', pageBreakBefore: 'always', pageBreakAfter: 'always' , breakBefore: 'page'  , pageBreakInside: 'avoid', breakInside: 'avoid' }}>
+                <HorizontalBarChart steps={missionAnswer?.steps} profileData={profileData} />
+            </div>
 
         </Header>
         <StepsDetails>
@@ -669,24 +676,24 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                 return (
                     <>
                          {/* StepBar StepName  StepRate StepQuestions  StepQuestionAnswer */}
-                        <div key={index} style={{ pageBreakInside: 'avoid', breakInside: 'avoid' }}>
+                        <div key={index} style={{ pageBreakInside: 'avoid', breakInside: 'avoid' , paddingTop: "50px", paddingBottom: "50px" }}>
                             {(() => {
                                 const stepRateValue = parseFloat(step?.rate?.replace(',', '.') || 0);
                                 const stepColor = getColorBasedOnPercentage(stepRateValue, profileData);
                                 return (
-                                    <div className="flex justify-around mb-[150px]">
-                                        <div className="flex w-[60%] flex-col justify-center items-center gap-5">
-                                            <div className='flex gap-5 items-center '>
+                                    <div className="flex justify-around mb-[100px]">
+                                        <div className="flex w-[60%] flex-col justify-center items-center gap-5 ">
+                                            <div className='flex gap-5 items-center justify-center'>
                                                 <img src={diamond} alt="diamond" width={20} height={20} />
-                                                <RatingTitle2>{step.name} </RatingTitle2>
+                                                <RatingTitle2>{step.name}</RatingTitle2>
                                                 <img src={diamond} alt="diamond" width={20} height={20} />
                                             </div>
-                                            <div
+                                            {/* <div
                                                 className="text-white pr-2 pl-2 text-[35px]  w-fit"
                                                 style={{ backgroundColor: Colors.main }}
                                             >
                                                 20 / 10
-                                            </div>
+                                            </div> */}
                                         </div>
                                         <div className="w-[40%] flex justify-center items-center">
                                             <DoughnutComponent
@@ -729,15 +736,6 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                            <StepQuestions>
                             {step.questions?.map((question, index) => {
 
-                                /* ===== HEADLINE ===== */
-                                // if (question.type === "headLine") {
-                                // return (
-                                //     <HeadLine key={index}>
-                                //     {question.title}
-                                //     </HeadLine>
-                                // );
-                                // }
-
                                 /* ===== UPLOAD IMAGES ===== */
                                 if (question.type === "uploadImages") {
                                 return (
@@ -765,7 +763,7 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
 
                                 /* ===== NORMAL QUESTIONS ===== */
                                 const renderAnswer = () => {
-                                if (!question.answer) return "N/A";
+                                if (!question.answer && question.type !== "headLine") return "N/A";
 
                                 switch (question.type) {
                                     case "yesOrNo":
@@ -791,7 +789,7 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                                     return question.answer;
                                     
                                     case "headLine":
-                                    return question.answer;
+                                    return "";
 
                                     default:
                                     return "N/A";
@@ -806,8 +804,8 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                                 );
                             })}
                             </StepQuestions>
-                            <div className='flex  bg-main h-[2px] w-full my-[100px]' >
-                            </div>
+                            {/* <div className='flex  bg-main h-[2px] w-full my-[100px]' >
+                            </div> */}
                            
                         </div>
 
@@ -816,11 +814,11 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                 }
             )}
         </StepsDetails>
-        <div className='flex flex-col justify-center items-center bg-main  w-full p-5' >
-                 <LogoDiv>
-                    <Image src = {grayLogo}/>
-                </LogoDiv>
-                <div className='font-light text-[32px]  text-white ' >بداية رحلتك للنجاح و مصدر ثقتك</div>
+        <div className='flex flex-col justify-center items-center bg-main  w-full p-5' style={{ pageBreakInside: 'avoid', breakInside: 'avoid' }}>
+            <LogoDiv>
+                <Image src = {grayLogo}/>
+            </LogoDiv>
+            <div className='font-light text-[32px]  text-white ' >بداية رحلتك للنجاح و مصدر ثقتك</div>
         </div>
     </PrintDiv>
   )
