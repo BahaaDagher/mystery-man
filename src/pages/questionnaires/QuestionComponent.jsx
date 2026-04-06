@@ -46,7 +46,13 @@ const stopAutoScroll = () => {
   }
 };
 
-const DraggableQuestion = ({ questionData, index, moveQuestion ,setIsApplyFocus}) => {
+const DraggableQuestion = ({
+  questionData,
+  index,
+  moveQuestion,
+  setIsApplyFocus,
+  onQuestionInteract,
+}) => {
   const ref1 = useRef(null);
 
   const [, drop] = useDrop({
@@ -116,14 +122,22 @@ const DraggableQuestion = ({ questionData, index, moveQuestion ,setIsApplyFocus}
 
   return (
     <div ref={preview}>
-      <div ref={ref1} style={{ opacity: isDragging ? 0 : 1 }}>
+      <div
+        ref={ref1}
+        style={{ opacity: isDragging ? 0 : 1 }}
+        onPointerDownCapture={() => onQuestionInteract?.(index)}
+      >
         <QuestionComponent questionData={questionData} index={index} setIsApplyFocus={setIsApplyFocus} />
       </div>
     </div>
   );
 };
 
-const QuestionComponent = ({ questions ,setIsApplyFocus}) => {
+const QuestionComponent = ({
+  questions,
+  setIsApplyFocus,
+  onQuestionInteract,
+}) => {
   const dispatch = useDispatch() ; 
   const moveQuestion = (fromIndex, toIndex) => {
     console.log('llllllllllll',fromIndex,toIndex);
@@ -140,6 +154,7 @@ const QuestionComponent = ({ questions ,setIsApplyFocus}) => {
           index={index}
           moveQuestion={moveQuestion}
           setIsApplyFocus={setIsApplyFocus}
+          onQuestionInteract={onQuestionInteract}
         />
       ))}
     </div>

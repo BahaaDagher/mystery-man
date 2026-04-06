@@ -305,6 +305,8 @@ const QuestionnaireSettings = ({isAddNew}) => {
   const getStepsLoading = useSelector((state) => state.stepData.getStepsLoading);
 
   const [chosenType , setChosenType] = useState(null) ; 
+  /** When set, "Add question" inserts after this index; null = append at end */
+  const [insertQuestionAfterIndex, setInsertQuestionAfterIndex] = useState(null);
   const [newAnswer, setNewAnswer] = useState('');
 
   const dispatch = useDispatch() ; 
@@ -544,7 +546,13 @@ const QuestionnaireSettings = ({isAddNew}) => {
   
   return (
     <>
-    <QuestionsTypes  setAnchorEl= {setAnchorEl} anchorEl={anchorEl} setChosenType = {setChosenType}/>
+    <QuestionsTypes
+      setAnchorEl={setAnchorEl}
+      anchorEl={anchorEl}
+      setChosenType={setChosenType}
+      insertAfterIndex={insertQuestionAfterIndex}
+      onQuestionInserted={() => setInsertQuestionAfterIndex(null)}
+    />
     {getQuestionnaireLoading ? <Loading/> : 
     <Parent>
         <Settings>
@@ -710,7 +718,11 @@ const QuestionnaireSettings = ({isAddNew}) => {
             questionieres[currentQuestioneir]?.steps[currentStep]?.questions.length>0 ?
             <DndProvider backend={HTML5Backend}>
 
-              <QuestionComponent setIsApplyFocus={setIsApplyFocus} questions ={questionieres[currentQuestioneir]?.steps[currentStep]?.questions} ></QuestionComponent>
+              <QuestionComponent
+                setIsApplyFocus={setIsApplyFocus}
+                questions={questionieres[currentQuestioneir]?.steps[currentStep]?.questions}
+                onQuestionInteract={setInsertQuestionAfterIndex}
+              />
             </DndProvider>
             
             :''

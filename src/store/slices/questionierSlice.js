@@ -124,9 +124,30 @@ const questionierSlice = createSlice({
           }
         },
         setQuestionsInStep: (state, action) => {
-      
-            state.questionieres[state.currentQuestioneir].steps[state.currentStep].questions.push({type:action.payload,title:'',required:'required',options:[]}) 
-       
+            const questions =
+              state.questionieres[state.currentQuestioneir].steps[state.currentStep].questions;
+            const newQuestion = { title: '', required: 'required', options: [] };
+
+            const payload = action.payload;
+            if (typeof payload === 'string') {
+              questions.push({ ...newQuestion, type: payload });
+              return;
+            }
+
+            const { type: qType, insertAfterIndex } = payload;
+            const item = { ...newQuestion, type: qType };
+
+            if (
+              insertAfterIndex == null ||
+              insertAfterIndex < 0 ||
+              questions.length === 0
+            ) {
+              questions.push(item);
+              return;
+            }
+
+            const pos = Math.min(insertAfterIndex, questions.length - 1);
+            questions.splice(pos + 1, 0, item);
         },
         handleMoveQuestion: (state, action) => {
           console.log('nnnnnnnnn',action);
