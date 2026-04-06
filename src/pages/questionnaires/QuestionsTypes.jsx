@@ -53,15 +53,27 @@ const Span = styled("span")(({ theme }) => ({
   fontSize :"16px" , 
 }));
     
-const QuestionsTypes = ({anchorEl , setAnchorEl , setChosenType }) => {
+const QuestionsTypes = ({
+  anchorEl,
+  setAnchorEl,
+  setChosenType,
+  insertAfterIndex,
+  onQuestionInserted,
+}) => {
   const dispatch = useDispatch() ; 
   const handleClose = () => {
     setAnchorEl(null);
   };
   const wantedType = (index) => {
-    setChosenType(TypesArray[index].name)
-    
-    dispatch(setQuestionsInStep(TypesArray[index].name))
+    const typeName = TypesArray[index].name;
+    setChosenType(typeName);
+    dispatch(
+      setQuestionsInStep({
+        type: typeName,
+        insertAfterIndex,
+      })
+    );
+    onQuestionInserted?.();
   };
   const {t} = useTranslation() ; 
 

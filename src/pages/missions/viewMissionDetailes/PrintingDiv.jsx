@@ -31,11 +31,38 @@ const PrintDiv = styled("div")(({ theme }) => ({
     "& *": {
         fontFamily: "'Tajawal', sans-serif !important",
     },
-    // height : "100vh" , 
-    // display : "flex" ,
-    
-    // display : "none" ,
-    // border : `1px solid ${Colors.main}` ,
+    "@media print": {
+        padding: "20px 24px",
+        minWidth: "0",
+        overflow: "visible",
+        "& .hb-print-root": {
+            marginTop: "18px !important",
+        },
+        "& .hb-print-bars": {
+            gap: "11px !important",
+        },
+        "& .hb-print-bar-track": {
+            height: "22px !important",
+        },
+        "& .hb-print-step-label": {
+            fontSize: "10px !important",
+            width: "100px !important",
+            minWidth: "100px !important",
+        },
+        "& .hb-print-pct": {
+            fontSize: "12px !important",
+            width: "48px !important",
+            minWidth: "48px !important",
+        },
+        "& .hb-print-axis": {
+            marginTop: "8px !important",
+            paddingLeft: "108px !important",
+            paddingRight: "56px !important",
+        },
+        "& .hb-print-axis-tick": {
+            fontSize: "8px !important",
+        },
+    },
 }));
 const MainInformation = styled("div")(({ theme }) => ({
     display : "flex" ,
@@ -64,17 +91,28 @@ const VisitorInfo = styled("div")(({ theme }) => ({
 }));
 
 const Tab = styled(Flex)(({ theme }) => ({
-    flexDirection : "column" ,  
+    flexDirection : "column" ,
+    "@media print": {
+        gap: "3px",
+    },
 }));
 const TabTitle = styled("div")(({ theme }) => ({
     fontWeight : "bold" ,
     color :Colors.main7 , 
     fontSize : "25px" ,
+    "@media print": {
+        fontSize: "14px",
+        lineHeight: 1.2,
+    },
 }));
 const TabAnswer = styled("div")(({ theme }) => ({
     // margin : theme.direction === "rtl" ? "0 10px 0 0" : "0 0 0 10px" ,
     color :Colors.main7,
     fontSize : "18px" ,
+    "@media print": {
+        fontSize: "12px",
+        lineHeight: 1.25,
+    },
 }));
 
 const Section = styled("div")(({ theme }) => ({
@@ -222,22 +260,64 @@ const Notes = styled("div")(({ theme }) => ({
 }));
 
 const Header = styled("div")(({ theme }) => ({
-
+    "@media print": {
+        pageBreakInside: "avoid",
+        breakInside: "avoid",
+        pageBreakAfter: "always",
+        breakAfter: "page",
+    },
 }));
 const FirstLine = styled("div")(({ theme }) => ({
-
+    "@media print": {
+        marginBottom: "14px",
+    },
 }));
 const LogoDiv = styled("div")(({ theme }) => ({
-
+    "@media print": {
+        lineHeight: 0,
+    },
 }));
 const Image = styled("img")(({ theme }) => ({
-    // width :"100px" , 
+    "@media print": {
+        maxHeight: "44px",
+        width: "auto",
+        objectFit: "contain",
+    },
+}));
+
+const HeaderInfoGrid = styled("div")(({ theme }) => ({
+    width: "80%",
+    display: "flex",
+    gap: "2.5rem",
+    "@media print": {
+        width: "78%",
+        gap: "50px",
+    },
+}));
+const HeaderInfoCol = styled("div")(({ theme }) => ({
+    display: "flex",
+    flexDirection: "column",
+    gap: "2.5rem",
+    "@media print": {
+        gap: "12px",
+    },
+}));
+const HeaderCompanyImageCol = styled("div")(({ theme }) => ({
+    width: "20%",
+    "@media print": {
+        maxWidth: "120px",
+        flexShrink: 0,
+    },
 }));
 
 const SecondLine = styled(FlexSpaceBetween)(({ theme }) => ({
     margin : "50px 0" ,
     alignItems : "center" ,
-    direction : theme.direction
+    direction : theme.direction,
+    "@media print": {
+        margin: "18px 0",
+        alignItems: "flex-start",
+    },
 }));
 const DataDiv = styled("div")(({ theme }) => ({
 
@@ -256,15 +336,88 @@ const PhotoDiv = styled("div")(({ theme }) => ({
 }));
 const EmployeeImage = styled("img")(({ theme }) => ({
     width : "100%" ,
+    "@media print": {
+        maxHeight: "none",
+        minWidth: "140px",
+        width: "100%",
+        maxWidth: "200px",
+        objectFit: "contain",
+        display: "block",
+        marginInlineStart: "auto",
+    },
 }));
 
 const AllRating = styled("div")(({ theme }) => ({
-    // backgroundColor : Colors.lightGray ,
-    // padding  :"85px 50px" , 
-    // direction : "ltr" , 
-    // 
     pageBreakInside: 'avoid',
     breakInside: 'avoid',
+    "@media print": {
+        marginTop: "14px",
+    },
+}));
+
+const AllRatingTitleRow = styled("div")(({ theme }) => ({
+    display: "flex",
+    gap: "1.25rem",
+    alignItems: "center",
+    marginBottom: "3.125rem",
+    "@media print": {
+        gap: "12px",
+        marginBottom: "20px",
+    },
+}));
+const AllRatingDiamond = styled("img")(({ theme }) => ({
+    "@media print": {
+        width: "18px",
+        height: "18px",
+    },
+}));
+const PieChartRow = styled("div")(({ theme }) => ({
+    display: "flex",
+    justifyContent: "space-around",
+    alignItems: "center",
+    "@media print": {
+        alignItems: "flex-start",
+        gap: "16px",
+    },
+}));
+const PieChartWrap = styled("div")(({ theme }) => ({
+    width: 250,
+    height: 250,
+    flexShrink: 0,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    "@media print": {
+        width: 132,
+        height: 132,
+        overflow: "hidden",
+        "& > div": {
+            transform: "scale(0.53)",
+            transformOrigin: "center center",
+        },
+    },
+}));
+const PieRatePercent = styled("div")(({ theme }) => ({
+    fontWeight: 300,
+    fontSize: "36px",
+    lineHeight: 1,
+    textAlign: "center",
+    color: Colors.main,
+    marginTop: "10px",
+    whiteSpace: "nowrap",
+    "@media print": {
+        fontSize: "20px",
+        marginTop: "10px",
+    },
+}));
+const HeaderBarChartBlock = styled("div")(({ theme }) => ({
+    width: "100%",
+    pageBreakInside: "avoid",
+    breakInside: "avoid",
+    "@media print": {
+        marginTop: "12px",
+        paddingTop: "10px",
+    },
 }));
 const Graph = styled("div")(({ theme }) => ({
     position : "relative" ,
@@ -303,8 +456,11 @@ const GeneralRating = styled("div")(({ theme }) => ({
 const RatingTitle = styled("div")(({ theme }) => ({
     fontSize : "70px" , 
     fontWeight : "700" ,
-    color : Colors.main
-
+    color : Colors.main,
+    lineHeight: 1.05,
+    "@media print": {
+        fontSize: "26px",
+    },
 }));
 const RatingTitle2 = styled("div")(({ theme }) => ({
     fontSize : "35px" , 
@@ -355,7 +511,11 @@ const RatingScore = styled("div")(({ theme, bg }) => ({
     justifyContent : "center" , 
     alignItems : "center" , 
     fontSize : "50px" ,     
-    padding : "0px 30px", 
+    padding : "0px 30px",
+    "@media print": {
+        fontSize: "22px",
+        padding: "10px 20px",
+    },
 }));
 const StepBar = styled("div")(({ theme }) => ({
     background: "rgb(80,72,156)" , 
@@ -368,6 +528,64 @@ const StepBar = styled("div")(({ theme }) => ({
 const StepTitle = styled("div")(({ theme }) => ({
 }));
 const StepPercentage = styled("div")(({ theme }) => ({
+}));
+
+/** Whole step block: less vertical padding/margin when printing */
+const StepSection = styled("div")(() => ({
+    pageBreakInside: "avoid",
+    breakInside: "avoid",
+    paddingTop: "50px",
+    paddingBottom: "50px",
+    "& .step-section-diamond": {
+        width: "20px",
+        height: "20px",
+        objectFit: "contain",
+        flexShrink: 0,
+    },
+    "@media print": {
+        paddingTop: "10px",
+        paddingBottom: "10px",
+        "& .step-section-diamond": {
+            width: "44px",
+            height: "44px",
+        },
+    },
+}));
+
+/** Title + doughnut row */
+const StepHeaderRow = styled("div")(() => ({
+    display: "flex",
+    justifyContent: "space-around",
+    marginBottom: "50px",
+    "@media print": {
+        marginBottom: "14px",
+    },
+}));
+
+/** Step header row: title vs doughnut — screen unchanged; print shrinks chart only */
+const StepTitleColumn = styled("div")(() => ({
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "1.25rem",
+    width: "60%",
+    "@media print": {
+        width: "58%",
+    },
+}));
+const StepDoughnutColumn = styled("div")(() => ({
+    width: "40%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    "@media print": {
+        width: "42%",
+        "& > div": {
+            transform: "scale(0.7)",
+            transformOrigin: "center center",
+        },
+    },
 }));
 
 const StepQuestions = styled("div")(({ theme }) => ({
@@ -418,8 +636,10 @@ const Divisor = styled("div")(({ theme }) => ({
     width : "100%" , 
     height:'2px',
     background : '#0000000D' , 
-    margin :"auto" , 
-    margin :"100px 0"  , 
+    margin : "40px 0" ,
+    "@media print": {
+        margin: "28px 0",
+    },
 }));
 // const StepQuestions = styled("div")({
 //   marginTop: "30px",
@@ -467,6 +687,12 @@ const ImagesGrid = styled("div")({
   flexWrap: "wrap",
   marginTop: "20px",
   justifyContent: "center",
+  "@media print": {
+    gap: "12px",
+    justifyContent: "center",
+    flexDirection: "column",
+    alignItems: "stretch",
+  },
 });
 
 const ImageFrame = styled("div")({
@@ -474,8 +700,16 @@ const ImageFrame = styled("div")({
   padding: "10px",
   borderRadius: "6px",
   width: "30%",
+  marginBottom: "10px",
+  boxSizing: "border-box",
   display: "flex",
   justifyContent: "center",
+  "@media print": {
+    width: "100%",
+    maxWidth: "100%",
+    flex: "0 0 auto",
+    padding: "8px",
+  },
 });
 
 const StyledImage = styled("img")({
@@ -483,6 +717,11 @@ const StyledImage = styled("img")({
   height: "auto",
   objectFit: "cover",
   borderRadius: "4px",
+  "@media print": {
+    width: "60%",
+    maxWidth: "100%",
+    objectFit: "contain",
+  },
 });
 
 const PrintingDiv = ({missionDetails , missionAnswer}) => {
@@ -581,8 +820,8 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
             {/* image of employee is {employee.image} */}
 
             <SecondLine>    
-                <div className="w-[80%] flex flex gap-10 ">
-                    <div className='flex flex-col  gap-10'>
+                <HeaderInfoGrid>
+                    <HeaderInfoCol>
                         <Tab>
                             <TabTitle>{t("text.VisitorName")}:</TabTitle>
                             <TabAnswer>{employee.name} </TabAnswer>
@@ -591,8 +830,8 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                             <TabTitle>{t("text.MissionDate")}:</TabTitle>
                             <TabAnswer>{missionDetails.date}</TabAnswer>
                         </Tab>
-                    </div>  
-                    <div className='flex flex-col gap-10'>
+                    </HeaderInfoCol>
+                    <HeaderInfoCol>
                         <Tab>
                             <TabTitle>{t("text.CompanyName")}:</TabTitle>
                             <TabAnswer>{missionDetails.companyName}</TabAnswer>
@@ -601,28 +840,28 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                             <TabTitle>{t("text.MissionTime")}:</TabTitle>
                             <TabAnswer >  <div dir="ltr">{missionDetails.from} - {missionDetails.to}</div></TabAnswer>
                         </Tab>
-                    </div> 
-                    <div className='flex flex-col gap-10'>
+                    </HeaderInfoCol>
+                    <HeaderInfoCol>
                         <Tab>
                             <TabTitle>{t("text.BranchAddress")}:</TabTitle>
                             <TabAnswer>{missionDetails.branch}</TabAnswer>
                         </Tab>
-                    </div> 
-                </div>
-                <div className="w-[20%]">
+                    </HeaderInfoCol>
+                </HeaderInfoGrid>
+                <HeaderCompanyImageCol>
                     <EmployeeImage src = {missionDetails.companyimage} alt = "company img"/>
-                </div>
+                </HeaderCompanyImageCol>
             </SecondLine>
             <Divisor/>
             <AllRating>
-                <div className='flex gap-5 items-center mb-[50px]' >
-                    <img src={diamond} alt="diamond" width={30} height={30}/>
+                <AllRatingTitleRow>
+                    <AllRatingDiamond src={diamond} alt="" width={30} height={30}/>
                     <RatingTitle>{t("text.General_Rating")} </RatingTitle>
-                    <img src={diamond} alt="diamond" width={30} height={30}/>
-                </div>
-                <div className="flex justify-around items-center">
+                    <AllRatingDiamond src={diamond} alt="" width={30} height={30}/>
+                </AllRatingTitleRow>
+                <PieChartRow>
                     <div className="flex items-start justify-center gap-[5px] shrink-0">
-                        <div className="w-[250px] h-[250px]">
+                        <PieChartWrap>
                             <PieChartComponent
                                 chartData={{
                                     labels: [t('text.Rate'), ''],
@@ -647,11 +886,10 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                                 }}
                                 size={250}
                             />
-                        </div>
-                        
-                        <div className="font-light text-[36px] leading-none tracking-normal text-center text-main mt-[10px] whitespace-nowrap">
+                        </PieChartWrap>
+                        <PieRatePercent>
                             {convert(missionAnswer?.rate)}
-                        </div>
+                        </PieRatePercent>
                     </div>
                     <div>
                         <RatingScore bg={rateColor}>
@@ -663,12 +901,12 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                             }
                         </RatingScore>
                     </div>
-                </div>
+                </PieChartRow>
 
             </AllRating>
-            <div style={{ width: '100%', pageBreakBefore: 'always', pageBreakAfter: 'always' , breakBefore: 'page'  , pageBreakInside: 'avoid', breakInside: 'avoid' }}>
+            <HeaderBarChartBlock>
                 <HorizontalBarChart steps={missionAnswer?.steps} profileData={profileData} />
-            </div>
+            </HeaderBarChartBlock>
 
         </Header>
         <StepsDetails>
@@ -676,17 +914,17 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                 return (
                     <>
                          {/* StepBar StepName  StepRate StepQuestions  StepQuestionAnswer */}
-                        <div key={index} style={{ pageBreakInside: 'avoid', breakInside: 'avoid' , paddingTop: "50px", paddingBottom: "50px" }}>
+                        <StepSection key={index}>
                             {(() => {
                                 const stepRateValue = parseFloat(step?.rate?.replace(',', '.') || 0);
                                 const stepColor = getColorBasedOnPercentage(stepRateValue, profileData);
                                 return (
-                                    <div className="flex justify-around mb-[100px]">
-                                        <div className="flex w-[60%] flex-col justify-center items-center gap-5 ">
+                                    <StepHeaderRow>
+                                        <StepTitleColumn>
                                             <div className='flex gap-5 items-center justify-center'>
-                                                <img src={diamond} alt="diamond" width={20} height={20} />
+                                                <img src={diamond} alt="" className="step-section-diamond" />
                                                 <RatingTitle2>{step.name}</RatingTitle2>
-                                                <img src={diamond} alt="diamond" width={20} height={20} />
+                                                <img src={diamond} alt="" className="step-section-diamond" />
                                             </div>
                                             {/* <div
                                                 className="text-white pr-2 pl-2 text-[35px]  w-fit"
@@ -694,8 +932,8 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                                             >
                                                 20 / 10
                                             </div> */}
-                                        </div>
-                                        <div className="w-[40%] flex justify-center items-center">
+                                        </StepTitleColumn>
+                                        <StepDoughnutColumn>
                                             <DoughnutComponent
                                                 chartData={{
                                                     labels: [t('text.Rate'), ''],
@@ -728,8 +966,8 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                                                     fontFamily: 'Tajawal',
                                                 }}
                                             />
-                                        </div>
-                                    </div>
+                                        </StepDoughnutColumn>
+                                    </StepHeaderRow>
                                 );
                             })()}
                            
@@ -740,7 +978,7 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                                 if (question.type === "uploadImages") {
                                 return (
                                     <div key={index}>
-                                    <QuestionText style={{ marginBottom: "15px" }}>
+                                    <QuestionText style={{ marginBottom: "0px" }}>
                                         <div className='flex text-main7 py-[15px] px-[20px] font-extrabold text-[30px] leading-[100%] tracking-normal text-right' >
                                             {question.title}
                                         </div>
@@ -807,7 +1045,7 @@ const PrintingDiv = ({missionDetails , missionAnswer}) => {
                             {/* <div className='flex  bg-main h-[2px] w-full my-[100px]' >
                             </div> */}
                            
-                        </div>
+                        </StepSection>
 
                     </>
                 )

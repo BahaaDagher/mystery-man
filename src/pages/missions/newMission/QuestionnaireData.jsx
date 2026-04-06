@@ -271,6 +271,7 @@ const QuestionnaireData = ({onPrev}) => {
 
 
   const [chosenType , setChosenType] = useState(null) ; 
+  const [insertQuestionAfterIndex, setInsertQuestionAfterIndex] = useState(null);
   const [newAnswer, setNewAnswer] = useState('');
 
   const dispatch = useDispatch() ; 
@@ -456,7 +457,13 @@ const QuestionnaireData = ({onPrev}) => {
   };
   return (
     <>
-    <QuestionsTypes  setAnchorEl= {setAnchorEl} anchorEl={anchorEl} setChosenType = {setChosenType}/>
+    <QuestionsTypes
+      setAnchorEl={setAnchorEl}
+      anchorEl={anchorEl}
+      setChosenType={setChosenType}
+      insertAfterIndex={insertQuestionAfterIndex}
+      onQuestionInserted={() => setInsertQuestionAfterIndex(null)}
+    />
 
     <Parent>
         <Settings>
@@ -587,7 +594,11 @@ const QuestionnaireData = ({onPrev}) => {
             
             <DndProvider backend={HTML5Backend}>
 
-              <QuestionComponent setIsApplyFocus={setIsApplyFocus} questions ={questionieres[currentQuestioneir].steps[currentStep]?.questions} ></QuestionComponent>
+              <QuestionComponent
+                setIsApplyFocus={setIsApplyFocus}
+                questions={questionieres[currentQuestioneir].steps[currentStep]?.questions}
+                onQuestionInteract={setInsertQuestionAfterIndex}
+              />
             </DndProvider>
             :''
 

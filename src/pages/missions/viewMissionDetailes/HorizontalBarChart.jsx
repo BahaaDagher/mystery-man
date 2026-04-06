@@ -8,10 +8,10 @@ const HorizontalBarChart = ({ steps, profileData }) => {
   if (!steps || steps.length === 0) return null;
 
   return (
-    <div style={{ width: '100%', marginTop: '40px', fontFamily: "'Tajawal', sans-serif", direction: 'ltr' }}>
+    <div className="hb-print-root" style={{ width: '100%', marginTop: '40px', fontFamily: "'Tajawal', sans-serif", direction: 'ltr' }}>
 
       {/* Bars area */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '18px', paddingBottom: '8px' }}>
+      <div className="hb-print-bars" style={{ display: 'flex', flexDirection: 'column', gap: '18px', paddingBottom: '8px' }}>
         {steps.map((step, index) => {
           const value = parseFloat(step.rate?.replace(',', '.') || 0);
           const color = getColorBasedOnPercentage(value, profileData);
@@ -19,7 +19,7 @@ const HorizontalBarChart = ({ steps, profileData }) => {
           return (
             <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               {/* Label */}
-              <div style={{
+              <div className="hb-print-step-label" style={{
                 width: '130px',
                 minWidth: '130px',
                 textAlign: 'right',
@@ -34,7 +34,7 @@ const HorizontalBarChart = ({ steps, profileData }) => {
               </div>
 
               {/* Bar track */}
-              <div style={{
+              <div className="hb-print-bar-track" style={{
                 flex: 1,
                 height: '46px',
                 backgroundColor: 'transparent',
@@ -68,12 +68,13 @@ const HorizontalBarChart = ({ steps, profileData }) => {
       </div>
 
       {/* X Axis */}
-      <div style={{ display: 'flex', alignItems: 'flex-start', marginTop: '6px', paddingLeft: '142px', paddingRight: '82px' }}>
+      <div className="hb-print-axis" style={{ display: 'flex', alignItems: 'flex-start', marginTop: '6px', paddingLeft: '142px', paddingRight: '82px' }}>
         {/* Relative positioning container matching the bar width */}
         <div style={{ flex: 1, position: 'relative', height: '24px' }}>
           {X_TICKS.map((tick) => (
             <div
               key={tick}
+              className="hb-print-axis-tick"
               style={{
                 position: 'absolute',
                 left: `${tick}%`,

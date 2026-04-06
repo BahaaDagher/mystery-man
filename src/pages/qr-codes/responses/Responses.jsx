@@ -15,6 +15,8 @@ import { format, startOfMonth } from 'date-fns'
 import * as XLSX from 'xlsx'
 
 const ITEMS_PER_PAGE = 5
+/** Excel export includes all loaded rows up to this limit (not UI page size). */
+const EXCEL_EXPORT_MAX_ROWS = 100000
 
 const Responses = () => {
   const { t } = useTranslation()
@@ -166,13 +168,12 @@ const Responses = () => {
   };
 
   // Helper function to get the maximum number of questions in any single response
-  const getMaxQuestionsCount = () => {
+  const getMaxQuestionsCount = (items) => {
     let maxQuestions = 0;
-    
-    currentItems.forEach(item => {
+    (items || []).forEach((item) => {
       if (item.questions && item.questions.steps) {
         let questionCount = 0;
-        item.questions.steps.forEach(step => {
+        item.questions.steps.forEach((step) => {
           if (step.questions) {
             questionCount += step.questions.length;
           }
@@ -180,7 +181,6 @@ const Responses = () => {
         maxQuestions = Math.max(maxQuestions, questionCount);
       }
     });
-    
     return maxQuestions;
   };
 
@@ -206,15 +206,14 @@ const Responses = () => {
 
   // Handle Excel export
   const handleExportExcel = () => {
-    // Get the maximum number of questions to create column headers
-    const maxQuestions = getMaxQuestionsCount();
-    
-    // Prepare data for Excel export
-    debugger;
-    const exportData = currentItems.map((item, index) => {
-      // Start with basic information
+    const rowsToExport = responses.slice(0, EXCEL_EXPORT_MAX_ROWS);
+    if (rowsToExport.length === 0) return;
+
+    const maxQuestions = getMaxQuestionsCount(rowsToExport);
+
+    const exportData = rowsToExport.map((item, index) => {
       const rowData = {
-        '#': offset + index + 1,
+        '#': index + 1,
         [t('text.qr_code_name')]: item.qr_code_name,
         [t('text.branch_name')]: item.branch_name,
         [t('text.date')]: item.date,
