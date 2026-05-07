@@ -2,6 +2,11 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import BlueLogo from '../assets/images/BlueLogo.png';
 
+const PDF_MARGIN_MM = 10;
+const PDF_PAGE_WIDTH_MM = 210 - (2 * PDF_MARGIN_MM);
+const PDF_PAGE_HEIGHT_MM = 297 - (2 * PDF_MARGIN_MM);
+const MIN_CHART_HEADER_SPACE_PX = 180;
+
 // Helper function to wait for Chart.js to fully render
 const waitForCharts = async () => {
   // Wait for any Chart.js animations to complete
@@ -22,6 +27,124 @@ const waitForCharts = async () => {
   
   // Additional wait after update
   await new Promise(resolve => setTimeout(resolve, 500));
+};
+
+/**
+ * Mark chart-containing cards that should never be split across PDF pages.
+ * We detect the nearest "card-like" container around each canvas.
+ */
+const markChartBlocks = (rootElement) => {
+  const canvases = rootElement.querySelectorAll('canvas');
+  canvases.forEach((canvas) => {
+    const card = canvas.closest('.bg-white, [class*="bg-white"], .pdf-section');
+    const target = card || canvas.parentElement;
+    if (target) {
+      target.classList.add('pdf-keep-together');
+      target.style.pageBreakInside = 'avoid';
+      target.style.breakInside = 'avoid';
+    }
+  });
+};
+
+/**
+ * Insert spacers before keep-together blocks so each block starts on a fresh page
+ * when it would otherwise be split by the image slicing step.
+ */
+const applyManualPagination = (wrapper, blocks) => {
+  if (!blocks || blocks.length === 0) return;
+
+  const wrapperWidthPx = wrapper.scrollWidth || wrapper.offsetWidth;
+  if (!wrapperWidthPx) return;
+
+  const pxPerMm = wrapperWidthPx / PDF_PAGE_WIDTH_MM;
+  const pageHeightPx = PDF_PAGE_HEIGHT_MM * pxPerMm;
+  if (!pageHeightPx || Number.isNaN(pageHeightPx)) return;
+
+  blocks.forEach((block) => {
+    let anchor = block;
+    let probe = block.previousElementSibling;
+    let hasHeaderAnchor = false;
+
+    // Pull likely title rows (and optional hr divider) into the same moveable unit.
+    // This prevents heading text from being orphaned at the bottom of previous page.
+    while (probe) {
+      const probeHeight = probe.offsetHeight || 0;
+      const probeText = (probe.textContent || '').trim();
+      const containsCanvas = !!probe.querySelector?.('canvas');
+      const tag = (probe.tagName || '').toUpperCase();
+      const className = typeof probe.className === 'string' ? probe.className : '';
+      const isDivider = tag === 'HR';
+      const looksLikeHeader =
+        !containsCanvas &&
+        probeHeight > 0 &&
+        probeHeight <= 180 &&
+        (tag === 'H1' ||
+          tag === 'H2' ||
+          tag === 'H3' ||
+          tag === 'H4' ||
+          tag === 'H5' ||
+          tag === 'H6' ||
+          className.includes('font-bold') ||
+          className.includes('font-semibold') ||
+          probeText.length > 0);
+
+      if (looksLikeHeader) {
+        anchor = probe;
+        hasHeaderAnchor = true;
+        probe = probe.previousElementSibling;
+        continue;
+      }
+
+      // Include a divider only if we've already captured a header.
+      if (isDivider && hasHeaderAnchor) {
+        anchor = probe;
+        probe = probe.previousElementSibling;
+        continue;
+      }
+
+      break;
+    }
+
+    const anchorTop = anchor.offsetTop;
+    const blockTop = block.offsetTop;
+    const blockHeight = block.offsetHeight;
+    if (!blockHeight) return;
+
+    const pageBottom = (Math.floor(anchorTop / pageHeightPx) + 1) * pageHeightPx;
+    const remainingSpace = pageBottom - anchorTop;
+    const blockBottom = blockTop + blockHeight;
+    const firstElementChild = block.firstElementChild;
+    const dynamicHeaderSpace = Math.max(
+      MIN_CHART_HEADER_SPACE_PX,
+      (firstElementChild?.offsetHeight || 0) + 110
+    );
+
+    // If block itself is taller than a single page, at least avoid orphaning its title:
+    // when the start is too close to page bottom, push block start to next page.
+    if (blockHeight >= pageHeightPx) {
+      if (remainingSpace < dynamicHeaderSpace) {
+        const spacer = document.createElement('div');
+        spacer.className = 'pdf-page-spacer';
+        spacer.style.height = `${Math.ceil(Math.max(remainingSpace, 0))}px`;
+        spacer.style.width = '100%';
+        spacer.style.pointerEvents = 'none';
+        spacer.style.background = 'transparent';
+        anchor.parentNode.insertBefore(spacer, anchor);
+      }
+      return;
+    }
+
+    const overflow = blockBottom - pageBottom;
+    if (overflow > 0 || remainingSpace < dynamicHeaderSpace) {
+      const spacer = document.createElement('div');
+      spacer.className = 'pdf-page-spacer';
+      spacer.style.height = `${Math.ceil(Math.max(pageBottom - anchorTop, 0))}px`;
+      spacer.style.width = '100%';
+      spacer.style.pointerEvents = 'none';
+      spacer.style.background = 'transparent';
+      anchor.parentNode.insertBefore(spacer, anchor);
+    }
+  });
 };
 
 export const generateReportPdf = async (elementRef, reportName, isRTL = false, dateRange = null, note = '') => {
@@ -107,6 +230,9 @@ export const generateReportPdf = async (elementRef, reportName, isRTL = false, d
     // Clone the original element
     const clonedElement = element.cloneNode(true);
     clonedElement.style.backgroundColor = 'transparent';
+
+    // Mark chart blocks so we can keep them together when paginating.
+    markChartBlocks(clonedElement);
     
     // Add page break styling to major sections
     const sections = clonedElement.querySelectorAll('.pdf-section');
@@ -237,6 +363,11 @@ export const generateReportPdf = async (elementRef, reportName, isRTL = false, d
     wrapper.style.zIndex = '99999';
     wrapper.style.backgroundColor = '#f5f5f5';
     document.body.appendChild(wrapper);
+
+    // Force keep-together chart cards to start on a fresh page when needed.
+    // This is needed because final PDF is generated by slicing one large image.
+    const keepTogetherBlocks = Array.from(wrapper.querySelectorAll('.pdf-keep-together'));
+    applyManualPagination(wrapper, keepTogetherBlocks);
     
     // Scroll to top to ensure full capture
     window.scrollTo(0, 0);
@@ -381,27 +512,46 @@ export const generateReportPdf = async (elementRef, reportName, isRTL = false, d
     }
 
     // Calculate PDF dimensions with margins
-    const margin = 10; // 10mm margin
-    const imgWidth = 210 - (2 * margin); // A4 width minus margins
-    const pageHeight = 297 - (2 * margin); // A4 height minus margins
-    const imgHeight = (canvas.height * imgWidth) / canvas.width;
-    let heightLeft = imgHeight;
+    const margin = PDF_MARGIN_MM;
+    const imgWidth = PDF_PAGE_WIDTH_MM;
+    const pageHeight = PDF_PAGE_HEIGHT_MM;
+    const pxPerMm = canvas.width / imgWidth;
+    const pageHeightPx = Math.floor(pageHeight * pxPerMm);
+    const totalPages = Math.max(1, Math.ceil(canvas.height / pageHeightPx));
 
     // Create PDF
     const pdf = new jsPDF('p', 'mm', 'a4');
-    let position = 0;
 
-    // Add the first page with margin
-    const imgData = canvas.toDataURL('image/png', 1.0);
-    pdf.addImage(imgData, 'PNG', margin, margin + position, imgWidth, imgHeight, undefined, 'FAST');
-    heightLeft -= pageHeight;
+    // Render each page from an exact canvas crop.
+    // This removes boundary overlap where titles could appear on two pages.
+    for (let pageIndex = 0; pageIndex < totalPages; pageIndex += 1) {
+      if (pageIndex > 0) {
+        pdf.addPage();
+      }
 
-    // Add additional pages if content is longer than one page
-    while (heightLeft >= 0) {
-      position = heightLeft - imgHeight;
-      pdf.addPage();
-      pdf.addImage(imgData, 'PNG', margin, margin + position, imgWidth, imgHeight, undefined, 'FAST');
-      heightLeft -= pageHeight;
+      const sourceY = pageIndex * pageHeightPx;
+      const sourceHeight = Math.min(pageHeightPx, canvas.height - sourceY);
+      if (sourceHeight <= 0) continue;
+
+      const pageCanvas = document.createElement('canvas');
+      pageCanvas.width = canvas.width;
+      pageCanvas.height = sourceHeight;
+      const pageCtx = pageCanvas.getContext('2d');
+      pageCtx.drawImage(
+        canvas,
+        0,
+        sourceY,
+        canvas.width,
+        sourceHeight,
+        0,
+        0,
+        canvas.width,
+        sourceHeight
+      );
+
+      const pageImgData = pageCanvas.toDataURL('image/png', 1.0);
+      const pageImgHeightMm = sourceHeight / pxPerMm;
+      pdf.addImage(pageImgData, 'PNG', margin, margin, imgWidth, pageImgHeightMm, undefined, 'FAST');
     }
 
     // Generate filename with current date

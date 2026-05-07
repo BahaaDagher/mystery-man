@@ -89,13 +89,14 @@ const CustomSelect = ({ options = [], value, onChange, multiple = false, placeho
         className="border border-gray_l rounded-[10px] px-4 py-2  flex items-center cursor-pointer  "
         onClick={() => setOpen(!open)}
       >
-        <span className="flex-1 text-black text-base truncate">
+        <span className="flex-1 text-black text-base ">
           {multiple
             ? (Array.isArray(value) && value.length > 0
-                ? options.filter(opt => value.includes(getOptionValue(opt))).map(opt => getDisplayText(opt)).join(', ')
+                ? getDisplayText(options.find(opt => getOptionValue(opt) === value[0]))
                 : placeholder)
             : (options.find(opt => getOptionValue(opt) === value) ? getDisplayText(options.find(opt => getOptionValue(opt) === value)) : placeholder)}
         </span>
+   
         <svg className="w-4 h-4 ml-2 text-gray-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
       </div>
       {open && (

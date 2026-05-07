@@ -131,7 +131,7 @@ const RateOfDevelopmentInEachSectionLine = ({apiData}) => {
   return (
     <div className="bg-white rounded-3xl ">
       <div className="flex items-center justify-between mb-2">
-        <span className="text-2xl font-bold text-black2 leading-[28px]">
+        <span className="text-2xl font-bold text-black2 ">
           {t("text.Rate_of_development_in_each_section")}
         </span>
       </div>

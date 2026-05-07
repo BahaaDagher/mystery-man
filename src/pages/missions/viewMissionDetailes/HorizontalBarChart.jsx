@@ -8,7 +8,7 @@ const HorizontalBarChart = ({ steps, profileData }) => {
   if (!steps || steps.length === 0) return null;
 
   return (
-    <div className="hb-print-root" style={{ width: '100%', marginTop: '40px', fontFamily: "'Tajawal', sans-serif", direction: 'ltr' }}>
+    <div className="hb-print-root" style={{ width: '85%', marginTop: '40px', fontFamily: "'Tajawal', sans-serif", direction: 'ltr' }}>
 
       {/* Bars area */}
       <div className="hb-print-bars" style={{ display: 'flex', flexDirection: 'column', gap: '18px', paddingBottom: '8px' }}>
@@ -17,7 +17,7 @@ const HorizontalBarChart = ({ steps, profileData }) => {
           const color = getColorBasedOnPercentage(value, profileData);
 
           return (
-            <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div key={index} className="hb-print-row" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               {/* Label */}
               <div className="hb-print-step-label" style={{
                 width: '130px',
@@ -51,15 +51,20 @@ const HorizontalBarChart = ({ steps, profileData }) => {
                 }} />
               </div>
 
-              {/* Percentage label */}
-              <div style={{
-                width: '70px',
-                minWidth: '70px',
-                textAlign: 'left',
-                fontSize: '18px',
-                fontWeight: 'bold',
-                color: color,
-              }}>
+              {/* Percentage label — .hb-print-pct print styles live in PrintingDiv */}
+              <div
+                className="hb-print-pct"
+                style={{
+                  flex: '0 0 auto',
+                  width: '70px',
+                  minWidth: '70px',
+                  textAlign: 'left',
+                  fontSize: '18px',
+                  fontWeight: 'bold',
+                  color: color,
+                  fontVariantNumeric: 'tabular-nums',
+                }}
+              >
                 {value}%
               </div>
             </div>
@@ -70,7 +75,7 @@ const HorizontalBarChart = ({ steps, profileData }) => {
       {/* X Axis */}
       <div className="hb-print-axis" style={{ display: 'flex', alignItems: 'flex-start', marginTop: '6px', paddingLeft: '142px', paddingRight: '82px' }}>
         {/* Relative positioning container matching the bar width */}
-        <div style={{ flex: 1, position: 'relative', height: '24px' }}>
+        <div className="hb-print-axis-inner" style={{ flex: 1, position: 'relative', minWidth: 0, height: '24px' }}>
           {X_TICKS.map((tick) => (
             <div
               key={tick}
