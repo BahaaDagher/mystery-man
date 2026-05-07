@@ -15,19 +15,19 @@ import goodScale from "../../../assets/images/goodScale.svg"
 import normalScale from "../../../assets/images/normalScale.svg"
 import excellentScale from "../../../assets/images/excellentScale.svg"
 import PieChartComponent from "../../../components/PieChartComponent";
-import four from "../../../assets/images/4.png" 
+import four from "../../../assets/images/4.png"
 import { useSelector } from 'react-redux';
-import { getColorBasedOnPercentage } from '../../../utils/colorPercentageUtils';
+import { getColorBasedOnPercentage, getRatingLabelKeyFromPercentage } from '../../../utils/colorPercentageUtils';
 import HorizontalBarChart from './HorizontalBarChart';
 import DoughnutComponent from '../../../components/DoughnutComponent';
 
 
 const PrintDiv = styled("div")(({ theme }) => ({
-    padding : "30px 50px" , 
-    backgroundColor : "#fff", 
-    minWidth : "800px" , 
-    overflow : "auto" ,
-    direction : theme.direction , 
+    padding: "30px 50px",
+    backgroundColor: "#fff",
+    minWidth: "800px",
+    overflow: "auto",
+    direction: theme.direction,
     "& *": {
         fontFamily: "'Tajawal', sans-serif !important",
     },
@@ -37,26 +37,49 @@ const PrintDiv = styled("div")(({ theme }) => ({
         overflow: "visible",
         "& .hb-print-root": {
             marginTop: "18px !important",
+            marginLeft: "auto !important",
+            marginRight: "auto !important",
+            width: "min(100%, 620px) !important",
+            maxWidth: "620px !important",
+            flex: "0 0 auto",
+            boxSizing: "border-box",
         },
         "& .hb-print-bars": {
             gap: "11px !important",
         },
+        "& .hb-print-row": {
+            width: "100%",
+            maxWidth: "100%",
+            minWidth: 0,
+            boxSizing: "border-box",
+        },
         "& .hb-print-bar-track": {
             height: "22px !important",
+            minWidth: "0 !important",
+            flex: "1 1 auto !important",
         },
         "& .hb-print-step-label": {
             fontSize: "10px !important",
             width: "100px !important",
             minWidth: "100px !important",
+            maxWidth: "100px !important",
+            flexShrink: 0,
         },
         "& .hb-print-pct": {
-            fontSize: "12px !important",
-            width: "48px !important",
-            minWidth: "48px !important",
+            fontSize: "11px !important",
+            width: "44px !important",
+            minWidth: "44px !important",
+            maxWidth: "44px !important",
+            flexShrink: 0,
+            textAlign: "center !important",
+            paddingInlineStart: "2px",
+        },
+        "& .hb-print-axis-inner": {
+            minWidth: "0 !important",
         },
         "& .hb-print-axis": {
             marginTop: "8px !important",
-            paddingLeft: "108px !important",
+            paddingLeft: "112px !important",
             paddingRight: "56px !important",
         },
         "& .hb-print-axis-tick": {
@@ -65,23 +88,23 @@ const PrintDiv = styled("div")(({ theme }) => ({
     },
 }));
 const MainInformation = styled("div")(({ theme }) => ({
-    display : "flex" ,
-    flexDirection : "column" ,
-    alignItems : "center" ,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
     // justifyContent : "center" ,
-    minHeight : "1000px" , 
+    minHeight: "1000px",
 
 }));
 
 const LogoName = styled("img")(({ theme }) => ({
-    marginBottom : "20px" ,
-    width : "250px" ,
+    marginBottom: "20px",
+    width: "250px",
 }));
 const BasicInfo = styled(FlexSpaceBetween)(({ theme }) => ({
-    width : "100%" , 
-    borderBottom : `3px solid ${Colors.main}` ,
-    borderRadius : "10px" ,
-    padding : "10px" ,
+    width: "100%",
+    borderBottom: `3px solid ${Colors.main}`,
+    borderRadius: "10px",
+    padding: "10px",
 }));
 const CompanyInfo = styled("div")(({ theme }) => ({
 
@@ -91,15 +114,15 @@ const VisitorInfo = styled("div")(({ theme }) => ({
 }));
 
 const Tab = styled(Flex)(({ theme }) => ({
-    flexDirection : "column" ,
+    flexDirection: "column",
     "@media print": {
         gap: "3px",
     },
 }));
 const TabTitle = styled("div")(({ theme }) => ({
-    fontWeight : "bold" ,
-    color :Colors.main7 , 
-    fontSize : "25px" ,
+    fontWeight: "bold",
+    color: Colors.main7,
+    fontSize: "25px",
     "@media print": {
         fontSize: "14px",
         lineHeight: 1.2,
@@ -107,8 +130,8 @@ const TabTitle = styled("div")(({ theme }) => ({
 }));
 const TabAnswer = styled("div")(({ theme }) => ({
     // margin : theme.direction === "rtl" ? "0 10px 0 0" : "0 0 0 10px" ,
-    color :Colors.main7,
-    fontSize : "18px" ,
+    color: Colors.main7,
+    fontSize: "18px",
     "@media print": {
         fontSize: "12px",
         lineHeight: 1.25,
@@ -117,146 +140,146 @@ const TabAnswer = styled("div")(({ theme }) => ({
 
 const Section = styled("div")(({ theme }) => ({
     // backgroundColor : Colors.main ,
-    color : Colors.main ,
-    fontWeight : "bold" , 
-    margin : "30px 0 20px 0" ,  
+    color: Colors.main,
+    fontWeight: "bold",
+    margin: "30px 0 20px 0",
     // width : "100%" ,
-    borderBottom : `3px solid ${Colors.main}` ,
-    borderRadius : "10px" , 
-    padding : "5px" ,
-    textAlign : "center" , 
-    fontSize: "20px" ,
+    borderBottom: `3px solid ${Colors.main}`,
+    borderRadius: "10px",
+    padding: "5px",
+    textAlign: "center",
+    fontSize: "20px",
 }));
 
 const OverallPerformance = styled(FlexSpaceBetween)(({ theme }) => ({
-    alignItems : "center" ,
-    width : "100%" , 
+    alignItems: "center",
+    width: "100%",
 }));
 const LogoContainer = styled("div")(({ theme }) => ({
-    
+
 }));
 const LogoPic = styled("img")(({ theme }) => ({
-    
+
 }));
 const PerformanceContainer = styled("div")(({ theme }) => ({
-    display : "flex" , 
-    flexDirection : "column" ,
-    alignItems : "center" ,
-    justifyContent : "center" ,
-    height : "250px" , 
-    width : "50%" , 
-    marginBottom : "20px" ,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "250px",
+    width: "50%",
+    marginBottom: "20px",
 }));
 const ScaleDiv = styled("div")(({ theme }) => ({
     // marginBottom  : "20px" ,
 }));
 const PerformanceRate = styled(Flex)(({ theme }) => ({
-    alignItems : "center" ,
-    width : "100%" ,
-    justifyContent : "center" ,
-    
+    alignItems: "center",
+    width: "100%",
+    justifyContent: "center",
+
 
 }));
 const YourPerformance = styled("div")(({ theme }) => ({
     // border : `2px solid ${Colors.main}` ,
-    padding : "5px 10px" ,
-    borderRadius : "5px" , 
-    fontWeight : "bold" , 
+    padding: "5px 10px",
+    borderRadius: "5px",
+    fontWeight: "bold",
 
 }));
 const Rate = styled("div")(({ theme }) => ({
-    color : Colors.main ,
-    fontWeight : "bold" , 
-    margin : "0 10px" , 
+    color: Colors.main,
+    fontWeight: "bold",
+    margin: "0 10px",
 }));
 
 const SummaryDiv = styled("div")(({ theme }) => ({
-    width : "100%"
+    width: "100%"
 }));
 const StepSummary = styled(FlexSpaceBetween)(({ theme }) => ({
-    alignItems : "center" ,
-    marginBottom : "8px" , 
+    alignItems: "center",
+    marginBottom: "8px",
 }));
 const StepName = styled("div")(({ theme }) => ({
-    fontWeight :"bold" , 
+    fontWeight: "bold",
 }));
 const StepRate = styled("div")(({ theme }) => ({
-    width : "70%" ,
+    width: "70%",
     // backgroundColor : "#3734ca42" ,
-    border : `2px solid ${Colors.main}` ,
-    fontWeight : "bold" ,
+    border: `2px solid ${Colors.main}`,
+    fontWeight: "bold",
 }));
 const PercentageDiv = styled("div")(({ theme }) => ({
     // width : "92.5%" , 
-    textAlign: "right"  , 
-    backgroundColor :   "#3734ca42",
+    textAlign: "right",
+    backgroundColor: "#3734ca42",
 }));
 const Percentage = styled("div")(({ theme }) => ({
-    paddingRight : "5px" ,
-    textAlign: "right" ,  
-    fontSize : "15px" ,
+    paddingRight: "5px",
+    textAlign: "right",
+    fontSize: "15px",
 }));
 
 /////////////////////////// step tables //////////////////////////////
 
 const StepsDetails = styled("div")(({ theme }) => ({
-    minHeight : "1000px" ,      
-    width : "100%" ,
-    margin : "40px auto" , 
+    minHeight: "1000px",
+    width: "100%",
+    margin: "40px auto",
 
 }));
 const HeaderTable = styled("table")(({ theme }) => ({
-    border : `2px solid ${Colors.green}` ,
-    width : "100%" , 
+    border: `2px solid ${Colors.green}`,
+    width: "100%",
 }));
 const Tr = styled("tr")(({ theme }) => ({
 
 }));
 const Td = styled("td")(({ theme }) => ({
-    border : `2px solid ${Colors.main}` ,
-    padding : "0 10px" , 
-    
+    border: `2px solid ${Colors.main}`,
+    padding: "0 10px",
+
 }));
 const TdCenter = styled("td")(({ theme }) => ({
-    padding : "0 10px" , 
-    border : `2px solid ${Colors.main}` ,
-    textAlign : "center" ,
-    width : "200px" , 
+    padding: "0 10px",
+    border: `2px solid ${Colors.main}`,
+    textAlign: "center",
+    width: "200px",
 }));
 const StepTable = styled("table")(({ theme }) => ({
-    border : `2px solid ${Colors.main}` ,
-    width : "100%" , 
-    marginBottom : "30px" , 
+    border: `2px solid ${Colors.main}`,
+    width: "100%",
+    marginBottom: "30px",
 }));
 const PaddingDiv = styled("div")(({ theme }) => ({
-    paddingLeft : "10px" , 
+    paddingLeft: "10px",
 
 }));
 const Divider = styled("div")(({ theme }) => ({
-    width : "100%" ,
-    height : "1px" ,
-    backgroundColor : Colors.green ,
-    margin : "10px 0" ,
-    
+    width: "100%",
+    height: "1px",
+    backgroundColor: Colors.green,
+    margin: "10px 0",
+
 }));
 
 const PicsDiv = styled("div")(({ theme }) => ({
-    minHeight : "1000px" , 
-    flexDirection : "column" ,
+    minHeight: "1000px",
+    flexDirection: "column",
 }));
 
 
 const RateContainer = styled("div")(({ theme }) => ({
     borderRadius: "10px",
-    marginBottom  : "20px" ,
-    width : "100%" , 
-    textAlign : "center" ,
+    marginBottom: "20px",
+    width: "100%",
+    textAlign: "center",
 }));
 
 const Notes = styled("div")(({ theme }) => ({
-    color : Colors.second , 
-    fontSize : "18px" ,
-    fontWeight : "600" 
+    color: Colors.second,
+    fontSize: "18px",
+    fontWeight: "600"
 }));
 
 const Header = styled("div")(({ theme }) => ({
@@ -268,6 +291,9 @@ const Header = styled("div")(({ theme }) => ({
     },
 }));
 const FirstLine = styled("div")(({ theme }) => ({
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
     "@media print": {
         marginBottom: "14px",
     },
@@ -303,7 +329,7 @@ const HeaderInfoCol = styled("div")(({ theme }) => ({
     },
 }));
 const HeaderCompanyImageCol = styled("div")(({ theme }) => ({
-    width: "20%",
+    width: "90%",
     "@media print": {
         maxWidth: "120px",
         flexShrink: 0,
@@ -311,9 +337,9 @@ const HeaderCompanyImageCol = styled("div")(({ theme }) => ({
 }));
 
 const SecondLine = styled(FlexSpaceBetween)(({ theme }) => ({
-    margin : "50px 0" ,
-    alignItems : "center" ,
-    direction : theme.direction,
+    margin: "50px 0",
+    alignItems: "start",
+    direction: theme.direction,
     "@media print": {
         margin: "18px 0",
         alignItems: "flex-start",
@@ -323,19 +349,19 @@ const DataDiv = styled("div")(({ theme }) => ({
 
 }));
 const PhotoDiv = styled("div")(({ theme }) => ({
-    width : "150px" , 
-    height : "150px" , 
-    borderRadius : "50%" , 
-    overflow : "hidden" , 
-    border : `3px solid ${Colors.gold}` ,
-    display : "flex" , 
-    justifyContent : "center" , 
-    alignItems : "center" ,
-    backgroundColor : Colors.main , 
-    boxShadow : "0 0 10px 0px #00000042" , 
+    width: "150px",
+    height: "150px",
+    borderRadius: "50%",
+    overflow: "hidden",
+    border: `3px solid ${Colors.gold}`,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: Colors.main,
+    boxShadow: "0 0 10px 0px #00000042",
 }));
 const EmployeeImage = styled("img")(({ theme }) => ({
-    width : "100%" ,
+    width: "100%",
     "@media print": {
         maxHeight: "none",
         minWidth: "140px",
@@ -373,11 +399,12 @@ const AllRatingDiamond = styled("img")(({ theme }) => ({
 }));
 const PieChartRow = styled("div")(({ theme }) => ({
     display: "flex",
-    justifyContent: "space-around",
+    justifyContent: "center",
     alignItems: "center",
+    gap: "40px",
     "@media print": {
-        alignItems: "flex-start",
-        gap: "16px",
+        alignItems: "center",
+
     },
 }));
 const PieChartWrap = styled("div")(({ theme }) => ({
@@ -413,6 +440,9 @@ const PieRatePercent = styled("div")(({ theme }) => ({
 const HeaderBarChartBlock = styled("div")(({ theme }) => ({
     width: "100%",
     pageBreakInside: "avoid",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
     breakInside: "avoid",
     "@media print": {
         marginTop: "12px",
@@ -420,12 +450,12 @@ const HeaderBarChartBlock = styled("div")(({ theme }) => ({
     },
 }));
 const Graph = styled("div")(({ theme }) => ({
-    position : "relative" ,
-    width :"100%" ,
-    height : "px" ,
-    border : `1px solid ${Colors.main2}` ,
-    borderTop : "none" ,
-    borderRight : "none" ,
+    position: "relative",
+    width: "100%",
+    height: "px",
+    border: `1px solid ${Colors.main2}`,
+    borderTop: "none",
+    borderRight: "none",
     // padding : "30px" , 
 
 
@@ -433,97 +463,97 @@ const Graph = styled("div")(({ theme }) => ({
 
 const BarContainer = styled("div")(({ theme }) => ({
     // border : `1px solid red` ,
-    height : "91%" , 
-    position : "absolute" ,
-    width : "100%" , 
+    height: "91%",
+    position: "absolute",
+    width: "100%",
     // left : "5%" , 
-    bottom :"12px" , 
-    display : "flex" ,
+    bottom: "12px",
+    display: "flex",
     // justifyContent : "space-between" ,
-     
+
 }));
 
 
 const GeneralRating = styled("div")(({ theme }) => ({
-    display : "flex" ,
+    display: "flex",
     // flexDirection : "column" ,
-    justifyContent : "space-between" ,
-    alignItems : "center" ,
-    fontSize :"20px" , 
-    marginBottom : "20px" ,
+    justifyContent: "space-between",
+    alignItems: "center",
+    fontSize: "20px",
+    marginBottom: "20px",
 
 }));
 const RatingTitle = styled("div")(({ theme }) => ({
-    fontSize : "70px" , 
-    fontWeight : "700" ,
-    color : Colors.main,
+    fontSize: "70px",
+    fontWeight: "700",
+    color: Colors.main,
     lineHeight: 1.05,
     "@media print": {
         fontSize: "26px",
     },
 }));
 const RatingTitle2 = styled("div")(({ theme }) => ({
-    fontSize : "35px" , 
-    fontWeight : "700" ,
-    color : Colors.main,
-    display : "flex" ,
-    justifyContent : "center" ,
-    alignItems : "center" ,
-    textAlign : "center" , 
+    fontSize: "35px",
+    fontWeight: "700",
+    color: Colors.main,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
 
 }));
 const RatingPercentage = styled("div")(({ theme }) => ({
-    position :"relative" , 
-    width : "150px" , 
-    height : "150px" , 
-    borderRadius : "50%" ,
-    display : "flex" ,
-    justifyContent : "center" ,
-    alignItems : "center" ,
-    background :"rgb(255,255,255)" , 
-    background :"linear-gradient(180deg, rgba(255,255,255,1) 60%, rgba(190,190,190,1) 100%)" , 
+    position: "relative",
+    width: "150px",
+    height: "150px",
+    borderRadius: "50%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    background: "rgb(255,255,255)",
+    background: "linear-gradient(180deg, rgba(255,255,255,1) 60%, rgba(190,190,190,1) 100%)",
     // boxShadow: "0px 0px 7px 8px rgba(0,0,0,.2)" , 
-   
+
 }));
 
 const Percentage1 = styled("div")(({ theme }) => ({
-    background: "rgb(80,72,156)" , 
-    background: "linear-gradient(180deg, rgba(80,72,156,1) 0%, rgba(159,72,246,1) 43%)", 
-    color : "#fff" , 
-    width : "60%" , 
-    height : "60%" , 
-    borderRadius : "50%" , 
-    display : "flex" , 
-    justifyContent : "center" , 
-    alignItems : "center" , 
-    zIndex :"2" , 
-    position :"relative" , 
-    boxShadow: "0px -2px 9px 6px rgba(0,0,0,.2)" , 
-    fontWeight : "bold" , 
-    
+    background: "rgb(80,72,156)",
+    background: "linear-gradient(180deg, rgba(80,72,156,1) 0%, rgba(159,72,246,1) 43%)",
+    color: "#fff",
+    width: "60%",
+    height: "60%",
+    borderRadius: "50%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: "2",
+    position: "relative",
+    boxShadow: "0px -2px 9px 6px rgba(0,0,0,.2)",
+    fontWeight: "bold",
+
 }));
 
 const RatingScore = styled("div")(({ theme, bg }) => ({
-    backgroundColor : bg || "#0f4ce8" , 
-    fontWeight : "bold" , 
-    color : "#fff" , 
-    display :"flex" , 
-    justifyContent : "center" , 
-    alignItems : "center" , 
-    fontSize : "50px" ,     
-    padding : "0px 30px",
+    backgroundColor: bg || "#0f4ce8",
+    fontWeight: "bold",
+    color: "#fff",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    fontSize: "50px",
+    padding: "0px 30px",
     "@media print": {
         fontSize: "22px",
         padding: "10px 20px",
     },
 }));
 const StepBar = styled("div")(({ theme }) => ({
-    background: "rgb(80,72,156)" , 
-    background: "linear-gradient(270deg, rgba(80,72,156,1) 21%, rgba(159,72,246,1) 100%) ", 
-    display :"flex" , 
-    color : "#fff" , 
-    justifyContent : "space-between" , 
-    padding : "5px 20px" , 
+    background: "rgb(80,72,156)",
+    background: "linear-gradient(270deg, rgba(80,72,156,1) 21%, rgba(159,72,246,1) 100%) ",
+    display: "flex",
+    color: "#fff",
+    justifyContent: "space-between",
+    padding: "5px 20px",
 }));
 const StepTitle = styled("div")(({ theme }) => ({
 }));
@@ -589,56 +619,56 @@ const StepDoughnutColumn = styled("div")(() => ({
 }));
 
 const StepQuestions = styled("div")(({ theme }) => ({
-    padding : "0 30px" , 
+    padding: "0 30px",
 }));
 const StepQuestionAnswer = styled("div")(({ theme }) => ({
-    margin : "20px 0"
+    margin: "20px 0"
 }));
 const StepQuestion = styled("div")(({ theme }) => ({
-    fontWeight :"bold" , 
+    fontWeight: "bold",
 }));
 const StepAnswer = styled("div")(({ theme }) => ({
 }));
 const YesOrNoAnswer = styled("div")(({ theme }) => ({
-    width : "70px" , 
-    background: "rgb(253,199,12)" , 
-    background: "linear-gradient(270deg, rgba(253,199,12,1) 21%, rgba(245,156,52,1) 100%)" , 
-    fontWeight : "bold" , 
-    display : "flex" , 
-    justifyContent :"center" , 
-    alignItems : "center" , 
+    width: "70px",
+    background: "rgb(253,199,12)",
+    background: "linear-gradient(270deg, rgba(253,199,12,1) 21%, rgba(245,156,52,1) 100%)",
+    fontWeight: "bold",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
 }));
 const NotAnswer = styled(FlexCenter)(({ theme }) => ({
-    border : `1px solid ${Colors.gold}` ,
-    padding :"5px" , 
-    flexDirection : "column" ,
+    border: `1px solid ${Colors.gold}`,
+    padding: "5px",
+    flexDirection: "column",
 }));
 const ChoiceAnswer = styled(FlexCenter)(({ theme }) => ({
-    border : `1px solid ${Colors.gold}` ,
-    padding :"5px" , 
-    flexDirection : "column" ,
+    border: `1px solid ${Colors.gold}`,
+    padding: "5px",
+    flexDirection: "column",
 }));
 const OpenAnswer = styled("div")(({ theme }) => ({
-    width : "100%" , 
-    padding : "10px" , 
-    border : `1px solid ${Colors.gold}` ,
-    marginTop :"10px"  , 
+    width: "100%",
+    padding: "10px",
+    border: `1px solid ${Colors.gold}`,
+    marginTop: "10px",
 }));
 const ImageAnswer = styled(FlexCenter)(({ theme }) => ({
-    width : "45%" , 
-    height:'50%',
-    padding : "10px" , 
-    border : `1px solid ${Colors.gold}` ,
-    margin :"auto" , 
-    marginTop :"10px"  , 
+    width: "45%",
+    height: '50%',
+    padding: "10px",
+    border: `1px solid ${Colors.gold}`,
+    margin: "auto",
+    marginTop: "10px",
 }));
 const Divisor = styled("div")(({ theme }) => ({
-    width : "100%" , 
-    height:'2px',
-    background : '#0000000D' , 
-    margin : "40px 0" ,
+    width: "100%",
+    height: '2px',
+    background: '#0000000D',
+    margin: "10px 0",
     "@media print": {
-        margin: "28px 0",
+        margin: "8px 0",
     },
 }));
 // const StepQuestions = styled("div")({
@@ -646,420 +676,424 @@ const Divisor = styled("div")(({ theme }) => ({
 // });
 
 const QuestionRow = styled("div")(({ index }) => ({
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  padding: "15px 20px",
-  backgroundColor: index % 2 === 0 ? Colors.main9 : "#FFFFFF",
-//   borderBottom: "1px solid #E0E0E0",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "15px 20px",
+    backgroundColor: index % 2 === 0 ? Colors.main9 : "#FFFFFF",
+    //   borderBottom: "1px solid #E0E0E0",
 }));
 
 const QuestionText = styled("div")({
-  fontWeight: "600",
-  fontSize: "18px",
-  color: "#2C3E50",
-//   width: "60%",
+    fontWeight: "600",
+    fontSize: "18px",
+    color: "#2C3E50",
+    //   width: "60%",
 });
 
 const AnswerBox = styled("div")({
-  fontWeight: "500",
-  fontSize: '20px',
-  color: Colors.main7,
-  fontWeight: 700,
-  minWidth: "150px",
+    fontWeight: "500",
+    fontSize: '20px',
+    color: Colors.main7,
+    fontWeight: 700,
+    minWidth: "150px",
 });
 
 /* headline */
 const HeadLine = styled("div")({
-  fontSize: "24px",
-  fontWeight: "700",
-  margin: "40px 0 20px 0",
-  padding: "15px 20px",
+    fontSize: "24px",
+    fontWeight: "700",
+    margin: "40px 0 20px 0",
+    padding: "15px 20px",
 
-//   textAlign: "center",
-//   color: "#1F3A8A",
+    //   textAlign: "center",
+    //   color: "#1F3A8A",
 });
 
 /* images */
 const ImagesGrid = styled("div")({
-  display: "flex",
-  gap: "25px",
-  flexWrap: "wrap",
-  marginTop: "20px",
-  justifyContent: "center",
-  "@media print": {
-    gap: "12px",
+    display: "flex",
+    gap: "25px",
+    flexWrap: "wrap",
+    marginTop: "20px",
     justifyContent: "center",
-    flexDirection: "column",
-    alignItems: "stretch",
-  },
+    "@media print": {
+        gap: "12px",
+        justifyContent: "center",
+        flexDirection: "column",
+        alignItems: "stretch",
+    },
 });
 
 const ImageFrame = styled("div")({
-  backgroundColor: Colors.main8,
-  padding: "10px",
-  borderRadius: "6px",
-  width: "30%",
-  marginBottom: "10px",
-  boxSizing: "border-box",
-  display: "flex",
-  justifyContent: "center",
-  "@media print": {
-    width: "100%",
-    maxWidth: "100%",
-    flex: "0 0 auto",
-    padding: "8px",
-  },
+    backgroundColor: Colors.main8,
+    padding: "10px",
+    borderRadius: "6px",
+    width: "30%",
+    marginBottom: "10px",
+    boxSizing: "border-box",
+    display: "flex",
+    justifyContent: "center",
+    "@media print": {
+        width: "100%",
+        maxWidth: "100%",
+        flex: "0 0 auto",
+        padding: "8px",
+    },
 });
 
 const StyledImage = styled("img")({
-  width: "100%",
-  height: "auto",
-  objectFit: "cover",
-  borderRadius: "4px",
-  "@media print": {
-    width: "60%",
-    maxWidth: "100%",
-    objectFit: "contain",
-  },
+    width: "100%",
+    height: "auto",
+    objectFit: "cover",
+    borderRadius: "4px",
+    "@media print": {
+        width: "60%",
+        maxWidth: "100%",
+        objectFit: "contain",
+    },
 });
 
-const PrintingDiv = ({missionDetails , missionAnswer}) => {
+const PrintingDiv = ({ missionDetails, missionAnswer }) => {
 
     const profileData = useSelector((state) => state.profileData?.getProfileData);
     const rateValue = parseFloat(missionAnswer?.rate?.replace(',', '.') || 0);
     const rateColor = getColorBasedOnPercentage(rateValue, profileData);
+    const rateLabelKey = getRatingLabelKeyFromPercentage(rateValue, profileData);
 
 
     const convert = (str) => {
-        if (!str) return "0%";   
+        if (!str) return "0%";
 
         return str.toString().replace(",", ".") + "%";
     };
-    const removeQum = (str)=>{
+    const removeQum = (str) => {
         str = String(str)
-        str = str.replace(",", ".") 
-        return str 
+        str = str.replace(",", ".")
+        return str
     }
-    const [comments , setComments] = useState([])
-    const [pics , setPics] = useState([])
+    const [comments, setComments] = useState([])
+    const [pics, setPics] = useState([])
 
 
     const handleComments = (abj) => {
-        console.log("abj" , abj);
-        let arr  = comments 
+        console.log("abj", abj);
+        let arr = comments
         arr.push(abj)
         setComments(arr)
     }
     const handlePics = (o) => {
-        let arr  = pics 
+        let arr = pics
         arr.push(o)
         setPics(arr)
     }
-    const [one , setOne] = useState(0)
+    const [one, setOne] = useState(0)
 
 
-    useEffect  (()=>{
-        console.log("missionAnswer" , missionAnswer)
-        if (one<2) {
-            setOne(one+1)  
-            missionAnswer?.steps.map ((step , index) => {
-                    let arr = []
-                    step.questions?.map((question , index) => {
-                        if (question.type === "uploadImages") {
-                            console.log ("ya open ... ") ; 
-                            handlePics({title : question.title , answer : question.answer})
-                        }
-                        else if (question.type === "open") {
-                            arr.push({title : question.title , answer : question.answer})
-                        }
-                    })
-                    if (arr.length > 0) {
-                        handleComments(arr)
+    useEffect(() => {
+        console.log("missionAnswer", missionAnswer)
+        if (one < 2) {
+            setOne(one + 1)
+            missionAnswer?.steps.map((step, index) => {
+                let arr = []
+                step.questions?.map((question, index) => {
+                    if (question.type === "uploadImages") {
+                        console.log("ya open ... ");
+                        handlePics({ title: question.title, answer: question.answer })
                     }
-                    else {
-                        handleComments([])
+                    else if (question.type === "open") {
+                        arr.push({ title: question.title, answer: question.answer })
                     }
+                })
+                if (arr.length > 0) {
+                    handleComments(arr)
+                }
+                else {
+                    handleComments([])
+                }
             })
         }
-    } ,[missionAnswer])
+    }, [missionAnswer])
 
 
-    
-    const [employee , setEmployee] = useState({})
-    useEffect(()=>{
+
+    const [employee, setEmployee] = useState({})
+    useEffect(() => {
         let employees = missionDetails.employee
         for (let i = 0; i < employees.length; i++) {
-            if (employees[i].status!= 0 && employees[i].status!= 3 ) {
-                setEmployee(employees[i].user )
+            if (employees[i].status != 0 && employees[i].status != 3) {
+                setEmployee(employees[i].user)
             }
         }
     }
-    ,[missionDetails])
+        , [missionDetails])
 
 
 
-    useEffect(()=>{
-        console.log("missionDetails" , missionDetails)
+    useEffect(() => {
+        console.log("missionDetails", missionDetails)
     }
-    ,[employee])
+        , [employee])
 
 
-    
-    const {t} = useTranslation() ;
-    const numbers = [100,90,80,70,60,50,40,30,20,10,0];
+
+    const { t } = useTranslation();
+    const numbers = [100, 90, 80, 70, 60, 50, 40, 30, 20, 10, 0];
     return (
-    <PrintDiv id="divToPrint">
+        <PrintDiv id="divToPrint">
 
-        <Header>
-            <FirstLine>
-                <LogoDiv>
-                    <Image src = {logo}/>
-                </LogoDiv>
-            </FirstLine>
-            {/* image of employee is {employee.image} */}
+            <Header>
+                <div className='flex justify-center items-center w-full'>
+                    <div className='w-[100%]'>
+                        <FirstLine className='w-full'>
+                            <LogoDiv>
+                                <Image src={logo} />
+                            </LogoDiv>
 
-            <SecondLine>    
-                <HeaderInfoGrid>
-                    <HeaderInfoCol>
-                        <Tab>
-                            <TabTitle>{t("text.VisitorName")}:</TabTitle>
-                            <TabAnswer>{employee.name} </TabAnswer>
-                        </Tab>
-                        <Tab>
-                            <TabTitle>{t("text.MissionDate")}:</TabTitle>
-                            <TabAnswer>{missionDetails.date}</TabAnswer>
-                        </Tab>
-                    </HeaderInfoCol>
-                    <HeaderInfoCol>
-                        <Tab>
-                            <TabTitle>{t("text.CompanyName")}:</TabTitle>
-                            <TabAnswer>{missionDetails.companyName}</TabAnswer>
-                        </Tab>
-                        <Tab>
-                            <TabTitle>{t("text.MissionTime")}:</TabTitle>
-                            <TabAnswer >  <div dir="ltr">{missionDetails.from} - {missionDetails.to}</div></TabAnswer>
-                        </Tab>
-                    </HeaderInfoCol>
-                    <HeaderInfoCol>
-                        <Tab>
-                            <TabTitle>{t("text.BranchAddress")}:</TabTitle>
-                            <TabAnswer>{missionDetails.branch}</TabAnswer>
-                        </Tab>
-                    </HeaderInfoCol>
-                </HeaderInfoGrid>
-                <HeaderCompanyImageCol>
-                    <EmployeeImage src = {missionDetails.companyimage} alt = "company img"/>
-                </HeaderCompanyImageCol>
-            </SecondLine>
-            <Divisor/>
-            <AllRating>
-                <AllRatingTitleRow>
-                    <AllRatingDiamond src={diamond} alt="" width={30} height={30}/>
-                    <RatingTitle>{t("text.General_Rating")} </RatingTitle>
-                    <AllRatingDiamond src={diamond} alt="" width={30} height={30}/>
-                </AllRatingTitleRow>
-                <PieChartRow>
-                    <div className="flex items-start justify-center gap-[5px] shrink-0">
-                        <PieChartWrap>
-                            <PieChartComponent
-                                chartData={{
-                                    labels: [t('text.Rate'), ''],
-                                    datasets: [
-                                        {
-                                            data: [
-                                                parseFloat(missionAnswer?.rate?.replace(',', '.') || 0),
-                                                100 - parseFloat(missionAnswer?.rate?.replace(',', '.') || 0)
-                                            ],
-                                            backgroundColor: [Colors.main, '#fff'],
-                                            borderWidth: 0,
+                        </FirstLine>
+                        {/* image of employee is {employee.image} */}
+
+                        <SecondLine className='w-full'>
+                            <HeaderInfoGrid>
+                                <HeaderInfoCol>
+                                    <Tab>
+                                        <TabTitle>{t("text.VisitorName")}:</TabTitle>
+                                        <TabAnswer>{employee.name} </TabAnswer>
+                                    </Tab>
+                                    <Tab>
+                                        <TabTitle>{t("text.MissionDate")}:</TabTitle>
+                                        <TabAnswer>{missionDetails.date}</TabAnswer>
+                                    </Tab>
+                                </HeaderInfoCol>
+                                <HeaderInfoCol>
+                                    <Tab>
+                                        <TabTitle>{t("text.CompanyName")}:</TabTitle>
+                                        <TabAnswer>{missionDetails.companyName}</TabAnswer>
+                                    </Tab>
+                                    <Tab>
+                                        <TabTitle>{t("text.MissionTime")}:</TabTitle>
+                                        <TabAnswer >  <div dir="ltr">{missionDetails.from} - {missionDetails.to}</div></TabAnswer>
+                                    </Tab>
+                                </HeaderInfoCol>
+                                <HeaderInfoCol>
+                                    <Tab>
+                                        <TabTitle>{t("text.BranchAddress")}:</TabTitle>
+                                        <TabAnswer>{missionDetails.branch}</TabAnswer>
+                                    </Tab>
+                                </HeaderInfoCol>
+                            </HeaderInfoGrid>
+
+                        </SecondLine>
+                    </div>
+                    <div className='flex justify-center items-center w-[30%]'>
+                        <HeaderCompanyImageCol>
+                            <EmployeeImage src={missionDetails.companyimage} alt="company img" />
+                        </HeaderCompanyImageCol>
+                    </div>
+                </div>
+                <Divisor />
+                <AllRating>
+                    <AllRatingTitleRow>
+                        <AllRatingDiamond src={diamond} alt="" width={30} height={30} />
+                        <RatingTitle>{t("text.General_Rating")} </RatingTitle>
+                        <AllRatingDiamond src={diamond} alt="" width={30} height={30} />
+                    </AllRatingTitleRow>
+                    <PieChartRow>
+                        <div className="flex items-center justify-center gap-[5px] shrink-0">
+                            <PieChartWrap>
+                                <PieChartComponent
+                                    chartData={{
+                                        labels: [t('text.Rate'), ''],
+                                        datasets: [
+                                            {
+                                                data: [
+                                                    parseFloat(missionAnswer?.rate?.replace(',', '.') || 0),
+                                                    100 - parseFloat(missionAnswer?.rate?.replace(',', '.') || 0)
+                                                ],
+                                                backgroundColor: [Colors.main, '#fff'],
+                                                borderWidth: 0,
+                                            },
+                                        ],
+                                    }}
+                                    options={{
+                                        plugins: {
+                                            legend: { display: false },
+                                            tooltip: { enabled: false },
+                                            datalabels: { display: false }
                                         },
-                                    ],
-                                }}
-                                options={{
-                                    plugins: {
-                                        legend: { display: false },
-                                        tooltip: { enabled: false },
-                                        datalabels: { display: false }
-                                    },
-                                    maintainAspectRatio: false,
-                                }}
-                                size={250}
-                            />
-                        </PieChartWrap>
-                        <PieRatePercent>
-                            {convert(missionAnswer?.rate)}
-                        </PieRatePercent>
-                    </div>
-                    <div>
-                        <RatingScore bg={rateColor}>
-                            {
-                                removeQum(missionAnswer?.rate)>=75 ? <div>{t("text.excellent")}</div> :
-                                removeQum(missionAnswer?.rate)>=50 ? <div>{t("text.good")}</div> :
-                                removeQum(missionAnswer?.rate)>=25 ? <div>{t("text.natural")}</div> :
-                                <div>{t("text.bad")}</div>
-                            }
-                        </RatingScore>
-                    </div>
-                </PieChartRow>
+                                        maintainAspectRatio: false,
+                                    }}
+                                    size={250}
+                                />
+                            </PieChartWrap>
+                            <PieRatePercent>
+                                {convert(missionAnswer?.rate)}
+                            </PieRatePercent>
+                        </div>
+                        <div>
+                            <RatingScore bg={rateColor}>
+                                <div>{t(`text.${rateLabelKey}`)}</div>
+                            </RatingScore>
+                        </div>
+                    </PieChartRow>
 
-            </AllRating>
-            <HeaderBarChartBlock>
-                <HorizontalBarChart steps={missionAnswer?.steps} profileData={profileData} />
-            </HeaderBarChartBlock>
+                </AllRating>
+                <HeaderBarChartBlock>
+                    <HorizontalBarChart steps={missionAnswer?.steps} profileData={profileData} />
+                </HeaderBarChartBlock>
 
-        </Header>
-        <StepsDetails>
-            {missionAnswer?.steps?.map((step , index) => {
-                return (
-                    <>
-                         {/* StepBar StepName  StepRate StepQuestions  StepQuestionAnswer */}
-                        <StepSection key={index}>
-                            {(() => {
-                                const stepRateValue = parseFloat(step?.rate?.replace(',', '.') || 0);
-                                const stepColor = getColorBasedOnPercentage(stepRateValue, profileData);
-                                return (
-                                    <StepHeaderRow>
-                                        <StepTitleColumn>
-                                            <div className='flex gap-5 items-center justify-center'>
-                                                <img src={diamond} alt="" className="step-section-diamond" />
-                                                <RatingTitle2>{step.name}</RatingTitle2>
-                                                <img src={diamond} alt="" className="step-section-diamond" />
-                                            </div>
-                                            {/* <div
+            </Header>
+            <StepsDetails>
+                {missionAnswer?.steps?.map((step, index) => {
+                    return (
+                        <>
+                            {/* StepBar StepName  StepRate StepQuestions  StepQuestionAnswer */}
+                            <StepSection key={index}>
+                                {(() => {
+                                    const stepRateValue = parseFloat(step?.rate?.replace(',', '.') || 0);
+                                    const stepColor = getColorBasedOnPercentage(stepRateValue, profileData);
+                                    return (
+                                        <StepHeaderRow>
+                                            <StepTitleColumn>
+                                                <div className='flex gap-5 items-center justify-center'>
+                                                    <img src={diamond} alt="" className="step-section-diamond" />
+                                                    <RatingTitle2>{step.name}</RatingTitle2>
+                                                    <img src={diamond} alt="" className="step-section-diamond" />
+                                                </div>
+                                                {/* <div
                                                 className="text-white pr-2 pl-2 text-[35px]  w-fit"
                                                 style={{ backgroundColor: Colors.main }}
                                             >
                                                 20 / 10
                                             </div> */}
-                                        </StepTitleColumn>
-                                        <StepDoughnutColumn>
-                                            <DoughnutComponent
-                                                chartData={{
-                                                    labels: [t('text.Rate'), ''],
-                                                    datasets: [
-                                                        {
-                                                            data: [
-                                                                stepRateValue,
-                                                                100 - stepRateValue
-                                                            ],
-                                                            backgroundColor: [stepColor, 'transparent'],
-                                                            borderWidth: 0,
+                                            </StepTitleColumn>
+                                            <StepDoughnutColumn>
+                                                <DoughnutComponent
+                                                    chartData={{
+                                                        labels: [t('text.Rate'), ''],
+                                                        datasets: [
+                                                            {
+                                                                data: [
+                                                                    stepRateValue,
+                                                                    100 - stepRateValue
+                                                                ],
+                                                                backgroundColor: [stepColor, 'transparent'],
+                                                                borderWidth: 0,
+                                                            },
+                                                        ],
+                                                    }}
+                                                    options={{
+                                                        plugins: {
+                                                            legend: { display: false },
+                                                            tooltip: { enabled: false },
+                                                            datalabels: { display: false }
                                                         },
-                                                    ],
-                                                }}
-                                                options={{
-                                                    plugins: {
-                                                        legend: { display: false },
-                                                        tooltip: { enabled: false },
-                                                        datalabels: { display: false }
-                                                    },
-                                                    maintainAspectRatio: false,
-                                                    cutout: '88%',
-                                                }}
-                                                doughnutSize={230}
-                                                content={{
-                                                    value: convert(step.rate),
-                                                    contentDimensions: 150,
-                                                    contentFontSize: 40,
-                                                    color: Colors.main7,
-                                                    fontFamily: 'Tajawal',
-                                                }}
-                                            />
-                                        </StepDoughnutColumn>
-                                    </StepHeaderRow>
-                                );
-                            })()}
-                           
-                           <StepQuestions>
-                            {step.questions?.map((question, index) => {
-
-                                /* ===== UPLOAD IMAGES ===== */
-                                if (question.type === "uploadImages") {
-                                return (
-                                    <div key={index}>
-                                    <QuestionText style={{ marginBottom: "0px" }}>
-                                        <div className='flex text-main7 py-[15px] px-[20px] font-extrabold text-[30px] leading-[100%] tracking-normal text-right' >
-                                            {question.title}
-                                        </div>
-                                    </QuestionText>
-
-                                    {question.answer && question.answer.length > 0 ? (
-                                        <ImagesGrid>
-                                        {question.answer.map((img, i) => (
-                                            <ImageFrame key={i}>
-                                            <StyledImage src={img} alt="uploaded" />
-                                            </ImageFrame>
-                                        ))}
-                                        </ImagesGrid>
-                                    ) : (
-                                        <AnswerBox>N/A</AnswerBox>
-                                    )}
-                                    </div>
-                                );
-                                }
-
-                                /* ===== NORMAL QUESTIONS ===== */
-                                const renderAnswer = () => {
-                                if (!question.answer && question.type !== "headLine") return "N/A";
-
-                                switch (question.type) {
-                                    case "yesOrNo":
-                                    return t(`text.${question.answer}`);
-
-                                    case "rating":
-                                    return (
-                                        <Rating
-                                        value={question.answer}
-                                        readOnly
-                                        precision={0.5}
-                                        style={{ direction: "ltr", fontSize: "20px" }}
-                                        />
+                                                        maintainAspectRatio: false,
+                                                        cutout: '88%',
+                                                    }}
+                                                    doughnutSize={230}
+                                                    content={{
+                                                        value: convert(step.rate),
+                                                        contentDimensions: 150,
+                                                        contentFontSize: 40,
+                                                        color: Colors.main7,
+                                                        fontFamily: 'Tajawal',
+                                                    }}
+                                                />
+                                            </StepDoughnutColumn>
+                                        </StepHeaderRow>
                                     );
+                                })()}
 
-                                    case "SingleChoice":
-                                    return question.answer;
+                                <StepQuestions>
+                                    {step.questions?.map((question, index) => {
 
-                                    case "multiChoice":
-                                    return question.answer.join(" - ");
+                                        /* ===== UPLOAD IMAGES ===== */
+                                        if (question.type === "uploadImages") {
+                                            return (
+                                                <div key={index}>
+                                                    <QuestionText style={{ marginBottom: "0px" }}>
+                                                        <div className='flex text-main7 py-[15px] px-[20px] font-extrabold text-[30px] leading-[100%] tracking-normal text-right' >
+                                                            {question.title}
+                                                        </div>
+                                                    </QuestionText>
 
-                                    case "open":
-                                    return question.answer;
-                                    
-                                    case "headLine":
-                                    return "";
+                                                    {question.answer && question.answer.length > 0 ? (
+                                                        <ImagesGrid>
+                                                            {question.answer.map((img, i) => (
+                                                                <ImageFrame key={i}>
+                                                                    <StyledImage src={img} alt="uploaded" />
+                                                                </ImageFrame>
+                                                            ))}
+                                                        </ImagesGrid>
+                                                    ) : (
+                                                        <AnswerBox>N/A</AnswerBox>
+                                                    )}
+                                                </div>
+                                            );
+                                        }
 
-                                    default:
-                                    return "N/A";
-                                }
-                                };
+                                        /* ===== NORMAL QUESTIONS ===== */
+                                        const renderAnswer = () => {
+                                            if (!question.answer && question.type !== "headLine") return "N/A";
 
-                                return (
-                                <QuestionRow key={index} index={index}>
-                                    <QuestionText>{question.title}</QuestionText>
-                                    <AnswerBox>{renderAnswer()}</AnswerBox>
-                                </QuestionRow>
-                                );
-                            })}
-                            </StepQuestions>
-                            {/* <div className='flex  bg-main h-[2px] w-full my-[100px]' >
+                                            switch (question.type) {
+                                                case "yesOrNo":
+                                                    return t(`text.${question.answer}`);
+
+                                                case "rating":
+                                                    return (
+                                                        <Rating
+                                                            value={question.answer}
+                                                            readOnly
+                                                            precision={0.5}
+                                                            style={{ direction: "ltr", fontSize: "20px" }}
+                                                        />
+                                                    );
+
+                                                case "SingleChoice":
+                                                    return question.answer;
+
+                                                case "multiChoice":
+                                                    return question.answer.join(" - ");
+
+                                                case "open":
+                                                    return question.answer;
+
+                                                case "headLine":
+                                                    return "";
+
+                                                default:
+                                                    return "N/A";
+                                            }
+                                        };
+
+                                        return (
+                                            <QuestionRow key={index} index={index}>
+                                                <QuestionText>{question.title}</QuestionText>
+                                                <AnswerBox>{renderAnswer()}</AnswerBox>
+                                            </QuestionRow>
+                                        );
+                                    })}
+                                </StepQuestions>
+                                {/* <div className='flex  bg-main h-[2px] w-full my-[100px]' >
                             </div> */}
-                           
-                        </StepSection>
 
-                    </>
-                )
+                            </StepSection>
+
+                        </>
+                    )
                 }
-            )}
-        </StepsDetails>
-        <div className='flex flex-col justify-center items-center bg-main  w-full p-5' style={{ pageBreakInside: 'avoid', breakInside: 'avoid' }}>
-            <LogoDiv>
-                <Image src = {grayLogo}/>
-            </LogoDiv>
-            <div className='font-light text-[32px]  text-white ' >بداية رحلتك للنجاح و مصدر ثقتك</div>
-        </div>
-    </PrintDiv>
-  )
+                )}
+            </StepsDetails>
+            <div className='flex flex-col justify-center items-center bg-main  w-full p-5' style={{ pageBreakInside: 'avoid', breakInside: 'avoid' }}>
+                <LogoDiv>
+                    <Image src={grayLogo} />
+                </LogoDiv>
+                <div className='font-light text-[32px]  text-white ' >بداية رحلتك للنجاح و مصدر ثقتك</div>
+            </div>
+        </PrintDiv>
+    )
 }
 
 export default PrintingDiv

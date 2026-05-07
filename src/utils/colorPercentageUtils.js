@@ -51,6 +51,19 @@ export const getColorBasedOnPercentage = (percentage, profileData) => {
   }
 };
 
+/** i18n key under `text.*` — matches getColorBasedOnPercentage tiers */
+export const getRatingLabelKeyFromPercentage = (percentage, profileData) => {
+  const { greenPercentage, goldPercentage } = getColorPercentages(profileData);
+
+  if (percentage >= greenPercentage) {
+    return 'excellent';
+  }
+  if (percentage >= goldPercentage) {
+    return 'natural';
+  }
+  return 'bad';
+};
+
 /**
  * Redux selector to get color percentages from state
  */

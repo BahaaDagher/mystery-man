@@ -207,11 +207,11 @@ const FinishedData = (
         <FocusChange>
             <FocusChangeLine>
               <FocusChangeTitle>
-                <img src = {title}/>
+                <img src = {title} style = {{width: "20px", height: "20px"}}/>
                 <Title>{t("text.Title")} & {t("text.Focus")}</Title>
               </FocusChangeTitle>
               <FocusChangeImg>
-                <img src = {(missionTitle && missionFocus) ? checked : unchecked}/>
+                <img src = {(missionTitle && missionFocus) ? checked : unchecked} />
               </FocusChangeImg>
             </FocusChangeLine>
             
