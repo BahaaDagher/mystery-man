@@ -38,6 +38,7 @@ import Home2 from "./pages/home/Home2";
 import Reports from "./pages/reports/Reports";
 import QrCodesParent   from "./pages/qr-codes/QrCodesParent";
 import QrCodeQuestionnaires from "./pages/qr-codes/qr-codes/questionnaires/QrCodeQuestionnaires";
+import { initChartFontFromStorage } from "./utils/chartRtlFont";
 
 function App() {
   const missionDetails = useSelector(state => state.missionData.missionDetails)
@@ -51,6 +52,8 @@ function App() {
       theme.direction = "ltr" ;
       i18n.changeLanguage("en");
     }
+
+    initChartFontFromStorage();
 
     const language = localStorage.getItem('language');
     const root = document.documentElement; // Access the root element
