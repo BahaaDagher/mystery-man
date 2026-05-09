@@ -1,6 +1,11 @@
-import html2canvas from 'html2canvas';
+import { toCanvas, getFontEmbedCSS } from 'html-to-image';
 import jsPDF from 'jspdf';
 import BlueLogo from '../assets/images/BlueLogo.png';
+import { refreshAllChartFonts } from './chartRtlFont';
+
+/** Same stack as index.css so export matches screen and shapes Arabic correctly */
+const AR_PDF_FONT_STACK =
+  "'Cairo', 'Tajawal', 'Noto Sans Arabic', 'Segoe UI', Tahoma, Arial, sans-serif";
 
 const PDF_MARGIN_MM = 10;
 const PDF_PAGE_WIDTH_MM = 210 - (2 * PDF_MARGIN_MM);
@@ -155,7 +160,8 @@ export const generateReportPdf = async (elementRef, reportName, isRTL = false, d
       throw new Error('Element not found');
     }
 
-    // Wait for charts to be fully rendered
+    // Ensure Chart.js uses Arabic-capable fonts on canvas, then re-render before capture
+    refreshAllChartFonts(isRTL);
     await waitForCharts();
 
     // Create a wrapper div to include header
@@ -165,6 +171,9 @@ export const generateReportPdf = async (elementRef, reportName, isRTL = false, d
     wrapper.style.width = (element.scrollWidth + 40) + 'px';
     if (isRTL) {
       wrapper.setAttribute('dir', 'rtl');
+      wrapper.setAttribute('lang', 'ar');
+      wrapper.style.fontFamily = AR_PDF_FONT_STACK;
+      wrapper.style.letterSpacing = 'normal';
     }
     
     // Create header
@@ -199,7 +208,7 @@ export const generateReportPdf = async (elementRef, reportName, isRTL = false, d
     title.style.fontWeight = 'bold';
     title.style.marginBottom = '10px';
     title.style.color = '#333';
-    title.style.fontFamily = isRTL ? 'Arial, Tahoma, sans-serif' : 'Arial, sans-serif';
+    title.style.fontFamily = isRTL ? AR_PDF_FONT_STACK : 'Arial, sans-serif';
     title.style.direction = isRTL ? 'rtl' : 'ltr';
     title.style.unicodeBidi = 'embed';
     
@@ -209,7 +218,7 @@ export const generateReportPdf = async (elementRef, reportName, isRTL = false, d
       dateText.textContent = dateRange;
       dateText.style.fontSize = '14px';
       dateText.style.color = '#666';
-      dateText.style.fontFamily = isRTL ? 'Arial, Tahoma, sans-serif' : 'Arial, sans-serif';
+      dateText.style.fontFamily = isRTL ? AR_PDF_FONT_STACK : 'Arial, sans-serif';
       dateText.style.direction = isRTL ? 'rtl' : 'ltr';
       dateText.style.unicodeBidi = 'embed';
       titleContainer.appendChild(title);
@@ -328,7 +337,7 @@ export const generateReportPdf = async (elementRef, reportName, isRTL = false, d
       noteTitle.style.fontWeight = 'bold';
       noteTitle.style.marginBottom = '15px';
       noteTitle.style.color = '#333';
-      noteTitle.style.fontFamily = isRTL ? 'Arial, Tahoma, sans-serif' : 'Arial, sans-serif';
+      noteTitle.style.fontFamily = isRTL ? AR_PDF_FONT_STACK : 'Arial, sans-serif';
       noteTitle.style.direction = isRTL ? 'rtl' : 'ltr';
       noteTitle.style.unicodeBidi = 'embed';
       
@@ -345,7 +354,7 @@ export const generateReportPdf = async (elementRef, reportName, isRTL = false, d
       noteContent.style.fontSize = '14px';
       noteContent.style.lineHeight = '1.6';
       noteContent.style.color = '#555';
-      noteContent.style.fontFamily = isRTL ? 'Arial, Tahoma, sans-serif' : 'Arial, sans-serif';
+      noteContent.style.fontFamily = isRTL ? AR_PDF_FONT_STACK : 'Arial, sans-serif';
       noteContent.style.direction = isRTL ? 'rtl' : 'ltr';
       noteContent.style.unicodeBidi = 'embed';
       // Remove whiteSpace: 'pre-wrap' as it's not needed for HTML content
@@ -372,143 +381,61 @@ export const generateReportPdf = async (elementRef, reportName, isRTL = false, d
     // Scroll to top to ensure full capture
     window.scrollTo(0, 0);
     
-    // Wait a bit more
+    // Wait a bit more for layout/fonts (Cairo/Tajawal/Noto come from index.css)
     await new Promise(resolve => setTimeout(resolve, 500));
-    
-    // Add a font preload for Arabic text
-    const fontLink = document.createElement('link');
-    fontLink.href = 'https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;600;700&display=swap';
-    fontLink.rel = 'stylesheet';
-    document.head.appendChild(fontLink);
-    
-    // Wait for font to load
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // Configure html2canvas options
-    const canvas = await html2canvas(wrapper, {
-      scale: 2,
-      useCORS: true,
-      logging: false,
-      backgroundColor: '#f5f5f5',
-      windowWidth: wrapper.scrollWidth,
-      windowHeight: wrapper.scrollHeight,
-      width: wrapper.scrollWidth,
-      height: wrapper.scrollHeight,
-      x: 0,
-      y: 0,
-      scrollX: 0,
-      scrollY: 0,
-      foreignObjectRendering: false,
-      imageTimeout: 0,
-      letterRendering: true,
-      onclone: (clonedDoc) => {
-        // Ensure RTL is preserved
-        if (isRTL) {
-          clonedDoc.body.style.direction = 'rtl';
-          clonedDoc.documentElement.style.direction = 'rtl';
-        }
-        
-        // Preserve styles for Quill-generated content
-        const noteContentElements = clonedDoc.querySelectorAll('.report-note-content');
-        noteContentElements.forEach(el => {
-          // Ensure the element preserves its inner HTML structure
-          el.style.whiteSpace = 'normal';
-          
-          // Handle Quill-specific styling
-          const styledElements = el.querySelectorAll('*');
-          styledElements.forEach(childEl => {
-            // Preserve color styles
-            if (childEl.style && childEl.style.color) {
-              childEl.style.color = childEl.style.color;
-            }
-            
-            // Preserve background color styles
-            if (childEl.style && childEl.style.backgroundColor) {
-              childEl.style.backgroundColor = childEl.style.backgroundColor;
-            }
-          });
-        });
-        
-        // Fix Arabic text rendering
-        const allTextElements = clonedDoc.querySelectorAll('*');
-        allTextElements.forEach(el => {
-          if (el.textContent && /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/.test(el.textContent)) {
-            // Element contains Arabic text
-            el.style.fontFamily = "'Noto Sans Arabic', Arial, Tahoma, sans-serif";
-            el.style.direction = 'rtl';
-            el.style.unicodeBidi = 'embed';
-            el.style.textAlign = 'right';
-            el.style.lineHeight = '1.6';
-          }
-        });
-        
-        // Add CSS for better rendering
-        const style = clonedDoc.createElement('style');
-        style.textContent = `
-          @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;600;700&display=swap');
-          
-          * {
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-          }
-          
-          [dir="rtl"] {
-            font-family: 'Noto Sans Arabic', Arial, Tahoma, sans-serif !important;
-          }
-          
-          /* Page break rules */
-          .page-break-before {
-            page-break-before: always;
-          }
-          
-          .no-page-break {
-            page-break-inside: avoid;
-          }
-          
-          /* Quill editor content styling */
-          .report-note-content h1, .report-note-content h2, .report-note-content h3,
-          .report-note-content h4, .report-note-content h5, .report-note-content h6 {
-            margin: 10px 0;
-            font-weight: bold;
-          }
-          
-          .report-note-content p {
-            margin: 8px 0;
-          }
-          
-          .report-note-content strong {
-            font-weight: bold;
-          }
-          
-          .report-note-content em {
-            font-style: italic;
-          }
-          
-          .report-note-content u {
-            text-decoration: underline;
-          }
-          
-          .report-note-content strike {
-            text-decoration: line-through;
-          }
-          
-          .report-note-content ul, .report-note-content ol {
-            margin: 10px 0;
-            padding-left: 20px;
-          }
-          
-          .report-note-content li {
-            margin: 5px 0;
-          }
-        `;
-        clonedDoc.head.appendChild(style);
+    try {
+      await document.fonts.ready;
+      if (isRTL) {
+        await Promise.all([
+          document.fonts.load('500 16px Cairo').catch(() => {}),
+          document.fonts.load('500 16px Tajawal').catch(() => {}),
+          document.fonts.load('500 16px "Noto Sans Arabic"').catch(() => {}),
+        ]);
       }
-    });
-    
-    // Remove the temporary wrapper and font link
-    document.body.removeChild(wrapper);
-    if (fontLink && fontLink.parentNode) {
-      document.head.removeChild(fontLink);
+    } catch {
+      /* ignore */
+    }
+
+    const exportWidth = wrapper.scrollWidth;
+    const exportHeight = wrapper.scrollHeight;
+
+    let fontEmbedCSS = '';
+    if (isRTL) {
+      try {
+        fontEmbedCSS = await getFontEmbedCSS(wrapper, { cacheBust: true });
+      } catch {
+        fontEmbedCSS = '';
+      }
+    }
+
+    let canvas;
+    try {
+      // SVG foreignObject path preserves browser text shaping (Arabic); html2canvas often breaks it.
+      canvas = await toCanvas(wrapper, {
+        pixelRatio: 2,
+        backgroundColor: '#f5f5f5',
+        width: exportWidth,
+        height: exportHeight,
+        cacheBust: true,
+        preferredFontFormat: 'woff2',
+        ...(fontEmbedCSS ? { fontEmbedCSS } : {}),
+      });
+    } catch (err) {
+      console.warn('html-to-image toCanvas failed, using html2canvas fallback', err);
+      const html2canvas = (await import('html2canvas')).default;
+      canvas = await html2canvas(wrapper, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: '#f5f5f5',
+        width: exportWidth,
+        height: exportHeight,
+        letterRendering: false,
+      });
+    } finally {
+      if (wrapper.parentNode) {
+        wrapper.parentNode.removeChild(wrapper);
+      }
     }
 
     // Calculate PDF dimensions with margins

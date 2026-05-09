@@ -7,6 +7,10 @@ import { BrowserRouter } from 'react-router-dom';
 import { store } from '../src/store/Store';
 import { Provider } from 'react-redux';
 import './index.css';
+import { initChartFontFromStorage } from './utils/chartRtlFont';
+
+initChartFontFromStorage();
+
 const theme = createTheme({
   direction: 'ltr',
   breakpoints: {
