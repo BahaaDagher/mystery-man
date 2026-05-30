@@ -55,7 +55,12 @@ const StepsEvaluationInRelationToTime = ({ apiData }) => {
   const chartOptions = {
     responsive: true,
     plugins: {
-      legend: { display: true },
+      legend: {
+        display: true,
+        labels: {
+          padding: 16,
+        },
+      },
       tooltip: {
         callbacks: {
           label: function (context) {
@@ -100,7 +105,7 @@ const StepsEvaluationInRelationToTime = ({ apiData }) => {
         grid: { color: "#e5e7eb" },
         position: isArabic ? "right" : "left",
         ticks: {
-          max: undefined,
+          display: false,
         },
         max: undefined,
       },
@@ -109,10 +114,10 @@ const StepsEvaluationInRelationToTime = ({ apiData }) => {
         grid: { display: false },
       },
     },
-    // Add padding at the top to accommodate data labels
     layout: {
       padding: {
-        top: 30
+        top: 48,
+        bottom: 24,
       }
     }
   };
@@ -122,7 +127,7 @@ const StepsEvaluationInRelationToTime = ({ apiData }) => {
       title={t('text.steps_evaluation_in_relation_to_time')}
       chartData={chartData}
       chartOptions={chartOptions}
-      height={100}
+      height={180}
     />
   )
 }

@@ -50,8 +50,9 @@ const OverallEvaluationOfEachBranch = ({apiData}) => {
       },
       // Enhanced datalabels plugin configuration without background
       datalabels: {
-        anchor: 'end',
+        anchor: (context) => (context.dataIndex === 0 ? 'start' : 'end'),
         align: 'top',
+        clip: false,
         formatter: (value) => value,
         font: {
           weight: 'bold',
@@ -80,6 +81,13 @@ const OverallEvaluationOfEachBranch = ({apiData}) => {
       },
       x: {
         grid: { display: false },
+        ticks: {
+          autoSkip: false,
+          padding: 8,
+        },
+        afterFit: (scale) => {
+          scale.paddingLeft = 20;
+        },
       },
     },
     // Add padding at the top to accommodate data labels

@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import DepartmentBarChart from './DepartmentBarChart'
 import cancelIcon from '../../../../assets/icons/cancel-icon.svg'
 import CustomSelect from '../../../../components/CustomSelect'
-import Loading from '../../../../components/Loading'
 import {
     Chart as ChartJS,
     BarElement,
@@ -16,44 +15,46 @@ import {
   
   ChartJS.register(BarElement, PointElement, CategoryScale, LinearScale, Tooltip, Filler)
 
-
 const CompareSectionsForBranches = ({apiData, allSteps, onStepsIdsChangeFromMoreThanBranch}) => {
   const { t } = useTranslation();
-  const [stepsIds, setStepsIds] = useState([])
 
-  // Select the first step by default if available
-  const [selectedSteps, setSelectedSteps] = useState(
+  const [appliedSteps, setAppliedSteps] = useState(
+    allSteps?.length > 0 ? [allSteps[0].id] : []
+  )
+  const [pendingSteps, setPendingSteps] = useState(
     allSteps?.length > 0 ? [allSteps[0].id] : []
   )
 
-  // For CustomSelect, map to {value, label} (value is number)
-  const selectOptions = allSteps.map(step => ({ value: step.id, label: step.name }))
+  const selectOptions = allSteps?.map(step => ({ value: step.id, label: step.name })) || []
 
-  // Filter apiData for selected steps based on ID matching
-  const selectedData = apiData?.filter(step => selectedSteps.includes(step.step_id)) || []
+  const selectedData = apiData?.filter(step => appliedSteps.includes(step.step_id)) || []
 
-  // Handle step selection - add to stepsIds when selected
-  const handleStepSelection = (selectedValues) => {
-    setSelectedSteps(selectedValues)
-    
-    // Add new step IDs to stepsIds (cumulative)
-    const newStepIds = selectedValues.filter(id => !stepsIds.includes(id))
-    if (newStepIds.length > 0) {
-      const updatedStepsIds = [...stepsIds, ...newStepIds]
-      setStepsIds(updatedStepsIds)
-      // Pass stepsIds to parent component
-      if (onStepsIdsChangeFromMoreThanBranch) {
-        onStepsIdsChangeFromMoreThanBranch(updatedStepsIds)
-      }
+  const hasPendingChanges =
+    [...pendingSteps].sort().join(',') !== [...appliedSteps].sort().join(',')
+
+  const handleApply = () => {
+    const nextApplied =
+      pendingSteps.length > 0
+        ? pendingSteps
+        : allSteps?.[0]?.id
+          ? [allSteps[0].id]
+          : []
+
+    setAppliedSteps(nextApplied)
+    setPendingSteps(nextApplied)
+
+    if (onStepsIdsChangeFromMoreThanBranch) {
+      onStepsIdsChangeFromMoreThanBranch(nextApplied)
     }
   }
 
-  // set the first step as default
-  useEffect(()=>{
+  useEffect(() => {
     if (allSteps?.length > 0) {
-      setSelectedSteps([allSteps[0].id])
+      const defaultSelection = [allSteps[0].id]
+      setAppliedSteps(defaultSelection)
+      setPendingSteps(defaultSelection)
     }
-  },[allSteps])
+  }, [allSteps])
 
   return (
     <>
@@ -66,22 +67,25 @@ const CompareSectionsForBranches = ({apiData, allSteps, onStepsIdsChangeFromMore
         <div className="flex items-center gap-2 mb-4">
           <CustomSelect
             options={selectOptions}
-            value={selectedSteps}
-            onChange={handleStepSelection}
+            value={pendingSteps}
+            onChange={setPendingSteps}
             multiple
+            showSelectAll
+            onOk={handleApply}
+            okDisabled={!hasPendingChanges || pendingSteps.length === 0}
             placeholder={t('text.choose_step')}
             className="min-w-[200px]"
           />
           {/* Render selected steps as chips with cancel icon */}
           <div className="flex flex-wrap gap-2">
-            {selectedSteps.map(val => {
+            {pendingSteps.map(val => {
               const label = allSteps?.find(step => step.id === val)?.name || val
               return (
                 <span key={val} className="flex items-center bg-gray-100 rounded-full px-3 py-1 text-sm font-medium">
                   {label}
                   <span
                     className="ml-2 text-gray-400 hover:text-red-500"
-                    onClick={() => setSelectedSteps(selectedSteps.filter(s => s !== val))}
+                    onClick={() => setPendingSteps(pendingSteps.filter(s => s !== val))}
                     aria-label="Remove step"
                     type="button"
                   >
@@ -93,7 +97,6 @@ const CompareSectionsForBranches = ({apiData, allSteps, onStepsIdsChangeFromMore
           </div>
         </div>
         <hr className="my-4 border-gray-200 bg-main mb-8" />
-        {/* Render a bar chart for each selected step */}
         <div className="grid gap-8">
           {selectedData.map(step => (
             <DepartmentBarChart
@@ -110,4 +113,3 @@ const CompareSectionsForBranches = ({apiData, allSteps, onStepsIdsChangeFromMore
 }
 
 export default CompareSectionsForBranches
-

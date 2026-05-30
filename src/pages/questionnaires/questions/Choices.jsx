@@ -6,10 +6,9 @@ import QuestionInput from './QuestionInput';
 import grayDelete from '../../../assets/icons/grayDelete.svg'
 import DeleteIcon from './DeleteIcon';
 import { useDispatch, useSelector } from 'react-redux';
-import { handleDeleteQuestion, setQuestionDetails } from '../../../store/slices/questionierSlice';
+import { setQuestionDetails } from '../../../store/slices/questionierSlice';
 import { useTranslation } from 'react-i18next';
 import Swal from 'sweetalert2';
-import { Flex } from '../../../components/Flex';
 
 
 const Parent = styled("div")(({ theme }) => ({
@@ -61,21 +60,7 @@ const AnswerContainer = styled("div")(({ theme }) => ({
     width : "100%" ,
   },
 }));
-const Answer = styled(Flex)(({ theme }) => ({
-  alignItems : "center" ,
-  padding : "5px" ,
-  width : "80%" ,
-  margin : "0 10px" ,
-  fontSize : "20px" ,
-  color : Colors.gray ,
-  [theme.breakpoints.down('1500')]: {
-    width : "100%" ,
-  },
-  [theme.breakpoints.down('800')]: {
-    flexDirection : "column" ,
-    alignItems : "flex-start" ,
-  },
-}));
+
 
 const Choices = ({questionData,index ,setIsApplyFocus}) => {
   const {t} = useTranslation();
@@ -111,38 +96,48 @@ const Choices = ({questionData,index ,setIsApplyFocus}) => {
     dispatch(setQuestionDetails({index:index ,data:data}))
   },[answers])
 
+  useEffect(() => {
+    setAnswers(questionData.options || []);
+  }, [questionData.options]);
+
+  const handleUpdateAnswer = (answerIndex, field, value) => {
+    setAnswers((prev) =>
+      prev.map((item, i) =>
+        i === answerIndex ? { ...item, [field]: value } : item
+      )
+    );
+  };
+
   const handleAddAnswer = () => {
-    console.log("newAnswer",newAnswer);
     if (newAnswer.title.trim() === '') {
       Swal.fire({
         icon: 'error',
         text: t("text.Please_enter_a_new_answer"),
       })
+      return;
     }
-    else if (newAnswer.rate.trim() === '') {
+    if (newAnswer.rate === '' || newAnswer.rate === null || newAnswer.rate === undefined) {
       Swal.fire({
         icon: 'error',
         text: t("text.Please_enter_a_new_answer_rate"),
       })
+      return;
     }
-    else if (newAnswer.rate<0 || newAnswer.rate>100 ) {
+    const rateValue = Number(newAnswer.rate);
+    if (Number.isNaN(rateValue) || rateValue < 0 || rateValue > 100) {
       Swal.fire({
         icon: 'error',
         text: t("text.Rating_must_be_between_0_and_100"),
       })
+      return;
     }
 
-    if (newAnswer.title.trim() !== ''&& (newAnswer.rate>=0 && newAnswer.rate<=100 ) && newAnswer.rate.trim()!="") {
-      console.log("newAnswer",newAnswer);
-      const currentAns =questionData.options
-      setAnswers([...currentAns, newAnswer]);
-      setNewAnswer({title:'',rate:''});
-    }
+    setAnswers((prev) => [...prev, { title: newAnswer.title.trim(), rate: newAnswer.rate }]);
+    setNewAnswer({ title: '', rate: '' });
   };
-  const handleDeleteAnswer = (index) => {
-    const updatedAnswers = [...questionData.options];
-    updatedAnswers.splice(index, 1);
-    setAnswers(updatedAnswers);
+
+  const handleDeleteAnswer = (answerIndex) => {
+    setAnswers((prev) => prev.filter((_, i) => i !== answerIndex));
   };
   return (
     <>
@@ -151,15 +146,24 @@ const Choices = ({questionData,index ,setIsApplyFocus}) => {
         <RequiredOptional radio={questionData} setRadio= {setRadio} />
         <QuestionInput question= {questionData} setQuestion= {setQuestion}/>
           <div>
-            {questionData.options.map((answer, index) => (
-              <div key={index}>
+            {answers.map((answer, answerIndex) => (
+              <div key={answerIndex}>
                 <AnswerContainer>
-                  <img src = {grayDelete} onClick={() => handleDeleteAnswer(index)} style = {{cursor : "pointer"}}/>
-                  <Answer>
-                    {answer.title}
-                    <div className='text-sm ms-[8px]' >({answer.rate}%)</div>
-                  </Answer>
-                  
+                  <img src={grayDelete} onClick={() => handleDeleteAnswer(answerIndex)} style={{ cursor: "pointer" }} alt="" />
+                  <AnswerInput
+                    type="text"
+                    placeholder={t("text.EnterAnewAnswer")}
+                    value={answer.title || ''}
+                    onChange={(e) => handleUpdateAnswer(answerIndex, 'title', e.target.value)}
+                  />
+                  <AnswerInput
+                    type="number"
+                    min="0"
+                    max="100"
+                    placeholder={t("text.RatingOfAnswerBetween0100")}
+                    value={answer.rate ?? ''}
+                    onChange={(e) => handleUpdateAnswer(answerIndex, 'rate', e.target.value)}
+                  />
                 </AnswerContainer>
               </div>
             ))}

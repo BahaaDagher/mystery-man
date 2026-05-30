@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const CustomSelect = ({ options = [], value, onChange, multiple = false, placeholder = 'Select...', disabledOptions = [], className = '', showSelectAll = false }) => {
+const CustomSelect = ({ options = [], value, onChange, multiple = false, placeholder = 'Select...', disabledOptions = [], className = '', showSelectAll = false, onOk, okDisabled = false }) => {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
   const ref = useRef();
@@ -54,6 +54,13 @@ const CustomSelect = ({ options = [], value, onChange, multiple = false, placeho
   const handleReset = (e) => {
     e.stopPropagation();
     onChange(multiple ? [] : '');
+  };
+
+  const handleOk = (e) => {
+    e.stopPropagation();
+    if (okDisabled) return;
+    if (onOk) onOk();
+    setOpen(false);
   };
 
   const handleSelectAll = (e) => {
@@ -151,6 +158,15 @@ const CustomSelect = ({ options = [], value, onChange, multiple = false, placeho
           >
             Reset
           </div>
+          {onOk && (
+            <div
+              className={`flex justify-center items-center w-full py-2 rounded-lg bg-main text-white text-base font-medium transition ${okDisabled ? 'opacity-50 cursor-not-allowed' : 'hover:opacity-90 cursor-pointer'}`}
+              onClick={handleOk}
+              type="button"
+            >
+              {t('text.ok')}
+            </div>
+          )}
         </div>
       )}
     </div>

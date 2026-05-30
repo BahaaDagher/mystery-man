@@ -65,9 +65,10 @@ const BranchesEvaluationInRelationToTime = ({apiData}) => {
       },
       // Enhanced datalabels plugin configuration without background
       datalabels: {
-        anchor: 'end',
+        anchor: (context) => (context.dataIndex === 0 ? 'start' : 'end'),
+        align: 'top',
+        clip: false,
         formatter: (value) => {
-          // Only show labels for non-zero values
           return value > 0 ? value : '';
         },
         font: {
@@ -92,13 +93,20 @@ const BranchesEvaluationInRelationToTime = ({apiData}) => {
         grid: { color: "#e5e7eb" },
         position: isArabic ? "right" : "left",
         ticks: {
-          max: undefined,
+          display: false,
         },
         max: undefined,
       },
       x: {
-        stacked: true, // Enable stacking on X axis
+        stacked: true,
         grid: { display: false },
+        ticks: {
+          autoSkip: false,
+          padding: 8,
+        },
+        afterFit: (scale) => {
+          scale.paddingLeft = 20;
+        },
       },
     },
     // Add padding at the top to accommodate data labels
