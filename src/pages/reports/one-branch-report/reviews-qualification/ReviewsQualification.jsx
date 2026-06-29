@@ -110,18 +110,18 @@ const pieOptions = {
           <div className="flex gap-16">
             <div className="">
               <div className="flex items-center gap-2  text-lg font-bold">
-                <img src={PositiveIcon} alt="star" /> {apiData?.mission_positive || 0}
+                <img src={PositiveIcon} alt="star" /> {apiData?.mission_positive || 0}   <span className="text-gray8">{t("text.survey")}</span>
               </div>
             </div>
             <div>
               <div className="flex items-center gap-2  text-lg font-bold">
-                <img src={NegativeIcon} alt="star" /> {apiData?.mission_negative || 0}
+                <img src={NegativeIcon} alt="star" /> {apiData?.mission_negative || 0}  <span className="text-gray8">{t("text.survey")}</span>
               </div>
             </div>
           </div>
           <div>
             <div className="flex items-center gap-2  text-lg font-bold">
-              <img src={NeutralIcon} alt="star" /> {apiData?.mission_neutral || 0}
+              <img src={NeutralIcon} alt="star" />  {apiData?.mission_neutral || 0} <span className="text-gray8">{t("text.survey")}</span>
             </div>
           </div>
         </div>

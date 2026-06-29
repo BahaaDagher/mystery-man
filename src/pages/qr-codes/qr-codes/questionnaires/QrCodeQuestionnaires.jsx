@@ -177,29 +177,32 @@ const QrCodeQuestionnaires = () => {
   }, [getBranchesData])
 
   useEffect(() => {
-   
-    console.log("qrCodeQuestionnaireStoreData" , qrCodeQuestionnaireStoreData)
-    if (change){
+    if (!change || qrCodeQuestionnaireStoreLoading) return;
 
-      if (qrCodeQuestionnaireStoreData?.message==200) {
-        Swal.fire('Success',  t("text.QR_Code_Questionnaire_saved_successfully"), 'success')
-        .then((result) => {
-          if (result.isConfirmed) {
-            navigate("/userDashboard/qr-codes")
-          }
-        });
-      }
-      else if (qrCodeQuestionnaireStoreData?.status==false) {
-        Swal.fire({
-          icon: 'error',
-          text: qrCodeQuestionnaireStoreData.message
-        })
-      }
-              else {
-          Swal.fire('Error', t("text.please_add_at_least_a_step_to_the_qr_code"), 'error');
+    const storeData = qrCodeQuestionnaireStoreData;
+    if (!storeData || Object.keys(storeData).length === 0) return;
+
+    const handleSuccess = (message) => {
+      Swal.fire('Success', message, 'success').then((result) => {
+        if (result.isConfirmed) {
+          navigate("/userDashboard/qr-codes");
         }
+      });
+      setChange(false);
+    };
+
+    if (storeData.status === true || storeData.message === 200) {
+      handleSuccess(t("text.QR_Code_Questionnaire_saved_successfully"));
+    } else if (storeData.status === false) {
+      Swal.fire({
+        icon: 'error',
+        text: storeData.message
+      });
+      setChange(false);
+    } else if (storeData.message) {
+      handleSuccess(storeData.message);
     }
-  }, [qrCodeQuestionnaireStoreData])
+  }, [qrCodeQuestionnaireStoreData, qrCodeQuestionnaireStoreLoading, change])
 
 
 

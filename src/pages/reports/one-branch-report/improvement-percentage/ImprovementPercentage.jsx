@@ -78,8 +78,9 @@ const ImprovementPercentage = ({apiData}) => {
         },
         // Enhanced datalabels plugin configuration without background
         datalabels: {
-          anchor: 'end',
+          anchor: (context) => (context.dataIndex === 0 ? 'start' : 'end'),
           align: 'top',
+          clip: false,
           formatter: (value) => value,
           font: {
             weight: 'bold',
@@ -109,12 +110,20 @@ const ImprovementPercentage = ({apiData}) => {
         },
         x: {
           grid: { display: false },
+          ticks: {
+            padding: 8,
+          },
+          afterFit: (scale) => {
+            scale.paddingLeft = 20;
+          },
         },
       },
       // Add padding at the top to accommodate data labels
       layout: {
         padding: {
-          top: 30
+          top: 30,
+          left: 12,
+          right: 12,
         }
       }
     };
