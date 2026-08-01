@@ -57,14 +57,16 @@ const FocusChangeLine = styled(FlexSpaceBetween)(({ theme }) => ({
   marginBottom : "10px" ,
 }));
 const FocusChangeTitle = styled(Flex)(({ theme }) => ({
-
+  alignItems: "center",
+  flexShrink: 0,
 }));
 const Title = styled("div")(({ theme }) => ({
   fontSize : "16px" , 
   margin : theme.direction =="ltr" ? "0 0 0 10px" : "0 10px 0 0" ,
+  whiteSpace: "nowrap",
 }));
 const FocusChangeImg = styled(FlexCenter)(({ theme }) => ({
-
+  flexShrink: 0,
 }));
 const TotalBalance = styled("div")(({ theme }) => ({
   marginTop :"100px" , 

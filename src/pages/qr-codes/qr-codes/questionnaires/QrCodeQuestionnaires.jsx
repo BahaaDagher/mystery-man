@@ -109,6 +109,7 @@ const QrCodeQuestionnaires = () => {
   const [selectedBranch, setSelectedBranch] = useState('')
   const [branches, setBranches] = useState([])
   const [count, setCount] = useState('')
+  const [showTitle, setShowTitle] = useState(true)
   const [change, setChange] = useState(false)
 
   const dispatch = useDispatch() ;
@@ -143,6 +144,7 @@ const QrCodeQuestionnaires = () => {
       name: currentQuestionnaire.title,
       branch_id: selectedBranch,
       count: parseInt(count),
+      show_title: showTitle,
       questions: currentQuestionnaire.steps
     };
 
@@ -279,6 +281,21 @@ const QrCodeQuestionnaires = () => {
                 </option>
               ))}
             </select>
+          </div>
+
+          {/* Show Title */}
+          <div className="flex-1 flex items-end">
+            <label className="flex items-center gap-2 cursor-pointer pb-2">
+              <input
+                type="checkbox"
+                checked={showTitle}
+                onChange={(e) => setShowTitle(e.target.checked)}
+                className="w-4 h-4 accent-main"
+              />
+              <span className="text-sm font-medium text-gray-700">
+                {t("text.Show_title")}
+              </span>
+            </label>
           </div>
         </div>
 

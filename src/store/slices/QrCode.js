@@ -44,6 +44,7 @@ export const getQrCodeBranchResponses = createAsyncThunk(
         // Build query parameters
         const params = new URLSearchParams();
         if (values.branch_id) params.append('branch_id', values.branch_id);
+        if (values.qr_code_id) params.append('qr_code_id', values.qr_code_id);
         if (values.from_date) params.append('date_from', values.from_date);
         if (values.to_date) params.append('date_to', values.to_date);
         
@@ -90,6 +91,23 @@ export const deleteQrCodeBranch = createAsyncThunk(
       }
 });
 
+export const toggleQrCodeBranchTitle = createAsyncThunk(
+    "qrCode/toggleQrCodeBranchTitle",
+    async ({ id, show_title }) => {
+      const token = localStorage.getItem('token');
+      try {
+        const response = await axios.post(
+          `${API_BASE_URL}/qrCodeBranch/${id}/toggleTitle`,
+          { show_title },
+          { headers: {"Authorization" : token , "lang" : currentLanguage ,}}
+        );
+        return { ...response.data, id, show_title };
+      } catch (error) {
+        console.error("toggleQrCodeBranchTitle::", error);
+        return error.response?.data;
+      }
+});
+
 const qrCodeSlice = createSlice({
     name: "qrCode",
     initialState: {
@@ -103,6 +121,8 @@ const qrCodeSlice = createSlice({
         responseDetailsLoading: false,
         deleteQrCodeBranchData: {},
         deleteQrCodeBranchLoading: false,
+        toggleQrCodeBranchTitleData: {},
+        toggleQrCodeBranchTitleLoading: false,
     },
     reducers: {
         // Add any additional reducers here if needed
@@ -159,6 +179,23 @@ const qrCodeSlice = createSlice({
             })
             .addCase(deleteQrCodeBranch.rejected, (state, action) => {
                 state.deleteQrCodeBranchLoading = false;
+            })
+            .addCase(toggleQrCodeBranchTitle.fulfilled, (state, action) => {
+                state.toggleQrCodeBranchTitleData = action.payload;
+                state.toggleQrCodeBranchTitleLoading = false;
+                const payload = action.payload;
+                if (payload?.id != null && state.qrCodeBranchesData?.data?.QrCodes) {
+                    state.qrCodeBranchesData.data.QrCodes = state.qrCodeBranchesData.data.QrCodes.map((qr) =>
+                      qr.id === payload.id ? { ...qr, show_title: payload.show_title } : qr
+                    );
+                }
+            })
+            .addCase(toggleQrCodeBranchTitle.pending, (state) => {
+                state.toggleQrCodeBranchTitleLoading = true;
+            })
+            .addCase(toggleQrCodeBranchTitle.rejected, (state, action) => {
+                state.toggleQrCodeBranchTitleData = action.payload;
+                state.toggleQrCodeBranchTitleLoading = false;
             });
     }
 });

@@ -4,6 +4,8 @@ import { Colors } from '../../../Theme';
 import RequiredOptional from './RequiredOptional';
 import QuestionInput from './QuestionInput';
 import grayDelete from '../../../assets/icons/grayDelete.svg'
+import singleChoiceIcon from '../../../assets/icons/singleChoice.svg'
+import multiChoiceIcon from '../../../assets/icons/multiChoice.svg'
 import DeleteIcon from './DeleteIcon';
 import { useDispatch, useSelector } from 'react-redux';
 import { setQuestionDetails } from '../../../store/slices/questionierSlice';
@@ -61,17 +63,44 @@ const AnswerContainer = styled("div")(({ theme }) => ({
   },
 }));
 
+const ChoiceTypeIcon = styled("img")(({ theme }) => ({
+  width: "20px",
+  height: "20px",
+  flexShrink: 0,
+  margin: theme.direction === "rtl" ? "0 0 0 8px" : "0 8px 0 0",
+}));
+
+const ChoiceTypeBadge = styled("div")(({ theme, isMulti }) => ({
+  display: "inline-flex",
+  alignItems: "center",
+  gap: "6px",
+  fontSize: "13px",
+  fontWeight: 600,
+  color: isMulti ? Colors.gold2 : Colors.main,
+  backgroundColor: isMulti ? `${Colors.gold2}1A` : Colors.main8,
+  borderRadius: "8px",
+  padding: "4px 10px",
+  marginBottom: "12px",
+}));
+
 
 const Choices = ({questionData,index ,setIsApplyFocus}) => {
   const {t} = useTranslation();
-  const [radio,  setRadio] = useState(questionData.required);
+  const isMultiChoice = questionData.type === 'multiChoice';
+  const choiceIcon = isMultiChoice ? multiChoiceIcon : singleChoiceIcon;
+  const [radio,  setRadio] = useState(questionData.required === 'optional' ? 'optional' : 'required');
   const [question, setQuestion] = useState(questionData.title);
   const [answers, setAnswers] = useState(questionData.options); 
   const [newAnswer, setNewAnswer] = useState({title:'',rate:''});
   const questionieres = useSelector((state) => state.questioneirData.questionieres);
   const currentQuestioneir = useSelector((state) => state.questioneirData.currentQuestioneir);
   const currentStep = useSelector((state) => state.questioneirData.currentStep);
-  const dispatch = useDispatch() ; 
+  const dispatch = useDispatch() ;
+
+  useEffect(() => {
+    setRadio(questionData.required === 'optional' ? 'optional' : 'required');
+  }, [questionData.required, index]);
+
   useEffect(()=>{
     const data ={
       type:questionData.type,
@@ -87,7 +116,7 @@ const Choices = ({questionData,index ,setIsApplyFocus}) => {
      
     }
     dispatch(setQuestionDetails({index:index ,data:data}))
-  },[radio])
+  },[radio, index])
   useEffect(()=>{
     const data ={
       type:questionData.type,
@@ -143,13 +172,15 @@ const Choices = ({questionData,index ,setIsApplyFocus}) => {
     <>
       <Parent>
       <DeleteIcon index={index} setIsApplyFocus={setIsApplyFocus}/>
-        <RequiredOptional radio={questionData} setRadio= {setRadio} />
+        <RequiredOptional value={radio} onChange={setRadio} name={`required-optional-${index}`} />
+       
         <QuestionInput question= {questionData} setQuestion= {setQuestion}/>
           <div>
             {answers.map((answer, answerIndex) => (
               <div key={answerIndex}>
                 <AnswerContainer>
                   <img src={grayDelete} onClick={() => handleDeleteAnswer(answerIndex)} style={{ cursor: "pointer" }} alt="" />
+                  <ChoiceTypeIcon src={choiceIcon} alt={isMultiChoice ? "multi" : "single"} />
                   <AnswerInput
                     type="text"
                     placeholder={t("text.EnterAnewAnswer")}
@@ -169,6 +200,7 @@ const Choices = ({questionData,index ,setIsApplyFocus}) => {
             ))}
             <AddAnswerDiv>
               <AddButton onClick={handleAddAnswer}>{t("text.Add")} </AddButton>
+              <ChoiceTypeIcon src={choiceIcon} alt={isMultiChoice ? "multi" : "single"} />
               <AnswerInput
                 type="text"
                 placeholder={t("text.EnterAnewAnswer")}

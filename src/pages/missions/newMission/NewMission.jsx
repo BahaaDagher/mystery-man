@@ -20,30 +20,30 @@ import CustomSelect from '../../../components/CustomSelect';
 import Loading from '../../../components/Loading';
 
 const Container = styled(SmallContainer)(({ theme }) => ({
-  
+
 }));
 const Parent = styled(SmallContainer)(({ theme }) => ({
-  display : "flex" , 
-  padding : "0" ,
-  justifyContent : "space-between" , 
+  display: "flex",
+  padding: "0",
+  justifyContent: "space-between",
   [theme.breakpoints.down('850')]: {
-    flexDirection : "column-reverse" ,
-    alignItems : "flex-start" ,
+    flexDirection: "column-reverse",
+    alignItems: "flex-start",
 
   }
 }));
 const Place = styled("div")(({ theme }) => ({
-  marginBottom : "10px" ,
-  display : "flex" ,
+  marginBottom: "10px",
+  display: "flex",
 }));
 const MainData = styled("div")(({ theme }) => ({
-  width : "70%" ,
-  padding : "15px" , 
+  width: "70%",
+  padding: "15px",
   borderRadius: "10px",
   backgroundColor: "#fff",
-  margin : theme.direction == "ltr" ? "0 10px 0 0" : "0 0 0 10px" ,
+  margin: theme.direction == "ltr" ? "0 10px 0 0" : "0 0 0 10px",
   [theme.breakpoints.down('850')]: {
-    width : "100%" ,
+    width: "100%",
 
   }
 }));
@@ -54,45 +54,45 @@ const Title = styled("div")(({ theme }) => ({
   marginBottom: "5px",
 }));
 const Input = styled("input")(({ theme }) => ({
-  width : "100%" , 
-  height: '68px', 
+  width: "100%",
+  height: '68px',
   padding: '15px',
   borderRadius: '10px',
   border: `1px solid ${Colors.input}`,
-  outline: 'none', 
-  fontSize : "16px",
-  "&.small" : {
-    width : "425px" , 
-    maxWidth:'100%', 
-    height: '48px', 
-  }, 
-  "&.notes" : {
-    width : "100%" , 
-    height : "124px"
+  outline: 'none',
+  fontSize: "16px",
+  "&.small": {
+    width: "425px",
+    maxWidth: '100%',
+    height: '48px',
+  },
+  "&.notes": {
+    width: "100%",
+    height: "124px"
   }
-  
+
 }));
 const Divider = styled("div")(({ theme }) => ({
   height: "1px",
   backgroundColor: Colors.input,
   margin: "20px 0",
-  width : "100%"
+  width: "100%"
 }));
 const Selectt = styled(Select)(({ theme }) => ({
-  width : "425px" , 
-  height: '48px', 
-  maxWidth:'100%', 
+  width: "425px",
+  height: '48px',
+  maxWidth: '100%',
   outline: 'none',
   border: `1px solid ${Colors.input}`,
   borderRadius: '10px',
-  "&:hover" : {
+  "&:hover": {
     border: `1px solid ${Colors.input}`,
   },
-  fontFamily : "Cairo" ,
+  fontFamily: "Cairo",
 }));
 const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
-   
-  direction : theme.direction
+
+  direction: theme.direction
 }));
 
 const DateInput = styled("input")(({ theme }) => ({
@@ -100,8 +100,8 @@ const DateInput = styled("input")(({ theme }) => ({
   height: '48px',
   padding: '15px',
   borderRadius: '10px',
-  border: `1px solid ${Colors.input}`, 
-  color : Colors.input,
+  border: `1px solid ${Colors.input}`,
+  color: Colors.input,
   fontSize: '16px',
   [theme.breakpoints.down('500')]: {
     width: '100%',
@@ -113,71 +113,71 @@ const TimeInput = styled("input")(({ theme }) => ({
   top: '454px',
   padding: '15px',
   borderRadius: '10px',
-  border: `1px solid ${Colors.input}`, 
-  color : Colors.input,
+  border: `1px solid ${Colors.input}`,
+  color: Colors.input,
   gap: '8px',
   fontSize: '16px',
 }));
 
 const DateTime = styled("div")(({ theme }) => ({
-  display : "flex" , 
-  justifyContent : "space-between" , 
-  alignItems : "center" ,     
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
   [theme.breakpoints.down('600')]: {
-    flexDirection : "column" ,
-    alignItems : "flex-start" ,
-  } 
-  
+    flexDirection: "column",
+    alignItems: "flex-start",
+  }
+
 }));
 const DateDiv = styled("div")(({ theme }) => ({
-  width: "425px" , 
-  height: "80px" ,
-  borderRadius: "10px" , 
-  border: "1px" ,
+  width: "425px",
+  height: "80px",
+  borderRadius: "10px",
+  border: "1px",
   [theme.breakpoints.down('900')]: {
-    width: "50%" , 
-  }, 
+    width: "50%",
+  },
   [theme.breakpoints.down('500')]: {
     width: '100%',
   }
 }));
 
 const TimeDiv = styled("div")(({ theme }) => ({
-  display : "flex" , 
+  display: "flex",
   [theme.breakpoints.down('500')]: {
-    flexDirection : "column" , 
-    alignItems : "flex-start" ,
+    flexDirection: "column",
+    alignItems: "flex-start",
   }
 }));
 const FromToTimeDiv = styled("div")(({ theme }) => ({
-  margin : "0 20px" ,
+  margin: "0 20px",
   [theme.breakpoints.down('600')]: {
-    margin : theme.direction == "ltr" ? "0 20px 0 0" : "0 0  0 20px" ,
+    margin: theme.direction == "ltr" ? "0 20px 0 0" : "0 0  0 20px",
   }
 }));
 // voucher 
 const VoucherDiv = styled("div")(({ theme }) => ({
-  display : "flex" , 
+  display: "flex",
   [theme.breakpoints.down('500')]: {
-    flexDirection : "column" , 
-    alignItems : "flex-start" ,
+    flexDirection: "column",
+    alignItems: "flex-start",
   }
 }));
 const CheckDiv = styled("div")(({ theme }) => ({
-  display : "flex" , 
-  alignItems : "center" , 
-  gap : "10px" ,
-  justifyContent : "center" ,
-  margin : theme.direction == "ltr" ? "0 20px 0 0" : "0 0  0 20px" ,
+  display: "flex",
+  alignItems: "center",
+  gap: "10px",
+  justifyContent: "center",
+  margin: theme.direction == "ltr" ? "0 20px 0 0" : "0 0  0 20px",
   [theme.breakpoints.down('500')]: {
-    margin : "0 0 15px 0" ,
+    margin: "0 0 15px 0",
   }
 }));
 const CheckInput = styled("input")(({ theme }) => ({
-  width : "18px" , 
-  height : "18px" ,
-  accentColor: Colors.main , 
-  margin : theme.direction == "ltr" ? "0 20px 0 0" : "0 0  0 20px" ,
+  width: "18px",
+  height: "18px",
+  accentColor: Colors.main,
+  margin: theme.direction == "ltr" ? "0 20px 0 0" : "0 0  0 20px",
 }));
 const CheckLabel = styled("label")(({ theme }) => ({
 
@@ -193,14 +193,14 @@ const VoucherInput = styled("input")(({ theme }) => ({
 }));
 // notes 
 const NotesText = styled("textarea")(({ theme }) => ({
-  height : "124px" , 
+  height: "124px",
   padding: '10px',
   resize: 'none',
   width: '100%',
   borderRadius: '10px',
   border: `1px solid ${Colors.input}`,
-  fontSize : "16px",
-  outline: 'none', 
+  fontSize: "16px",
+  outline: 'none',
 }));
 
 // submit button
@@ -210,20 +210,20 @@ const SubmitButton2 = styled(SubmitButton)(({ theme }) => ({
 
 const NewMission = () => {
   //title
-  const [title , setTitle] = useState('');
+  const [title, setTitle] = useState('');
   // focus 
-  const [focus , setFocus] = useState('');
-  
+  const [focus, setFocus] = useState('');
+
   // branches 
-  const [currentBranches , setCurrentBranches] = useState ([])
-  const getBranchesData = useSelector(state => state.branchData.getBranchesData) ;
-  useEffect(()=>{
-    
+  const [currentBranches, setCurrentBranches] = useState([])
+  const getBranchesData = useSelector(state => state.branchData.getBranchesData);
+  useEffect(() => {
+
     if (getBranchesData?.status) {
       setCurrentBranches(getBranchesData.data.branches)
     }
-  },[getBranchesData])
-  const dispatch = useDispatch() ;
+  }, [getBranchesData])
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getBranches())
@@ -235,13 +235,13 @@ const NewMission = () => {
   const handleSelectedBranch = (event) => {
     setSelectedBranch(event.target.value);
   };
-  
+
   // gender selection
   const [selectedGender, setSelectedGender] = useState('');
   const handleSelectedGender = (event) => {
     setSelectedGender(event.target.value);
   };
-  
+
   // branches multi-select
   const [selectedBranches, setSelectedBranches] = useState([]);
   const handleSelectedBranches = (branches) => {
@@ -255,15 +255,15 @@ const NewMission = () => {
   const [time1, setTime1] = useState('');
 
   // voucher 
-  const [voucherChecked ,  setVoucherChecked] = useState(false);
-  const [voucherValue ,  setVoucherValue] = useState('');
+  const [voucherChecked, setVoucherChecked] = useState(false);
+  const [voucherValue, setVoucherValue] = useState('');
 
   // questionnaires
 
-  const questionieres = useSelector(state => state.questioneirData.questionieres) ;
-  const [selectedQuestioniere , setSelectedQuestioniere] = useState(-1);
+  const questionieres = useSelector(state => state.questioneirData.questionieres);
+  const [selectedQuestioniere, setSelectedQuestioniere] = useState(-1);
 
-  const CurrentQuestioneir = useSelector(state => state.questioneirData.CurrentQuestioneir) ;
+  const CurrentQuestioneir = useSelector(state => state.questioneirData.CurrentQuestioneir);
 
   const handleSelectedQuestionnaire = (event) => {
     setSelectedQuestioniere(event.target.value);
@@ -272,32 +272,32 @@ const NewMission = () => {
 
 
   // notes 
-  const [notes ,  setNotes] = useState('');
+  const [notes, setNotes] = useState('');
 
   // reconnaissance toggle
   const [reconnaissance, setReconnaissance] = useState(false);
 
-  const {t} = useTranslation() ; 
+  const { t } = useTranslation();
 
-  
-  
+
+
   const removeSpaces = (str) => {
-    let i = 0 ; 
-    while (str[i]==' ') {
-      str = str.replace(' ' , '')
-      i++ ; 
+    let i = 0;
+    while (str[i] == ' ') {
+      str = str.replace(' ', '')
+      i++;
     }
-    return str ;
+    return str;
   }
-  const handleTitle  = (e) => {
+  const handleTitle = (e) => {
     let title = removeSpaces(e.target.value)
     setTitle(title)
   }
-  const handleFocus  = (e) => {
+  const handleFocus = (e) => {
     let focus = removeSpaces(e.target.value)
     setFocus(focus)
   }
-  const handleVoucher  = (e) => {
+  const handleVoucher = (e) => {
     let voucher = e.target.value
     if (!isNaN(voucher)) setVoucherValue(voucher)
   }
@@ -308,15 +308,15 @@ const NewMission = () => {
   const getProfileLoading = useSelector(state => state.profileData.getProfileLoading)
   const reconnaissanceMission = useSelector(state => state.profileData.reconnaissanceMission)
 
-  const [wallet , setWallet] = useState(0)
-  const [profileData , setProfileData] = useState(null)
+  const [wallet, setWallet] = useState(0)
+  const [profileData, setProfileData] = useState(null)
 
   useEffect(() => {
     if (getProfileData?.status) {
       setProfileData(getProfileData.data.user)
       setWallet(getProfileData.data.user.wallet)
     }
-  } , [getProfileData])
+  }, [getProfileData])
 
   // Reset reconnaissance checkbox if no missions available
   useEffect(() => {
@@ -326,26 +326,26 @@ const NewMission = () => {
   }, [reconnaissanceMission])
   const handleNext = () => {
     // setCurrentStep('quiz')
-      if (title && focus && selectedBranches.length > 0 && selectedGender !== '' && date && time1  && selectedQuestioniere>-1) {
-        if(voucherValue * selectedBranches.length <= wallet && profileData?.newMission > 0 ){
-          setCurrentStep('quiz')
-        }
-        else {
-          let message = '';
-          if ((profileData?.newMission ?? 0) <= 0) message = t('text.no_available_missions');
-          else message = t('text.You_dont_have_enough_money_to_create_a_new_mission_with_voucher');
-          Swal.fire({
-            icon: 'error',
-            text: message,
-          });
-        }
-        
+    if (title && focus && selectedBranches.length > 0 && selectedGender !== '' && date && time1 && selectedQuestioniere > -1) {
+      if (voucherValue * selectedBranches.length <= wallet && profileData?.newMission > 0) {
+        setCurrentStep('quiz')
       }
       else {
+        let message = '';
+        if ((profileData?.newMission ?? 0) <= 0) message = t('text.no_available_missions');
+        else message = t('text.You_dont_have_enough_money_to_create_a_new_mission_with_voucher');
         Swal.fire({
           icon: 'error',
-          text: t("text.please_fill_all_the_fields"),
-        })
+          text: message,
+        });
+      }
+
+    }
+    else {
+      Swal.fire({
+        icon: 'error',
+        text: t("text.please_fill_all_the_fields"),
+      })
     }
   }
 
@@ -365,40 +365,40 @@ const NewMission = () => {
     setCurrentStep('quiz')
   }
 
-  
 
-  
+
+
   return (
     <>
-    {getProfileLoading? <Loading/>:""}
-    <SmallContainer>
-      <Place>
-        <span> {t("text.missions")} / </span>
-        <span style = {{color : Colors.main}}>{t("text.New_Mission")} </span>
-      </Place>
-            <Parent>
-        {currentStep === 'form' && (
-          <MainData>
-            <TitleDiv>
+      {getProfileLoading ? <Loading /> : ""}
+      <SmallContainer>
+        <Place>
+          <span> {t("text.missions")} / </span>
+          <span style={{ color: Colors.main }}>{t("text.New_Mission")} </span>
+        </Place>
+        <Parent>
+          {currentStep === 'form' && (
+            <MainData>
+              <TitleDiv>
                 <Title>{t("text.Title")}</Title>
-                <Input 
-                  placeholder={t("text.Title")} 
+                <Input
+                  placeholder={t("text.Title")}
                   value={title}
                   onChange={handleTitle}
                 />
-            </TitleDiv>
-            <Divider/>
-            <TitleDiv>
+              </TitleDiv>
+              <Divider />
+              <TitleDiv>
                 <Title>{t("text.type_what_you_want_him_her_to_focus_on")}</Title>
-                <Input 
-                  placeholder={t("text.Focus")} 
+                <Input
+                  placeholder={t("text.Focus")}
                   className='small'
                   value={focus}
                   onChange={handleFocus}
                 />
-            </TitleDiv>
-            <Divider/>
-            <TitleDiv>
+              </TitleDiv>
+              <Divider />
+              <TitleDiv>
                 <Title>{t("text.Branch")}</Title>
                 <CustomSelect
                   options={currentBranches.map(branch => ({ value: branch.id, label: branch.name }))}
@@ -407,9 +407,9 @@ const NewMission = () => {
                   multiple={true}
                   placeholder={t("text.Select_branches")}
                 />
-            </TitleDiv>
-            <Divider/>
-            <TitleDiv>
+              </TitleDiv>
+              <Divider />
+              <TitleDiv>
                 <Title>{t("text.Gender")}</Title>
                 <Selectt
                   value={selectedGender}
@@ -418,79 +418,79 @@ const NewMission = () => {
                   <StyledMenuItem value={0}>{t("text.Male")}</StyledMenuItem>
                   <StyledMenuItem value={1}>{t("text.Female")}</StyledMenuItem>
                   <StyledMenuItem value={2}>{t("text.All")}</StyledMenuItem>
-              </Selectt>
-            </TitleDiv>
-            <Divider/>
-            {/* date time section  */}
-            <DateTime>
-              <DateDiv>
-              <Title>{t("text.Date")}</Title>   
-                <DateInput type="date" value={date} onChange={(e)=>setDate(e.target.value)} />
-              </DateDiv>
-              <TimeDiv>
-                <FromToTimeDiv>
-                  <Title>{t("text.from")}</Title>   
-                  <TimeInput type="time" value={time1} onChange={(e)=>setTime1(e.target.value)} />
-                </FromToTimeDiv>   
-                {/* <FromToTimeDiv>
+                </Selectt>
+              </TitleDiv>
+              <Divider />
+              {/* date time section  */}
+              <DateTime>
+                <DateDiv>
+                  <Title>{t("text.Date")}</Title>
+                  <DateInput type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+                </DateDiv>
+                <TimeDiv>
+                  <FromToTimeDiv>
+                    <Title>{t("text.from")}</Title>
+                    <TimeInput type="time" value={time1} onChange={(e) => setTime1(e.target.value)} />
+                  </FromToTimeDiv>
+                  {/* <FromToTimeDiv>
                   <Title>{t("text.to")}</Title>  
                   <TimeInput type="time" value={time2} onChange={(e)=>setTime2(e.target.value)} />
                 </FromToTimeDiv>     */}
-              </TimeDiv>
-            </DateTime>
-            <Divider/>
+                </TimeDiv>
+              </DateTime>
+              <Divider />
               <VoucherDiv>
                 <CheckDiv>
                   <CheckInput
-                      id='voucher'
-                      type="checkbox"
-                      checked={voucherChecked}
-                      onChange={(e)=>setVoucherChecked(e.target.checked)}
+                    id='voucher'
+                    type="checkbox"
+                    checked={voucherChecked}
+                    onChange={(e) => setVoucherChecked(e.target.checked)}
                   />
                   <CheckLabel htmlFor='voucher'>{t("text.Include_Purchase_voucher")}</CheckLabel>
                 </CheckDiv>
                 {voucherChecked &&
-                  <VoucherInput 
-                    placeholder= {"00 " + t("text.SAR")} 
-                    type = "text"
+                  <VoucherInput
+                    placeholder={"00 " + t("text.SAR")}
+                    type="text"
                     value={voucherValue}
                     onChange={handleVoucher}
 
                   />
                 }
               </VoucherDiv>
-            <Divider/>
-            <VoucherDiv>
+              <Divider />
+              <VoucherDiv>
                 <CheckDiv>
-                    <CheckInput
-                        id='reconnaissance'
-                        type="checkbox"
-                        checked={reconnaissance}
-                        onChange={(e)=>setReconnaissance(e.target.checked)}
-                        disabled={reconnaissanceMission <= 0}
-                    />
-                    <CheckLabel htmlFor='reconnaissance' style={{ color: reconnaissanceMission <= 0 ? '#ccc' : 'inherit' }}>
-                      {t("text.Enable_Reconnaissance")} 
-                    </CheckLabel>
-         
+                  <CheckInput
+                    id='reconnaissance'
+                    type="checkbox"
+                    checked={reconnaissance}
+                    onChange={(e) => setReconnaissance(e.target.checked)}
+                    disabled={reconnaissanceMission <= 0}
+                  />
+                  <CheckLabel htmlFor='reconnaissance' style={{ color: reconnaissanceMission <= 0 ? '#ccc' : 'inherit' }}>
+                    {t("text.Enable_Reconnaissance")}
+                  </CheckLabel>
+
                   {reconnaissanceMission <= 0 && (
                     <span style={{ color: '#ff6b6b', fontSize: '12px', marginLeft: '10px' }}>
                       {t("text.no_reconnaissance_missions_available")}
                     </span>
                   )}
                 </CheckDiv>
-            </VoucherDiv>
-            <Divider/>
-            <TitleDiv>
+              </VoucherDiv>
+              <Divider />
+              <TitleDiv>
                 <Title>{t("text.Notes")}</Title>
-                <NotesText 
-                  placeholder={t("text.Notes")} 
+                <NotesText
+                  placeholder={t("text.Notes")}
                   value={notes}
-                  onChange={(e)=>setNotes(e.target.value)}
+                  onChange={(e) => setNotes(e.target.value)}
                 />
-            </TitleDiv>
-            <Divider/>
-            <TitleDiv>
+              </TitleDiv>
+              <Divider />
+              <TitleDiv>
                 <Title>{t("text.questionnaires")}</Title>
                 <Selectt
                   value={selectedQuestioniere}
@@ -501,44 +501,44 @@ const NewMission = () => {
                       {questioniere.title}
                     </StyledMenuItem>
                   ))}
-              </Selectt>
-            </TitleDiv>
-            <SubmitButton2 onClick={handleNext}>{t("text.Next")}</SubmitButton2>
-          </MainData>
-        )}
+                </Selectt>
+              </TitleDiv>
+              <SubmitButton2 onClick={handleNext}>{t("text.Next")}</SubmitButton2>
+            </MainData>
+          )}
 
-        {currentStep === 'quiz' && (
-          <Quiz 
-            onNext={handleQuizNext}
-            onPrev={handleQuizPrev}
-            initialData={quizData}
-            onQuizDataChange={handleQuizDataChange}
+          {currentStep === 'quiz' && (
+            <Quiz
+              onNext={handleQuizNext}
+              onPrev={handleQuizPrev}
+              initialData={quizData}
+              onQuizDataChange={handleQuizDataChange}
+            />
+          )}
+
+          {currentStep === 'questionnaire' && (
+            <QuestionnaireData
+              onPrev={handleQuestionnairePrev}
+            />
+          )}
+
+          <FinishedData
+            missionTitle={title}
+            missionFocus={focus}
+            missionSelectedBranches={selectedBranches}
+            missionSelectedGender={selectedGender}
+            missionDate={date}
+            missionTime1={time1}
+            missionVoucherChecked={voucherChecked}
+            missionVoucherValue={voucherValue}
+            missionNotes={notes}
+            missionSelectedQuestioniere={selectedQuestioniere}
+            missionReconnaissance={reconnaissance}
+            quizData={quizData}
+            profileData={profileData}
           />
-        )}
-
-        {currentStep === 'questionnaire' && (
-          <QuestionnaireData 
-            onPrev={handleQuestionnairePrev}
-          />
-        )}
-
-        <FinishedData
-          missionTitle={title}
-          missionFocus={focus}
-          missionSelectedBranches={selectedBranches}
-          missionSelectedGender={selectedGender}
-          missionDate={date}
-          missionTime1={time1}
-          missionVoucherChecked={voucherChecked}
-          missionVoucherValue={voucherValue}
-          missionNotes={notes}
-          missionSelectedQuestioniere={selectedQuestioniere}
-          missionReconnaissance={reconnaissance}
-          quizData={quizData}
-          profileData= {profileData}
-        />
-      </Parent>
-    </SmallContainer>
+        </Parent>
+      </SmallContainer>
     </>
   )
 }
