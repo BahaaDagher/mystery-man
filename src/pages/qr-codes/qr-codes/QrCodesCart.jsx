@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
@@ -8,7 +8,7 @@ import editIcon from '../../../assets/icons/editIcon.svg'
 import showIcon from '../../../assets/icons/ShowIcon.svg'
 import printIcon from '../../../assets/icons/PrintIcon.svg'
 import { generateQrPrintHtml } from './generateQrPrintHtml'
-import { deleteQrCodeBranch } from '../../../store/slices/QrCode'
+import { deleteQrCodeBranch, toggleQrCodeBranchTitle } from '../../../store/slices/QrCode'
 import Loading from '../../../components/Loading'
 import QuestionnaireDisplay from './QuestionnaireDisplay'
 import QrCodeModal from './QrCodeModal'
@@ -18,10 +18,43 @@ const QrCodesCart = ({ item, onDeleteSuccess }) => {
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [showTitle, setShowTitle] = useState(Boolean(item?.show_title));
+  const [togglingTitle, setTogglingTitle] = useState(false);
   
   // Get delete state from Redux
   const deleteQrCodeBranchData = useSelector(state => state.qrCodeData.deleteQrCodeBranchData);
   const deleteQrCodeBranchLoading = useSelector(state => state.qrCodeData.deleteQrCodeBranchLoading);
+
+  useEffect(() => {
+    setShowTitle(Boolean(item?.show_title));
+  }, [item?.show_title]);
+
+  const handleToggleShowTitle = async (e) => {
+    const nextValue = e.target.checked;
+    setShowTitle(nextValue);
+    setTogglingTitle(true);
+    try {
+      const response = await dispatch(
+        toggleQrCodeBranchTitle({ id: item.id, show_title: nextValue })
+      ).unwrap();
+
+      if (response?.status === false) {
+        setShowTitle(!nextValue);
+        await Swal.fire({
+          icon: 'error',
+          text: response?.message || t('text.Something_went_wrong'),
+        });
+      }
+    } catch (error) {
+      setShowTitle(!nextValue);
+      await Swal.fire({
+        icon: 'error',
+        text: t('text.Something_went_wrong'),
+      });
+    } finally {
+      setTogglingTitle(false);
+    }
+  };
   
   const handleDownloadImage = () => {
     if (item?.image) {
@@ -184,6 +217,18 @@ const QrCodesCart = ({ item, onDeleteSuccess }) => {
               </div>
           </div>
           <div className='font-bold text-[14px] leading-[21.28px] tracking-[2%]'>{item?.used_count} / {item?.count} {t("text.responses")}</div>
+          <label className='flex items-center gap-2 cursor-pointer w-fit'>
+            <input
+              type="checkbox"
+              checked={showTitle}
+              onChange={handleToggleShowTitle}
+              disabled={togglingTitle}
+              className="w-4 h-4 accent-main"
+            />
+            <span className='font-medium text-[14px] text-second'>
+              {t("text.Show_title")}
+            </span>
+          </label>
           <div className='flex items-center gap-2'>
               <div className=''>
                   <img src={location} alt={t('text.Location')} />

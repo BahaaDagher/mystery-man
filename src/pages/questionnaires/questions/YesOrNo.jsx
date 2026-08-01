@@ -39,10 +39,13 @@ const P = styled("p")(({ theme }) => ({
 }));
 
 const YesOrNo = ({questionData,index ,setIsApplyFocus}) => {
-  const [radio,  setRadio] = useState (questionData.required);
+  const [radio,  setRadio] = useState (questionData.required === 'optional' ? 'optional' : 'required');
   const [question, setQuestion] = useState(questionData.title);
   const isReadyToSend = useSelector((state) => state.questioneirData.isReadyToSend);
-  const dispatch = useDispatch() ; 
+  const dispatch = useDispatch() ;
+  useEffect(() => {
+    setRadio(questionData.required === 'optional' ? 'optional' : 'required');
+  }, [questionData.required, index]);
   useEffect(()=>{
     const data ={
       type:questionData.type,
@@ -58,12 +61,12 @@ const YesOrNo = ({questionData,index ,setIsApplyFocus}) => {
 
     }
     dispatch(setQuestionDetails({index:index ,data:data}))
-  },[radio])
+  },[radio, index])
   const {t } = useTranslation();
   return (
     <Parent>
       <DeleteIcon index={index} setIsApplyFocus={setIsApplyFocus}/>
-      <RequiredOptional radio={questionData} setRadio= {setRadio} />
+      <RequiredOptional value={radio} onChange={setRadio} name={`required-optional-${index}`} />
       <QuestionInput question= {questionData} setQuestion= {setQuestion}/>
       <Flex>
         <FlexCenterP>

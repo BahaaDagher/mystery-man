@@ -169,11 +169,18 @@ const questionierSlice = createSlice({
        
         },
         setQuestionDetails: (state, action) => {
-            if(action.payload.data.required) {console.log(action.payload.data); state.questionieres[state.currentQuestioneir].steps[state.currentStep].questions[action.payload.index].required =action.payload.data.required;}
-            else if(action.payload.data.title || action.payload.data.title === "" ) { console.log(action.payload.data);state.questionieres[state.currentQuestioneir].steps[state.currentStep].questions[action.payload.index].title =action.payload.data.title}
-            else if(action.payload.data.options) {console.log(action.payload.data); state.questionieres[state.currentQuestioneir].steps[state.currentStep].questions[action.payload.index].options =action.payload.data.options}
-          
-       
+            const question = state.questionieres[state.currentQuestioneir]?.steps[state.currentStep]?.questions[action.payload.index];
+            if (!question) return;
+
+            if (Object.prototype.hasOwnProperty.call(action.payload.data, 'required')) {
+              question.required = action.payload.data.required;
+            }
+            if (Object.prototype.hasOwnProperty.call(action.payload.data, 'title')) {
+              question.title = action.payload.data.title;
+            }
+            if (Object.prototype.hasOwnProperty.call(action.payload.data, 'options')) {
+              question.options = action.payload.data.options;
+            }
         },
         handleReadyToSend: (state, action) => {
       

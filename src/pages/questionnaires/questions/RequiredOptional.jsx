@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { useState } from 'react'
+import React from 'react'
 import { Colors } from '../../../Theme';
 import { useTranslation } from 'react-i18next';
 
@@ -21,31 +21,32 @@ const RadioInput = styled("input")(({ theme }) => ({
     margin : "0 10px" ,
 }));
 
-const RequiredOptional = ({radio , setRadio}) => {
-    console.log('radio');
-    console.log(radio);
+const RequiredOptional = ({ value, onChange, name = 'required-optional' }) => {
+    const normalizedValue = value === 'optional' ? 'optional' : 'required';
+
     const handleOptionChange = (event) => {
-        console.log(event.target.value);
-        setRadio(event.target.value);
+        onChange(event.target.value);
     }
     const {t} = useTranslation();
 return (
     <>
         <Container>
-            <RadioLabel isActive={radio.required === 'required'}>
+            <RadioLabel isActive={normalizedValue === 'required'}>
                 <RadioInput
                 type="radio"
+                name={name}
                 value='required'
-                checked={radio.required === 'required'}
+                checked={normalizedValue === 'required'}
                 onChange={handleOptionChange}
                 />
                 {t("text.Required")}
             </RadioLabel>
-            <RadioLabel isActive={radio.required === 'optional'}>
+            <RadioLabel isActive={normalizedValue === 'optional'}>
                 <RadioInput
                 type="radio"
+                name={name}
                 value='optional'
-                checked={radio.required === 'optional'}
+                checked={normalizedValue === 'optional'}
                 onChange={handleOptionChange}
                 />
                 {t("text.Optional")}

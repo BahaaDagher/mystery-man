@@ -40,7 +40,7 @@ const QrMoreThanBranchReport = ({moreThanBranchData, onStepsIdsChangeFromMoreTha
         <div className='w-full lg:w-[50%] bg-white rounded-[12px] '> <AverageBranchRatings apiData={moreThanBranchData.monthlyBranchRatingsFromSteps}/></div>
       </div>
       <div className='w-full bg-white rounded-[12px] pdf-section'> <TheRateOfDevelopmentInEachBranch apiData={moreThanBranchData.stepImprovementPerBranch} /></div>
-      {/* <div className='w-full bg-white rounded-[12px] pdf-section'> <CompareSectionsForBranches apiData={moreThanBranchData.stepStatsGroupedByStep} onStepsIdsChangeFromMoreThanBranch={handleStepsIdsChangeFromMoreThanBranch} allSteps={allSteps}/></div> */}
+      <div className='w-full bg-white rounded-[12px] pdf-section'> <CompareSectionsForBranches apiData={moreThanBranchData.stepStatsGroupedByStep} onStepsIdsChangeFromMoreThanBranch={handleStepsIdsChangeFromMoreThanBranch} allSteps={allSteps}/></div>
     </div>
   )
 }

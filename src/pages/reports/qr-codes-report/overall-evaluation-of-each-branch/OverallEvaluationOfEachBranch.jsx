@@ -1,35 +1,40 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next';
-import LineChartComponent from '../../../../components/LineChartComponent'
-import ChartDataLabels from 'chartjs-plugin-datalabels';
+import BarComponent from '../../../../components/BarComponent';
+import { useSelector } from 'react-redux';
+import { getColorPercentages } from '../../../../utils/colorPercentageUtils';
 import { Colors } from '../../../../Theme';
 
 const OverallEvaluationOfEachBranch = ({apiData}) => {
   const { t } = useTranslation();
-  
-  // Transform apiData to match the expected format for the chart
-  const transformedData = apiData?.map(branch => [
-    branch.branch_name, 
-    branch.average_rating
-  ]) || []
 
-  const labels = transformedData.map(item => item[0]);
-  const dataValues = transformedData.map(item => item[1]);
+  const profileData = useSelector(state => state.profileData.getProfileData);
+  const { greenPercentage, goldPercentage } = getColorPercentages(profileData);
+
+  const getColorBasedOnPercentage = (percentage) => {
+    if (percentage >= greenPercentage) {
+      return Colors.green;
+    } else if (percentage >= goldPercentage) {
+      return Colors.gold2;
+    }
+    return Colors.red;
+  };
+
+  const transformedData = apiData?.map(branch => ({
+    name: branch.branch_name,
+    value: branch.average_rating
+  })) || [];
 
   const chartData = {
-    labels,
+    labels: transformedData.map(item => item.name),
     datasets: [
       {
         label: t('text.sections'),
-        data: dataValues,
-        fill: true,
-        borderColor: Colors.main6, 
-        backgroundColor: "transparent",
-        pointBackgroundColor: "#fff",
-        pointBorderColor: Colors.main6,
-        pointRadius: 7,
-        pointHoverRadius: 7,
-        tension: 0,
+        data: transformedData.map(item => item.value),
+        backgroundColor: transformedData.map(item => getColorBasedOnPercentage(item.value)),
+        borderRadius: 5,
+        barPercentage: 0.6,
+        categoryPercentage: 0.7,
       },
     ],
   };
@@ -41,16 +46,9 @@ const OverallEvaluationOfEachBranch = ({apiData}) => {
     responsive: true,
     plugins: {
       legend: { display: false },
-      tooltip: {
-        callbacks: {
-          label: function (context) {
-            return context.parsed.y;
-          },
-        },
-      },
-      // Enhanced datalabels plugin configuration without background
+      tooltip: { enabled: true },
       datalabels: {
-        anchor: (context) => (context.dataIndex === 0 ? 'start' : 'end'),
+        anchor: 'end',
         align: 'top',
         clip: false,
         formatter: (value) => value,
@@ -58,7 +56,7 @@ const OverallEvaluationOfEachBranch = ({apiData}) => {
           weight: 'bold',
           size: 12,
         },
-        color: Colors.main6,
+        color: '#000',
         offset: 5,
         padding: {
           top: 6,
@@ -70,27 +68,23 @@ const OverallEvaluationOfEachBranch = ({apiData}) => {
       },
     },
     scales: {
-      y: {
-        beginAtZero: true,
-        grid: { color: "#e5e7eb" },
-        position: isArabic ? "right" : "left",
-        ticks: {
-          max: undefined,
-        },
-        max: 100,
-      },
       x: {
         grid: { display: false },
         ticks: {
           autoSkip: false,
+          color: '#585151',
+          font: { size: 12 },
           padding: 8,
         },
-        afterFit: (scale) => {
-          scale.paddingLeft = 20;
-        },
+      },
+      y: {
+        beginAtZero: true,
+        grid: { color: '#F0F0F0' },
+        position: isArabic ? "right" : "left",
+        ticks: { color: "#A5A5A5", font: { size: 14 } },
+        max: 100,
       },
     },
-    // Add padding at the top to accommodate data labels
     layout: {
       padding: {
         top: 30
@@ -99,14 +93,13 @@ const OverallEvaluationOfEachBranch = ({apiData}) => {
   };
 
   return (
-    <LineChartComponent
+    <BarComponent
       title={t('text.overall_evaluation_branch')}
       chartData={chartData}
-      chartOptions={chartOptions} 
+      chartOptions={chartOptions}
       height={100}
     />
   )
 }
 
 export default OverallEvaluationOfEachBranch
-

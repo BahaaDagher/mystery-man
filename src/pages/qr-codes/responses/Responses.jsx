@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import ReactPaginate from 'react-paginate'
 import { useDispatch, useSelector } from 'react-redux'
 import { getBranches } from '../../../store/slices/branchSlice'
-import { getQrCodeBranchResponses, getResponseDetails } from '../../../store/slices/QrCode'
+import { getQrCodeBranchResponses, getResponseDetails, getQrCodeBranches } from '../../../store/slices/QrCode'
 import CustomSelect from '../../../components/CustomSelect'
 import { useTranslation } from 'react-i18next'
 import viewIcon from '../../../assets/icons/ShowIcon.svg'
@@ -23,7 +23,9 @@ const Responses = () => {
   const dispatch = useDispatch()
   const [currentPage, setCurrentPage] = useState(0)
   const [selectedBranch, setSelectedBranch] = useState('')
+  const [selectedQrCode, setSelectedQrCode] = useState('')
   const [branches, setBranches] = useState([])
+  const [qrCodes, setQrCodes] = useState([])
   const [responses, setResponses] = useState([])
   const [showQuestionsModal, setShowQuestionsModal] = useState(false)
   const [selectedResponseData, setSelectedResponseData] = useState(null)
@@ -32,21 +34,20 @@ const Responses = () => {
         endDate: new Date(),
   });
 
-  useEffect(()=>{
-    console.log("dateRange::::" , dateRange)
-  }, dateRange)
-
   // Redux selectors
   const getBranchesData = useSelector(state => state.branchData.getBranchesData)
   const getBranchesDataLoading = useSelector(state => state.branchData.getBranchesDataLoading)
+  const qrCodeBranchesData = useSelector(state => state.qrCodeData.qrCodeBranchesData)
+  const qrCodeBranchesLoading = useSelector(state => state.qrCodeData.qrCodeBranchesLoading)
   const qrCodeBranchResponsesData = useSelector(state => state.qrCodeData.qrCodeBranchResponsesData)
   const qrCodeBranchResponsesLoading = useSelector(state => state.qrCodeData.qrCodeBranchResponsesLoading)
   const responseDetailsData = useSelector(state => state.qrCodeData.responseDetailsData)
   const responseDetailsLoading = useSelector(state => state.qrCodeData.responseDetailsLoading)
 
-  // Fetch branches on component mount
+  // Fetch branches and QR codes on component mount
   useEffect(() => {
     dispatch(getBranches())
+    dispatch(getQrCodeBranches())
   }, [dispatch])
 
   // Transform branches data when loaded
@@ -60,7 +61,18 @@ const Responses = () => {
     }
   }, [getBranchesData])
 
-  // Fetch responses when branch selection or date range changes
+  // Transform QR codes data when loaded
+  useEffect(() => {
+    if (qrCodeBranchesData?.status) {
+      const transformedQrCodes = qrCodeBranchesData?.data?.QrCodes?.map(qrCode => ({
+        value: qrCode.id,
+        label: qrCode.name
+      })) || []
+      setQrCodes(transformedQrCodes)
+    }
+  }, [qrCodeBranchesData])
+
+  // Fetch responses when branch, QR code, or date range changes
   useEffect(() => {
     const values = {};
     
@@ -76,10 +88,16 @@ const Responses = () => {
     if (selectedBranch) {
       values.branch_id = selectedBranch;
     }
+
+    // Include QR code if selected
+    if (selectedQrCode) {
+      values.qr_code_id = selectedQrCode;
+    }
     
+    setCurrentPage(0);
     // Always call the API with available parameters
     dispatch(getQrCodeBranchResponses(values));
-  }, [selectedBranch, dateRange, dispatch]);
+  }, [selectedBranch, selectedQrCode, dateRange, dispatch]);
 
   // Transform responses data when loaded
   useEffect(() => {
@@ -95,11 +113,6 @@ const Responses = () => {
       setSelectedResponseData(responseDetailsData?.data?.responce      )
     }
   }, [responseDetailsData])
-
-  // Reset function to clear branch selection
-  const handleReset = () => {
-    setSelectedBranch('')
-  }
 
   const pageCount = Math.ceil(responses.length / ITEMS_PER_PAGE)
   const handlePageClick = (data) => {
@@ -271,16 +284,27 @@ const Responses = () => {
 
   return (
     <div className="bg-[#f5f7fa] rounded-xl p-5 w-full">
-      {/* Branch Selection and Export */}
-      <div className="mb-6 flex items-center gap-4 justify-between">
-          <div className="min-w-[220px]">
-            <CustomSelect
-              options={branches}
-              value={selectedBranch}
-              onChange={setSelectedBranch}
-              multiple={false}
-              placeholder={t("text.Select_branch")}
-            />
+      {/* Branch / QR Code Selection and Export */}
+      <div className="mb-6 flex items-center gap-4 justify-between flex-wrap">
+          <div className="flex items-center gap-4 flex-wrap">
+            <div className="min-w-[220px]">
+              <CustomSelect
+                options={branches}
+                value={selectedBranch}
+                onChange={setSelectedBranch}
+                multiple={false}
+                placeholder={t("text.Select_branch")}
+              />
+            </div>
+            <div className="min-w-[220px]">
+              <CustomSelect
+                options={qrCodes}
+                value={selectedQrCode}
+                onChange={setSelectedQrCode}
+                multiple={false}
+                placeholder={t("text.Select_QR_codes")}
+              />
+            </div>
           </div>
           <div className='min-w-[220px] flex gap-2 items-center '>
             <DateRangePickerComponent onDateChange={setDateRange}/>
@@ -292,7 +316,7 @@ const Responses = () => {
       </div>
 
       {/* Loading State */}
-      {(getBranchesDataLoading || qrCodeBranchResponsesLoading) && (
+      {(getBranchesDataLoading || qrCodeBranchesLoading || qrCodeBranchResponsesLoading) && (
         <Loading />
       )}
 
